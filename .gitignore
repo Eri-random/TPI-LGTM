@@ -1,0 +1,143 @@
+# .NET
+bin/
+obj/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.dll
+*.exe
+*.pdb
+*.cache
+*.csproj.user
+*.booproj
+*.pidb
+*.sln.docstates
+
+# Visual Studio
+.vs/
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# Rider
+.idea/
+
+# User-specific files
+*.suo
+*.user
+*.userprefs
+*.nupkg
+*.dbmdl
+
+# Mono auto generated files
+mono_crash.*
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Angular
+# dependencies
+/node_modules
+/frontend/node_modules
+
+# profiling files
+chrome-profiler-events.json
+speed-measure-plugin.json
+
+# production
+/dist
+/frontend/dist
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+/npm-debug.log
+/yarn-error.log
+/testem.log
+/typings
+
+# e2e
+/e2e/*.js
+/e2e/*.map
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# TypeScript
+*.tsbuildinfo
+*.tgz
+
+# Package Lock files
+package-lock.json
+yarn.lock
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# TypeScript v2 cache
+*.tsbuildinfo
+
+# Tern project file
+.tern-project
+
+# Turbo
+.turbo
+
+# Yarn v2
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
