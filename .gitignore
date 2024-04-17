@@ -13,6 +13,8 @@ obj/
 *.booproj
 *.pidb
 *.sln.docstates
+/**/appsettings.json
+backend\backend.api\appsettings.json
 
 # Visual Studio
 .vs/
