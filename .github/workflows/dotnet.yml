@@ -19,7 +19,7 @@ jobs:
       run: dotnet restore
       working-directory: ./backend
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build backend.sln --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
       working-directory: ./backend
