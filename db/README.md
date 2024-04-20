@@ -1,8 +1,6 @@
 # BASE DE DATOS
-TO-DO
-
 ## Requisitos
-TO-DO
+- PostgreSQL 15
 
-## Correr la DB localmente
-TO-DO
+## Tablas y Datos
+Correr los scripts `db/reate_tables.sql` y `db/populate_tables.sql` para crear tablas y agregar usuarios de ejemplo.
