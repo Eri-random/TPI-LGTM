@@ -12,17 +12,13 @@ dotnet restore
 dotnet run
 ```
 
-Mas información de la API en el [README del backend](#).
+Mas información de la API en el [README del backend](backend/README.md).
 
 
 ## Base de Datos
-Para levantar la base de datos localmente se necesita proveedor_de_db y correr un script en que crea e ingesta registros.
+Para usar la base de datos localmente se necesita PostgreSQL 15 y correr scripts para crear tablas y agregar data de ejemplo.
 
-```
-TO-DO
-```
-
-Mas información de la DB en el [README de la DB](#).
+Mas información de la DB en el [README de la DB](db/README.md).
 
 
 ## Frontend
@@ -34,4 +30,4 @@ npm install
 npm run start
 ```
 
-Mas información de la UI en el [README del frontend](#).
+Mas información de la UI en el [README del frontend](frontend/README.md).
