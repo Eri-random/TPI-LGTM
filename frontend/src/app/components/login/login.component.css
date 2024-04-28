@@ -1,0 +1,54 @@
+.outer{
+    height: 100vh;
+}
+
+#forget{
+    min-width: 100px;
+    margin-left: auto;
+    cursor: pointer;
+}
+
+.form-inline label{
+    padding-left: 10px;
+    margin: 0;
+    cursor: pointer;
+}
+
+.btn-google{
+    background-color: var(--color-light-grey)!important;
+    border-color: var(--color-dark-grey)!important;
+}
+
+.btn{
+    margin-top: 20px;
+    border-radius: 24px!important;
+}
+
+.panel{
+    min-height: 300px;
+    margin-top: 100px;
+}
+
+.input-field{
+    border-radius: 6px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    cursor:pointer;
+    border:1px solid #ddd;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password']{
+    border:none;
+    outline: none;
+    box-shadow: none;
+    width: 100%;
+}
+
+.fa-eye-slash.btn{
+    border: none;
+    outline: none;
+    box-shadow: none;
+}

@@ -1,1 +1,51 @@
-<p>login works!</p>
+<div class="outer">
+    <div class="container">
+        <div class="row">
+            <div class="offset-md-2 col-lg-5 col-md-7 offset-lg-4 offset-md-3">
+                <div class="panel bg-white">
+                    <h2 class="pt-3 font-weight-bold">Ingresar</h2>
+                    <div class="panel-body">
+                        <div class="text-muted py-2">
+                            ¿Todavía no tenés cuenta? <a id="forget" routerLink="/signup">Crear cuenta</a>
+                        </div>
+                        <form [formGroup]="loginForm">
+                            <div class="form-group pt-3">
+                                <label for="email" class="form-label required">Correo electrónico</label>
+                                <div class="input-field" [class.error]="loginForm.controls['email'].dirty && loginForm.hasError('required','email')">
+                                    <input id="email" 
+                                    formControlName="email" 
+                                    type="email" 
+                                    placeholder="ejemplo@ejemplo.com">
+                                </div>
+                            </div>
+                            <small *ngIf="loginForm.controls['email'].dirty && loginForm.hasError('required','email')" class="text-danger">Correo electrónico requerido</small>
+                            <div class="form-group pt-3">
+                                <label for="password" class="form-label required">Contraseña</label>
+                                <div class="input-field" [class.error]="loginForm.controls['password'].dirty && loginForm.hasError('required','password')">
+                                    <input id="password"
+                                    formControlName="password"
+                                    [type]="type" 
+                                    placeholder="Contraseña">
+                                    <span (click)="hideShowPass()" class="fa {{eyeIcon}}"></span>
+                                </div>
+                            </div>
+                            <small *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required','password')" class="text-danger">Contraseña requerida</small>
+                            <div class="form-inline fr mt-3">
+                                <a id="forget" class="font-weight-bold">
+                                    Olvidé mi contraseña
+                                </a>
+                            </div>
+                            <button (click)="onSubmit()" type="submit" class="btn btn-secondary py-2 btn-block mt-4 w-100">
+                                Ingresar
+                            </button>
+                            <button class="btn btn-google py-2 btn-block mt-3 w-100">
+                               <img src="assets/logos/google.svg" alt="">
+                                Ingresar con Google
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

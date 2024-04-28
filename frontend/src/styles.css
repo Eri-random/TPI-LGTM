@@ -1,1 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
+:root{
+    --color-primary: #8BC53F; /* Color primario */
+    --color-secondary: #4281A4; /* Color secundario */
+    --color-dark-grey: #3D3D3D; 
+    --color-light-grey: #F8F8F8;
+}
+
+.btn.btn-secondary{
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
+}
+
+.btn.btn-secondary:hover{
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
+}
+
+.btn.btn-secondary:active{
+    background-color: var(--color-secondary)!important;
+    border-color: var(--color-secondary)!important;
+}
+
+.input-field.error{
+    border:1px solid red;
+    color:red;
+}
+
+label.required::after {
+    content: "*";
+    color: red;
+    margin-left: 5px; 
+}
