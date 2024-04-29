@@ -1,12 +1,12 @@
 <div class="outer">
     <div class="container">
-        <div class="row">
-            <div class="offset-md-2 col-lg-5 col-md-7 offset-lg-4 offset-md-3">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-6 col-12 col-lg-4">
                 <div class="panel bg-white">
                     <h2 class="pt-3 font-weight-bold">Ingresar</h2>
                     <div class="panel-body">
                         <div class="text-muted py-2">
-                            ¿Todavía no tenés cuenta? <a id="forget" routerLink="/signup">Crear cuenta</a>
+                            ¿Todavía no tenés cuenta? <a id="forget" class="account" routerLink="/signup">Crear cuenta</a>
                         </div>
                         <form [formGroup]="loginForm">
                             <div class="form-group pt-3">
@@ -31,11 +31,11 @@
                             </div>
                             <small *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required','password')" class="text-danger">Contraseña requerida</small>
                             <div class="form-inline fr mt-3">
-                                <a id="forget" class="font-weight-bold">
+                                <a id="forget" class="font-weight-bold recovery-pass" routerLink="#">
                                     Olvidé mi contraseña
                                 </a>
                             </div>
-                            <button (click)="onSubmit()" type="submit" class="btn btn-secondary py-2 btn-block mt-4 w-100">
+                            <button (click)="onSubmit()" type="submit" class="btn btn-login btn-secondary py-2 btn-block mt-4 w-100">
                                 Ingresar
                             </button>
                             <button class="btn btn-google py-2 btn-block mt-3 w-100">
