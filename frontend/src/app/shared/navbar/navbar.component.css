@@ -1,0 +1,14 @@
+.navbar-toggler{
+    border: none;
+}
+
+.navbar-toggler-icon{
+    width: 1em;
+    height: 1em;
+}
+
+.navbar-toggler:focus {
+    text-decoration: none;
+    outline: none;
+    box-shadow: none;
+}
