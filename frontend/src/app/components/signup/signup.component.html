@@ -1,1 +1,59 @@
-<p>signup works!</p>
+<div class="outer">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-6 col-12 col-lg-5">
+                <div class="panel bg-white">
+                    <h2 class="pt-3 font-weight-bold">Crear cuenta</h2>
+                    <div class="panel-body">
+                        <form [formGroup]="registerForm">
+                            <div class="form-group pt-3">
+                                <label for="nombre" class="form-label required">Nombre</label>
+                                <div class="input-field" [class.error]="registerForm.controls['nombre'].dirty && registerForm.hasError('required','nombre')">
+                                    <input id="nombre" 
+                                    formControlName="nombre" 
+                                    type="text" 
+                                    placeholder="Nombre">
+                                </div>
+                            </div>
+                            <small *ngIf="registerForm.controls['nombre'].dirty && registerForm.hasError('required','nombre')" class="text-danger">Nombre requerido</small>
+                            <div class="form-group pt-3">
+                                <label for="apellido" class="form-label required">Apellido</label>
+                                <div class="input-field" [class.error]="registerForm.controls['apellido'].dirty && registerForm.hasError('required','apellido')">
+                                    <input id="apellido" 
+                                    formControlName="apellido" 
+                                    type="text" 
+                                    placeholder="Apellido">
+                                </div>
+                            </div>
+                            <small *ngIf="registerForm.controls['apellido'].dirty && registerForm.hasError('required','apellido')" class="text-danger">Apellido requerido</small>
+                            <div class="form-group pt-3">
+                                <label for="email" class="form-label required">Correo electrónico</label>
+                                <div class="input-field" [class.error]="registerForm.controls['email'].dirty && registerForm.hasError('required','email')">
+                                    <input id="email" 
+                                    formControlName="email" 
+                                    type="email" 
+                                    placeholder="ejemplo@ejemplo.com">
+                                </div>
+                            </div>
+                            <small *ngIf="registerForm.controls['email'].dirty && registerForm.hasError('required','email')" class="text-danger">Correo electrónico requerido</small>
+                            <div class="form-group pt-3">
+                                <label for="password" class="form-label required">Contraseña</label>
+                                <div class="input-field" [class.error]="registerForm.controls['password'].dirty && registerForm.hasError('required','password')">
+                                    <input id="password"
+                                    formControlName="password"
+                                    [type]="type" 
+                                    placeholder="Contraseña">
+                                    <span (click)="hideShowPass()" class="fa {{eyeIcon}}"></span>
+                                </div>
+                            </div>
+                            <small *ngIf="registerForm.controls['password'].dirty && registerForm.hasError('required','password')" class="text-danger">Contraseña requerida</small>
+                            <button (click)="onSubmit()" type="submit" class="btn btn-login btn-secondary py-2 btn-block mt-4 w-100">
+                                Crear cuenta
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
