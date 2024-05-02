@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import ValidateForm from 'src/app/helpers/validateForm';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -38,6 +39,7 @@ export class SignupComponent {
 
   onSubmit(){
     if(this.registerForm.invalid) {
+      ValidateForm.validateAllFormFileds(this.registerForm);
       return;
     } 
   }
