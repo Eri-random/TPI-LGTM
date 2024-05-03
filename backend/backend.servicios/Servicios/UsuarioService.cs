@@ -1,6 +1,7 @@
 ﻿using backend.data.DataContext;
 using backend.data.Models;
 using backend.servicios.DTOs;
+using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -92,7 +93,7 @@ namespace backend.servicios.Servicios
                 Nombre = usuarioDto.Nombre,
                 Apellido = usuarioDto.Apellido,
                 Email = usuarioDto.Email,
-                Contrasena = usuarioDto.Password,
+                Contrasena = PasswordHasher.HashPassword(usuarioDto.Password),
                 Telefono = usuarioDto.Telefono,
                 Direccion = usuarioDto.Direccion,
                 Localidad = usuarioDto.Localidad,
@@ -130,7 +131,7 @@ namespace backend.servicios.Servicios
                 existingUser.Direccion = usuarioDto.Direccion;
                 existingUser.Localidad = usuarioDto.Localidad;
                 existingUser.Provincia = usuarioDto.Provincia;
-                existingUser.Contrasena = usuarioDto.Password;
+                existingUser.Contrasena = PasswordHasher.HashPassword(usuarioDto.Password);
 
                 _context.Usuarios.Update(existingUser);
                 await _context.SaveChangesAsync();
