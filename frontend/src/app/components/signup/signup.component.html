@@ -92,6 +92,7 @@
                                 </div>
                             </div>
                             <small *ngIf="registerForm.controls['password'].dirty && registerForm.hasError('required','password')" class="text-danger">Contraseña requerida</small>
+                            <small *ngIf="registerForm.controls['password'].dirty && registerForm.hasError('minlength','password')" class="text-danger">La contraseña debe tener al menos 6 caracteres</small>
                             <button type="submit" class="btn btn-registro btn-secondary py-2 btn-block mt-4 w-100">
                                 Crear cuenta
                             </button>
