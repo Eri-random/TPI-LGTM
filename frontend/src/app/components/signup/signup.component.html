@@ -34,7 +34,8 @@
                                     <input id="telefono" 
                                     formControlName="telefono" 
                                     type="text" 
-                                    placeholder="Teléfono">
+                                    placeholder="Teléfono"
+                                    (input)="onInput($event)">
                                 </div>
                             </div>
                             <small *ngIf="registerForm.controls['telefono'].dirty && (registerForm.hasError('minlength','telefono') || registerForm.hasError('maxlength','telefono'))" class="text-danger">El teléfono debe tener 10 dígitos.</small>

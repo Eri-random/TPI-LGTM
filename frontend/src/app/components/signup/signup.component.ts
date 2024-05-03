@@ -44,6 +44,11 @@ export class SignupComponent {
     this.isText ? this.type = "text" : this.type = "password";
   }
 
+  onInput(event: Event) {
+    const inputValue = (event.target as HTMLInputElement).value.trim();
+    this.registerForm.patchValue({ telefono: inputValue || null });
+  }
+
   onSubmit(){
     if(this.registerForm.invalid) {
       ValidateForm.validateAllFormFileds(this.registerForm);
