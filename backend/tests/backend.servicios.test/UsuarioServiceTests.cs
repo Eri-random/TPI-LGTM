@@ -1,6 +1,8 @@
 ﻿using backend.data.DataContext;
 using backend.data.Models;
 using backend.servicios.DTOs;
+using backend.servicios.Helpers;
+
 using backend.servicios.Servicios;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -276,7 +278,7 @@ namespace backend.servicios.test
                 Assert.That(updatedUser.Direccion, Is.EqualTo("New Address"));
                 Assert.That(updatedUser.Localidad, Is.EqualTo("New City"));
                 Assert.That(updatedUser.Provincia, Is.EqualTo("New State"));
-                Assert.That(updatedUser.Contrasena, Is.EqualTo("NewPassword"));
+                Assert.True(PasswordHasher.VerifyPassword("NewPassword", updatedUser.Contrasena));
             });
         }
 
