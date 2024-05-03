@@ -97,7 +97,7 @@ namespace backend.servicios.Servicios
                 Direccion = usuarioDto.Direccion,
                 Localidad = usuarioDto.Localidad,
                 Provincia = usuarioDto.Provincia,
-                RolId = 1
+                RolId = usuarioDto.Rol
             };
 
             try
