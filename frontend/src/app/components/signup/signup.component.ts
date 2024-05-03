@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
 import ValidateForm from 'src/app/helpers/validateForm';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
@@ -19,6 +20,7 @@ export class SignupComponent {
   constructor(private fb:FormBuilder,
     private authService:AuthService,
     private router:Router,
+    private toast: NgToastService
   ){
 
   }
@@ -53,10 +55,16 @@ export class SignupComponent {
 
     console.log(newUsuario);
     this.authService.crearCuenta(newUsuario)
-    .subscribe(resp =>{
-      console.log(resp)
-    },error=>{
-      console.log(error);
+    .subscribe({
+      next:()=>{
+      this.registerForm.reset();
+      this.toast.success({detail:"EXITO",summary:'Usuario registrado correctamente',duration:5000});
+      this.router.navigate(['/login'])
+      },
+      error:(error)=>{
+      this.toast.error({detail:"ERROR",summary:error.error,duration:5000,position:'topCenter'});
+      }
     })
+
   }
 }
