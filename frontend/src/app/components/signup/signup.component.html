@@ -30,14 +30,14 @@
                             </div>
                             <div class="form-group pt-3">
                                 <label for="telefono" class="form-label">Teléfono</label>
-                                <div class="input-field" [class.error]="registerForm.controls['telefono'].dirty && (registerForm.hasError('minLength','telefono') || registerForm.hasError('maxLength','telefono'))">
+                                <div class="input-field" [class.error]="registerForm.controls['telefono'].dirty && (registerForm.hasError('minlength','telefono') || registerForm.hasError('maxlength','telefono'))">
                                     <input id="telefono" 
                                     formControlName="telefono" 
                                     type="text" 
                                     placeholder="Teléfono">
                                 </div>
                             </div>
-                            <small *ngIf="registerForm.controls['telefono'].dirty && (registerForm.hasError('minLength','telefono') || registerForm.hasError('maxLength','telefono'))" class="text-danger">El teléfono debe tener 10 dígitos.</small>
+                            <small *ngIf="registerForm.controls['telefono'].dirty && (registerForm.hasError('minlength','telefono') || registerForm.hasError('maxlength','telefono'))" class="text-danger">El teléfono debe tener 10 dígitos.</small>
                             <div class="form-group pt-3">
                                 <label for="direccion" class="form-label required">Dirección</label>
                                 <div class="input-field" [class.error]="registerForm.controls['direccion'].dirty && registerForm.hasError('required','direccion')">
