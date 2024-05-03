@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import ValidateForm from 'src/app/helpers/validateForm';
+import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -26,6 +27,10 @@ export class SignupComponent {
     this.registerForm = this.fb.group({
       nombre:['',[Validators.required]],
       apellido:['',Validators.required],
+      telefono:[null,[Validators.minLength(10), Validators.maxLength(10)]],
+      direccion:['',Validators.required],
+      localidad:['',Validators.required],
+      provincia:['',Validators.required],
       email: ['',[Validators.required,Validators.email]],
       password: ['',Validators.required]
     })
@@ -42,5 +47,16 @@ export class SignupComponent {
       ValidateForm.validateAllFormFileds(this.registerForm);
       return;
     } 
+
+    const newUsuario:User = this.registerForm.value;
+    newUsuario.rolId = 2;
+
+    console.log(newUsuario);
+    this.authService.crearCuenta(newUsuario)
+    .subscribe(resp =>{
+      console.log(resp)
+    },error=>{
+      console.log(error);
+    })
   }
 }

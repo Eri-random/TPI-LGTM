@@ -5,27 +5,71 @@
                 <div class="panel bg-white">
                     <h2 class="pt-3 font-weight-bold">Crear cuenta</h2>
                     <div class="panel-body">
-                        <form [formGroup]="registerForm">
-                            <div class="form-group pt-3">
-                                <label for="nombre" class="form-label required">Nombre</label>
-                                <div class="input-field" [class.error]="registerForm.controls['nombre'].dirty && registerForm.hasError('required','nombre')">
-                                    <input id="nombre" 
-                                    formControlName="nombre" 
-                                    type="text" 
-                                    placeholder="Nombre">
+                        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                            <div class="d-flex flex-colum gap-2">
+                                <div class="form-group pt-3">
+                                    <label for="nombre" class="form-label required">Nombre</label>
+                                    <div class="input-field" [class.error]="registerForm.controls['nombre'].dirty && registerForm.hasError('required','nombre')">
+                                        <input id="nombre" 
+                                        formControlName="nombre" 
+                                        type="text" 
+                                        placeholder="Nombre">
+                                    </div>
+                                <small *ngIf="registerForm.controls['nombre'].dirty && registerForm.hasError('required','nombre')" class="text-danger">Nombre requerido</small>
+                                </div>
+                                <div class="form-group pt-3">
+                                    <label for="apellido" class="form-label required">Apellido</label>
+                                    <div class="input-field" [class.error]="registerForm.controls['apellido'].dirty && registerForm.hasError('required','apellido')">
+                                        <input id="apellido" 
+                                        formControlName="apellido" 
+                                        type="text" 
+                                        placeholder="Apellido">
+                                    </div>
+                                <small *ngIf="registerForm.controls['apellido'].dirty && registerForm.hasError('required','apellido')" class="text-danger">Apellido requerido</small>
                                 </div>
                             </div>
-                            <small *ngIf="registerForm.controls['nombre'].dirty && registerForm.hasError('required','nombre')" class="text-danger">Nombre requerido</small>
                             <div class="form-group pt-3">
-                                <label for="apellido" class="form-label required">Apellido</label>
-                                <div class="input-field" [class.error]="registerForm.controls['apellido'].dirty && registerForm.hasError('required','apellido')">
-                                    <input id="apellido" 
-                                    formControlName="apellido" 
+                                <label for="telefono" class="form-label">Teléfono</label>
+                                <div class="input-field" [class.error]="registerForm.controls['telefono'].dirty && (registerForm.hasError('minLength','telefono') || registerForm.hasError('maxLength','telefono'))">
+                                    <input id="telefono" 
+                                    formControlName="telefono" 
                                     type="text" 
-                                    placeholder="Apellido">
+                                    placeholder="Teléfono">
                                 </div>
                             </div>
-                            <small *ngIf="registerForm.controls['apellido'].dirty && registerForm.hasError('required','apellido')" class="text-danger">Apellido requerido</small>
+                            <small *ngIf="registerForm.controls['telefono'].dirty && (registerForm.hasError('minLength','telefono') || registerForm.hasError('maxLength','telefono'))" class="text-danger">El teléfono debe tener 10 dígitos.</small>
+                            <div class="form-group pt-3">
+                                <label for="direccion" class="form-label required">Dirección</label>
+                                <div class="input-field" [class.error]="registerForm.controls['direccion'].dirty && registerForm.hasError('required','direccion')">
+                                    <input id="direccion" 
+                                    formControlName="direccion" 
+                                    type="text" 
+                                    placeholder="Dirección">
+                                </div>
+                            </div>
+                            <small *ngIf="registerForm.controls['direccion'].dirty && registerForm.hasError('required','direccion')" class="text-danger">Dirección requerida</small>
+                            <div class="d-flex flex-colum gap-2">
+                                <div class="form-group pt-3">
+                                    <label for="provincia" class="form-label required">Provincia</label>
+                                    <div class="input-field" [class.error]="registerForm.controls['provincia'].dirty && registerForm.hasError('required','provincia')">
+                                        <input id="provincia" 
+                                        formControlName="provincia" 
+                                        type="text" 
+                                        placeholder="Provincia">
+                                    </div>
+                                <small *ngIf="registerForm.controls['provincia'].dirty && registerForm.hasError('required','provincia')" class="text-danger">Provincia requerida</small>
+                                </div>
+                                <div class="form-group pt-3">
+                                    <label for="localidad" class="form-label required">Localidad</label>
+                                    <div class="input-field" [class.error]="registerForm.controls['localidad'].dirty && registerForm.hasError('required','localidad')">
+                                        <input id="localidad" 
+                                        formControlName="localidad" 
+                                        type="text" 
+                                        placeholder="Localidad">
+                                    </div>
+                                <small *ngIf="registerForm.controls['localidad'].dirty && registerForm.hasError('required','localidad')" class="text-danger">Localidad requerida</small>
+                                </div>
+                            </div>
                             <div class="form-group pt-3">
                                 <label for="email" class="form-label required">Correo electrónico</label>
                                 <div class="input-field" [class.error]="registerForm.controls['email'].dirty && registerForm.hasError('required','email')">
@@ -47,7 +91,7 @@
                                 </div>
                             </div>
                             <small *ngIf="registerForm.controls['password'].dirty && registerForm.hasError('required','password')" class="text-danger">Contraseña requerida</small>
-                            <button (click)="onSubmit()" type="submit" class="btn btn-registro btn-secondary py-2 btn-block mt-4 w-100">
+                            <button type="submit" class="btn btn-registro btn-secondary py-2 btn-block mt-4 w-100">
                                 Crear cuenta
                             </button>
                         </form>
