@@ -1,14 +1,3 @@
-.outer{
-    height: 100vh;
-}
-
-/* .account{
-    min-width: 100px;
-    margin-left: auto;
-    cursor: pointer;
-} */
-
-
 .form-inline label{
     padding-left: 10px;
     margin: 0;
@@ -38,6 +27,7 @@
 .panel{
     min-height: 300px;
     margin-top: 2rem;
+    margin-bottom: 7rem;
     border: 1px solid #ddd;
     border-radius: 10px;
     padding: 1rem 2rem 1.5rem;
