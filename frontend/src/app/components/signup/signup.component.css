@@ -1,0 +1,124 @@
+.form-inline label{
+    padding-left: 10px;
+    margin: 0;
+    cursor: pointer;
+}
+
+.btn{
+    margin-top: 20px;
+    border-radius: 4px!important;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-registro{
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+.btn-next{
+    border-radius: 24px!important;
+}
+
+.panel{
+    min-height: 300px;
+    margin-top: 2rem;
+    margin-bottom: 4rem;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 1rem 2rem 1.5rem;
+}
+
+.panel h2{
+    font-style: normal;
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: .1px;
+    color: #252b42;
+    font-weight: 700;
+}
+
+.input-field{
+    border-radius: 6px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    cursor:pointer;
+    border:1px solid #ddd;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password']{
+    border:none;
+    outline: none;
+    box-shadow: none;
+    width: 100%;
+}
+
+.fa-eye-slash.btn{
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+.fa-eye:before, 
+.fa-eye-slash:before{
+    color: #757575;
+}
+
+.form-group label{
+    font-style: normal;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: .2px;
+    color: var(--color-dark-grey);
+    font-weight: 700;
+}
+
+.input-field input{
+    font-style: normal;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: .2px;
+    color: #737373;
+    font-weight: 400;
+}
+
+.card{
+    cursor: pointer;
+}
+
+.card:hover{
+    border-color: var(--color-primary);
+    background-color: #EEF7E2;
+}
+
+.section-account{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+.section-buttons{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-buttons{
+    width: 100%;
+}
+
+.title-option{
+    font-size: 22px;
+}
+
+.card-active{
+    border-color: var(--color-primary);
+    background-color: #EEF7E2;
+}

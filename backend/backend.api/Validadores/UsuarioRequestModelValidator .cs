@@ -14,7 +14,7 @@ namespace backend.api.Validadores
             RuleFor(x => x.Direccion).NotEmpty().WithMessage("La dirección no puede estar vacía");
             RuleFor(x => x.Localidad).NotEmpty().WithMessage("La localidad no puede estar vacía");
             RuleFor(x => x.Provincia).NotEmpty().WithMessage("La provincia no puede estar vacía");
-            RuleFor(x => x.RolId).GreaterThan(0).LessThan(2).WithMessage("El rol es inválido");
+            RuleFor(x => x.RolId).GreaterThan(0).LessThan(3).WithMessage("El rol es inválido");
             RuleFor(x => x.Password).MinimumLength(6).WithMessage("La contraseña debe tener al menos 6 caracteres");
         }
     }

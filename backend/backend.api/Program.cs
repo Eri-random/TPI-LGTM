@@ -16,6 +16,16 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+//Configuracion para error de Cors desde el front
+builder.Services.AddCors(option =>
+{
+    option.AddPolicy("MyPolicy", builder =>
+    {
+        builder.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+    });
+});
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
@@ -33,6 +43,8 @@ if (app.Environment.IsDevelopment())
 
 
 app.UseHttpsRedirection();
+app.UseCors("MyPolicy");
+
 
 app.UseAuthorization();
 

@@ -6,6 +6,10 @@
     --color-light-grey: #F8F8F8;
 }
 
+html,body{
+    height: 100%;
+}
+
 .btn.btn-secondary{
     background-color: var(--color-secondary);
     border-color: var(--color-secondary);
