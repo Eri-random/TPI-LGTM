@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import ValidateForm from 'src/app/helpers/validateForm';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
+import { Roles } from 'src/app/utils/roles.enum';
 
 @Component({
   selector: 'app-signup',
@@ -16,6 +17,10 @@ export class SignupComponent {
   eyeIcon:string= "fa-eye-slash"
   isText:boolean = false;
   registerForm!: FormGroup;
+  selectedRole: string | null = null;
+
+  visibilityForm:string="d-none";
+  visibilityRol:string="d-block";
 
   constructor(private fb:FormBuilder,
     private authService:AuthService,
@@ -33,9 +38,20 @@ export class SignupComponent {
       direccion:['',Validators.required],
       localidad:['',Validators.required],
       provincia:['',Validators.required],
+      cuit:[''],
       email: ['',[Validators.required,Validators.email]],
       password: ['',[Validators.required,Validators.minLength(6)]]
     })
+
+    // Agregar validación condicional para el campo "cuit"
+    this.registerForm.get('cuit')?.setValidators(
+      (control: AbstractControl): ValidationErrors | null => {
+        if (this.selectedRole == 'organización') {
+          return Validators.required(control);
+        }
+        return null;
+      }
+    );
   }
 
   hideShowPass(){
@@ -57,6 +73,9 @@ export class SignupComponent {
 
     const newUsuario:User = this.registerForm.value;
     newUsuario.rolId = 2;
+    //habilitar cuando se agregue rol de organizacion en bbdd y back
+    //this.selectedRole == 'usuario' ? newUsuario.rolId = Roles.Usuario : newUsuario.rolId = Roles.Organizacion;
+
 
     console.log(newUsuario);
     this.authService.crearCuenta(newUsuario)
@@ -72,4 +91,14 @@ export class SignupComponent {
     })
 
   }
+
+  seleccionar(rol: string) {
+    this.selectedRole = rol;
+  }
+
+  enableForm(){
+    this.visibilityForm = "d-block"
+    this.visibilityRol = "d-none"
+  }
+
 }

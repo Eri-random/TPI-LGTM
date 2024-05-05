@@ -19,6 +19,10 @@
     letter-spacing: .5px;
 }
 
+.btn-next{
+    border-radius: 24px!important;
+}
+
 .panel{
     min-height: 300px;
     margin-top: 2rem;
@@ -81,4 +85,40 @@ input[type='password']{
     letter-spacing: .2px;
     color: #737373;
     font-weight: 400;
+}
+
+.card{
+    cursor: pointer;
+}
+
+.card:hover{
+    border-color: var(--color-primary);
+    background-color: #EEF7E2;
+}
+
+.section-account{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+.section-buttons{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-buttons{
+    width: 100%;
+}
+
+.title-option{
+    font-size: 22px;
+}
+
+.card-active{
+    border-color: var(--color-primary);
+    background-color: #EEF7E2;
 }

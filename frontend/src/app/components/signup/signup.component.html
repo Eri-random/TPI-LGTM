@@ -1,4 +1,23 @@
-<div class="outer">
+<div class="container section-account px-5 {{visibilityRol}}">
+    <h2 class="pt-3 font-weight-bold title-account">Crear cuenta</h2>
+    <div class="d-flex gap-4 my-4 section-buttons">
+        <div [class.card-active]="selectedRole === 'usuario'" (click)="seleccionar('usuario')" class="card card-buttons">
+            <div class="card-body">
+                <h4 class="card-title text-center title-option">Usuario personal</h4>
+            </div>
+        </div>
+
+        <div [class.card-active]="selectedRole === 'organización'" (click)="seleccionar('organización')" class="card card-buttons">
+            <div class="card-body">
+                <h4 class="card-title text-center title-option">Organización benéfica</h4>
+            </div>
+        </div>
+    </div>
+    <button (click)="enableForm()" [disabled]="selectedRole == null" class="btn btn-next btn-registro btn-secondary py-2 btn-block mt-4 w-100">Siguiente</button>
+</div>
+
+
+<div class="outer {{visibilityForm}}">
     <div class="container">
         <div class="row justify-content-center align-items-center">
             <div class="col-md-6 col-12 col-lg-5">
@@ -71,6 +90,16 @@
                                 <small *ngIf="registerForm.controls['localidad'].dirty && registerForm.hasError('required','localidad')" class="text-danger">Localidad requerida</small>
                                 </div>
                             </div>
+                            <div *ngIf="selectedRole == 'organización'" class="form-group pt-3">
+                                <label for="cuit" class="form-label required">Cuit</label>
+                                <div class="input-field" [class.error]="registerForm.controls['cuit'].dirty && registerForm.hasError('required','cuit')">
+                                    <input id="cuit" 
+                                    formControlName="cuit" 
+                                    type="text" 
+                                    placeholder="N° de cuit">
+                                </div>
+                            </div>
+                            <small *ngIf="registerForm.controls['cuit'].dirty && registerForm.hasError('required','cuit')" class="text-danger">Cuit requerido</small>
                             <div class="form-group pt-3">
                                 <label for="email" class="form-label required">Correo electrónico</label>
                                 <div class="input-field" [class.error]="registerForm.controls['email'].dirty && registerForm.hasError('required','email')">

@@ -9,6 +9,7 @@ export class User{
         public email: string,
         public password: string,
         public rolId: number,
-        public telefono?: number
+        public telefono?: number,
+        public cuit?:number
     ){}
 }
