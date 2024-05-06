@@ -3,12 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { LandingComponent } from './pages/landing/landing.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
+import { GenerarIdeasComponent} from './pages/generar-ideas/generar-ideas.component';
 
 
 const routes: Routes = [
   {path:'',component:LandingComponent, pathMatch:'full'},
   {path:'login',component:LoginComponent},
   {path:'signup',component:SignupComponent},
+  {path: 'generar-ideas', component:GenerarIdeasComponent},
   {path:'**',redirectTo:''}
 ];
 
