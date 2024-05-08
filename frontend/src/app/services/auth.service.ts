@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../models/user';
 import { environments } from '../environments/environments';
+import { LoginForm } from '../interfaces/login-form.interface';
 
 
 @Injectable({
@@ -13,6 +14,11 @@ export class AuthService {
 
   constructor(private http:HttpClient) {
 
+   }
+
+   login(user:LoginForm){
+    const url = `${this.baseUrl}/Usuarios/authenticate`;
+    return this.http.post<LoginForm>(url,user);
    }
 
    crearCuenta(user:User){

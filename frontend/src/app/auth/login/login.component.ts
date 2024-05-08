@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
 import ValidateForm from 'src/app/helpers/validateForm';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -16,10 +17,12 @@ export class LoginComponent implements OnInit{
   eyeIcon:string= "fa-eye-slash"
   isText:boolean = false;
   loginForm!: FormGroup;
+  error:string|null = null;
 
   constructor(private fb:FormBuilder,
     private authService:AuthService,
     private router:Router,
+    private toast: NgToastService,
   ){
 
   }
@@ -42,5 +45,16 @@ export class LoginComponent implements OnInit{
       ValidateForm.validateAllFormFileds(this.loginForm);
       return;
     } 
+
+    this.authService.login(this.loginForm.value)
+    .subscribe({
+      next:()=>{
+      this.loginForm.reset();
+      this.toast.success({detail:"EXITO",summary:'Login exitoso',duration:5000});
+      },
+      error:({error})=>{
+        this.error = error;
+      }
+    })
   }
 }

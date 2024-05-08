@@ -30,6 +30,7 @@
                                 </div>
                             </div>
                             <small *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required','password')" class="text-danger">Contraseña requerida</small>
+                            <small *ngIf="error" class="text-danger">{{error}}</small>
                             <div class="form-inline fr mt-3">
                                 <a id="forget" class="font-weight-bold recovery-pass" routerLink="#">
                                     Olvidé mi contraseña
