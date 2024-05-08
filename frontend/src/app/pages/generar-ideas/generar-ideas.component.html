@@ -1,25 +1,46 @@
+<!-- <div class="outer"> -->
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6 col-12 col-lg-5">
+            <div class="panel bg-white">
+                <div class="panel-body">
 
-<div class="outer">
-    <div class="container">
-        <div class="row justify-content-center align-items-center">
-            <div class="col-md-6 col-12 col-lg-5">
-                <div class="panel bg-white">
-                    <div class="panel-body">
-            
-                        <h1>¡Reciclar telas <br>
-                            nunca fué <br> 
-                            <span [ngStyle]="{ 'background-color': '#8bc53f', 'border-radius': '10px', 'padding-right': '13px', 'padding-left': '13px', 'color': 'white'}">tan fácil!</span>
+                    <div class="pt-5">
+                        <h1 [ngStyle]="{ 'font-size': '430%'}">¡Reciclar telas <br>
+                            nunca fué <br>
+                            <span
+                                [ngStyle]="{ 'background-color': '#8bc53f', 'border-radius': '10px', 'padding-right': '13px', 'padding-left': '13px', 'color': 'white'}">
+                                tan fácil!
+                            </span>
                         </h1>
-                        <br>
-                        <h5>Para poder acceder a la herramienta de generación de ideas, tenés que iniciar sesión primero.</h5>
-                        <br>
-                        <br>
-                        <div>
-                            <button class="btn btn-secondary py-2 btn-block mt-4 w-50">Ingresar</button>
-                        </div>
+                    </div>
+                    <div class="pt-5">
+                        <h5>Para poder acceder a la herramienta de generación de ideas, tenés que iniciar sesión
+                            primero.</h5>
+                    </div>
+                    <div class="d-flex justify-content-center pt-5">
+                        <button class="btn btn-secondary py-2 btn-block w-50">Ingresar</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<!-- </div> -->
+
+<br>
+<div class="container pt-5">
+    <div class="row row-cols-2">
+        <div class="col-sm-2 imgUp" *ngFor="let preview of imagePreviews; let i = index">
+            <div class="imagePreview" [style.backgroundImage]="'url(' + preview + ')'"></div>
+            <label class="btn btn-secondary">
+                Upload
+                <input type="file" class="uploadFile img" (change)="onFileChange($event, i)" [ngStyle]="{ 'position': 'fixed', 'left': '0', 'top': '0', 'opacity': '0' }">
+            </label>
+            <ng-container *ngIf="i > 0">
+                <i class="fa fa-times del" (click)="removeImage(i)"></i>
+            </ng-container>
+        </div><!-- col-2 -->
+        <i class="fa fa-plus imgAdd" (click)="addImage()"></i>
+    </div><!-- row -->
+</div><!-- container -->
