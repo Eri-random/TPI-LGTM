@@ -131,7 +131,7 @@ namespace backend.api.Controllers
             // TODO ver de pasar toda esta verificacion en el service
             if (user == null || !PasswordHasher.VerifyPassword(usuarioLogIn.Password, user.Password))
             {
-                return BadRequest(new { Message = "usuario o contraseña incorrectos" });
+                return BadRequest("usuario y/o contraseña incorrectos");
             }
 
             return Ok(new
