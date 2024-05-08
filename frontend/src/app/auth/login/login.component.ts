@@ -49,6 +49,7 @@ export class LoginComponent implements OnInit{
     this.authService.login(this.loginForm.value)
     .subscribe({
       next:()=>{
+      this.error = null;
       this.loginForm.reset();
       this.toast.success({detail:"EXITO",summary:'Login exitoso',duration:5000});
       },
