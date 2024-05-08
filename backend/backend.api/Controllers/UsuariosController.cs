@@ -1,5 +1,6 @@
 ﻿using backend.api.Models;
 using backend.servicios.DTOs;
+using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -115,6 +116,28 @@ namespace backend.api.Controllers
                 _logger.LogError(ex, "Error al crear al usuario con email {Email}", usuarioRequest.Email);
                 return StatusCode(500, "Internal server error");
             }
+        }
+
+        [HttpPost("authenticate")]
+        public async Task<IActionResult> Authenticate([FromBody] UsuarioLogInModel usuarioLogIn)
+        {
+            if (usuarioLogIn == null)
+            {
+                return BadRequest();
+            }
+
+            var user = await _usuarioService.GetUsuarioByEmailAsync(usuarioLogIn.Email);
+
+            // TODO ver de pasar toda esta verificacion en el service
+            if (user == null || !PasswordHasher.VerifyPassword(usuarioLogIn.Password, user.Password))
+            {
+                return BadRequest(new { Message = "usuario o contraseña incorrectos" });
+            }
+
+            return Ok(new
+            {
+                Message = "Login exitoso"
+            });
         }
 
         [HttpPut]

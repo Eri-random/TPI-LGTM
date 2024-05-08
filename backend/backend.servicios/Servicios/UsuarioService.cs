@@ -64,6 +64,7 @@ namespace backend.servicios.Servicios
                     Apellido = usuario.Apellido,
                     Direccion = usuario.Direccion,
                     Email = usuario.Email,
+                    Password = usuario.Contrasena,
                     Localidad = usuario.Localidad,
                     Provincia = usuario.Provincia,
                     Telefono = usuario.Telefono,
@@ -88,12 +89,13 @@ namespace backend.servicios.Servicios
                 throw new InvalidOperationException("Ya existe un usuario con el email proporcionado.");
             }
 
+            var hashedPassword = PasswordHasher.HashPassword(usuarioDto.Password);
             var usuario = new Usuario
             {
                 Nombre = usuarioDto.Nombre,
                 Apellido = usuarioDto.Apellido,
                 Email = usuarioDto.Email,
-                Contrasena = PasswordHasher.HashPassword(usuarioDto.Password),
+                Contrasena = hashedPassword,
                 Telefono = usuarioDto.Telefono,
                 Direccion = usuarioDto.Direccion,
                 Localidad = usuarioDto.Localidad,
@@ -123,6 +125,8 @@ namespace backend.servicios.Servicios
             if (existingUser == null)
                 throw new KeyNotFoundException("Usuario no encontrado para actualizar.");
 
+            var hashedPassword = PasswordHasher.HashPassword(usuarioDto.Password);
+
             try
             {
                 existingUser.Nombre = usuarioDto.Nombre;
@@ -131,7 +135,7 @@ namespace backend.servicios.Servicios
                 existingUser.Direccion = usuarioDto.Direccion;
                 existingUser.Localidad = usuarioDto.Localidad;
                 existingUser.Provincia = usuarioDto.Provincia;
-                existingUser.Contrasena = PasswordHasher.HashPassword(usuarioDto.Password);
+                existingUser.Contrasena = hashedPassword;
 
                 _context.Usuarios.Update(existingUser);
                 await _context.SaveChangesAsync();
