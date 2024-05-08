@@ -134,10 +134,7 @@ namespace backend.api.Controllers
                 return BadRequest("usuario y/o contraseña incorrectos");
             }
 
-            return Ok(new
-            {
-                Message = "Login exitoso"
-            });
+            return Ok("Login exitoso");
         }
 
         [HttpPut]
