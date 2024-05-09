@@ -9,7 +9,7 @@ CREATE TABLE rol (
 
 -- Insertar roles predefinidos en la tabla 'rol'
 INSERT INTO rol (nombre) VALUES 
-('admin'), 
+('organizacion'), 
 ('usuario');
 
 -- Crear la tabla 'usuario' para almacenar información del usuario

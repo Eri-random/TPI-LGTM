@@ -1,6 +1,6 @@
 -- Insertar un usuario administrador en la tabla 'usuario'
 INSERT INTO usuario (nombre, apellido, email, contrasena, telefono, direccion, localidad, provincia, rol_id)
-VALUES ('NombreAdmin', 'ApellidoAdmin', 'test@test.com', crypt('12345678', gen_salt('bf')), '1234567890', 'Calle Falsa 123', 'Ciudad', 'Provincia', 1);
+VALUES ('NombreOrg', 'ApellidoOrg', 'test@test.com', crypt('12345678', gen_salt('bf')), '1234567890', 'Calle Falsa 123', 'Ciudad', 'Provincia', 1);
 
 -- Insertar tres usuarios nuevos en la tabla 'usuario'
 INSERT INTO usuario (nombre, apellido, email, contrasena, telefono, direccion, localidad, provincia, rol_id)
