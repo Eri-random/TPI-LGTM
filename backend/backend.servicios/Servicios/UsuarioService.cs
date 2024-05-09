@@ -68,7 +68,8 @@ namespace backend.servicios.Servicios
                     Localidad = usuario.Localidad,
                     Provincia = usuario.Provincia,
                     Telefono = usuario.Telefono,
-                    Rol = usuario.RolId
+                    Rol = usuario.RolId,
+                    RolNombre = usuario.Rol.Nombre
                 };
             }
             catch (Exception ex)
