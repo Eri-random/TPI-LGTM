@@ -70,5 +70,4 @@ export class GenerarIdeasComponent {
     this.seccionIngresar = "d-none";
     this.seccionFormulario = "d-block";
   }
-
 }

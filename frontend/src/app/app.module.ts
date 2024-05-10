@@ -16,6 +16,7 @@ import { GenerarIdeasComponent } from './pages/generar-ideas/generar-ideas.compo
 import { FormsModule } from '@angular/forms';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
