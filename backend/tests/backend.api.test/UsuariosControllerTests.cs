@@ -3,9 +3,12 @@ using backend.api.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
+using Castle.Components.DictionaryAdapter.Xml;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using Moq;
+using Newtonsoft.Json.Linq;
 
 namespace backend.api.test
 {
@@ -192,7 +195,7 @@ namespace backend.api.test
 
             var hashedPassword = PasswordHasher.HashPassword(usuarioLogIn.Password);
 
-            var mockUsuario = new UsuarioDto { Id = 1, Nombre = "Test", Apellido = "User", Email = usuarioLogIn.Email, Password = hashedPassword, Telefono = "1234567890", Rol = 1, Provincia = "SomeProvince", Localidad = "SomeCity", Direccion = "123 Test St" };
+            var mockUsuario = new UsuarioDto { Id = 1, Nombre = "Test", Apellido = "User", Email = usuarioLogIn.Email, Password = hashedPassword, Telefono = "1234567890", Rol = 1,RolNombre = "usuario", Provincia = "SomeProvince", Localidad = "SomeCity", Direccion = "123 Test St" };
             _usuarioServiceMock.Setup(x => x.GetUsuarioByEmailAsync(usuarioLogIn.Email)).ReturnsAsync(mockUsuario);
 
             // Act
@@ -202,7 +205,7 @@ namespace backend.api.test
             Assert.IsInstanceOf<OkObjectResult>(result); // Verifica que el resultado sea un OkObjectResult
             var okResult = result as OkObjectResult;
             Assert.That(okResult.StatusCode, Is.EqualTo(200));
-            Assert.That(okResult.Value, Is.EqualTo("Login exitoso"));
+            Assert.AreEqual("Login exitoso", okResult.Value?.GetType().GetProperty("Message").GetValue(okResult.Value));
         }
 
         [Test]
