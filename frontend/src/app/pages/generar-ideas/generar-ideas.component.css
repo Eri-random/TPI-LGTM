@@ -1,5 +1,38 @@
+.tanFacil {
+  background-color: #8bc53f; 
+  border-radius: 10px; 
+  padding-right: 13px; 
+  padding-left: 13px; 
+  color: white
+}
+
+#btnIngresar{
+  border-radius: 10px;
+}
+
+.primerTitulo{
+  font-size: 430%;
+}
+
+.noSabesQueTela{
+  color: #8bc53f;
+}
+
+#ia{
+  color: #8bc53f;
+}
+
+
+
 .imgUp {
   position: relative;
+}
+
+.uploadFile{
+  position: fixed; 
+  left: 0; 
+  top: 0; 
+  opacity: 0;
 }
 
 .imagePreview {
@@ -52,4 +85,18 @@
   margin-top:0px;
   cursor:pointer;
   font-size:15px;
+}
+
+.estrellita{
+  color: red;
+  font-weight: 700;
+}
+
+#btnGenerarIdea{
+  display:block;
+  border-radius:10px ;
+  box-shadow:0px 4px 6px 2px rgba(0,0,0,0.2);
+  margin-top:-5px;
+  background-color: #8bc53f;
+  color: white;
 }

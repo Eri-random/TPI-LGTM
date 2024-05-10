@@ -13,6 +13,7 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { LandingComponent } from './pages/landing/landing.component';
 import { NgToastModule } from 'ng-angular-popup';
 import { GenerarIdeasComponent } from './pages/generar-ideas/generar-ideas.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { GenerarIdeasComponent } from './pages/generar-ideas/generar-ideas.compo
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgToastModule
+    NgToastModule,
+    FormsModule 
   ],
   providers: [],
   bootstrap: [AppComponent]
