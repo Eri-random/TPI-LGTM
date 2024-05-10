@@ -12,3 +12,7 @@
     outline: none;
     box-shadow: none;
 }
+
+li{
+    cursor: pointer;
+}

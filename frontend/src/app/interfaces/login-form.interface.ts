@@ -1,4 +1,4 @@
 export interface LoginForm {
-    email: string;
-    password: string;
+    token: string;
+    message: string;
 }

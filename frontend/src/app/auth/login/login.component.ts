@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import ValidateForm from 'src/app/helpers/validateForm';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserStoreService } from 'src/app/services/user-store.service';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +22,7 @@ export class LoginComponent implements OnInit{
 
   constructor(private fb:FormBuilder,
     private authService:AuthService,
+    private userStore:UserStoreService,
     private router:Router,
     private toast: NgToastService,
   ){
@@ -48,10 +50,19 @@ export class LoginComponent implements OnInit{
 
     this.authService.login(this.loginForm.value)
     .subscribe({
-      next:()=>{
+      next:(res)=>{
       this.error = null;
       this.loginForm.reset();
-      this.toast.success({detail:"EXITO",summary:'Login exitoso',duration:5000});
+
+      this.authService.storeToken(res.token)
+      let tokenPayload = this.authService.decodedToken();
+
+      this.userStore.setFullNameForStore(tokenPayload.name);
+      this.userStore.setRolForStore(tokenPayload.role);
+      this.authService.setIsLoggedIn(true);
+      
+      this.toast.success({detail:"EXITO",summary:'Login exitoso',duration:5000,position:"topCenter"});
+      this.router.navigate(['/'])
       },
       error:({error})=>{
         this.error = error;
