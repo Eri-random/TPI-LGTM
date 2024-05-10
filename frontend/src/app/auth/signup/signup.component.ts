@@ -33,12 +33,12 @@ export class SignupComponent {
   ngOnInit(): void {
     this.registerForm = this.fb.group({
       nombre:['',[Validators.required]],
-      apellido:[''],
+      apellido:[null],
       telefono:[null,[Validators.minLength(8), Validators.maxLength(10)]],
       direccion:['',Validators.required],
       localidad:['',Validators.required],
       provincia:['',Validators.required],
-      cuit:[''],
+      cuit:[null],
       email: ['',[Validators.required,Validators.email]],
       password: ['',[Validators.required,Validators.minLength(6)]]
     })
