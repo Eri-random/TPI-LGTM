@@ -30,7 +30,8 @@ namespace backend.servicios.Servicios
                         Localidad = u.Localidad,
                         Provincia = u.Provincia,
                         Telefono = u.Telefono,
-                        Rol = u.RolId
+                        Rol = u.RolId,
+                        Cuit = u.Cuit
                     }).ToListAsync();
 
                 return usuarios;
@@ -69,7 +70,8 @@ namespace backend.servicios.Servicios
                     Provincia = usuario.Provincia,
                     Telefono = usuario.Telefono,
                     Rol = usuario.RolId,
-                    RolNombre = usuario.Rol.Nombre
+                    RolNombre = usuario.Rol.Nombre,
+                    Cuit = usuario.Cuit
                 };
             }
             catch (Exception ex)
@@ -101,7 +103,8 @@ namespace backend.servicios.Servicios
                 Direccion = usuarioDto.Direccion,
                 Localidad = usuarioDto.Localidad,
                 Provincia = usuarioDto.Provincia,
-                RolId = usuarioDto.Rol
+                RolId = usuarioDto.Rol,
+                Cuit = usuarioDto.Cuit
             };
 
             try

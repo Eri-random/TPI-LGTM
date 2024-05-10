@@ -34,7 +34,8 @@ namespace backend.api.Controllers
                         Nombre = usuario.Nombre,
                         Provincia = usuario.Provincia,
                         RolId = usuario.Rol,
-                        Telefono = usuario.Telefono
+                        Telefono = usuario.Telefono,
+                        Cuit = usuario.Cuit
                     });
                 }
 
@@ -68,7 +69,8 @@ namespace backend.api.Controllers
                     Apellido = usuario.Apellido,
                     Direccion = usuario.Direccion,
                     Email= usuario.Email,
-                    Id = usuario.Id
+                    Id = usuario.Id,
+                    Cuit = usuario.Cuit
                 };
 
                 return Ok(usuarioResponse);
@@ -99,6 +101,7 @@ namespace backend.api.Controllers
                 Provincia = usuarioRequest.Provincia,
                 Password = usuarioRequest.Password,
                 Rol = usuarioRequest.RolId,
+                Cuit = usuarioRequest.Cuit
             };
 
             try
