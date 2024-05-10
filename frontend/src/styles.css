@@ -27,6 +27,7 @@ html,body{
 
 .input-field.error{
     border:1px solid red;
+    border-color: red!important;
     color:red;
 }
 

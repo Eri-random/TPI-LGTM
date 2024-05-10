@@ -35,7 +35,7 @@
         <h6>¿No sabés qué tela es? Subí una foto y te ayudamos a identificarla.</h6>
     </div>
     <form [formGroup]='ideaForm'  (ngSubmit)="submitForm()">
-        <div class="row row-cols-2 justify-content-center pb-5">
+        <div class="d-flex gap-4 justify-content-center pb-5">
             <div class="col-sm-2 imgUp" *ngFor="let preview of imagePreviews; let i = index">
                 <div class="imagePreview" [style.backgroundImage]="'url(' + preview + ')'"></div>
                 <label class="btn btn-secondary">
@@ -46,64 +46,36 @@
                     <i class="fa fa-times del" (click)="removeImage(i)"></i>
                 </ng-container>
             </div>
-            <i class="fa fa-plus imgAdd" (click)="addImage()"></i>
+            <i class="fa fa-plus-square icon_add" (click)="addImage()"></i>
         </div>
 
         <div class="row justify-content-center pb-5">
             <div class="col-lg-6">
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <label for="tipoDeTela" class="form-label">Tipo de tela<span class="estrellita">*</span></label>
-                        <input type="text" class="form-control" id="tipoDeTela" name="tipoDeTela" placeholder="Ej: Algodón" formControlName="tipoDeTela">
-                        <small class="bg-danger text-light mt-1 px-2 py-1 rounded d-flex justify-content-center"
-                            *ngIf="(fm['tipoDeTela'].dirty || fm['tipoDeTela'].touched) && fm['tipoDeTela'].errors">
-                            <ng-container *ngIf="fm['color'].value==''">
-                                <ng-container>El tipo de tela es requerido</ng-container>
-                            </ng-container>
-                        </small>
+                        <label for="tipoDeTela" class="form-label required">Tipo de tela</label>
+                        <input type="text" class="form-control input-field" [class.error]="fm['tipoDeTela'].dirty && fm['tipoDeTela'].errors" id="tipoDeTela" name="tipoDeTela" placeholder="Ej: Algodón" formControlName="tipoDeTela">
+                        <small *ngIf="fm['tipoDeTela'].dirty && fm['tipoDeTela'].errors" class="text-danger">El tipo de tela es requerido</small>
                     </div>
                     <div class="col-md-6">
-                        <label for="color" class="form-label">Color<span class="estrellita">*</span></label>
-                        <input type="text" class="form-control" id="color" name="color" placeholder="Ej: Negro" required formControlName="color" >
-                        <small class="bg-danger text-light mt-1 px-2 py-1 rounded d-flex justify-content-center"
-                            *ngIf="(fm['color'].dirty || fm['color'].touched) && fm['color'].errors">
-                            <ng-container *ngIf="fm['color'].value==''">
-                                <ng-container>El color es requerido</ng-container>
-                            </ng-container>
-                        </small>
+                        <label for="color" class="form-label required">Color</label>
+                        <input type="text" class="form-control input-field" [class.error]="fm['color'].dirty && fm['color'].errors" id="color" name="color" placeholder="Ej: Negro" required formControlName="color" >
+                        <small *ngIf="fm['color'].dirty && fm['color'].errors" class="text-danger">El color es requerido</small>
                     </div>
                     <div class="col-md-6">
-                        <label for="largo" class="form-label d-flex align-items-center">Largo<span class="estrellita">*</span> 
-                            <small class="mt-1 px-2 rounded d-flex justify-content-center">
-                                Debe estar expresada en CM.
-                            </small>
-                        </label>
-                        <input type="number" class="form-control" id="largo" name="largo" placeholder="Ej: 80" required formControlName="largo">
-                        <small class="bg-danger text-light mt-1 px-2 py-1 rounded d-flex justify-content-center"
-                            *ngIf="(fm['largo'].dirty || fm['largo'].touched) && fm['largo'].errors">
-                            <ng-container *ngIf="fm['largo'].value==''">
-                                <ng-container>El largo es requerido</ng-container>
-                            </ng-container>
-                        </small>
+                        <label for="largo" class="form-label d-flex align-items-center required">Largo </label>
+                        <input type="number" class="form-control input-field" [class.error]="fm['largo'].dirty && fm['largo'].errors" id="largo" name="largo" placeholder="Ej: 80" required formControlName="largo">
+                        <small *ngIf="fm['largo'].dirty && fm['largo'].errors" class="text-danger">El largo es requerido</small>
                     </div>
                     <div class="col-md-6">
-                        <label for="ancho" class="form-label d-flex align-items-center">Ancho<span class="estrellita">*</span>
-                            <small class="mt-1 px-2 rounded d-flex justify-content-center">
-                                Debe estar expresada en CM.
-                            </small>
-                        </label>
-                        <input type="number" class="form-control" id="ancho" name="ancho" placeholder="Ej: 50" required formControlName="ancho">
-                        <small class="bg-danger text-light mt-1 px-2 py-1 rounded d-flex justify-content-center"
-                            *ngIf="(fm['ancho'].dirty || fm['ancho'].touched) && fm['ancho'].errors">
-                            <ng-container *ngIf="fm['ancho'].value==''">
-                                <ng-container>El ancho es requerido</ng-container>
-                            </ng-container>
-                        </small>
+                        <label for="ancho" class="form-label d-flex align-items-center required">Ancho</label>
+                        <input type="number" class="form-control input-field" [class.error]="fm['ancho'].dirty && fm['ancho'].errors" id="ancho" name="ancho" placeholder="Ej: 50" required formControlName="ancho">
+                        <small *ngIf="fm['ancho'].dirty && fm['ancho'].errors" class="text-danger">El ancho es requerido</small>
                     </div>
                     <div class="col-12">
                         <div class="row">
                             <div class="d-flex justify-content-center pt-3">
-                                <button class="btn  py-2 btn-block w-50" id="btnGenerarIdea">Generar idea</button>
+                                <button class="btn py-2 btn-block w-50" id="btnGenerarIdea">Generar idea</button>
                             </div>
                         </div>
                     </div>

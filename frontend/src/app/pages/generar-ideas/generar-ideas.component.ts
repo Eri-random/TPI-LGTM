@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {Router} from "@angular/router";
 import ValidateForm from 'src/app/helpers/validateForm';
@@ -8,15 +8,18 @@ import ValidateForm from 'src/app/helpers/validateForm';
   templateUrl: './generar-ideas.component.html',
   styleUrls: ['./generar-ideas.component.css']
 })
-export class GenerarIdeasComponent {
+export class GenerarIdeasComponent implements OnInit {
 
   seccionIngresar: string = "d-block";
   seccionFormulario: string = "d-none";
   imagePreviews: string[] = ['https://media.istockphoto.com/id/1226328537/es/vector/soporte-de-posici%C3%B3n-de-imagen-con-un-icono-de-c%C3%A1mara-gris.jpg?s=612x612&w=0&k=20&c=8igCt_oe2wE-aP0qExUDfwicSNUCb4Ho9DiKCq0rSaA='];
   imageFiles: File[] = [];
-  ideaForm: FormGroup;
+  ideaForm!: FormGroup;
 
   constructor( private formBuilder: FormBuilder, protected router:Router){
+  }
+
+  ngOnInit(): void {
     this.ideaForm= this.formBuilder.group({
       tipoDeTela: ["", [Validators.required]],
       color:["",[Validators.required]],
@@ -58,7 +61,6 @@ export class GenerarIdeasComponent {
   submitForm() {
     if(!this.ideaForm.valid){
       ValidateForm.validateAllFormFileds(this.ideaForm);
-      console.log("SIN DATOS");
       return;
     }
 
