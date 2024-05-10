@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {Router} from "@angular/router";
+import ValidateForm from 'src/app/helpers/validateForm';
 
 @Component({
   selector: 'app-generar-ideas',
@@ -7,15 +9,25 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./generar-ideas.component.css']
 })
 export class GenerarIdeasComponent {
-  imagePreviews: string[] = ['https://media.istockphoto.com/id/1226328537/es/vector/soporte-de-posici%C3%B3n-de-imagen-con-un-icono-de-c%C3%A1mara-gris.jpg?s=612x612&w=0&k=20&c=8igCt_oe2wE-aP0qExUDfwicSNUCb4Ho9DiKCq0rSaA='];
-  tipoDeTela: string = '';
-  color: string = '';
-  largo: number = 0;
-  ancho: number = 0;
-  infoExtra: string = '';
-  imageFiles: File[] = [];
 
-  constructor() { }
+  seccionIngresar: string = "d-block";
+  seccionFormulario: string = "d-none";
+  imagePreviews: string[] = ['https://media.istockphoto.com/id/1226328537/es/vector/soporte-de-posici%C3%B3n-de-imagen-con-un-icono-de-c%C3%A1mara-gris.jpg?s=612x612&w=0&k=20&c=8igCt_oe2wE-aP0qExUDfwicSNUCb4Ho9DiKCq0rSaA='];
+  imageFiles: File[] = [];
+  ideaForm: FormGroup;
+
+  constructor( private formBuilder: FormBuilder, protected router:Router){
+    this.ideaForm= this.formBuilder.group({
+      tipoDeTela: ["", [Validators.required]],
+      color:["",[Validators.required]],
+      largo:["",[Validators.required]],
+      ancho: ["",[Validators.required]]
+    });
+  }
+
+  get fm(){
+    return this.ideaForm.controls;
+  }
 
   onFileChange(event: any, index: number) {
     const files = event.target.files;
@@ -25,12 +37,10 @@ export class GenerarIdeasComponent {
     const reader = new FileReader();
     reader.readAsDataURL(files[0]);
 
-    //this.imageFiles[index] = files[0];
-    //console.log("Nombre del archivo:", files[0].name);
-
     reader.onloadend = () => {
       this.imagePreviews[index] = reader.result as string;
     };
+    this.imageFiles.push(files);
   }
 
   addImage() {
@@ -46,30 +56,19 @@ export class GenerarIdeasComponent {
   }
 
   submitForm() {
-    const formData = new FormData();
-    // for (let i = 0; i < this.imagePreviews.length; i++) {
-    //   const imageBlob = this.dataURItoBlob(this.imagePreviews[i]);
-    //   formData.append('images[]', imageBlob, 'image' + i + '.png');
-    //   console.log(imageBlob);
-    // }
+    if(!this.ideaForm.valid){
+      ValidateForm.validateAllFormFileds(this.ideaForm);
+      console.log("SIN DATOS");
+      return;
+    }
+
     console.log(this.imageFiles);
-    console.log(this.tipoDeTela);
-    console.log(this.tipoDeTela);
-    console.log(this.color);
-    console.log(String(this.largo));
-    console.log(String(this.ancho));
-    console.log(this.infoExtra);
+    console.log(this.ideaForm.value);
   }
 
-  // Función para convertir una URL de imagen base64 en un Blob
-  dataURItoBlob(dataURI: string): Blob {
-    const byteString = atob(dataURI.split(',')[1]);
-    const arrayBuffer = new ArrayBuffer(byteString.length);
-    const intArray = new Uint8Array(arrayBuffer);
-    for (let i = 0; i < byteString.length; i++) {
-      intArray[i] = byteString.charCodeAt(i);
-    }
-    const blob = new Blob([intArray], { type: 'image/png' });
-    return blob;
+  formIdea(){
+    this.seccionIngresar = "d-none";
+    this.seccionFormulario = "d-block";
   }
+
 }
