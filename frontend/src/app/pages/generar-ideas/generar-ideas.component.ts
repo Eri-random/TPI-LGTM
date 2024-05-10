@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {Router} from "@angular/router";
+import { NgToastService } from 'ng-angular-popup';
 import ValidateForm from 'src/app/helpers/validateForm';
 
 @Component({
@@ -16,7 +17,9 @@ export class GenerarIdeasComponent implements OnInit {
   imageFiles: File[] = [];
   ideaForm!: FormGroup;
 
-  constructor( private formBuilder: FormBuilder, protected router:Router){
+  constructor( private formBuilder: FormBuilder, private router:Router,
+    private toast: NgToastService
+  ){
   }
 
   ngOnInit(): void {
@@ -50,7 +53,7 @@ export class GenerarIdeasComponent implements OnInit {
     if (this.imagePreviews.length < 4) {
       this.imagePreviews.push('https://media.istockphoto.com/id/1226328537/es/vector/soporte-de-posici%C3%B3n-de-imagen-con-un-icono-de-c%C3%A1mara-gris.jpg?s=612x612&w=0&k=20&c=8igCt_oe2wE-aP0qExUDfwicSNUCb4Ho9DiKCq0rSaA=');
     } else {
-      alert("Solo se permiten hasta 4 imágenes.");
+      this.toast.error({detail:"ERROR",summary:"Solo se permiten hasta 4 imágenes",duration:5000,position:'topCenter'});
     }
   }
 
