@@ -128,7 +128,6 @@ namespace backend.api.Controllers
 
             var user = await _usuarioService.GetUsuarioByEmailAsync(usuarioLogIn.Email);
 
-            // TODO ver de pasar toda esta verificacion en el service
             if (user == null || !PasswordHasher.VerifyPassword(usuarioLogIn.Password, user.Password))
             {
                 return BadRequest("usuario y/o contraseña incorrectos");
