@@ -19,7 +19,7 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var usuarios = await _context.Usuarios
+                var usuarios = await _context.Usuarios.Include(u => u.Rol)
                     .Select(u => new UsuarioDto
                     {
                         Id = u.Id,
@@ -30,7 +30,8 @@ namespace backend.servicios.Servicios
                         Localidad = u.Localidad,
                         Provincia = u.Provincia,
                         Telefono = u.Telefono,
-                        Rol = u.RolId
+                        Rol = u.RolId,
+                        RolNombre = u.Rol.Nombre
                     }).ToListAsync();
 
                 return usuarios;

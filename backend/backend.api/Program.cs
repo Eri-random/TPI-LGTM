@@ -8,11 +8,13 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
+builder.Configuration.AddJsonFile("appsettings.json");
+// Add services to the container.
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    options.JsonSerializerOptions.IgnoreNullValues = true;
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -29,10 +31,13 @@ builder.Services.AddCors(option =>
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<IMapsService, MapsService>();
+builder.Services.AddHttpClient<IMapsService, MapsService>();
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UsuarioRequestModel>());
 
 var app = builder.Build();
 
+var googleMapsApiKey = app.Configuration["GoogleMapsApiKey"];
 // Configure the HTTP request pipeline.
 
 if (app.Environment.IsDevelopment())

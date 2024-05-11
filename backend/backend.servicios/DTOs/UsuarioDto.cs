@@ -12,5 +12,7 @@
         public string Localidad { get; set; }
         public string Provincia { get; set; }
         public int Rol { get; set; }
+
+        public string RolNombre { get; set; }
     }
 }
