@@ -1,5 +1,6 @@
 ﻿using backend.api.Models;
 using backend.servicios.DTOs;
+using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,7 +34,8 @@ namespace backend.api.Controllers
                         Nombre = usuario.Nombre,
                         Provincia = usuario.Provincia,
                         RolId = usuario.Rol,
-                        Telefono = usuario.Telefono
+                        Telefono = usuario.Telefono,
+                        Cuit = usuario.Cuit
                     });
                 }
 
@@ -67,7 +69,8 @@ namespace backend.api.Controllers
                     Apellido = usuario.Apellido,
                     Direccion = usuario.Direccion,
                     Email= usuario.Email,
-                    Id = usuario.Id
+                    Id = usuario.Id,
+                    Cuit = usuario.Cuit
                 };
 
                 return Ok(usuarioResponse);
@@ -98,6 +101,7 @@ namespace backend.api.Controllers
                 Provincia = usuarioRequest.Provincia,
                 Password = usuarioRequest.Password,
                 Rol = usuarioRequest.RolId,
+                Cuit = usuarioRequest.Cuit
             };
 
             try
@@ -115,6 +119,30 @@ namespace backend.api.Controllers
                 _logger.LogError(ex, "Error al crear al usuario con email {Email}", usuarioRequest.Email);
                 return StatusCode(500, "Internal server error");
             }
+        }
+
+        [HttpPost("authenticate")]
+        public async Task<IActionResult> Authenticate([FromBody] UsuarioLogInModel usuarioLogIn)
+        {
+            if (usuarioLogIn == null)
+            {
+                return BadRequest();
+            }
+
+            var user = await _usuarioService.GetUsuarioByEmailAsync(usuarioLogIn.Email);
+
+            if (user == null || !PasswordHasher.VerifyPassword(usuarioLogIn.Password, user.Password))
+            {
+                return BadRequest("usuario y/o contraseña incorrectos");
+            }
+
+            var token = Token.CreateJwtToken(user.RolNombre, user.Nombre);
+
+            return Ok(new
+            {
+                token,
+                Message = "Login exitoso"
+            });
         }
 
         [HttpPut]

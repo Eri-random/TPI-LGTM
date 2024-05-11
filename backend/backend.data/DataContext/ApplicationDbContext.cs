@@ -51,6 +51,8 @@ namespace backend.data.DataContext
                     .HasColumnName("email");
                 entity.Property(e => e.Contrasena)
                     .HasColumnName("contrasena");
+                entity.Property(e => e.Cuit)
+                    .HasColumnName("cuit");
             });
             modelBuilder.Entity<Usuario>()
                 .HasOne(u => u.Rol)

@@ -16,5 +16,6 @@ namespace backend.data.Models
         [Column("rol_id")]
         public int RolId { get; set; }
         public Rol Rol { get; set; }
+        public string Cuit {  get; set; }
     }
 }

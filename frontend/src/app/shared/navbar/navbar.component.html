@@ -31,11 +31,21 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav">
-                        <li class="nav-item">
+                        <li *ngIf="!isLoggedIn" class="nav-item">
                             <a class="nav-link" routerLink="/login">
                                 <span class="fa fa-user"></span>
                                 Ingresar
                             </a>
+                        </li>
+                        <li *ngIf="isLoggedIn" class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="fa fa-user"></span> Hola, {{fullName}}
+                            </a>
+                            <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" href="#">Mi Perfil</a></li>
+                              <li><a class="dropdown-item" href="#">Mis Ideas</a></li>
+                              <li (click)="logout()"><a class="dropdown-item">Cerrar Sesión</a></li>
+                            </ul>
                         </li>
                         <li class="nav-item d-none d-lg-block">
                             <a class="nav-link" href="#">

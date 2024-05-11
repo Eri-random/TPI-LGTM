@@ -15,6 +15,8 @@ import { NgToastModule } from 'ng-angular-popup';
 import { GenerarIdeasComponent } from './pages/generar-ideas/generar-ideas.component';
 import { MapaOrganizacionesComponent } from './pages/mapa/mapa-organizaciones';
 
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +34,7 @@ import { MapaOrganizacionesComponent } from './pages/mapa/mapa-organizaciones';
     ReactiveFormsModule,
     HttpClientModule,
     NgToastModule,
-    FormsModule
+    FormsModule 
   ],
   providers: [],
   bootstrap: [AppComponent],
