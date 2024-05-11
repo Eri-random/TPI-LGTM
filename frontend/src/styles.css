@@ -10,6 +10,21 @@ html,body{
     height: 100%;
 }
 
+.btn.btn-primary{
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.btn.btn-primary:hover{
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.btn.btn-primary:active{
+    background-color: var(--color-primary)!important;
+    border-color: var(--color-primary)!important;
+}
+
 .btn.btn-secondary{
     background-color: var(--color-secondary);
     border-color: var(--color-secondary);
@@ -27,6 +42,7 @@ html,body{
 
 .input-field.error{
     border:1px solid red;
+    border-color: red!important;
     color:red;
 }
 
