@@ -1,0 +1,15 @@
+<div class="container-mapas-organizaciones">
+  <div class="section-mapa">
+    <div class="container-filtrado">
+      <h5>Seleccionar Provincia</h5>
+      <!--Por Pronvicia-->
+      <div>
+        <select class="select" [(ngModel)]="opcionSeleccionado" (change)="selectProvince()">
+          <option value="todas" selected>Todas</option>
+          <option *ngFor="let prov of provincias" [ngValue]="prov">{{prov.nombre}}</option>
+        </select>
+      </div>
+    </div>
+    <div id="map"></div>
+  </div>
+</div>
