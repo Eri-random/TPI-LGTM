@@ -32,7 +32,7 @@ namespace backend.servicios.test
 
             _context.Usuarios.AddRange(
                 new Usuario { Nombre = "test", Email = "test@test.com", RolId = 1 },
-                new Usuario { /* ... properties ... */ }
+                new Usuario { Nombre = "test2", Email = "test2@test.com", RolId = 2 }
             );
 
             _context.Roles.AddRange(
