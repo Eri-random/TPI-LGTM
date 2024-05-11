@@ -11,6 +11,7 @@ import ValidateForm from 'src/app/helpers/validateForm';
 })
 export class GenerarIdeasComponent implements OnInit {
 
+
   seccionIngresar: string = "d-block";
   seccionFormulario: string = "d-none";
   imagePreviews: string[] = ['https://media.istockphoto.com/id/1226328537/es/vector/soporte-de-posici%C3%B3n-de-imagen-con-un-icono-de-c%C3%A1mara-gris.jpg?s=612x612&w=0&k=20&c=8igCt_oe2wE-aP0qExUDfwicSNUCb4Ho9DiKCq0rSaA='];
@@ -52,7 +53,7 @@ export class GenerarIdeasComponent implements OnInit {
   addImage() {
     if (this.imagePreviews.length < 4) {
       this.imagePreviews.push('https://media.istockphoto.com/id/1226328537/es/vector/soporte-de-posici%C3%B3n-de-imagen-con-un-icono-de-c%C3%A1mara-gris.jpg?s=612x612&w=0&k=20&c=8igCt_oe2wE-aP0qExUDfwicSNUCb4Ho9DiKCq0rSaA=');
-    }
+    } 
   }
 
   removeImage(index: number) {
@@ -62,6 +63,7 @@ export class GenerarIdeasComponent implements OnInit {
   submitForm() {
     if(!this.ideaForm.valid){
       ValidateForm.validateAllFormFileds(this.ideaForm);
+      console.log("SIN DATOS");
       return;
     }
 
@@ -73,5 +75,4 @@ export class GenerarIdeasComponent implements OnInit {
     this.seccionIngresar = "d-none";
     this.seccionFormulario = "d-block";
   }
-
 }
