@@ -11,5 +11,6 @@
         public string Localidad { get; set; }
         public string Provincia { get; set; }
         public int RolId { get; set; }
+        public string Cuit {  get; set; }
     }
 }

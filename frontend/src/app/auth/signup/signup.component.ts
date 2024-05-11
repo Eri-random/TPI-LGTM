@@ -33,17 +33,25 @@ export class SignupComponent {
   ngOnInit(): void {
     this.registerForm = this.fb.group({
       nombre:['',[Validators.required]],
-      apellido:['',Validators.required],
-      telefono:[null,[Validators.minLength(10), Validators.maxLength(10)]],
+      apellido:[null],
+      telefono:[null,[Validators.minLength(8), Validators.maxLength(10)]],
       direccion:['',Validators.required],
       localidad:['',Validators.required],
       provincia:['',Validators.required],
-      cuit:[''],
+      cuit:[null],
       email: ['',[Validators.required,Validators.email]],
       password: ['',[Validators.required,Validators.minLength(6)]]
     })
 
-    // Agregar validación condicional para el campo "cuit"
+    this.registerForm.get('apellido')?.setValidators(
+      (control: AbstractControl): ValidationErrors | null => {
+        if (this.selectedRole == 'usuario') {
+          return Validators.required(control);
+        }
+        return null;
+      }
+    );
+
     this.registerForm.get('cuit')?.setValidators(
       (control: AbstractControl): ValidationErrors | null => {
         if (this.selectedRole == 'organización') {
@@ -72,12 +80,9 @@ export class SignupComponent {
     } 
 
     const newUsuario:User = this.registerForm.value;
-    newUsuario.rolId = 2;
-    //habilitar cuando se agregue rol de organizacion en bbdd y back
-    //this.selectedRole == 'usuario' ? newUsuario.rolId = Roles.Usuario : newUsuario.rolId = Roles.Organizacion;
+    this.selectedRole == 'usuario' ? newUsuario.rolId = Roles.Usuario : newUsuario.rolId = Roles.Organizacion;
 
 
-    console.log(newUsuario);
     this.authService.crearCuenta(newUsuario)
     .subscribe({
       next:()=>{

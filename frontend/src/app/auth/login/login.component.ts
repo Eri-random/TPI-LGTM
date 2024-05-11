@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
 import ValidateForm from 'src/app/helpers/validateForm';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserStoreService } from 'src/app/services/user-store.service';
 
 @Component({
   selector: 'app-login',
@@ -16,10 +18,13 @@ export class LoginComponent implements OnInit{
   eyeIcon:string= "fa-eye-slash"
   isText:boolean = false;
   loginForm!: FormGroup;
+  error:string|null = null;
 
   constructor(private fb:FormBuilder,
     private authService:AuthService,
+    private userStore:UserStoreService,
     private router:Router,
+    private toast: NgToastService,
   ){
 
   }
@@ -42,5 +47,26 @@ export class LoginComponent implements OnInit{
       ValidateForm.validateAllFormFileds(this.loginForm);
       return;
     } 
+
+    this.authService.login(this.loginForm.value)
+    .subscribe({
+      next:(res)=>{
+      this.error = null;
+      this.loginForm.reset();
+
+      this.authService.storeToken(res.token)
+      let tokenPayload = this.authService.decodedToken();
+
+      this.userStore.setFullNameForStore(tokenPayload.name);
+      this.userStore.setRolForStore(tokenPayload.role);
+      this.authService.setIsLoggedIn(true);
+      
+      this.toast.success({detail:"EXITO",summary:'Login exitoso',duration:5000,position:"topCenter"});
+      this.router.navigate(['/'])
+      },
+      error:({error})=>{
+        this.error = error;
+      }
+    })
   }
 }

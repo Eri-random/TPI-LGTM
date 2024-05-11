@@ -25,7 +25,7 @@
                     <h2 class="pt-3 font-weight-bold">Crear cuenta</h2>
                     <div class="panel-body">
                         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-                            <div class="d-flex flex-colum gap-2">
+                            <div [ngClass]="{'d-flex': selectedRole === 'usuario', 'gap-2': selectedRole === 'usuario'}">
                                 <div class="form-group pt-3">
                                     <label for="nombre" class="form-label required">Nombre</label>
                                     <div class="input-field" [class.error]="registerForm.controls['nombre'].dirty && registerForm.hasError('required','nombre')">
@@ -36,7 +36,7 @@
                                     </div>
                                 <small *ngIf="registerForm.controls['nombre'].dirty && registerForm.hasError('required','nombre')" class="text-danger">Nombre requerido</small>
                                 </div>
-                                <div class="form-group pt-3">
+                                <div *ngIf="selectedRole == 'usuario'" class="form-group pt-3">
                                     <label for="apellido" class="form-label required">Apellido</label>
                                     <div class="input-field" [class.error]="registerForm.controls['apellido'].dirty && registerForm.hasError('required','apellido')">
                                         <input id="apellido" 
@@ -57,7 +57,7 @@
                                     (input)="onInput($event)">
                                 </div>
                             </div>
-                            <small *ngIf="registerForm.controls['telefono'].dirty && (registerForm.hasError('minlength','telefono') || registerForm.hasError('maxlength','telefono'))" class="text-danger">El teléfono debe tener 10 dígitos.</small>
+                            <small *ngIf="registerForm.controls['telefono'].dirty && (registerForm.hasError('minlength','telefono') || registerForm.hasError('maxlength','telefono'))" class="text-danger">El teléfono debe tener min. 8 dígitos y max. 10 dígitos</small>
                             <div class="form-group pt-3">
                                 <label for="direccion" class="form-label required">Dirección</label>
                                 <div class="input-field" [class.error]="registerForm.controls['direccion'].dirty && registerForm.hasError('required','direccion')">

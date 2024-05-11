@@ -1,10 +1,14 @@
 ﻿using backend.api.Controllers;
 using backend.api.Models;
 using backend.servicios.DTOs;
+using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
+using Castle.Components.DictionaryAdapter.Xml;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using Moq;
+using Newtonsoft.Json.Linq;
 
 namespace backend.api.test
 {
@@ -177,6 +181,54 @@ namespace backend.api.test
                         It.Is<It.IsAnyType>((v, t) => true),
                         It.IsAny<Exception>(),
                         It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)), Times.Once);
+        }
+
+        [Test]
+        public async Task Authenticate_ValidCredentials_ReturnsOk()
+        {
+            // Arrange
+            var usuarioLogIn = new UsuarioLogInModel
+            {
+                Email = "john@example.com",
+                Password = "securePassword123"
+            };
+
+            var hashedPassword = PasswordHasher.HashPassword(usuarioLogIn.Password);
+
+            var mockUsuario = new UsuarioDto { Id = 1, Nombre = "Test", Apellido = "User", Email = usuarioLogIn.Email, Password = hashedPassword, Telefono = "1234567890", Rol = 1,RolNombre = "usuario", Provincia = "SomeProvince", Localidad = "SomeCity", Direccion = "123 Test St" };
+            _usuarioServiceMock.Setup(x => x.GetUsuarioByEmailAsync(usuarioLogIn.Email)).ReturnsAsync(mockUsuario);
+
+            // Act
+            var result = await _controller.Authenticate(usuarioLogIn);
+
+            // Assert
+            Assert.IsInstanceOf<OkObjectResult>(result); // Verifica que el resultado sea un OkObjectResult
+            var okResult = result as OkObjectResult;
+            Assert.That(okResult.StatusCode, Is.EqualTo(200));
+            Assert.AreEqual("Login exitoso", okResult.Value?.GetType().GetProperty("Message").GetValue(okResult.Value));
+        }
+
+        [Test]
+        public async Task Authenticate_InvalidCredentials_ReturnsBadRequest()
+        {
+            // Arrange
+            var usuarioLogIn = new UsuarioLogInModel
+            {
+                Email = "john@example.com",
+                Password = "wrongPassword"
+            };
+
+            var mockUsuario = (UsuarioDto)null;
+            _usuarioServiceMock.Setup(x => x.GetUsuarioByEmailAsync(usuarioLogIn.Email)).ReturnsAsync(mockUsuario);
+
+            // Act
+            var result = await _controller.Authenticate(usuarioLogIn);
+
+            // Assert
+            Assert.IsInstanceOf<BadRequestObjectResult>(result); // Verifica que el resultado sea un BadRequestObjectResult
+            var badRequestResult = result as BadRequestObjectResult;
+            Assert.That(badRequestResult.StatusCode, Is.EqualTo(400));
+            Assert.That(badRequestResult.Value, Is.EqualTo("usuario y/o contraseña incorrectos")); // Verifica el mensaje de error
         }
 
         [Test]
