@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import  { environments }  from 'src/app/environments/environments';
+import { environments } from '../environments/environments';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GoogleMapsLoaderService {
   private mapsLoaded = false;
@@ -22,7 +22,10 @@ export class GoogleMapsLoaderService {
     }
 
     const script = document.createElement('script');
-    script.src = 'https://maps.googleapis.com/maps/api/js?key='+this.API_KEY+'&libraries=places';
+    script.src =
+      'https://maps.googleapis.com/maps/api/js?key=' +
+      this.API_KEY +
+      '&libraries=places';
     script.async = true;
     script.defer = true;
 
@@ -32,7 +35,7 @@ export class GoogleMapsLoaderService {
         resolve();
       };
 
-      script.onerror = error => reject(error);
+      script.onerror = (error) => reject(error);
     });
 
     document.body.appendChild(script);

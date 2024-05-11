@@ -46,6 +46,8 @@ export class MapaOrganizacionesComponent implements OnInit {
       {
         center: { lat: -38.4161, lng: -63.6167 },
         zoom: 5,
+        minZoom: 5,
+        maxZoom: 16,
       }
     );
 
@@ -102,10 +104,11 @@ export class MapaOrganizacionesComponent implements OnInit {
             lng: this.opcionSeleccionado?.centroide.lon,
           },
           zoom: 7,
+          minZoom: 5,
+          maxZoom: 16,
         }
       );
 
-      
       this.mapService.getPoligonosProvincias().then((geojson) => {
         geojson.features.forEach((feature: any) => {
           if (feature.properties.nombre === this.opcionSeleccionado?.nombre) {
@@ -162,7 +165,6 @@ export class MapaOrganizacionesComponent implements OnInit {
           //     }
           //   });
           // });
-
         }
       });
     }
