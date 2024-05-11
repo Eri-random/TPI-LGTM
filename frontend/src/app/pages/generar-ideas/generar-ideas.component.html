@@ -1,1 +1,114 @@
-<p>generar-ideas works!</p>
+<div class="container {{seccionIngresar}}">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6 col-12 col-lg-5">
+            <div class="panel bg-white">
+                <div class="panel-body">
+
+                    <div class="pt-5">
+                        <h1 class="primerTitulo">¡Reciclar telas <br>
+                            nunca fué <br>
+                            <span class="tanFacil">
+                                tan fácil!
+                            </span>
+                        </h1>
+                    </div>
+                    <div class="pt-5">
+                        <h5>Para poder acceder a la herramienta de generación de ideas, tenés que iniciar sesión
+                            primero.</h5>
+                    </div>
+                    <div class="d-flex justify-content-center pt-5">
+                        <button (click)="formIdea()" class="btn btn-secondary py-2 btn-block w-50" id="btnIngresar">Ingresar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+<div class="container pt-5 pb-5 {{seccionFormulario}}">
+    <div class="d-flex justify-content-center pb-5">
+        <h1>Transformá Retazos de Tela con <span id="ia">IA</span></h1>
+    </div>
+    <div class="d-flex justify-content-center pb-4">
+        <i class="fa fa-exclamation-triangle pe-2 noSabesQueTela"></i>
+        <h6>¿No sabés qué tela es? Subí una foto y te ayudamos a identificarla.</h6>
+    </div>
+    <form [formGroup]='ideaForm'  (ngSubmit)="submitForm()">
+        <div class="row row-cols-2 justify-content-center pb-5">
+            <div class="col-sm-2 imgUp" *ngFor="let preview of imagePreviews; let i = index">
+                <div class="imagePreview" [style.backgroundImage]="'url(' + preview + ')'"></div>
+                <label class="btn btn-secondary">
+                    Cargar imagen
+                    <input type="file" class="uploadFile img" (change)="onFileChange($event, i)" >
+                </label>
+                <ng-container *ngIf="i > 0">
+                    <i class="fa fa-times del" (click)="removeImage(i)"></i>
+                </ng-container>
+            </div>
+            <i class="fa fa-plus imgAdd" (click)="addImage()"></i>
+        </div>
+
+        <div class="row justify-content-center pb-5">
+            <div class="col-lg-6">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="tipoDeTela" class="form-label">Tipo de tela<span class="estrellita">*</span></label>
+                        <input type="text" class="form-control" id="tipoDeTela" name="tipoDeTela" placeholder="Ej: Algodón" formControlName="tipoDeTela">
+                        <small class="bg-danger text-light mt-1 px-2 py-1 rounded d-flex justify-content-center"
+                            *ngIf="(fm['tipoDeTela'].dirty || fm['tipoDeTela'].touched) && fm['tipoDeTela'].errors">
+                            <ng-container *ngIf="fm['color'].value==''">
+                                <ng-container>El tipo de tela es requerido</ng-container>
+                            </ng-container>
+                        </small>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="color" class="form-label">Color<span class="estrellita">*</span></label>
+                        <input type="text" class="form-control" id="color" name="color" placeholder="Ej: Negro" required formControlName="color" >
+                        <small class="bg-danger text-light mt-1 px-2 py-1 rounded d-flex justify-content-center"
+                            *ngIf="(fm['color'].dirty || fm['color'].touched) && fm['color'].errors">
+                            <ng-container *ngIf="fm['color'].value==''">
+                                <ng-container>El color es requerido</ng-container>
+                            </ng-container>
+                        </small>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="largo" class="form-label d-flex align-items-center">Largo<span class="estrellita">*</span> 
+                            <small class="mt-1 px-2 rounded d-flex justify-content-center">
+                                Debe estar expresada en CM.
+                            </small>
+                        </label>
+                        <input type="number" class="form-control" id="largo" name="largo" placeholder="Ej: 80" required formControlName="largo">
+                        <small class="bg-danger text-light mt-1 px-2 py-1 rounded d-flex justify-content-center"
+                            *ngIf="(fm['largo'].dirty || fm['largo'].touched) && fm['largo'].errors">
+                            <ng-container *ngIf="fm['largo'].value==''">
+                                <ng-container>El largo es requerido</ng-container>
+                            </ng-container>
+                        </small>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="ancho" class="form-label d-flex align-items-center">Ancho<span class="estrellita">*</span>
+                            <small class="mt-1 px-2 rounded d-flex justify-content-center">
+                                Debe estar expresada en CM.
+                            </small>
+                        </label>
+                        <input type="number" class="form-control" id="ancho" name="ancho" placeholder="Ej: 50" required formControlName="ancho">
+                        <small class="bg-danger text-light mt-1 px-2 py-1 rounded d-flex justify-content-center"
+                            *ngIf="(fm['ancho'].dirty || fm['ancho'].touched) && fm['ancho'].errors">
+                            <ng-container *ngIf="fm['ancho'].value==''">
+                                <ng-container>El ancho es requerido</ng-container>
+                            </ng-container>
+                        </small>
+                    </div>
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="d-flex justify-content-center pt-3">
+                                <button class="btn  py-2 btn-block w-50" id="btnGenerarIdea">Generar idea</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
