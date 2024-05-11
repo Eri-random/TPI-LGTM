@@ -35,8 +35,8 @@
         <h6>¿No sabés qué tela es? Subí una foto y te ayudamos a identificarla.</h6>
     </div>
     <form [formGroup]='ideaForm'  (ngSubmit)="submitForm()">
-        <div class="d-flex gap-4 justify-content-center pb-5">
-            <div class="col-sm-2 imgUp" *ngFor="let preview of imagePreviews; let i = index">
+        <div class="row row-cols-2 row-cols-md-6 justify-content-center mb-4">
+            <div class="col-6 col-md-3 col-lg-2 imgUp" *ngFor="let preview of imagePreviews; let i = index">
                 <div class="imagePreview" [style.backgroundImage]="'url(' + preview + ')'"></div>
                 <label class="btn btn-secondary">
                     Cargar imagen
@@ -46,8 +46,12 @@
                     <i class="fa fa-times del" (click)="removeImage(i)"></i>
                 </ng-container>
             </div>
-            <i class="fa fa-plus-square icon_add" (click)="addImage()"></i>
+            <i *ngIf="imagePreviews.length < 4" class="fa fa-plus-square icon_add d-none d-md-block" (click)="addImage()"></i>
         </div>
+
+        <button type="button" *ngIf="imagePreviews.length < 4" class="btn btn-primary py-2 my-4 w-100 d-block d-md-none" (click)="addImage()">
+            Agregar Imágen
+        </button>
 
         <div class="row justify-content-center pb-5">
             <div class="col-lg-6">
