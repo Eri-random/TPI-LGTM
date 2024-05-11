@@ -31,7 +31,7 @@ namespace backend.servicios.Servicios
                         Provincia = u.Provincia,
                         Telefono = u.Telefono,
                         Rol = u.RolId,
-                        RolNombre = u.Rol.Nombre
+                        RolNombre = u.Rol.Nombre,
                         Cuit = u.Cuit
                     }).ToListAsync();
 
