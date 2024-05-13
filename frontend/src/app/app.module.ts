@@ -13,7 +13,7 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { LandingComponent } from './pages/landing/landing.component';
 import { NgToastModule } from 'ng-angular-popup';
 import { GenerarIdeasComponent } from './pages/generar-ideas/generar-ideas.component';
-import { MapaOrganizacionesComponent } from './pages/mapa/mapa-organizaciones';
+import { MapaOrganizacionesComponent } from './pages/mapa/mapa-organizaciones.component';
 
 
 

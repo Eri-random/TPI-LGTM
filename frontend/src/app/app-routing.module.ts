@@ -4,7 +4,7 @@ import { LandingComponent } from './pages/landing/landing.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { GenerarIdeasComponent} from './pages/generar-ideas/generar-ideas.component';
-import { MapaOrganizacionesComponent } from './pages/mapa/mapa-organizaciones';
+import { MapaOrganizacionesComponent } from './pages/mapa/mapa-organizaciones.component';
 
 
 const routes: Routes = [
