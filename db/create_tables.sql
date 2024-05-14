@@ -9,7 +9,7 @@ CREATE TABLE rol (
 
 -- Insertar roles predefinidos en la tabla 'rol'
 INSERT INTO rol (nombre) VALUES 
-('admin'), 
+('organizacion'), 
 ('usuario');
 
 -- Crear la tabla 'usuario' para almacenar información del usuario
@@ -23,6 +23,7 @@ CREATE TABLE usuario (
     direccion TEXT,
     localidad VARCHAR(100),
     provincia VARCHAR(100),
+    cuit VARCHAR(100),
     rol_id INT,
     FOREIGN KEY (rol_id) REFERENCES rol (rol_id)
 );

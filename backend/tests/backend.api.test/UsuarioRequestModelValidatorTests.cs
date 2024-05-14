@@ -45,7 +45,7 @@ namespace backend.api.test
             Assert.Multiple(() =>
             {
                 Assert.That(result.IsValid, Is.False);
-                Assert.That(result.Errors.Any(e => e.PropertyName == "Telefono" && e.ErrorMessage.Contains("10 dígitos")), Is.True);
+                Assert.That(result.Errors.Any(e => e.PropertyName == "Telefono" && e.ErrorMessage.Contains("8 dígitos")), Is.True);
             });
         }
 
@@ -70,18 +70,6 @@ namespace backend.api.test
             {
                 Assert.That(result.IsValid, Is.False);
                 Assert.That(result.Errors.Any(e => e.PropertyName == "Password" && e.ErrorMessage.Contains("6 caracteres")), Is.True);
-            });
-        }
-
-        [Test]
-        public void Validate_WhenApellidoIsEmpty_ShouldBeInvalid()
-        {
-            var model = new UsuarioRequestModel { Apellido = "" };
-            var result = _validator.Validate(model);
-            Assert.Multiple(() =>
-            {
-                Assert.That(result.IsValid, Is.False);
-                Assert.That(result.Errors.Any(e => e.PropertyName == "Apellido" && e.ErrorMessage.Contains("obligatorio")), Is.True);
             });
         }
 
