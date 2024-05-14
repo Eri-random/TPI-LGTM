@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environments } from '../environments/environments';
-import { Provincias } from '../interface/provincias.interface';
+import { Provincias } from '../interfaces/provincias.interface';
 
 @Injectable({
   providedIn: 'root',
