@@ -14,6 +14,8 @@ import { LandingComponent } from './pages/landing/landing.component';
 import { NgToastModule } from 'ng-angular-popup';
 import { GenerarIdeasComponent } from './pages/generar-ideas/generar-ideas.component';
 import { MapaOrganizacionesComponent } from './pages/mapa/mapa-organizaciones.component';
+import { DonacionesComponent } from './pages/donaciones/donaciones.component';
+
 
 
 
@@ -26,7 +28,8 @@ import { MapaOrganizacionesComponent } from './pages/mapa/mapa-organizaciones.co
     FooterComponent,
     LandingComponent,
     GenerarIdeasComponent,
-    MapaOrganizacionesComponent
+    MapaOrganizacionesComponent,
+    DonacionesComponent
   ],
   imports: [
     BrowserModule,
