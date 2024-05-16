@@ -11,8 +11,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonModule } from '@angular/common';
+import { MatInputModule } from '@angular/material/input';
 
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
@@ -23,6 +24,7 @@ import { NgToastModule } from 'ng-angular-popup';
 import { GenerarIdeasComponent } from './pages/generar-ideas/generar-ideas.component';
 import { MapaOrganizacionesComponent } from './pages/mapa/mapa-organizaciones.component';
 import { DonacionesComponent } from './pages/donaciones/donaciones.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 
 
@@ -37,7 +39,8 @@ import { DonacionesComponent } from './pages/donaciones/donaciones.component';
     LandingComponent,
     GenerarIdeasComponent,
     MapaOrganizacionesComponent,
-    DonacionesComponent
+    DonacionesComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +57,8 @@ import { DonacionesComponent } from './pages/donaciones/donaciones.component';
     MatSortModule,  
     BrowserAnimationsModule,
     NoopAnimationsModule,
+    CommonModule,
+    MatInputModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
