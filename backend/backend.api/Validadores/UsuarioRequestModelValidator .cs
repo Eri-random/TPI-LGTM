@@ -18,7 +18,7 @@ namespace backend.api.Validadores
             RuleFor(x => x.Password).MinimumLength(6).WithMessage("La contraseña debe tener al menos 6 caracteres");
             When(x => x.RolId == 1, () =>
             {
-                RuleFor(x => x.Cuit).NotEmpty().WithMessage("El Cuit es obligatorio para organizaciones");
+                RuleFor(x => x.Organizacion.Cuit).NotEmpty().WithMessage("El Cuit es obligatorio para organizaciones");
             });
             When(x => x.RolId == 2, () =>
             {
