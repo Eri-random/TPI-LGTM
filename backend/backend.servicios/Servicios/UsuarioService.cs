@@ -103,17 +103,17 @@ namespace backend.servicios.Servicios
                 Localidad = usuarioDto.Localidad,
                 Provincia = usuarioDto.Provincia,
                 RolId = usuarioDto.Rol,
-                Organizacion = new Organizacion
+                Organizacion = usuarioDto.Organizacion != null ? new Organizacion
                 {
                     Nombre = usuarioDto.Organizacion.Nombre,
                     Cuit = usuarioDto.Organizacion.Cuit,
-                    Telefono = usuarioDto.Organizacion.Telefono,
                     Direccion = usuarioDto.Organizacion.Direccion,
                     Localidad = usuarioDto.Organizacion.Localidad,
-                    Provincia = usuarioDto.Organizacion.Provincia
-                }
+                    Provincia = usuarioDto.Organizacion.Provincia,
+                    Telefono = usuarioDto.Organizacion.Telefono,
+                } : null
             };
-            
+
 
             try
             {
