@@ -29,9 +29,7 @@ namespace backend.data.DataContext
 
                 entity.HasIndex(e => e.OrganizacionId, "organizacion_id").IsUnique();
 
-                entity.Property(e => e.Id)
-                    .HasDefaultValueSql("nextval('info_organizacion_id'::regclass)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.DescripcionBreve)
                     .IsRequired()
                     .HasMaxLength(150)
@@ -140,6 +138,7 @@ namespace backend.data.DataContext
 
                 entity.HasOne(d => d.Rol).WithMany(p => p.Usuarios)
                     .HasForeignKey(d => d.RolId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("usuario_rol_id_fkey");
             });
 
