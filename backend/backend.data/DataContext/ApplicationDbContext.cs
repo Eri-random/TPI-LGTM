@@ -30,7 +30,7 @@ namespace backend.data.DataContext
                 entity.HasIndex(e => e.OrganizacionId, "organizacion_id").IsUnique();
 
                 entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
+                    .HasDefaultValueSql("nextval('info_organizacion_id'::regclass)")
                     .HasColumnName("id");
                 entity.Property(e => e.DescripcionBreve)
                     .IsRequired()
