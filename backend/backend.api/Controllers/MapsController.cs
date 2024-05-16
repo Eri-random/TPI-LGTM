@@ -18,12 +18,12 @@ namespace backend.api.Controllers
             var usuarios = await _usuarioService.GetAllUsuariosAsync();
             var organizaciones = usuarios.Where(x => x.RolNombre == "organizacion").ToList();
 
-            var coordinates = new List<CoordinatesResponsetModel>();
+            var coordinates = new List<CoordinatesResponseModel>();
 
             foreach (var org in organizaciones)
             {
                 var (lat, lng) = await _mapsService.GetCoordinates(org.Direccion, org.Localidad, org.Provincia);
-                var data = new CoordinatesResponsetModel
+                var data = new CoordinatesResponseModel
                 {
                     Lat = lat,
                     Lng = lng,

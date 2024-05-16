@@ -26,7 +26,7 @@
                     <div class="panel-body">
                         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
                             <div [ngClass]="{'d-flex': selectedRole === 'usuario', 'gap-2': selectedRole === 'usuario'}">
-                                <div class="form-group pt-3">
+                                <div [ngClass]="{'w-50': selectedRole === 'usuario'}" class="form-group pt-3">
                                     <label for="nombre" class="form-label required">Nombre</label>
                                     <div class="input-field" [class.error]="registerForm.controls['nombre'].dirty && registerForm.hasError('required','nombre')">
                                         <input id="nombre" 
@@ -36,7 +36,7 @@
                                     </div>
                                 <small *ngIf="registerForm.controls['nombre'].dirty && registerForm.hasError('required','nombre')" class="text-danger">Nombre requerido</small>
                                 </div>
-                                <div *ngIf="selectedRole == 'usuario'" class="form-group pt-3">
+                                <div *ngIf="selectedRole == 'usuario'" class="w-50 form-group pt-3">
                                     <label for="apellido" class="form-label required">Apellido</label>
                                     <div class="input-field" [class.error]="registerForm.controls['apellido'].dirty && registerForm.hasError('required','apellido')">
                                         <input id="apellido" 
@@ -68,8 +68,8 @@
                                 </div>
                             </div>
                             <small *ngIf="registerForm.controls['direccion'].dirty && registerForm.hasError('required','direccion')" class="text-danger">Dirección requerida</small>
-                            <div class="d-flex flex-colum gap-2">
-                                <div class="form-group pt-3">
+                            <div class="d-flex gap-2">
+                                <div class="w-50 form-group pt-3">
                                     <label for="provincia" class="form-label required">Provincia</label>
                                     <div class="input-field" [class.error]="registerForm.controls['provincia'].dirty && registerForm.hasError('required','provincia')">
                                         <input id="provincia" 
@@ -79,7 +79,7 @@
                                     </div>
                                 <small *ngIf="registerForm.controls['provincia'].dirty && registerForm.hasError('required','provincia')" class="text-danger">Provincia requerida</small>
                                 </div>
-                                <div class="form-group pt-3">
+                                <div class="w-50 form-group pt-3">
                                     <label for="localidad" class="form-label required">Localidad</label>
                                     <div class="input-field" [class.error]="registerForm.controls['localidad'].dirty && registerForm.hasError('required','localidad')">
                                         <input id="localidad" 

@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { MapaOrganizacionesComponent } from './mapa-organizaciones';
+import { MapaOrganizacionesComponent } from './mapa-organizaciones.component';
 
 describe('MapaOrganizacionesComponent', () => {
   let component: MapaOrganizacionesComponent;

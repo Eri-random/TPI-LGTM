@@ -2,8 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MapService } from 'src/app/services/map.service';
-import { GoogleMapsLoaderService } from 'src/app/services/GoogleMapsLoaderService.service';
-import { Provincia } from 'src/app/interface/provincias.interface';
+import { GoogleMapsLoaderService } from 'src/app/services/google-maps-loader.service';
 
 @Component({
   selector: 'app-mapa-organizaciones',
