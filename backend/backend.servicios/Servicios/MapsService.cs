@@ -15,6 +15,11 @@ namespace backend.servicios.Servicios
     {
         private readonly HttpClient _httpClient;
         private readonly string _googleMapsApiKey;
+
+        public MapsService()
+        {
+        }
+
         public MapsService(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
