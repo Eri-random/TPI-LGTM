@@ -7,7 +7,7 @@ namespace backend.api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class MapsController(IUsuarioService usuarioService, IMapsService mapsService) : Controller
+    public class MapsController(IUsuarioService usuarioService, IMapsService mapsService) : ControllerBase
     {
         private readonly IUsuarioService _usuarioService = usuarioService ?? throw new ArgumentNullException(nameof(usuarioService));
         private readonly IMapsService _mapsService = mapsService ?? throw new ArgumentNullException(nameof(mapsService));
