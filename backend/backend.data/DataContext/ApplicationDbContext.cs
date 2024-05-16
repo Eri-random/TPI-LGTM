@@ -63,9 +63,7 @@ namespace backend.data.DataContext
 
                 entity.HasIndex(e => e.UsuarioId, "usuario_id_key").IsUnique();
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.Cuit)
                     .IsRequired()
                     .HasColumnName("cuit");
