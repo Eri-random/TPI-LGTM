@@ -58,6 +58,7 @@ export class GenerarIdeasComponent implements OnInit {
 
   removeImage(index: number) {
     this.imagePreviews.splice(index, 1);
+    this.imageFiles.splice(index, 1);
   }
 
   submitForm() {
