@@ -1,7 +1,9 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ModalOrganizacionComponent } from 'src/app/components/modal-organizacion/modal-organizacion.component';
 
 export interface UserData {
   name: string;
@@ -47,16 +49,20 @@ const NAMES: string[] = [
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
-export class DashboardComponent implements AfterViewInit {
+export class DashboardComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = ['name', 'telefono', 'email', 'producto', 'cantidad', 'progress'];
   dataSource: MatTableDataSource<UserData>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor() {
+  constructor(public dialog: MatDialog) {
     const users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));
     this.dataSource = new MatTableDataSource(users);
+  }
+
+  ngOnInit() {
+    this.openDialog();
   }
 
   ngAfterViewInit() {
@@ -71,6 +77,15 @@ export class DashboardComponent implements AfterViewInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  openDialog(): void {
+    this.dialog.open(ModalOrganizacionComponent, {
+      width: 'auto',
+      height: '80%',
+      disableClose: true,
+      data: {} // puedes pasar datos si lo necesitas
+    });
   }
 }
 

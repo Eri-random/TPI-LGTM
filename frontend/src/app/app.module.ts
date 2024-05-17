@@ -25,6 +25,9 @@ import { GenerarIdeasComponent } from './pages/generar-ideas/generar-ideas.compo
 import { MapaOrganizacionesComponent } from './pages/mapa/mapa-organizaciones.component';
 import { DonacionesComponent } from './pages/donaciones/donaciones.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { ModalOrganizacionComponent } from './components/modal-organizacion/modal-organizacion.component';
+import { MatDialogModule} from '@angular/material/dialog';
+import {MatButtonModule} from '@angular/material/button';
 
 
 
@@ -40,7 +43,8 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
     GenerarIdeasComponent,
     MapaOrganizacionesComponent,
     DonacionesComponent,
-    DashboardComponent
+    DashboardComponent,
+    ModalOrganizacionComponent
   ],
   imports: [
     BrowserModule,
@@ -59,6 +63,8 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
     NoopAnimationsModule,
     CommonModule,
     MatInputModule,
+    MatButtonModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent],

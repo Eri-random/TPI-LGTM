@@ -1,0 +1,45 @@
+<form [formGroup]="organizationForm" (ngSubmit)="onSubmit()" style="overflow-y: auto;">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Organización</h5>
+        
+        <div class="mb-3">
+          <label for="organizacion" class="form-label required">Organización</label>
+          <input id="organizacion" type="text" class="form-control" formControlName="organizacion" maxlength="30" />
+          <!-- <small *ngIf="organizationForm.controls['organizacion'].dirty && organizationForm.hasError('required','organizacion')" class="text-danger">Nombre de Organizacion requerido</small> -->
+          <div class="form-text">
+            {{getCharacterCount('organizacion', 30)}}
+          </div>
+        </div>
+  
+        <div class="mb-3">
+          <label for="descripcionBreve" class="form-label required">Descripción Breve</label>
+          <textarea id="descripcionBreve" class="form-control" formControlName="descripcionBreve" rows="3" maxlength="150"></textarea>
+          <small *ngIf="organizationForm.controls['descripcionBreve'].dirty && organizationForm.hasError('required','descripcionBreve')" class="text-danger">Descripción breve requerida</small>
+          <div class="form-text">{{organizationForm.get('descripcionBreve')?.value.length}}/150</div>
+        </div>
+  
+        <div class="mb-3">
+          <label for="descripcionCompleta" class="form-label required">Descripción Completa</label>
+          <textarea id="descripcionCompleta" class="form-control" formControlName="descripcionCompleta" rows="5" maxlength="4000"></textarea>
+          <small *ngIf="organizationForm.controls['descripcionCompleta'].dirty && organizationForm.hasError('required','descripcionCompleta')" class="text-danger">Descripción breve requerida</small>
+          <div class="form-text">{{organizationForm.get('descripcionCompleta')?.value.length}}/4000</div>
+        </div>
+  
+        <div class="mb-3">
+          <label for="imagen" class="form-label">Imagen</label>
+          <div>
+            <div *ngIf="imageSrc" class="mb-2">
+                <img [src]="imageSrc" alt="Vista previa de la imagen" [style.width.px]="200">
+            </div>
+            <input type="file" (change)="onFileSelected($event)" accept="image/*">
+          </div>
+          <small *ngIf="organizationForm.controls['imagen'].dirty && organizationForm.hasError('required','imagen')" class="text-danger">Imagen Requerida</small>
+        </div>
+  
+       
+  
+        <button type="submit" class="btn btn-primary mt-3" >Enviar</button>
+      </div>
+    </div>
+  </form>
