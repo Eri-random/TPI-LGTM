@@ -1,0 +1,95 @@
+table {
+    width: 100%;
+}
+
+.mat-mdc-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+td,
+th {
+    width: 25%;
+}
+
+.yellow-background {
+    background-color: yellow;
+}
+
+.green-background {
+    background-color: var(--color-primary);
+}
+
+.full-width {
+    width: 100%;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.responsive-table {
+    width: 100%;
+    min-width: 600px;
+}
+
+@media (max-width: 600px) {
+    .responsive-table th.mat-header-cell,
+    .responsive-table td.mat-cell {
+        display: none;
+    }
+
+    .responsive-table th.mat-header-cell:first-child,
+    .responsive-table td.mat-cell:first-child {
+        display: table-cell;
+    }
+}
+
+.contenedor {
+    border-width: 1px;
+    border-radius: 30px;
+}
+
+.tablero {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.tablero>.col,
+.tablero>[class*=col-] {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.subcaja {
+    text-align: center;
+    padding: 1rem;
+    position: relative;
+    border-width: 0px;
+}
+
+.subcaja .titulo:first-child {
+    margin-top: 0;
+}
+
+.subcaja .titulo {
+    margin: -.5rem 0 0;
+    display: block;
+    opacity: .6;
+}
+
+.datos {
+    flex: 1;
+    align-items: flex-start;
+}
+
+.tablero {
+    display: flex;
+    justify-content: space-around;
+}
+
+.numero {
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-top: -10px;
+}

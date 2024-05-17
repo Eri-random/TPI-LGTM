@@ -6,6 +6,7 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { GenerarIdeasComponent} from './pages/generar-ideas/generar-ideas.component';
 import { MapaOrganizacionesComponent } from './pages/mapa/mapa-organizaciones.component';
 import { DonacionesComponent } from './pages/donaciones/donaciones.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 
 const routes: Routes = [
@@ -15,6 +16,7 @@ const routes: Routes = [
   {path: 'generar-ideas', component:GenerarIdeasComponent},
   {path: 'ubicaciones', component:MapaOrganizacionesComponent},
   {path: 'donaciones', component:DonacionesComponent},
+  {path: 'dashboard', component: DashboardComponent},
   {path:'**',redirectTo:''}
 ];
 
