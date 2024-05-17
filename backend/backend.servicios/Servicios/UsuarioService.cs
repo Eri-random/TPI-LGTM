@@ -32,7 +32,6 @@ namespace backend.servicios.Servicios
                         Telefono = u.Telefono,
                         Rol = u.RolId,
                         RolNombre = u.Rol.Nombre,
-                        Cuit = u.Cuit
                     }).ToListAsync();
 
                 return usuarios;
@@ -72,7 +71,6 @@ namespace backend.servicios.Servicios
                     Telefono = usuario.Telefono,
                     Rol = usuario.RolId,
                     RolNombre = usuario.Rol.Nombre,
-                    Cuit = usuario.Cuit
                 };
             }
             catch (Exception ex)
@@ -105,8 +103,17 @@ namespace backend.servicios.Servicios
                 Localidad = usuarioDto.Localidad,
                 Provincia = usuarioDto.Provincia,
                 RolId = usuarioDto.Rol,
-                Cuit = usuarioDto.Cuit
+                Organizacion = usuarioDto.Organizacion != null ? new Organizacion
+                {
+                    Nombre = usuarioDto.Organizacion.Nombre,
+                    Cuit = usuarioDto.Organizacion.Cuit,
+                    Direccion = usuarioDto.Organizacion.Direccion,
+                    Localidad = usuarioDto.Organizacion.Localidad,
+                    Provincia = usuarioDto.Organizacion.Provincia,
+                    Telefono = usuarioDto.Organizacion.Telefono,
+                } : null
             };
+
 
             try
             {

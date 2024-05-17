@@ -3,17 +3,13 @@ using System.Collections.Generic;
 
 namespace backend.data.Models;
 
-public partial class Usuario
+public partial class Organizacion
 {
     public int Id { get; set; }
 
     public string Nombre { get; set; }
 
-    public string Apellido { get; set; }
-
-    public string Email { get; set; }
-
-    public string Contrasena { get; set; }
+    public string Cuit { get; set; }
 
     public string Telefono { get; set; }
 
@@ -23,9 +19,9 @@ public partial class Usuario
 
     public string Provincia { get; set; }
 
-    public int RolId { get; set; }
+    public int UsuarioId { get; set; }
 
-    public virtual Organizacion Organizacion { get; set; }
+    public virtual InfoOrganizacion InfoOrganizacion { get; set; }
 
-    public virtual Rol Rol { get; set; }
+    public virtual Usuario Usuario { get; set; }
 }

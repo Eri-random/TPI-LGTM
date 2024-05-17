@@ -13,6 +13,6 @@
         public string Provincia { get; set; }
         public int Rol { get; set; }
         public string RolNombre { get; set; }
-        public string Cuit {  get; set; }
+        public OrganizacionDto Organizacion { get; set; }
     }
 }

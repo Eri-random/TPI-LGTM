@@ -35,7 +35,7 @@ namespace backend.servicios.test
                 new Usuario { Nombre = "test2", Email = "test2@test.com", RolId = 2 }
             );
 
-            _context.Roles.AddRange(
+            _context.Rols.AddRange(
                 new Rol { RolId = 1, Nombre = "admin" },
                 new Rol { RolId = 2, Nombre = "usuario" }
             );
