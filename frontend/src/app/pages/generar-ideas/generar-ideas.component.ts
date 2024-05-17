@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {Router} from "@angular/router";
 import { NgToastService } from 'ng-angular-popup';
 import ValidateForm from 'src/app/helpers/validateForm';
+import { ReconocimientoTelaService } from 'src/app/services/reconocimiento-tela.service';
 
 @Component({
   selector: 'app-generar-ideas',
@@ -19,6 +20,7 @@ export class GenerarIdeasComponent implements OnInit {
   ideaForm!: FormGroup;
 
   constructor( private formBuilder: FormBuilder, private router:Router,
+    private reconomientoTelaService: ReconocimientoTelaService,
     private toast: NgToastService
   ){
   }
@@ -48,6 +50,12 @@ export class GenerarIdeasComponent implements OnInit {
       this.imagePreviews[index] = reader.result as string;
     };
     this.imageFiles.push(files);
+
+    /*Reconocimiento momentanea de una imagen, ver de mejorar*/
+    this.reconomientoTelaService.classifyImage(files[0])
+      .subscribe(({tela}) =>{
+        this.ideaForm.get('tipoDeTela')?.setValue(tela);
+      })
   }
 
   addImage() {
