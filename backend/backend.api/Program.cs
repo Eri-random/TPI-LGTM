@@ -34,6 +34,7 @@ builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IMapsService, MapsService>();
 builder.Services.AddScoped<IOrganizacionService, OrganizacionService>();
 builder.Services.AddHttpClient<IMapsService, MapsService>();
+builder.Services.AddScoped<IOrganizacionInfoService, InfoOrganizacionService>();
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UsuarioRequestModel>());
 
 var app = builder.Build();

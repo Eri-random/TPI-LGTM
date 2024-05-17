@@ -13,5 +13,8 @@ namespace backend.servicios.Interfaces
 
         Task SaveOrganizacionAsync(OrganizacionDto organizacionDto);
 
+        Task<OrganizacionDto> GetOrganizacionByIdAsync(int id);
+
+
     }
 }

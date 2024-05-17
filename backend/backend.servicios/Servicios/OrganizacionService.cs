@@ -20,7 +20,7 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var organizacion = await _context.Organizacions
+                var organizacion = await _context.Organizacions.Include(u => u.InfoOrganizacion)
                     .Select(u => new OrganizacionDto
                     {
                         Nombre = u.Nombre,
@@ -29,6 +29,13 @@ namespace backend.servicios.Servicios
                         Localidad = u.Localidad,
                         Provincia = u.Provincia,
                         Telefono = u.Telefono,
+                        InfoOrganizacion = new InfoOrganizacionDto
+                        {
+                            Organizacion = u.InfoOrganizacion.Organizacion,
+                            DescripcionBreve = u.InfoOrganizacion.DescripcionBreve,
+                            DescripcionCompleta = u.InfoOrganizacion.DescripcionCompleta,
+                            Img = u.InfoOrganizacion.Img,
+                        }
                     }).ToListAsync();
 
                 return organizacion;
@@ -65,6 +72,34 @@ namespace backend.servicios.Servicios
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al crear una nueva organizacion");
+                throw;
+            }
+        }
+
+        public async Task<OrganizacionDto> GetOrganizacionByIdAsync(int id)
+        {
+            try
+            {
+                var organizacion = await _context.Organizacions.FirstOrDefaultAsync(u => u.Id == id);
+
+                if (organizacion == null)
+                {
+                    return null;
+                }
+
+                return new OrganizacionDto
+                {
+                    Nombre = organizacion.Nombre,
+                    Cuit = organizacion.Cuit,
+                    Direccion = organizacion.Direccion,
+                    Localidad = organizacion.Localidad,
+                    Provincia = organizacion.Provincia,
+                    Telefono = organizacion.Telefono,
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener la organizacion por id");
                 throw;
             }
         }

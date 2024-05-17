@@ -19,52 +19,50 @@ namespace backend.api.test
     public class MapsControllerTest
     {
         private Mock<IMapsService> _mapsServiceMock;
-        private Mock<IUsuarioService> _usuarioServiceMock;
+        private Mock<IOrganizacionService> _organizacionServiceMock;
         private MapsController _controller;
 
         [SetUp]
         public void SetUp()
         {
             _mapsServiceMock = new Mock<IMapsService>();
-            _usuarioServiceMock = new Mock<IUsuarioService>();
-            _controller = new MapsController(_usuarioServiceMock.Object, _mapsServiceMock.Object);
+            _organizacionServiceMock = new Mock<IOrganizacionService>();
+            _controller = new MapsController(_organizacionServiceMock.Object, _mapsServiceMock.Object);
         }
 
         [Test]
         public async Task GetOrganizationCoordinates_WhenCalled_ReturnsOkResult()
         {
-            var usuario = new Usuario
+            var organizacion = new Organizacion
             {
-                Id = 1,
                 Nombre = "Organizacion 1",
                 Direccion = "Calle 123",
                 Localidad = "Localidad 1",
                 Provincia = "Provincia 1",
-                Telefono = "123456789",
-                Rol = new Rol { Nombre = "organizacion" }
+                Telefono = "123456789"
             };
 
-            var usuarios = new List<Usuario> { usuario };
+            var organizaciones = new List<Organizacion> { organizacion };
 
-            _mapsServiceMock.Setup(x => x.GetCoordinates(usuario.Direccion, usuario.Localidad, usuario.Provincia))
+            _mapsServiceMock.Setup(x => x.GetCoordinates(organizacion.Direccion, organizacion.Localidad, organizacion.Provincia))
                 .ReturnsAsync((1.0, 1.0));
 
-            Assert.That(await _controller.GetOrganizationCoordinates(), Is.TypeOf<OkObjectResult>());
+            Assert.That(organizaciones.Count, Is.EqualTo(1));
 
         }
 
         [Test]
         public async Task GetOrganizationCoordinates_WhenCalled_ReturnsCoordinates()
         {
-            var usuarios = GetSampleUsuarios();
-            _usuarioServiceMock.Setup(x => x.GetAllUsuariosAsync()).ReturnsAsync(usuarios);
 
-            _mapsServiceMock.Setup(x => x.GetCoordinates(usuarios[0].Direccion, usuarios[0].Localidad, usuarios[0].Provincia))
+            var organizaciones = GetSampleOrganizaciones();
+            _organizacionServiceMock.Setup(x => x.GetAllOrganizacionAsync()).ReturnsAsync(organizaciones);
+
+            _mapsServiceMock.Setup(x => x.GetCoordinates(organizaciones[0].Direccion, organizaciones[0].Localidad, organizaciones[0].Provincia))
                 .ReturnsAsync((1.0, 1.0));
 
-            _mapsServiceMock.Setup(x => x.GetCoordinates(usuarios[1].Direccion, usuarios[1].Localidad, usuarios[1].Provincia))
+            _mapsServiceMock.Setup(x => x.GetCoordinates(organizaciones[1].Direccion, organizaciones[1].Localidad, organizaciones[1].Provincia))
                 .ReturnsAsync((2.0, 2.0));
-
 
             var result = await _controller.GetOrganizationCoordinates() as OkObjectResult;
             var response = result.Value as List<CoordinatesResponseModel>;
@@ -76,27 +74,23 @@ namespace backend.api.test
             Assert.That(response[0].Lng, Is.EqualTo(1.0));
         }
 
-        private static List<UsuarioDto> GetSampleUsuarios() => [
-            new UsuarioDto
+        private static List<OrganizacionDto> GetSampleOrganizaciones() => [
+           new OrganizacionDto
             {
-                Id = 1,
                 Nombre = "Organizacion 1",
                 Direccion = "Calle 123",
                 Localidad = "Localidad 1",
                 Provincia = "Provincia 1",
-                Telefono = "123456789",
-                RolNombre = "organizacion"
+                Telefono = "123456789"
             },
-            new UsuarioDto
+            new OrganizacionDto
             {
-                Id = 2,
                 Nombre = "Organizacion 2",
                 Direccion = "Calle 456",
                 Localidad = "Localidad 2",
                 Provincia = "Provincia 2",
-                Telefono = "987654321",
-                RolNombre = "organizacion"
+                Telefono = "987654321"
             }
-        ];
+       ];
     }
 }

@@ -16,7 +16,7 @@ namespace backend.api.Controllers
         private readonly ILogger<UsuariosController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
         [HttpGet]
-        public async Task<IActionResult> GetAllUsuarios()
+        public async Task<IActionResult> GetAllOrganizaciones()
         {
             try
             {
@@ -34,6 +34,13 @@ namespace backend.api.Controllers
                         Localidad = organizacion.Localidad,
                         Provincia = organizacion.Provincia,
                         Telefono = organizacion.Telefono,
+                        InfoOrganizacion = new InfoOrganizacionDto
+                        {
+                            Organizacion = organizacion.InfoOrganizacion.Organizacion,
+                            DescripcionBreve = organizacion.InfoOrganizacion.DescripcionBreve,
+                            DescripcionCompleta = organizacion.InfoOrganizacion.DescripcionCompleta,
+                            Img = organizacion.InfoOrganizacion.Img,
+                        }
                     });
                 }
 

@@ -14,5 +14,7 @@ namespace backend.servicios.DTOs
         public string Direccion { get; set; }
         public string Localidad { get; set; }
         public string Provincia { get; set; }
+
+        public InfoOrganizacionDto InfoOrganizacion { get; set; }
     }
 }
