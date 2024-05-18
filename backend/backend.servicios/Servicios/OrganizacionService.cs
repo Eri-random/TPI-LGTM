@@ -103,5 +103,33 @@ namespace backend.servicios.Servicios
                 throw;
             }
         }
+
+        public async Task<OrganizacionDto> GetOrganizacionByCuitAsync(string cuit)
+        {
+            try
+            {
+                var organizacion = await _context.Organizacions.FirstOrDefaultAsync(u => u.Cuit == cuit);
+
+                if (organizacion == null)
+                {
+                    return null;
+                }
+
+                return new OrganizacionDto
+                {
+                    Nombre = organizacion.Nombre,
+                    Cuit = organizacion.Cuit,
+                    Direccion = organizacion.Direccion,
+                    Localidad = organizacion.Localidad,
+                    Provincia = organizacion.Provincia,
+                    Telefono = organizacion.Telefono,
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener la organizacion por cuit");
+                throw;
+            }
+        }
     }
 }
