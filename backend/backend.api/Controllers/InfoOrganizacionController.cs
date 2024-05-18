@@ -81,7 +81,7 @@ namespace backend.api.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] InfoOrganizacionRequest infoOrganizacionRequest)
+        public async Task<IActionResult> Update([FromForm] InfoOrganizacionRequest infoOrganizacionRequest)
         {
             if (infoOrganizacionRequest == null)
             {
@@ -95,19 +95,40 @@ namespace backend.api.Controllers
                 return NotFound("Organización no encontrada");
             }
 
-            string filePath = Path.Combine("wwwroot", "images", infoOrganizacionRequest.File.FileName);
+            string fileUrl = organizacion.InfoOrganizacion.Img;
 
-            try
+            if (infoOrganizacionRequest.File != null)
             {
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                string folderPath = Path.Combine("wwwroot", "images");
+
+             
+                string newFilePath = Path.Combine(folderPath, infoOrganizacionRequest.File.FileName);
+
+                try
                 {
-                    await infoOrganizacionRequest.File.CopyToAsync(stream);
+                    // Eliminar la imagen antigua si existe
+                    if (!string.IsNullOrEmpty(organizacion.InfoOrganizacion.Img))
+                    {
+                        string oldFilePath = Path.Combine("wwwroot", "images", Path.GetFileName(organizacion.InfoOrganizacion.Img));
+                        if (System.IO.File.Exists(oldFilePath))
+                        {
+                            System.IO.File.Delete(oldFilePath);
+                        }
+                    }
+
+                    // Guardar la nueva imagen
+                    using (var stream = new FileStream(newFilePath, FileMode.Create))
+                    {
+                        await infoOrganizacionRequest.File.CopyToAsync(stream);
+                    }
+
+                    fileUrl = $"http://localhost:5203/images/{infoOrganizacionRequest.File.FileName}"; 
                 }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al guardar la imagen de la organización");
-                return StatusCode(500, "Internal server error");
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error al guardar la imagen de la organización");
+                    return StatusCode(500, "Internal server error");
+                }
             }
 
             var infoOrganizacion = new InfoOrganizacionDto
@@ -115,7 +136,7 @@ namespace backend.api.Controllers
                 Organizacion = infoOrganizacionRequest.Organizacion,
                 DescripcionBreve = infoOrganizacionRequest.DescripcionBreve,
                 DescripcionCompleta = infoOrganizacionRequest.DescripcionCompleta,
-                Img = filePath,
+                Img = fileUrl,
                 OrganizacionId = infoOrganizacionRequest.OrganizacionId,
             };
 

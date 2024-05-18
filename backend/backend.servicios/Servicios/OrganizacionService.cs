@@ -82,7 +82,7 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var organizacion = await _context.Organizacions.FirstOrDefaultAsync(u => u.Id == id);
+                var organizacion = await _context.Organizacions.Include(x => x.InfoOrganizacion).FirstOrDefaultAsync(u => u.Id == id);
 
                 if (organizacion == null)
                 {
@@ -97,6 +97,14 @@ namespace backend.servicios.Servicios
                     Localidad = organizacion.Localidad,
                     Provincia = organizacion.Provincia,
                     Telefono = organizacion.Telefono,
+                    InfoOrganizacion = organizacion.InfoOrganizacion != null ? new InfoOrganizacionDto
+                    {
+                        Organizacion = organizacion.InfoOrganizacion.Organizacion,
+                        DescripcionBreve = organizacion.InfoOrganizacion.DescripcionBreve,
+                        DescripcionCompleta = organizacion.InfoOrganizacion.DescripcionCompleta,
+                        Img = organizacion.InfoOrganizacion.Img,
+                        OrganizacionId = organizacion.InfoOrganizacion.OrganizacionId
+                    } : null
                 };
             }
             catch (Exception ex)
