@@ -1,6 +1,5 @@
 <form
   [formGroup]="organizationForm"
-  (ngSubmit)="onSubmit()"
   class="form-organizacion"
 >
   <div class="card">
@@ -10,7 +9,7 @@
         Completa los datos, para que nuestros usuarios puedan conocerte<br />mejor
         y elegir donar.
       </p>
-      <div class="mb-3">
+      <div class="mb-3" >
         <label for="organizacion" class="form-label required"
           >Organización</label
         >
@@ -20,6 +19,7 @@
           class="form-control"
           formControlName="organizacion"
           maxlength="30"
+          readonly
         />
         <!-- <small *ngIf="organizationForm.controls['organizacion'].dirty && organizationForm.hasError('required','organizacion')" class="text-danger">Nombre de Organizacion requerido</small> -->
         <div class="section-detail">
@@ -45,7 +45,7 @@
         ></textarea>
         <small
           *ngIf="
-            organizationForm.controls['descripcionBreve'].dirty &&
+            organizationForm.controls['descripcionBreve']?.dirty &&
             organizationForm.hasError('required', 'descripcionBreve')
           "
           class="text-danger"
@@ -76,7 +76,7 @@
         ></textarea>
         <small
           *ngIf="
-            organizationForm.controls['descripcionCompleta'].dirty &&
+            organizationForm.controls['descripcionCompleta']?.dirty &&
             organizationForm.hasError('required', 'descripcionCompleta')
           "
           class="text-danger"
@@ -112,7 +112,7 @@
         </div>
         <small
           *ngIf="
-            organizationForm.controls['imagen'].dirty &&
+            organizationForm.controls['imagen']?.dirty &&
             organizationForm.hasError('required', 'imagen')
           "
           class="text-danger"
@@ -121,7 +121,7 @@
       </div>
 
       <div class="section-btn">
-        <button type="submit"  class="btn btn-primary mt-3">
+        <button (click)="onSubmit()" type="submit"  class="btn btn-primary mt-3">
           Publicar
         </button>
       </div>

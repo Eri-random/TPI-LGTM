@@ -19,6 +19,11 @@ export class OrganizacionService {
     return this.http.get<any>(url);
   }
 
+  postInfoOrganizacion(data:any){
+    const url = `${this.baseUrl}/Informacion/Detalles`;
+    return this.http.post<any>(url,data);
+  }
+
   public getCuitFromStore(){
     return this.cuit$.asObservable();
   }

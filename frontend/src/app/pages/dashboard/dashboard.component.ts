@@ -4,7 +4,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ModalOrganizacionComponent } from 'src/app/components/modal-organizacion/modal-organizacion.component';
-
+import { OrganizacionService } from 'src/app/services/organizacion.service';
+import { AuthService } from 'src/app/services/auth.service';
 export interface UserData {
   name: string;
   telefono: string;
@@ -50,19 +51,41 @@ const NAMES: string[] = [
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements AfterViewInit, OnInit {
-  displayedColumns: string[] = ['name', 'telefono', 'email', 'producto', 'cantidad', 'progress'];
+  cuit!: string;
+
+  displayedColumns: string[] = [
+    'name',
+    'telefono',
+    'email',
+    'producto',
+    'cantidad',
+    'progress',
+  ];
   dataSource: MatTableDataSource<UserData>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(public dialog: MatDialog) {
+  constructor(
+    public dialog: MatDialog,
+    private authService: AuthService,
+    private organizacionService: OrganizacionService
+  ) {
     const users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));
     this.dataSource = new MatTableDataSource(users);
   }
 
   ngOnInit() {
-    this.openDialog();
+    this.organizacionService.getCuitFromStore().subscribe((val) => {
+      const cuitFromToken = this.authService.getCuitFromToken();
+      this.cuit = val || cuitFromToken;
+    });
+
+    this.organizacionService
+      .getOrganizacionByCuit(this.cuit)
+      .subscribe((resp) => {
+        resp.infoOrganizacion == null ? this.openDialog() : null;
+      });
   }
 
   ngAfterViewInit() {
@@ -84,7 +107,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
       width: 'auto',
       height: '80%',
       disableClose: true,
-      data: {} // puedes pasar datos si lo necesitas
+      data: {}, // puedes pasar datos si lo necesitas
     });
   }
 }
@@ -92,7 +115,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
 function createNewUser(p0?: number): UserData {
   const name = NAMES[Math.floor(Math.random() * NAMES.length)];
   const telefono = generateRandomPhoneNumber();
-  const email = generateEmail(name/*, id*/);
+  const email = generateEmail(name /*, id*/);
   const producto = PRODUCTOS[Math.floor(Math.random() * PRODUCTOS.length)];
   const cantidad = Math.floor(Math.random() * 20) + 1;
   const progress = Math.random() < 0.5 ? 'Pendiente' : 'Recibido';
