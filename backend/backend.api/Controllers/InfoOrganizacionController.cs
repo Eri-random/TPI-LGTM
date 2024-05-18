@@ -50,13 +50,14 @@ namespace backend.api.Controllers
                 return StatusCode(500, "Internal server error");
             }
 
+            string fileUrl = $"http://localhost:5203/images/{infoOrganizacionRequest.File.FileName}"; // Cambia esto según sea necesario
 
             var infoOrganizacion = new InfoOrganizacionDto
             {
                 Organizacion = infoOrganizacionRequest.Organizacion,
                 DescripcionBreve = infoOrganizacionRequest.DescripcionBreve,
                 DescripcionCompleta = infoOrganizacionRequest.DescripcionCompleta,
-                Img = filePath,
+                Img = fileUrl,
                 OrganizacionId = infoOrganizacionRequest.OrganizacionId,
             };
 
