@@ -128,6 +128,9 @@ export class MapaOrganizacionesComponent implements OnInit {
 
       this.organizations.forEach((org) => {
         if (org.provincia === this.opcionSeleccionado?.nombre) {
+          if(org.localidad === 'Ciudad Autónoma de Buenos Aires'){
+            org.provincia = 'Ciudad Autónoma de Buenos Aires';
+          }
           const marker = new google.maps.Marker({
             position: { lat: org.lat, lng: org.lng },
             map: map,
