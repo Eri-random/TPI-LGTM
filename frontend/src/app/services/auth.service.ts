@@ -74,4 +74,10 @@ export class AuthService {
     if(this.userPayload)
       return this.userPayload.role;
   }
+
+  getCuitFromToken(){
+    if(this.userPayload){
+      return this.userPayload.cuit;
+    }
+  }
 }

@@ -53,5 +53,35 @@ namespace backend.api.Controllers
             }
         }
 
+        [HttpGet("{cuit}")]
+        public async Task<IActionResult> GetOrganizacionByCuit(string cuit)
+        {
+            try
+            {
+                var organizacion = await _organizacionService.GetOrganizacionByCuitAsync(cuit);
+                if (organizacion == null)
+                {
+                    return NotFound("Organizacion no encontrada");
+                }
+
+                var organizacionResponse = new OrganizacionResponseModel
+                {
+                    Nombre = organizacion.Nombre,
+                    Cuit = organizacion.Cuit,
+                    Direccion = organizacion.Direccion,
+                    Localidad = organizacion.Localidad,
+                    Provincia = organizacion.Provincia,
+                    Telefono = organizacion.Telefono
+                };
+
+                return Ok(organizacionResponse);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener el organizacion con cuit {Cuit}", cuit);
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
     }
 }

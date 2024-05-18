@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import ValidateForm from 'src/app/helpers/validateForm';
 import { AuthService } from 'src/app/services/auth.service';
+import { OrganizacionService } from 'src/app/services/organizacion.service';
 import { UserStoreService } from 'src/app/services/user-store.service';
 
 @Component({
@@ -22,6 +23,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private userStore: UserStoreService,
+    private organizacionService: OrganizacionService,
     private router: Router,
     private toast: NgToastService
   ) {}
@@ -52,6 +54,7 @@ export class LoginComponent implements OnInit {
 
         this.authService.storeToken(res.token);
         let tokenPayload = this.authService.decodedToken();
+        console.log(tokenPayload);
 
         this.userStore.setFullNameForStore(tokenPayload.name);
         this.userStore.setRolForStore(tokenPayload.role);
@@ -64,9 +67,12 @@ export class LoginComponent implements OnInit {
           position: 'topCenter',
         });
         
-        tokenPayload.role === 'organizacion'
-          ? this.router.navigate(['/dashboard'])
-          : this.router.navigate(['/']);
+        tokenPayload.role === 'organizacion' 
+        ? (() => {
+        this.router.navigate(['/dashboard']);
+        this.organizacionService.setCuitForStore(tokenPayload.cuit);
+        })() 
+        : this.router.navigate(['/']);
       },
       error: ({ error }) => {
         this.error = error;
