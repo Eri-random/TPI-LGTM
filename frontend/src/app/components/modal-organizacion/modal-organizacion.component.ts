@@ -58,9 +58,15 @@ export class ModalOrganizacionComponent implements OnInit {
   onFileSelected(event: any) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      this.organizationForm.patchValue({
-        file: file,
-      });
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.imageSrc = e.target!.result;
+        this.organizationForm.patchValue({
+          file: file,
+        });
+      }
+      reader.readAsDataURL(file);
     }
   }
 
