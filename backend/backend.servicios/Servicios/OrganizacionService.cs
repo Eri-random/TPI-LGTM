@@ -29,13 +29,13 @@ namespace backend.servicios.Servicios
                         Localidad = u.Localidad,
                         Provincia = u.Provincia,
                         Telefono = u.Telefono,
-                        InfoOrganizacion = new InfoOrganizacionDto
+                        InfoOrganizacion = u.InfoOrganizacion != null ? new InfoOrganizacionDto
                         {
                             Organizacion = u.InfoOrganizacion.Organizacion,
                             DescripcionBreve = u.InfoOrganizacion.DescripcionBreve,
                             DescripcionCompleta = u.InfoOrganizacion.DescripcionCompleta,
                             Img = u.InfoOrganizacion.Img,
-                        }
+                        }: null
                     }).ToListAsync();
 
                 return organizacion;
