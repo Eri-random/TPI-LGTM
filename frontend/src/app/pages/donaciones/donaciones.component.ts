@@ -16,9 +16,8 @@ export class DonacionesComponent implements OnInit {
 
   ngOnInit(): void {
     this.organizacionService.getAllOrganizaciones()
-    .subscribe(resp =>{
-      this.organizaciones = resp;
-      console.log(resp);
+    .subscribe((resp:any[]) =>{
+      this.organizaciones = resp.filter(u => u.infoOrganizacion != null);
     })
   }
 }
