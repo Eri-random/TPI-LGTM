@@ -18,6 +18,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddControllersWithViews();
 //Configuracion para error de Cors desde el front
 builder.Services.AddCors(option =>
 {

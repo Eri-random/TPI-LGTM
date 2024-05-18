@@ -1,6 +1,7 @@
 <form
   [formGroup]="organizationForm"
   class="form-organizacion"
+  enctype="multipart/form-data"
 >
   <div class="card">
     <div class="card-body">
@@ -108,6 +109,7 @@
             type="file"
             (change)="onFileSelected($event)"
             accept="image/*"
+            formControlName="file"
           />
         </div>
         <small

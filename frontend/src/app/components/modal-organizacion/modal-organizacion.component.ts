@@ -20,6 +20,8 @@ export class ModalOrganizacionComponent implements OnInit {
   imageSrc: string | ArrayBuffer | null =
     'https://media.istockphoto.com/id/1226328537/es/vector/soporte-de-posici%C3%B3n-de-imagen-con-un-icono-de-c%C3%A1mara-gris.jpg?s=612x612&w=0&k=20&c=8igCt_oe2wE-aP0qExUDfwicSNUCb4Ho9DiKCq0rSaA=';
 
+  selectedFile: File | null = null;
+
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<ModalOrganizacionComponent>,
@@ -34,7 +36,7 @@ export class ModalOrganizacionComponent implements OnInit {
         '',
         [Validators.required, Validators.maxLength(4000)],
       ],
-      img: [null, Validators.required],
+      file: [null, Validators.required],
       organizacionId: [null],
     });
   }
@@ -53,16 +55,12 @@ export class ModalOrganizacionComponent implements OnInit {
       });
   }
 
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      const file = input.files[0];
-
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.organizationForm.patchValue({ img: e.target!.result  });
-      };
-      reader.readAsDataURL(file);
+  onFileSelected(event: any) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.organizationForm.patchValue({
+        file: file,
+      });
     }
   }
 
@@ -77,21 +75,45 @@ export class ModalOrganizacionComponent implements OnInit {
       return;
     }
 
+    const formData: FormData = new FormData();
+    formData.append(
+      'Organizacion',
+      this.organizationForm.get('organizacion')?.value || ''
+    );
+    formData.append(
+      'DescripcionBreve',
+      this.organizationForm.get('descripcionBreve')?.value || ''
+    );
+    formData.append(
+      'DescripcionCompleta',
+      this.organizationForm.get('descripcionCompleta')?.value || ''
+    );
+    const file = this.organizationForm.get('file')?.value;
+    if (file instanceof File) {
+      formData.append('file', file);
+    }
+    formData.append(
+      'OrganizacionId',
+      this.organizationForm.get('organizacionId')?.value || ''
+    );
+
     this.organizacionService
-      .postInfoOrganizacion(this.organizationForm.value)
+      .postInfoOrganizacion(formData)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           if (error.status === 404) {
             console.error('Error 404: Recurso no encontrado');
             this.toast.error({
-              detail: 'Ocurrió un error al intentar guardar la información. Intente nuevamente.',
+              detail:
+                'Ocurrió un error al intentar guardar la información. Intente nuevamente.',
               duration: 5000,
               position: 'topCenter',
             });
           } else {
             console.error('Error:', error.message);
             this.toast.error({
-              detail: 'Ocurrió un error al intentar guardar la información. Intente nuevamente.',
+              detail:
+                'Ocurrió un error al intentar guardar la información. Intente nuevamente.',
               duration: 5000,
               position: 'topCenter',
             });

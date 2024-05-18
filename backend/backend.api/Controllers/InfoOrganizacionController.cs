@@ -15,7 +15,7 @@ namespace backend.api.Controllers
         private readonly IOrganizacionInfoService _organizacionInfoService = organizacionInfoService ?? throw new ArgumentNullException(nameof(organizacionInfoService));
 
         [HttpPost("Detalles")]
-        public async Task<IActionResult> Details([FromBody] InfoOrganizacionRequest infoOrganizacionRequest)
+        public async Task<IActionResult> Details([FromForm] InfoOrganizacionRequest infoOrganizacionRequest)
         {
             if (infoOrganizacionRequest == null)
             {
@@ -29,12 +29,34 @@ namespace backend.api.Controllers
                 return NotFound("Organización no encontrada");
             }
 
+            string folderPath = Path.Combine("wwwroot", "images");
+            if (!Directory.Exists(folderPath))
+            {
+                _logger.LogInformation("El directorio no existe, creando: {FolderPath}", folderPath);
+                Directory.CreateDirectory(folderPath);
+            }
+            string filePath = Path.Combine(folderPath, infoOrganizacionRequest.File.FileName);
+
+            try
+            {
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await infoOrganizacionRequest.File.CopyToAsync(stream);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al guardar la imagen de la organización");
+                return StatusCode(500, "Internal server error");
+            }
+
+
             var infoOrganizacion = new InfoOrganizacionDto
             {
                 Organizacion = infoOrganizacionRequest.Organizacion,
                 DescripcionBreve = infoOrganizacionRequest.DescripcionBreve,
                 DescripcionCompleta = infoOrganizacionRequest.DescripcionCompleta,
-                Img = infoOrganizacionRequest.Img,
+                Img = filePath,
                 OrganizacionId = infoOrganizacionRequest.OrganizacionId,
             };
 
@@ -72,12 +94,27 @@ namespace backend.api.Controllers
                 return NotFound("Organización no encontrada");
             }
 
+            string filePath = Path.Combine("wwwroot", "images", infoOrganizacionRequest.File.FileName);
+
+            try
+            {
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await infoOrganizacionRequest.File.CopyToAsync(stream);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al guardar la imagen de la organización");
+                return StatusCode(500, "Internal server error");
+            }
+
             var infoOrganizacion = new InfoOrganizacionDto
             {
                 Organizacion = infoOrganizacionRequest.Organizacion,
                 DescripcionBreve = infoOrganizacionRequest.DescripcionBreve,
                 DescripcionCompleta = infoOrganizacionRequest.DescripcionCompleta,
-                Img = infoOrganizacionRequest.Img,
+                Img = filePath,
                 OrganizacionId = infoOrganizacionRequest.OrganizacionId,
             };
 

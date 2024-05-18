@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environments } from '../environments/environments';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,9 +19,9 @@ export class OrganizacionService {
     return this.http.get<any>(url);
   }
 
-  postInfoOrganizacion(data:any){
+  postInfoOrganizacion(formData: FormData): Observable<any> {
     const url = `${this.baseUrl}/Informacion/Detalles`;
-    return this.http.post<any>(url,data);
+    return this.http.post<any>(url, formData);
   }
 
   public getCuitFromStore(){
