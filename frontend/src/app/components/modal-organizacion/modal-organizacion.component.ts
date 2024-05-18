@@ -60,6 +60,7 @@ export class ModalOrganizacionComponent implements OnInit {
 
       const reader = new FileReader();
       reader.onload = (e) => {
+        this.imageSrc = e.target!.result;
         this.organizationForm.patchValue({ img: e.target!.result  });
       };
       reader.readAsDataURL(file);
