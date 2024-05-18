@@ -23,6 +23,7 @@ namespace backend.servicios.Servicios
                 var organizacion = await _context.Organizacions.Include(u => u.InfoOrganizacion)
                     .Select(u => new OrganizacionDto
                     {
+                        Id = u.Id,
                         Nombre = u.Nombre,
                         Cuit = u.Cuit,
                         Direccion = u.Direccion,
@@ -35,7 +36,8 @@ namespace backend.servicios.Servicios
                             DescripcionBreve = u.InfoOrganizacion.DescripcionBreve,
                             DescripcionCompleta = u.InfoOrganizacion.DescripcionCompleta,
                             Img = u.InfoOrganizacion.Img,
-                        }: null
+                            OrganizacionId = u.InfoOrganizacion.OrganizacionId
+                        } : null
                     }).ToListAsync();
 
                 return organizacion;
@@ -130,6 +132,7 @@ namespace backend.servicios.Servicios
                         DescripcionBreve = organizacion.InfoOrganizacion.DescripcionBreve,
                         DescripcionCompleta = organizacion.InfoOrganizacion.DescripcionCompleta,
                         Img = organizacion.InfoOrganizacion.Img,
+                        OrganizacionId = organizacion.InfoOrganizacion.OrganizacionId
                     } : null
                 };
             }

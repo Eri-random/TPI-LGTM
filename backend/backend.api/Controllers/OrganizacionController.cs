@@ -28,6 +28,7 @@ namespace backend.api.Controllers
                 {
                     organizacionResponse.Add(new OrganizacionResponseModel
                     {
+                        Id = organizacion.Id,
                         Nombre = organizacion.Nombre,
                         Cuit = organizacion.Cuit,
                         Direccion = organizacion.Direccion,
@@ -40,6 +41,7 @@ namespace backend.api.Controllers
                             DescripcionBreve = organizacion.InfoOrganizacion.DescripcionBreve,
                             DescripcionCompleta = organizacion.InfoOrganizacion.DescripcionCompleta,
                             Img = organizacion.InfoOrganizacion.Img,
+                            OrganizacionId = organizacion.InfoOrganizacion.OrganizacionId
                         } : null
                     });
                 }
@@ -79,6 +81,7 @@ namespace backend.api.Controllers
                         DescripcionBreve = organizacion.InfoOrganizacion.DescripcionBreve,
                         DescripcionCompleta = organizacion.InfoOrganizacion.DescripcionCompleta,
                         Img = organizacion.InfoOrganizacion.Img,
+                        OrganizacionId = organizacion.InfoOrganizacion.OrganizacionId
                     } : null
                 };
 
