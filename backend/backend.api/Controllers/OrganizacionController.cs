@@ -34,13 +34,13 @@ namespace backend.api.Controllers
                         Localidad = organizacion.Localidad,
                         Provincia = organizacion.Provincia,
                         Telefono = organizacion.Telefono,
-                        InfoOrganizacion = new InfoOrganizacionDto
+                        InfoOrganizacion = organizacion.InfoOrganizacion != null ? new InfoOrganizacionDto
                         {
                             Organizacion = organizacion.InfoOrganizacion.Organizacion,
                             DescripcionBreve = organizacion.InfoOrganizacion.DescripcionBreve,
                             DescripcionCompleta = organizacion.InfoOrganizacion.DescripcionCompleta,
                             Img = organizacion.InfoOrganizacion.Img,
-                        }
+                        } : null
                     });
                 }
 
