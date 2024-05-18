@@ -29,9 +29,11 @@ export class ModalOrganizacionComponent implements OnInit{
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       const file = input.files[0];
+      
       const reader = new FileReader();
       reader.onload = (e) => {
         this.imageSrc = e.target!.result;
+        this.organizationForm.patchValue({ imagen: file });
       };
       reader.readAsDataURL(file);
     }
