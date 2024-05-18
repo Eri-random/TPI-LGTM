@@ -1,5 +1,6 @@
 using backend.api.Models;
 using backend.data.DataContext;
+using backend.servicios.Config;
 using backend.servicios.Interfaces;
 using backend.servicios.Servicios;
 using FluentValidation.AspNetCore;
@@ -36,6 +37,10 @@ builder.Services.AddScoped<IMapsService, MapsService>();
 builder.Services.AddScoped<IOrganizacionService, OrganizacionService>();
 builder.Services.AddHttpClient<IMapsService, MapsService>();
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UsuarioRequestModel>());
+var groqApiConfig = builder.Configuration.GetSection("GroqApiConfig").Get<GroqApiConfig>();
+builder.Services.AddSingleton(groqApiConfig);
+builder.Services.AddSingleton<IGenerarIdeaApiService, GroqApiService>();
+builder.Services.AddHttpClient();
 
 builder.Services.AddPredictionEnginePool<FabricModelInput, FabricModelOutput>()
     .FromFile(modelName: "ClasificacionImagen.MLModels.FabricMLModel", filePath: "MLModel/FabricMLModel.mlnet", watchForChanges: true);
