@@ -6,6 +6,9 @@ using Newtonsoft.Json;
 
 namespace backend.api.Controllers
 {
+    /// <summary>
+    /// Controller for generating ideas based on user input.
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class IdeaController(IGenerateIdeaApiService groqApiService, ILogger<UsuariosController> logger) : ControllerBase
@@ -13,11 +16,20 @@ namespace backend.api.Controllers
         private readonly IGenerateIdeaApiService _groqApiService = groqApiService ?? throw new ArgumentNullException(nameof(groqApiService));
         private readonly ILogger<UsuariosController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
+
+        /// <summary>
+        /// Generates an idea based on the user message.
+        /// </summary>
+        /// <param name="request">The request model containing the user message.</param>
+        /// <returns>A response containing the generated idea.</returns>
         [HttpPost("generate")]
         public async Task<IActionResult> GenerateIdea([FromBody] GenerateIdeaRequestModel request)
         {
             if (request == null || string.IsNullOrEmpty(request.Message))
+            {
+                _logger.LogWarning("Invalid request payload received.");
                 return BadRequest("Invalid request payload");
+            }
 
             try
             {
@@ -27,7 +39,13 @@ namespace backend.api.Controllers
                 var chatResponse = JsonConvert.DeserializeObject<ChatResponseModel>(result);
                 var idea = chatResponse?.Choices?.FirstOrDefault()?.Message?.Content;
 
-                _logger.LogInformation("Generated idea: {message}", request.Message);
+                if (string.IsNullOrEmpty(idea))
+                {
+                    _logger.LogWarning("No idea generated from the message: {message}", request.Message);
+                    return BadRequest("No idea generated.");
+                }
+
+                _logger.LogInformation("Generated idea: {idea}", idea);
                 _logger.LogInformation("Total Tokens: {tokenInfo}", chatResponse?.Usage?.TotalTokens);
                 _logger.LogInformation("Total time: {totalTime}", chatResponse?.Usage?.TotalTime);
 
