@@ -51,7 +51,10 @@ namespace backend.servicios.Servicios
 
             try
             {
-                var usuario =  await _context.Usuarios.Include(u => u.Rol).FirstOrDefaultAsync(u => u.Email == email);
+                var usuario =  await _context.Usuarios
+                    .Include(u => u.Rol)
+                    .Include(u => u.Organizacion)
+                    .FirstOrDefaultAsync(u => u.Email == email);
 
                 if (usuario == null)
                 {
@@ -71,6 +74,15 @@ namespace backend.servicios.Servicios
                     Telefono = usuario.Telefono,
                     Rol = usuario.RolId,
                     RolNombre = usuario.Rol.Nombre,
+                    Organizacion = usuario.Organizacion != null ? new OrganizacionDto
+                    {
+                        Nombre = usuario.Organizacion.Nombre,
+                        Cuit = usuario.Organizacion.Cuit,
+                        Telefono = usuario.Organizacion.Telefono,
+                        Direccion = usuario.Organizacion.Direccion,
+                        Localidad = usuario.Organizacion.Localidad,
+                        Provincia = usuario.Organizacion.Provincia
+                    } : null
                 };
             }
             catch (Exception ex)

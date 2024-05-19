@@ -11,16 +11,22 @@ namespace backend.servicios.Helpers
 {
     public class Token
     {
-        public static string CreateJwtToken(string rol, string nombre)
+        public static string CreateJwtToken(string rol, string nombre, string cuit=null)
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes("veryverysceret.....");
-            var identity = new ClaimsIdentity(new Claim[]
+            var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Role, rol),
-                new Claim(ClaimTypes.Name,$"{nombre}")
-            });
+                new Claim(ClaimTypes.Name, nombre)
+            };
 
+            if (!string.IsNullOrEmpty(cuit))
+            {
+                claims.Add(new Claim("cuit", cuit));            
+            }
+
+            var identity = new ClaimsIdentity(claims);
             var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
 
             var tokenDescriptor = new SecurityTokenDescriptor

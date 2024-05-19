@@ -15,7 +15,7 @@ const routes: Routes = [
   {path:'signup',component:SignupComponent},
   {path: 'generar-ideas', component:GenerarIdeasComponent},
   {path: 'ubicaciones', component:MapaOrganizacionesComponent},
-  {path: 'donaciones', component:DonacionesComponent},
+  {path: 'donar', component:DonacionesComponent},
   {path: 'dashboard', component: DashboardComponent},
   {path:'**',redirectTo:''}
 ];
