@@ -13,7 +13,7 @@ namespace backend.servicios.test
         private Mock<IHttpClientFactory> _httpClientFactoryMock;
         private Mock<HttpMessageHandler> _httpMessageHandlerMock;
         private GroqApiConfig _config;
-        private IGenerateIdeaApiService _groqApiService;
+        private GroqApiService _groqApiService;
 
         [SetUp]
         public void SetUp()
