@@ -38,7 +38,7 @@ namespace backend.servicios.Servicios
         /// Creates and configures an HTTP client.
         /// </summary>
         /// <returns>A configured HTTP client instance.</returns>
-        public HttpClient GetHttpClient()
+        private HttpClient GetHttpClient()
         {
             var httpClient = _httpClientFactory.CreateClient();
             httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_config.ApiKey}");
@@ -51,7 +51,7 @@ namespace backend.servicios.Servicios
         /// </summary>
         /// <param name="userMessage">The message from the user.</param>
         /// <returns>A <see cref="StringContent"/> instance containing the serialized request body.</returns>
-        public StringContent GetHttpMessageContent(string userMessage)
+        private StringContent GetHttpMessageContent(string userMessage)
         {
             var requestBody = new
             {
@@ -89,7 +89,7 @@ namespace backend.servicios.Servicios
         /// Gets the system message to be included in the API request.
         /// </summary>
         /// <returns>A string containing the system message.</returns>
-        public static string GetSystemMessage() =>
+        private static string GetSystemMessage() =>
             "Tu tarea es generar una sola idea de reciclaje utilizando sobrantes o retazos de tela, con los pasos detallados para llevarla a cabo.\n\n" +
             "La idea tiene que ser real, facil de hacer, pueden ser adornos o ropa.\n\n" +
             "Recuerda que solo puedes responder en español.\n\n" +
