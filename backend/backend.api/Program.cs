@@ -23,7 +23,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddControllersWithViews();
 //Configuracion para error de Cors desde el front
 builder.Services.AddCors(option =>
 {
@@ -42,7 +42,7 @@ builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IMapsService, MapsService>();
 builder.Services.AddScoped<IOrganizacionService, OrganizacionService>();
 builder.Services.AddHttpClient<IMapsService, MapsService>();
-
+builder.Services.AddScoped<IOrganizacionInfoService, InfoOrganizacionService>();
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UsuarioRequestModel>());
 
 var groqApiConfig = builder.Configuration.GetSection("GroqApiConfig").Get<GroqApiConfig>();
@@ -66,6 +66,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("MyPolicy");
+app.UseStaticFiles();
 
 app.UseAuthorization();
 

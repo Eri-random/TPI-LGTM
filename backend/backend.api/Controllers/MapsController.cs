@@ -7,16 +7,15 @@ namespace backend.api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class MapsController(IUsuarioService usuarioService, IMapsService mapsService) : ControllerBase
+    public class MapsController(IOrganizacionService organizacionService, IMapsService mapsService) : ControllerBase
     {
-        private readonly IUsuarioService _usuarioService = usuarioService ?? throw new ArgumentNullException(nameof(usuarioService));
+        private readonly IOrganizacionService _organizacionService = organizacionService ?? throw new ArgumentNullException(nameof(organizacionService));
         private readonly IMapsService _mapsService = mapsService ?? throw new ArgumentNullException(nameof(mapsService));
         [HttpGet]
         public async Task<IActionResult> GetOrganizationCoordinates()
         {
 
-            var usuarios = await _usuarioService.GetAllUsuariosAsync();
-            var organizaciones = usuarios.Where(x => x.RolNombre == "organizacion").ToList();
+            var organizaciones = await _organizacionService.GetAllOrganizacionAsync();
 
             var coordinates = new List<CoordinatesResponseModel>();
 

@@ -20,15 +20,24 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var organizacion = await _context.Organizacions
+                var organizacion = await _context.Organizacions.Include(u => u.InfoOrganizacion)
                     .Select(u => new OrganizacionDto
                     {
+                        Id = u.Id,
                         Nombre = u.Nombre,
                         Cuit = u.Cuit,
                         Direccion = u.Direccion,
                         Localidad = u.Localidad,
                         Provincia = u.Provincia,
                         Telefono = u.Telefono,
+                        InfoOrganizacion = u.InfoOrganizacion != null ? new InfoOrganizacionDto
+                        {
+                            Organizacion = u.InfoOrganizacion.Organizacion,
+                            DescripcionBreve = u.InfoOrganizacion.DescripcionBreve,
+                            DescripcionCompleta = u.InfoOrganizacion.DescripcionCompleta,
+                            Img = u.InfoOrganizacion.Img,
+                            OrganizacionId = u.InfoOrganizacion.OrganizacionId
+                        } : null
                     }).ToListAsync();
 
                 return organizacion;
@@ -65,6 +74,79 @@ namespace backend.servicios.Servicios
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al crear una nueva organizacion");
+                throw;
+            }
+        }
+
+        public async Task<OrganizacionDto> GetOrganizacionByIdAsync(int id)
+        {
+            try
+            {
+                var organizacion = await _context.Organizacions.Include(x => x.InfoOrganizacion).FirstOrDefaultAsync(u => u.Id == id);
+
+                if (organizacion == null)
+                {
+                    return null;
+                }
+
+                return new OrganizacionDto
+                {
+                    Nombre = organizacion.Nombre,
+                    Cuit = organizacion.Cuit,
+                    Direccion = organizacion.Direccion,
+                    Localidad = organizacion.Localidad,
+                    Provincia = organizacion.Provincia,
+                    Telefono = organizacion.Telefono,
+                    InfoOrganizacion = organizacion.InfoOrganizacion != null ? new InfoOrganizacionDto
+                    {
+                        Organizacion = organizacion.InfoOrganizacion.Organizacion,
+                        DescripcionBreve = organizacion.InfoOrganizacion.DescripcionBreve,
+                        DescripcionCompleta = organizacion.InfoOrganizacion.DescripcionCompleta,
+                        Img = organizacion.InfoOrganizacion.Img,
+                        OrganizacionId = organizacion.InfoOrganizacion.OrganizacionId
+                    } : null
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener la organizacion por id");
+                throw;
+            }
+        }
+
+        public async Task<OrganizacionDto> GetOrganizacionByCuitAsync(string cuit)
+        {
+            try
+            {
+                var organizacion = await _context.Organizacions.Include(u => u.InfoOrganizacion).FirstOrDefaultAsync(u => u.Cuit == cuit);
+
+                if (organizacion == null)
+                {
+                    return null;
+                }
+
+                return new OrganizacionDto
+                {
+                    Id = organizacion.Id,
+                    Nombre = organizacion.Nombre,
+                    Cuit = organizacion.Cuit,
+                    Direccion = organizacion.Direccion,
+                    Localidad = organizacion.Localidad,
+                    Provincia = organizacion.Provincia,
+                    Telefono = organizacion.Telefono,
+                    InfoOrganizacion = organizacion.InfoOrganizacion != null ? new InfoOrganizacionDto
+                    {
+                        Organizacion = organizacion.InfoOrganizacion.Organizacion,
+                        DescripcionBreve = organizacion.InfoOrganizacion.DescripcionBreve,
+                        DescripcionCompleta = organizacion.InfoOrganizacion.DescripcionCompleta,
+                        Img = organizacion.InfoOrganizacion.Img,
+                        OrganizacionId = organizacion.InfoOrganizacion.OrganizacionId
+                    } : null
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener la organizacion por cuit");
                 throw;
             }
         }
