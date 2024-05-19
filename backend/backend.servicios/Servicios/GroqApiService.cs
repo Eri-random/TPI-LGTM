@@ -70,7 +70,7 @@ namespace backend.servicios.Servicios
                 },
                 model = _config.LlmModel,
                 temperature = 0,
-                max_tokens = 2048,
+                max_tokens = 5000,
                 top_p = 1,
                 stream = false,
                 response_format = new
@@ -91,12 +91,19 @@ namespace backend.servicios.Servicios
         /// <returns>A string containing the system message.</returns>
         private static string GetSystemMessage() =>
             "Tu tarea es generar una sola idea de reciclaje utilizando sobrantes o retazos de tela, con los pasos detallados para llevarla a cabo.\n\n" +
-            "La idea tiene que ser real, facil de hacer, pueden ser adornos o ropa.\n\n" +
+            "La idea tiene que ser real, muy fácil de hacer y adecuada para las dimensiones y tipos de tela proporcionados. Debe ser algo pequeño como un llavero, un parche, un brazalete, etc.\n\n" +
             "Recuerda que solo puedes responder en español.\n\n" +
-            "Usa los remantes entregados para generar la idea, debe ser acorde a las dimensiones de los remanentes\n\n" +
+            "Usa los retazos entregados para generar la idea, debe ser acorde a las dimensiones de los retazos. No propongas ideas que requieran más tela de la proporcionada.\n\n" +
             "La respuesta final debe estar únicamente en formato JSON y debe contener:\n\n" +
             "{\n  " +
-                "\"Idea\": \"Instrucciones\",\n  \"Pasos\": [\n    \"Paso 1\",\n    \"Paso 2\",\n    \"Paso 3\",\n    ...\n  ]\n}\n" +
-            "Solo devuelve el JSON como respuesta final, no agregues nada mas";
+                "\"Idea\": \"Descripción breve de la idea\",\n  \"Pasos\": [\n    \"Paso 1: Descripción del paso 1\",\n    \"Paso 2: Descripción del paso 2\",\n    \"Paso 3: Descripción del paso 3\",\n    ...\n  ]\n}\n" +
+            "Solo devuelve el JSON como respuesta final, no agregues nada más.\n\n" +
+            "Ejemplo de respuesta:\n" +
+            "{\n  " +
+                "\"Idea\": \"Llavero de tela reciclada\",\n  \"Pasos\": [\n    \"Paso 1: Corta dos piezas de tela en forma de corazón.\",\n    \"Paso 2: Cose las piezas juntas dejando una pequeña abertura.\",\n    \"Paso 3: Rellena con algodón y cose la abertura.\",\n    \"Paso 4: Añade un aro de llavero a la parte superior.\"\n  ]\n}\n" +
+            "Otro ejemplo de respuesta:\n" +
+            "{\n  " +
+                "\"Idea\": \"Brazalete de tela\",\n  \"Pasos\": [\n    \"Paso 1: Corta una tira de tela de 10x2 cm.\",\n    \"Paso 2: Dobla la tira por la mitad a lo largo y cose los bordes.\",\n    \"Paso 3: Voltea la tira cosida para que la costura quede en el interior.\",\n    \"Paso 4: Añade un broche en los extremos para cerrar el brazalete.\"\n  ]\n}\n";
     }
+
 }
