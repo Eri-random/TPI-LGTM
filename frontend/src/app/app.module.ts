@@ -29,10 +29,9 @@ import { ModalOrganizacionComponent } from './components/modal-organizacion/moda
 import { MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import { EditInfoComponent } from './pages/dashboard/components/edit-info/edit-info.component';
-
-
-
-
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ResponseIdeaComponent } from './pages/generar-ideas/response-idea/response-idea.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +46,9 @@ import { EditInfoComponent } from './pages/dashboard/components/edit-info/edit-i
     DonacionesComponent,
     DashboardComponent,
     ModalOrganizacionComponent,
-    EditInfoComponent
+    EditInfoComponent,
+    SpinnerComponent,
+    ResponseIdeaComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +68,8 @@ import { EditInfoComponent } from './pages/dashboard/components/edit-info/edit-i
     CommonModule,
     MatInputModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent],
