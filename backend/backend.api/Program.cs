@@ -10,16 +10,20 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Configuration.AddJsonFile("appsettings.json");
-// Add services to the container.
+
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-    options.JsonSerializerOptions.IgnoreNullValues = true;
+    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
 });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 //Configuracion para error de Cors desde el front
 builder.Services.AddCors(option =>
 {
@@ -30,13 +34,17 @@ builder.Services.AddCors(option =>
         .AllowAnyHeader();
     });
 });
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IMapsService, MapsService>();
 builder.Services.AddScoped<IOrganizacionService, OrganizacionService>();
 builder.Services.AddHttpClient<IMapsService, MapsService>();
+
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UsuarioRequestModel>());
+
 var groqApiConfig = builder.Configuration.GetSection("GroqApiConfig").Get<GroqApiConfig>();
 builder.Services.AddSingleton(groqApiConfig);
 builder.Services.AddSingleton<IGenerateIdeaApiService, GroqApiService>();
@@ -48,18 +56,16 @@ builder.Services.AddPredictionEnginePool<FabricModelInput, FabricModelOutput>()
 var app = builder.Build();
 
 var googleMapsApiKey = app.Configuration["GoogleMapsApiKey"];
-// Configure the HTTP request pipeline.
 
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-
 app.UseHttpsRedirection();
 app.UseCors("MyPolicy");
-
 
 app.UseAuthorization();
 
