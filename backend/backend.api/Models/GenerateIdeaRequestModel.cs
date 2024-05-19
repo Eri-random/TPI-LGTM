@@ -1,6 +1,6 @@
 ﻿namespace backend.api.Models
 {
-    public class GenerarIdeaRequestModel
+    public class GenerateIdeaRequestModel
     {
         public string Message { get; set; }
     }

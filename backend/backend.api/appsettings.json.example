@@ -11,6 +11,7 @@
   },
   "GroqApiConfig": {
     "ApiKey": "[API-KEY]",
-    "RequestUri": "https://api.groq.com/openai/v1/chat/completions"
+    "RequestUri": "https://api.groq.com/openai/v1/chat/completions",
+    "LlmModel": "[LLM]" // [llama3-8b-8192]/[gemma-7b-it]
   }
 }

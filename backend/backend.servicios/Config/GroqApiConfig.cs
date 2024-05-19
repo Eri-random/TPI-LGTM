@@ -4,5 +4,6 @@
     {
         public string ApiKey { get; set; }
         public string RequestUri { get; set; }
+        public string LlmModel { get; set; }
     }
 }

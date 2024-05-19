@@ -8,30 +8,23 @@ namespace backend.api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ChatController : ControllerBase
+    public class IdeaController(IGenerateIdeaApiService groqApiService) : ControllerBase
     {
-        private readonly IGenerarIdeaApiService _groqApiService;
+        private readonly IGenerateIdeaApiService _groqApiService = groqApiService ?? throw new ArgumentNullException(nameof(groqApiService));
 
-        public ChatController(IGenerarIdeaApiService groqApiService)
-        {
-            _groqApiService = groqApiService ?? throw new ArgumentNullException(nameof(groqApiService));
-        }
-
-        [HttpPost("generar")]
-        public async Task<IActionResult> GetChatCompletion([FromBody] GenerarIdeaRequestModel request)
+        [HttpPost("generate")]
+        public async Task<IActionResult> GenerateIdea([FromBody] GenerateIdeaRequestModel request)
         {
             if (request == null || string.IsNullOrEmpty(request.Message))
-            {
                 return BadRequest("Invalid request payload");
-            }
 
             try
             {
-                var result = await _groqApiService.GetChatCompletionAsync(request.Message);
+                var result = await _groqApiService.GenerateIdea(request.Message);
                 var chatResponse = JsonConvert.DeserializeObject<ChatResponseModel>(result);
-                var assistantMessage = chatResponse?.Choices?.FirstOrDefault()?.Message?.Content;
+                var idea = JsonConvert.DeserializeObject<GenerateIdeaResponseModel>(chatResponse?.Choices?.FirstOrDefault()?.Message?.Content);
 
-                return Ok(assistantMessage);
+                return Ok(idea);
             }
             catch (Exception ex)
             {

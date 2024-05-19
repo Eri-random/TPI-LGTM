@@ -39,7 +39,7 @@ builder.Services.AddHttpClient<IMapsService, MapsService>();
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UsuarioRequestModel>());
 var groqApiConfig = builder.Configuration.GetSection("GroqApiConfig").Get<GroqApiConfig>();
 builder.Services.AddSingleton(groqApiConfig);
-builder.Services.AddSingleton<IGenerarIdeaApiService, GroqApiService>();
+builder.Services.AddSingleton<IGenerateIdeaApiService, GroqApiService>();
 builder.Services.AddHttpClient();
 
 builder.Services.AddPredictionEnginePool<FabricModelInput, FabricModelOutput>()
