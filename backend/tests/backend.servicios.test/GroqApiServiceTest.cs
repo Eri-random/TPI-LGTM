@@ -109,7 +109,8 @@ namespace backend.servicios.test
 
             // Assert
             StringAssert.Contains("JSON", systemMessage);
-            StringAssert.Contains("\"Idea\": \"Instrucciones\"", systemMessage);
+            StringAssert.Contains("\"Idea\"", systemMessage);
+            StringAssert.Contains("\"Pasos\"", systemMessage);
         }
     }
 }
