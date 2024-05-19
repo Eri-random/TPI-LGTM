@@ -1,3 +1,19 @@
-.bg-footer{
+.bg-footer {
     background-color: var(--color-primary);
+}
+
+.marca {
+    padding-top: 5%;
+}
+
+.primeraParte {
+    padding-bottom: 2%;
+}
+
+a img {
+    height: 50%;
+}
+
+hr {
+    color: white;
 }
