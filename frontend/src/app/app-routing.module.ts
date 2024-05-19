@@ -7,6 +7,7 @@ import { GenerarIdeasComponent} from './pages/generar-ideas/generar-ideas.compon
 import { MapaOrganizacionesComponent } from './pages/mapa/mapa-organizaciones.component';
 import { DonacionesComponent } from './pages/donaciones/donaciones.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { EditInfoComponent } from './pages/dashboard/components/edit-info/edit-info.component';
 
 
 const routes: Routes = [
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path: 'ubicaciones', component:MapaOrganizacionesComponent},
   {path: 'donar', component:DonacionesComponent},
   {path: 'dashboard', component: DashboardComponent},
+  {path: 'mi-organizacion', component: EditInfoComponent},
   {path:'**',redirectTo:''}
 ];
 

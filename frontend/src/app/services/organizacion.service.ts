@@ -30,6 +30,11 @@ export class OrganizacionService {
     return this.http.post<any>(url, formData);
   }
 
+  putInfoOrganizacion(formData: FormData): Observable<any> {
+    const url = `${this.baseUrl}/Informacion`;
+    return this.http.put<any>(url, formData);
+  }
+
   public getCuitFromStore(){
     return this.cuit$.asObservable();
   }

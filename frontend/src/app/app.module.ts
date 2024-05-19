@@ -28,6 +28,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ModalOrganizacionComponent } from './components/modal-organizacion/modal-organizacion.component';
 import { MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
+import { EditInfoComponent } from './pages/dashboard/components/edit-info/edit-info.component';
 
 
 
@@ -44,7 +45,8 @@ import {MatButtonModule} from '@angular/material/button';
     MapaOrganizacionesComponent,
     DonacionesComponent,
     DashboardComponent,
-    ModalOrganizacionComponent
+    ModalOrganizacionComponent,
+    EditInfoComponent
   ],
   imports: [
     BrowserModule,
