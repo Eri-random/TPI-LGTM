@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -32,7 +32,8 @@ import { EditInfoComponent } from './pages/dashboard/components/edit-info/edit-i
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ResponseIdeaComponent } from './pages/generar-ideas/response-idea/response-idea.component';
-
+import { register } from 'swiper/element/bundle'
+register();
 @NgModule({
   declarations: [
     AppComponent,
@@ -69,9 +70,10 @@ import { ResponseIdeaComponent } from './pages/generar-ideas/response-idea/respo
     MatInputModule,
     MatButtonModule,
     MatDialogModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {}
