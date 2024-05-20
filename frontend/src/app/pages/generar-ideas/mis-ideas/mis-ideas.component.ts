@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { switchMap, tap } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
 import { ResponseIdeaService } from 'src/app/services/response-idea.service';
 import { UserStoreService } from 'src/app/services/user-store.service';
 
@@ -17,25 +18,15 @@ export class MisIdeasComponent implements OnInit {
   constructor(
     private responseIdeaService: ResponseIdeaService,
     private router: Router,
-    private userStore: UserStoreService
+    private userStore: UserStoreService,
+    private authService:AuthService
   ) {}
 
   ngOnInit(): void {
-    this.userStore
-      .getEmailFromStore()
-      .pipe(
-        tap((email) => {
-          this.email = email;
-        }),
-        switchMap((email) =>
-          this.userStore.getUserByEmail(email).pipe(
-            tap((user) => {
-              console.log('User retrieved:', user); // Verificar el usuario recibido
-            })
-          )
-        )
-      )
-      .subscribe({
+    this.email = this.authService.getEmailFromToken();
+    
+    this.userStore.getUserByEmail(this.email)
+    .subscribe({
         next: (res) => {
           this.userId = res.id;
           this.responseIdeaService.getIdeasByUser(this.userId).subscribe({

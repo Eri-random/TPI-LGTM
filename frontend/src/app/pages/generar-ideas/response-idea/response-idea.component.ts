@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { switchMap, tap } from 'rxjs';
 import { Idea } from 'src/app/models/idea';
+import { AuthService } from 'src/app/services/auth.service';
 import { ResponseIdeaService } from 'src/app/services/response-idea.service';
 import { UserStoreService } from 'src/app/services/user-store.service';
 
@@ -18,30 +19,18 @@ export class ResponseIdeaComponent {
   constructor(
     private responseIdeaService: ResponseIdeaService,
     private router: Router,
+    private authService: AuthService,
     private userStore: UserStoreService
   ) {}
 
   ngOnInit(): void {
     this.response = this.responseIdeaService.getGeneratedIdea();
-    this.userStore
-      .getEmailFromStore()
-      .pipe(
-        tap((email) => {
-          this.email = email;
-        }),
-        switchMap((email) =>
-          this.userStore.getUserByEmail(email).pipe(
-            tap((user) => {
-              console.log('User retrieved:', user); // Verificar el usuario recibido
-            })
-          )
-        )
-      )
-      .subscribe({
-        next: (res) => {
-          this.userId = res.id;
-        },
-      });
+    this.email = this.authService.getEmailFromToken();
+        
+    this.userStore.getUserByEmail(this.email).subscribe(resp =>{
+      this.userId = resp.id;
+    })
+          
   }
 
   generateNewIdea() {
@@ -50,6 +39,7 @@ export class ResponseIdeaComponent {
   }
 
   saveIdea() {
+    console.log(this.userId);
     this.responseIdeaService
       .postSaveIdea({
         titulo: this.response.idea,
