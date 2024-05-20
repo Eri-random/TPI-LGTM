@@ -134,7 +134,7 @@ namespace backend.api.Controllers
                 return BadRequest("usuario y/o contraseña incorrectos");
             }
 
-            var token = Token.CreateJwtToken(user.RolNombre, user.Nombre,user.Organizacion?.Cuit);
+            var token = Token.CreateJwtToken(user.RolNombre, user.Nombre,user.Organizacion?.Cuit,user.Organizacion?.Nombre);
 
             return Ok(new
             {

@@ -53,6 +53,7 @@ const NAMES: string[] = [
 export class DashboardComponent implements AfterViewInit, OnInit {
   cuit!: string;
   organizacion:any;
+  orgNombre:any
 
   displayedColumns: string[] = [
     'name',
@@ -77,17 +78,11 @@ export class DashboardComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit() {
-    this.organizacionService.getCuitFromStore().subscribe((val) => {
-      const cuitFromToken = this.authService.getCuitFromToken();
-      this.cuit = val || cuitFromToken;
+    this.organizacionService.getOrgNameFromStore().subscribe((val) => {
+      const orgNameFromToken = this.authService.getOrgNameFromToken();
+      this.orgNombre = val || orgNameFromToken;
     });
 
-    this.organizacionService
-      .getOrganizacionByCuit(this.cuit)
-      .subscribe((resp) => {
-        this.organizacion = resp;
-        resp.infoOrganizacion == null ? this.openDialog() : null;
-    });
   }
 
   ngAfterViewInit() {

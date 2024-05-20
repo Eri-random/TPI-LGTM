@@ -11,7 +11,7 @@ namespace backend.servicios.Helpers
 {
     public class Token
     {
-        public static string CreateJwtToken(string rol, string nombre, string cuit=null)
+        public static string CreateJwtToken(string rol, string nombre, string cuit=null,string orgNombre=null)
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes("veryverysceret.....");
@@ -21,9 +21,10 @@ namespace backend.servicios.Helpers
                 new Claim(ClaimTypes.Name, nombre)
             };
 
-            if (!string.IsNullOrEmpty(cuit))
+            if (!string.IsNullOrEmpty(cuit) && !string.IsNullOrEmpty(orgNombre))
             {
-                claims.Add(new Claim("cuit", cuit));            
+                claims.Add(new Claim("cuit", cuit));
+                claims.Add(new Claim("orgName", orgNombre));
             }
 
             var identity = new ClaimsIdentity(claims);

@@ -80,4 +80,10 @@ export class AuthService {
       return this.userPayload.cuit;
     }
   }
+
+  getOrgNameFromToken(){
+    if(this.userPayload){
+      return this.userPayload.orgName;
+    }
+  }
 }

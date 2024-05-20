@@ -9,6 +9,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class OrganizacionService {
 
   private cuit$ = new BehaviorSubject<string>("");
+  private orgName$ = new BehaviorSubject<string>("");
+
 
   private baseUrl = environments.baseUrl;
 
@@ -41,5 +43,13 @@ export class OrganizacionService {
 
   public setCuitForStore(cuit:string){
     this.cuit$.next(cuit);
+  }
+
+  public getOrgNameFromStore(){
+    return this.orgName$.asObservable();
+  }
+
+  public setOrgNameForStore(orgName:string){
+    this.orgName$.next(orgName);
   }
 }
