@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environments } from '../environments/environments';
 import { HttpClient } from '@angular/common/http';
+import { Idea } from '../models/idea';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +12,9 @@ export class ResponseIdeaService {
 
   constructor(private http: HttpClient) { }
 
-  postSaveIdea(idea: any){
+  postSaveIdea(idea: Idea){
     const url = `${this.baseUrl}/Idea/save`;
-    return this.http.post<any>(url, {idea});
+    return this.http.post<any>(url, idea);
   }
 
   setGeneratedIdea(idea: any){

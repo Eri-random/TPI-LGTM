@@ -1,8 +1,11 @@
 ﻿using backend.api.Models;
 using backend.servicios.Interfaces;
 using backend.servicios.Models;
+using backend.servicios.Servicios;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using backend.servicios.DTOs;
+
 
 namespace backend.api.Controllers
 {
@@ -11,10 +14,12 @@ namespace backend.api.Controllers
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
-    public class IdeaController(IGenerateIdeaApiService groqApiService, ILogger<IdeaController> logger) : ControllerBase
+    public class IdeaController(IGenerateIdeaApiService groqApiService, ILogger<IdeaController> logger, IIdeaService ideaService) : ControllerBase
     {
         private readonly IGenerateIdeaApiService _groqApiService = groqApiService ?? throw new ArgumentNullException(nameof(groqApiService));
         private readonly ILogger<IdeaController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        private readonly IIdeaService _ideaService = ideaService ?? throw new ArgumentNullException(nameof(ideaService));
+
 
 
         /// <summary>
@@ -56,6 +61,40 @@ namespace backend.api.Controllers
             {
                 _logger.LogError(ex, "Error when generating idea");
                 return StatusCode(500, $"Error when generating idea");
+            }
+        }
+
+
+        [HttpPost("save")]
+        public async Task<IActionResult> SaveIdea([FromBody] IdeaResponseModel idea)
+        {
+            if (idea == null)
+            {
+                _logger.LogWarning("Invalid request payload received.");
+                return BadRequest("Invalid request payload");
+            }
+
+            try
+            {
+                var ideaDto = new IdeaDto
+                {
+                    Titulo = idea.Titulo,
+                    UsuarioId = idea.UsuarioId,
+                    Pasos = idea.Pasos.Select(paso => new PasoDto
+                    {
+                        PasoNum = paso.PasoNum,
+                        Descripcion = paso.Descripcion
+                    }).ToList()
+                };
+
+
+                await _ideaService.SaveIdeaAsync(ideaDto);
+                return CreatedAtAction(nameof(SaveIdea), new { id = idea.UsuarioId }, idea);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al guardar la idea");
+                return StatusCode(500, $"Error al guardar la idea");
             }
         }
     }
