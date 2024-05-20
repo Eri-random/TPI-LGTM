@@ -70,5 +70,38 @@ namespace backend.servicios.Servicios
                 throw;
             }
         }
+
+        //necesito un metodo para obtener una idea por id
+        public async Task<IdeaDto> GetIdeaByIdAsync(int ideaId)
+        {
+            try
+            {
+                var idea = await _context.Ideas
+                    .Include(i => i.Pasos)
+                    .FirstOrDefaultAsync(i => i.Id == ideaId);
+
+                if (idea == null)
+                {
+                    return null;
+                }
+
+                return new IdeaDto
+                {
+                    Titulo = idea.Titulo,
+                    UsuarioId = idea.UsuarioId,
+                    Pasos = idea.Pasos.Select(p => new PasoDto
+                    {
+                        PasoNum = p.PasoNum,
+                        Descripcion = p.Descripcion
+                    }).ToList()
+                };
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener la idea");
+                throw;
+            }
+        }
     }
 }

@@ -112,5 +112,27 @@ namespace backend.api.Controllers
                 return StatusCode(500, $"Error al obtener las ideas del usuario");
             }
         }
+
+        //necesito un metodo para obtener una idea por id
+        [HttpGet("ver-detalle/{ideaId}")]
+        public async Task<IActionResult> GetIdeaById(int ideaId)
+        {
+            try
+            {
+                var idea = await _ideaService.GetIdeaByIdAsync(ideaId);
+
+                if (idea == null)
+                {
+                    return NotFound("Idea no encontrada");
+                }
+
+                return Ok(idea);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener la idea con id {ideaId}", ideaId);
+                return StatusCode(500, "Error al obtener la idea");
+            }
+        }
     }
 }
