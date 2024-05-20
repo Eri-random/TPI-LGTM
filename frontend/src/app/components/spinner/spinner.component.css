@@ -1,31 +1,47 @@
-.spinner-overlay {
+.loading-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  /* Fondo semitransparente */
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.3);
   z-index: 9999;
+  /* Asegura que esté por encima de otros elementos */
 }
 
-.spinner {
-  border: 16px solid #f3f3f3;
-  border-top: 16px solid #3498db;
-  border-radius: 50%;
-  width: 120px;
-  height: 120px;
-  animation: spin 2s linear infinite;
+.loading-message {
+  text-align: center;
+  font-size: 40px;
+  /* Tamaño del texto */
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
+
+.dot1,
+.dot2,
+.dot3 {
+  animation: bounce 1.5s infinite ease-in-out;
+}
+
+.dot2 {
+  animation-delay: 0.5s;
+}
+
+.dot3 {
+  animation-delay: 1s;
+}
+
+@keyframes bounce {
+
+  0%,
+  100% {
+    opacity: 0;
   }
 
-  100% {
-    transform: rotate(360deg);
+  50% {
+    opacity: 1;
   }
 }
