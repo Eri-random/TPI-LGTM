@@ -71,6 +71,7 @@ export class LoginComponent implements OnInit {
         ? (() => {
         this.router.navigate(['/dashboard']);
         this.organizacionService.setCuitForStore(tokenPayload.cuit);
+        this.organizacionService.setOrgNameForStore(tokenPayload.orgName);
         })() 
         : this.router.navigate(['/']);
       },

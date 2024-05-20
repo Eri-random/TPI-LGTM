@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {Router} from "@angular/router";
 import { NgToastService } from 'ng-angular-popup';
 import ValidateForm from 'src/app/helpers/validateForm';
+import { AuthService } from 'src/app/services/auth.service';
 import { GenerarIdeaService } from 'src/app/services/generar-idea.service';
 import { ReconocimientoTelaService } from 'src/app/services/reconocimiento-tela.service';
 import { ResponseIdeaService } from 'src/app/services/response-idea.service';
@@ -13,17 +14,18 @@ import { SpinnerService } from 'src/app/services/spinner.service';
   styleUrls: ['./generar-ideas.component.css']
 })
 export class GenerarIdeasComponent implements OnInit {
-  seccionIngresar: string = "d-block";
-  seccionFormulario: string = "d-none";
+
   imagePreviews: string[] = ['https://media.istockphoto.com/id/1226328537/es/vector/soporte-de-posici%C3%B3n-de-imagen-con-un-icono-de-c%C3%A1mara-gris.jpg?s=612x612&w=0&k=20&c=8igCt_oe2wE-aP0qExUDfwicSNUCb4Ho9DiKCq0rSaA='];
   imageFiles: File[] = [];
   ideaForm!: FormGroup;
+  isLogged!:boolean;
   loading: boolean = false;
   message: string = "";
 
   constructor( private formBuilder: FormBuilder, private router:Router,
     private reconomientoTelaService: ReconocimientoTelaService,
     private toast: NgToastService,
+    private authService: AuthService,
     private generarIdeaService: GenerarIdeaService,
     private spinnerService: SpinnerService,
     private responseIdeaService: ResponseIdeaService
@@ -31,6 +33,7 @@ export class GenerarIdeasComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isLogged = this.authService.isLoggedIn();
     this.ideaForm= this.formBuilder.group({
       tipoDeTela: ["", [Validators.required]],
       color:["",[Validators.required]],
@@ -105,8 +108,4 @@ export class GenerarIdeasComponent implements OnInit {
     );
   }
 
-  formIdea(){
-    this.seccionIngresar = "d-none";
-    this.seccionFormulario = "d-block";
-  }
 }

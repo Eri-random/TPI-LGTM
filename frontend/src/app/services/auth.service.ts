@@ -81,6 +81,12 @@ export class AuthService {
     }
   }
 
+  getOrgNameFromToken(){
+    if(this.userPayload){
+      return this.userPayload.orgName;
+    }
+  }
+
   getEmailFromToken(){
     if(this.userPayload){
       return this.userPayload.email;

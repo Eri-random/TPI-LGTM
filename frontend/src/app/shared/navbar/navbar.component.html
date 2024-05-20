@@ -6,9 +6,6 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="nav-link d-lg-none d-block" href="#">
-                <span class="fa fa-shopping-cart"></span>
-            </a>
         </div>
         <div class="offcanvas offcanvas-end" id="navbarNav" aria-labelledby="navbarNavLabel">
             <div class="offcanvas-header">
@@ -16,7 +13,7 @@
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body d-lg-flex justify-content-between">
-                    <ul class="navbar-nav">
+                    <ul *ngIf="!isLoggedIn || (isLoggedIn && role == 'usuario')" class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link" routerLink="/generar-ideas">Generar ideas</a>
                         </li>
@@ -25,6 +22,17 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" routerLink="/ubicaciones">Nuestra red</a>
+                        </li>
+                    </ul>
+                    <ul *ngIf="role == 'organizacion' && isLoggedIn" class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" routerLink="/dashboard">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link">Mi organización</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link">Mis sedes</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">
@@ -40,8 +48,8 @@
                             </a>
                             <ul class="dropdown-menu">
                               <li><a class="dropdown-item" href="#">Mi Perfil</a></li>
-                              <li><a class="dropdown-item" routerLink="/mis-ideas">Mis Ideas</a></li>
-                              <li><a class="dropdown-item" href="/mi-organizacion">Mi Organización</a></li>
+                              <li *ngIf="role == 'usuario'"><a class="dropdown-item" href="#">Mis Ideas</a></li>
+                              <li *ngIf="role == 'organizacion'"><a class="dropdown-item" href="/mi-organizacion">Mi Organización</a></li>
                               <li (click)="logout()"><a class="dropdown-item">Cerrar Sesión</a></li>
                             </ul>
                         </li>
