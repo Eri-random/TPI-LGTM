@@ -52,6 +52,7 @@ const NAMES: string[] = [
 })
 export class DashboardComponent implements AfterViewInit, OnInit {
   cuit!: string;
+  organizacion:any;
 
   displayedColumns: string[] = [
     'name',
@@ -84,8 +85,9 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     this.organizacionService
       .getOrganizacionByCuit(this.cuit)
       .subscribe((resp) => {
+        this.organizacion = resp;
         resp.infoOrganizacion == null ? this.openDialog() : null;
-      });
+    });
   }
 
   ngAfterViewInit() {
