@@ -3,17 +3,22 @@
 }
 
 .marca {
-    padding-top: 5%;
+    padding-top: 3%;
 }
 
 .primeraParte {
-    padding-bottom: 2%;
+    /* padding-bottom: 2%; */
+    margin-bottom: -1%;
 }
 
 a img {
-    height: 50%;
+    height: 40%;
 }
 
 hr {
     color: white;
+}
+
+.logo {
+    width: 10%;
 }
