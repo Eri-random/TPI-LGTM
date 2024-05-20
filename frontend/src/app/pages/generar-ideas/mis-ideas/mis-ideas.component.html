@@ -3,6 +3,13 @@
       <h2>Mis Ideas</h2>
     </div>
     <div class="ideas-list">
+      <div *ngIf="!data || data.length === 0" class="empty-ideas">
+        <div class="section-empty">
+          <p class="idea-empty">¡Es hora de darle un nuevo propósito a tu tela de reciclaje! Te animamos a aprovechar al máximo este recurso y generar una idea innovadora. Nuestra IA está aquí para ayudarte a encontrar la inspiración perfecta.</p>
+          <a class="genera-idea" routerLink="/generar-ideas">Generar Idea</a>
+        </div>
+        <img class="reciclar" src="assets/images/reciclar.jpg" alt="empty-ideas" />
+      </div>
       <div *ngFor="let item of data" class="idea-item">
         <div class="idea-header">
           <h5>{{item.titulo}}</h5>
@@ -11,9 +18,6 @@
             <button (click)="deleteIdea(item.id)">Eliminar</button>
           </div>
         </div>
-        <!-- <div *ngFor="let paso of item.pasos">
-          <p>{{paso.descripcion}}</p>
-        </div> -->
       </div>
     </div>
   </div>

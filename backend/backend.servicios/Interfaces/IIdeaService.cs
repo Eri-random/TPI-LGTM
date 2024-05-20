@@ -13,5 +13,7 @@ namespace backend.servicios.Interfaces
         Task<IEnumerable<IdeaDto>> GetIdeasByUsuarioIdAsync(int usuarioId);
 
         Task<IdeaDto> GetIdeaByIdAsync(int ideaId);
+
+        Task DeleteIdeaByIdAsync(int ideaId);
     }
 }

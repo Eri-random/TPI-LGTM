@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
 import { switchMap, tap } from 'rxjs';
 import { ResponseIdeaService } from 'src/app/services/response-idea.service';
 import { UserStoreService } from 'src/app/services/user-store.service';
@@ -17,7 +18,8 @@ export class MisIdeasComponent implements OnInit {
   constructor(
     private responseIdeaService: ResponseIdeaService,
     private router: Router,
-    private userStore: UserStoreService
+    private userStore: UserStoreService,
+    private toast: NgToastService
   ) {}
 
   ngOnInit(): void {
@@ -49,11 +51,28 @@ export class MisIdeasComponent implements OnInit {
   }
 
   verDetalle(idea: any) {
-    console.log('Ver Detalle:', idea);
     this.router.navigate(['/mis-ideas', idea.id]);
   }
 
-  deleteIdea(idea: any) {
-    console.log('Delete Idea:', idea);
+  deleteIdea(id: number) {
+    this.responseIdeaService.deleteIdea(id).subscribe({
+      next: (res) => {
+        this.data = this.data.filter((idea) => idea.id !== id);
+
+        this.toast.success({
+          detail: 'EXITO',
+          summary: 'Idea eliminada exitosamente',
+          duration: 5000,
+          position: 'topCenter',
+        });
+      },
+      error: ({ error }) => {
+        this.toast.error({
+          detail: 'Error al eliminar la idea',
+          duration: 5000,
+          position: 'topCenter',
+        });
+      },
+    });
   }
 }

@@ -113,7 +113,6 @@ namespace backend.api.Controllers
             }
         }
 
-        //necesito un metodo para obtener una idea por id
         [HttpGet("ver-detalle/{ideaId}")]
         public async Task<IActionResult> GetIdeaById(int ideaId)
         {
@@ -132,6 +131,21 @@ namespace backend.api.Controllers
             {
                 _logger.LogError(ex, "Error al obtener la idea con id {ideaId}", ideaId);
                 return StatusCode(500, "Error al obtener la idea");
+            }
+        }
+
+        [HttpDelete("delete/{ideaId}")]
+        public async Task<IActionResult> DeleteIdea(int ideaId)
+        {
+            try
+            {
+                await _ideaService.DeleteIdeaByIdAsync(ideaId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al eliminar la idea con id {ideaId}", ideaId);
+                return StatusCode(500, "Error al eliminar la idea");
             }
         }
     }

@@ -50,6 +50,7 @@ namespace backend.servicios.Servicios
                     .Where(i => i.UsuarioId == usuarioId)
                     .Select(i => new IdeaDto
                     {
+                        Id = i.Id,
                         Titulo = i.Titulo,
                         UsuarioId = i.UsuarioId,
                         Pasos = i.Pasos.Select(p => new PasoDto
@@ -71,7 +72,6 @@ namespace backend.servicios.Servicios
             }
         }
 
-        //necesito un metodo para obtener una idea por id
         public async Task<IdeaDto> GetIdeaByIdAsync(int ideaId)
         {
             try
@@ -100,6 +100,29 @@ namespace backend.servicios.Servicios
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al obtener la idea");
+                throw;
+            }
+        }
+
+        public async Task DeleteIdeaByIdAsync(int ideaId)
+        {
+            try
+            {
+                var idea = await _context.Ideas
+                    .Include(i => i.Pasos)
+                    .FirstOrDefaultAsync(i => i.Id == ideaId);
+
+                if (idea == null)
+                    throw new InvalidOperationException("La idea no existe.");
+
+                _context.Pasos.RemoveRange(idea.Pasos);
+                _context.Ideas.Remove(idea);
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al borrar la idea");
                 throw;
             }
         }

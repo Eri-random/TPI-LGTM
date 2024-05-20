@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
 import { switchMap, tap } from 'rxjs';
 import { Idea } from 'src/app/models/idea';
 import { ResponseIdeaService } from 'src/app/services/response-idea.service';
@@ -18,7 +19,8 @@ export class ResponseIdeaComponent {
   constructor(
     private responseIdeaService: ResponseIdeaService,
     private router: Router,
-    private userStore: UserStoreService
+    private userStore: UserStoreService,
+    private toast: NgToastService
   ) {}
 
   ngOnInit(): void {
@@ -61,7 +63,16 @@ export class ResponseIdeaComponent {
       })
       .subscribe({
         next: (res) => {
-          // this.router.navigate(['/generar-ideas']);
+          this.toast.success({
+            detail: 'EXITO',
+            summary: 'Idea guardada exitosamente',
+            duration: 3000,
+            position: 'topCenter',
+          });
+
+          setTimeout(() => {
+            this.router.navigate(['/mis-ideas']);
+          }, 3000);
         },
       });
   }

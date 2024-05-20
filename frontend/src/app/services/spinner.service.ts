@@ -6,7 +6,9 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class SpinnerService {
   private loadingSubject = new BehaviorSubject<boolean>(false);
+  private loadingSubjectIdea = new BehaviorSubject<boolean>(false);
   public loading$ = this.loadingSubject.asObservable();
+  public loadingIdea$ = this.loadingSubjectIdea.asObservable();
 
   show() {
     this.loadingSubject.next(true);
@@ -14,5 +16,13 @@ export class SpinnerService {
 
   hide() {
     this.loadingSubject.next(false);
+  }
+
+  showIdea(){
+    this.loadingSubjectIdea.next(true);
+  }
+
+  hideIdea(){
+    this.loadingSubjectIdea.next(false);
   }
 }

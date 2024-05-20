@@ -34,7 +34,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ResponseIdeaComponent } from './pages/generar-ideas/response-idea/response-idea.component';
 import { register } from 'swiper/element/bundle';
 import { MisIdeasComponent } from './pages/generar-ideas/mis-ideas/mis-ideas.component';
-import { VerIdeaComponent } from './pages/generar-ideas/mis-ideas/ver-idea/ver-idea.component'
+import { VerIdeaComponent } from './pages/generar-ideas/mis-ideas/ver-idea/ver-idea.component';
+import { SpinnerIdeaComponent } from './components/spinner-idea/spinner-idea.component'
 register();
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ register();
     SpinnerComponent,
     ResponseIdeaComponent,
     MisIdeasComponent,
-    VerIdeaComponent
+    VerIdeaComponent,
+    SpinnerIdeaComponent
   ],
   imports: [
     BrowserModule,

@@ -24,8 +24,13 @@ export class ResponseIdeaService {
   }
 
   getIdea(ideaId: number): Observable<any> {
-    const url = `${this.baseUrl}/ideas/ver-detalle/${ideaId}`;
+    const url = `${this.baseUrl}/Idea/ver-detalle/${ideaId}`;
     return this.http.get<any>(url);
+  }
+
+  deleteIdea(ideaId: number){
+    const url = `${this.baseUrl}/Idea/delete/${ideaId}`;
+    return this.http.delete<any>(url);
   }
 
   setGeneratedIdea(idea: any){

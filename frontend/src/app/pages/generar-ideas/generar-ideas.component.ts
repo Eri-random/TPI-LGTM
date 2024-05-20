@@ -56,9 +56,11 @@ export class GenerarIdeasComponent implements OnInit {
     };
     this.imageFiles.push(files);
 
+    this.spinnerService.showIdea();
     /*Reconocimiento momentanea de una imagen, ver de mejorar*/
     this.reconomientoTelaService.classifyImage(files[0])
       .subscribe(({tela}) =>{
+        this.spinnerService.hideIdea();
         this.ideaForm.get('tipoDeTela')?.setValue(tela);
       })
   }
@@ -82,7 +84,12 @@ export class GenerarIdeasComponent implements OnInit {
       return;
     }
 
-    this.message = `Dame una idea de un producto que pueda hacer con tela de ${this.ideaForm.get('tipoDeTela')?.value}, color ${this.ideaForm.get('color')?.value}, largo ${this.ideaForm.get('largo')?.value}, ancho ${this.ideaForm.get('ancho')?.value}`;
+    this.message = `Por favor, proporciona detalles sobre el trozo de tela que deseas reciclar:\n\n` +
+    `- Tipo de tela: ${this.ideaForm.get('tipoDeTela')?.value}\n` +
+    `- Color: ${this.ideaForm.get('color')?.value}\n` +
+    `- Largo: ${this.ideaForm.get('largo')?.value}\n` +
+    `- Ancho: ${this.ideaForm.get('ancho')?.value}\n\n` +
+    `Utilizando estos detalles, generaremos una idea de producto reciclado adecuada.`;
     this.spinnerService.show();
     
     this.generarIdeaService.postGenerateIdea(this.message).subscribe(
