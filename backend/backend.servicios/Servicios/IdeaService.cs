@@ -54,8 +54,10 @@ namespace backend.servicios.Servicios
                         UsuarioId = i.UsuarioId,
                         Pasos = i.Pasos.Select(p => new PasoDto
                         {
+                            Id = p.Id,
                             PasoNum = p.PasoNum,
-                            Descripcion = p.Descripcion
+                            Descripcion = p.Descripcion,
+                            IdeaId = p.IdeaId
                         }).ToList()
                     }).ToListAsync();
 
