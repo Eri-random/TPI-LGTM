@@ -49,8 +49,8 @@ export class MisIdeasComponent implements OnInit {
   }
 
   verDetalle(idea: any) {
-    // this.responseIdeaService.setIdea(idea);
-    // this.router.navigate(['/response-idea']);
+    console.log('Ver Detalle:', idea);
+    this.router.navigate(['/mis-ideas', idea.id]);
   }
 
   deleteIdea(idea: any) {

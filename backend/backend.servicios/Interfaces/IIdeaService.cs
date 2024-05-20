@@ -11,5 +11,7 @@ namespace backend.servicios.Interfaces
     {
         Task SaveIdeaAsync(IdeaDto ideaDto);
         Task<IEnumerable<IdeaDto>> GetIdeasByUsuarioIdAsync(int usuarioId);
+
+        Task<IdeaDto> GetIdeaByIdAsync(int ideaId);
     }
 }

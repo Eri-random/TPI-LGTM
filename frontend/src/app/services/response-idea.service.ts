@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environments } from '../environments/environments';
 import { HttpClient } from '@angular/common/http';
 import { Idea } from '../models/idea';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,11 @@ export class ResponseIdeaService {
 
   getIdeasByUser(userId: number){
     const url = `${this.baseUrl}/Idea/user/${userId}`;
+    return this.http.get<any>(url);
+  }
+
+  getIdea(ideaId: number): Observable<any> {
+    const url = `${this.baseUrl}/ideas/ver-detalle/${ideaId}`;
     return this.http.get<any>(url);
   }
 
