@@ -52,7 +52,7 @@ register();
     DashboardComponent,
     ModalOrganizacionComponent,
     EditInfoComponent,
-    InfoOrganizacionComponent
+    InfoOrganizacionComponent,
     SpinnerComponent,
     ResponseIdeaComponent,
     MisIdeasComponent,
