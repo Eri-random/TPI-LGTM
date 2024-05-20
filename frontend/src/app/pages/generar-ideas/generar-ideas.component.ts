@@ -4,8 +4,10 @@ import {Router} from "@angular/router";
 import { NgToastService } from 'ng-angular-popup';
 import ValidateForm from 'src/app/helpers/validateForm';
 import { AuthService } from 'src/app/services/auth.service';
+import { GenerarIdeaService } from 'src/app/services/generar-idea.service';
 import { ReconocimientoTelaService } from 'src/app/services/reconocimiento-tela.service';
-
+import { ResponseIdeaService } from 'src/app/services/response-idea.service';
+import { SpinnerService } from 'src/app/services/spinner.service';
 @Component({
   selector: 'app-generar-ideas',
   templateUrl: './generar-ideas.component.html',
@@ -17,11 +19,16 @@ export class GenerarIdeasComponent implements OnInit {
   imageFiles: File[] = [];
   ideaForm!: FormGroup;
   isLogged!:boolean;
+  loading: boolean = false;
+  message: string = "";
 
   constructor( private formBuilder: FormBuilder, private router:Router,
     private reconomientoTelaService: ReconocimientoTelaService,
+    private toast: NgToastService,
     private authService: AuthService,
-    private toast: NgToastService
+    private generarIdeaService: GenerarIdeaService,
+    private spinnerService: SpinnerService,
+    private responseIdeaService: ResponseIdeaService
   ){
   }
 
@@ -52,9 +59,11 @@ export class GenerarIdeasComponent implements OnInit {
     };
     this.imageFiles.push(files);
 
+    this.spinnerService.showIdea();
     /*Reconocimiento momentanea de una imagen, ver de mejorar*/
     this.reconomientoTelaService.classifyImage(files[0])
       .subscribe(({tela}) =>{
+        this.spinnerService.hideIdea();
         this.ideaForm.get('tipoDeTela')?.setValue(tela);
       })
   }
@@ -71,14 +80,32 @@ export class GenerarIdeasComponent implements OnInit {
   }
 
   submitForm() {
+
     if(!this.ideaForm.valid){
       ValidateForm.validateAllFormFileds(this.ideaForm);
       console.log("SIN DATOS");
       return;
     }
 
-    console.log(this.imageFiles);
-    console.log(this.ideaForm.value);
+    this.message = `Por favor, proporciona detalles sobre el trozo de tela que deseas reciclar:\n\n` +
+    `- Tipo de tela: ${this.ideaForm.get('tipoDeTela')?.value}\n` +
+    `- Color: ${this.ideaForm.get('color')?.value}\n` +
+    `- Largo: ${this.ideaForm.get('largo')?.value}\n` +
+    `- Ancho: ${this.ideaForm.get('ancho')?.value}\n\n` +
+    `Utilizando estos detalles, generaremos una idea de producto reciclado adecuada.`;
+    this.spinnerService.show();
+    
+    this.generarIdeaService.postGenerateIdea(this.message).subscribe(
+      (response) => {
+        this.spinnerService.hide();
+        this.responseIdeaService.setGeneratedIdea(response);
+        this.router.navigate(['/response-idea']);
+      },
+      (error) => {
+        this.spinnerService.hide();
+        console.log(error);
+      }
+    );
   }
 
 }

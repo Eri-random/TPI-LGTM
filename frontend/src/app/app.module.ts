@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -29,11 +29,14 @@ import { ModalOrganizacionComponent } from './components/modal-organizacion/moda
 import { MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import { EditInfoComponent } from './pages/dashboard/components/edit-info/edit-info.component';
-
-
-
-
-
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ResponseIdeaComponent } from './pages/generar-ideas/response-idea/response-idea.component';
+import { register } from 'swiper/element/bundle';
+import { MisIdeasComponent } from './pages/generar-ideas/mis-ideas/mis-ideas.component';
+import { VerIdeaComponent } from './pages/generar-ideas/mis-ideas/ver-idea/ver-idea.component';
+import { SpinnerIdeaComponent } from './components/spinner-idea/spinner-idea.component'
+register();
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +50,12 @@ import { EditInfoComponent } from './pages/dashboard/components/edit-info/edit-i
     DonacionesComponent,
     DashboardComponent,
     ModalOrganizacionComponent,
-    EditInfoComponent
+    EditInfoComponent,
+    SpinnerComponent,
+    ResponseIdeaComponent,
+    MisIdeasComponent,
+    VerIdeaComponent,
+    SpinnerIdeaComponent
   ],
   imports: [
     BrowserModule,
@@ -67,9 +75,11 @@ import { EditInfoComponent } from './pages/dashboard/components/edit-info/edit-i
     CommonModule,
     MatInputModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {}

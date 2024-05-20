@@ -8,6 +8,9 @@ import { MapaOrganizacionesComponent } from './pages/mapa/mapa-organizaciones.co
 import { DonacionesComponent } from './pages/donaciones/donaciones.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { EditInfoComponent } from './pages/dashboard/components/edit-info/edit-info.component';
+import { ResponseIdeaComponent } from './pages/generar-ideas/response-idea/response-idea.component';
+import { MisIdeasComponent } from './pages/generar-ideas/mis-ideas/mis-ideas.component';
+import { VerIdeaComponent } from './pages/generar-ideas/mis-ideas/ver-idea/ver-idea.component';
 
 
 const routes: Routes = [
@@ -19,6 +22,9 @@ const routes: Routes = [
   {path: 'donar', component:DonacionesComponent},
   {path: 'dashboard', component: DashboardComponent},
   {path: 'mi-organizacion', component: EditInfoComponent},
+  {path: 'response-idea', component: ResponseIdeaComponent},
+  {path: 'mis-ideas', component: MisIdeasComponent},
+  {path: 'mis-ideas/:id', component: VerIdeaComponent},
   {path:'**',redirectTo:''}
 ];
 
