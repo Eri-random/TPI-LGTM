@@ -16,3 +16,7 @@
 li{
     cursor: pointer;
 }
+
+.navbar-nav:last-child{
+    margin-right: 4rem;
+}
