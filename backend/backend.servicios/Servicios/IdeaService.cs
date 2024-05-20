@@ -40,5 +40,33 @@ namespace backend.servicios.Servicios
                 throw;
             }
         }
+
+        public async Task<IEnumerable<IdeaDto>> GetIdeasByUsuarioIdAsync(int usuarioId)
+        {
+            try
+            {
+                var ideas = await _context.Ideas
+                    .Include(i => i.Pasos)
+                    .Where(i => i.UsuarioId == usuarioId)
+                    .Select(i => new IdeaDto
+                    {
+                        Titulo = i.Titulo,
+                        UsuarioId = i.UsuarioId,
+                        Pasos = i.Pasos.Select(p => new PasoDto
+                        {
+                            PasoNum = p.PasoNum,
+                            Descripcion = p.Descripcion
+                        }).ToList()
+                    }).ToListAsync();
+
+                return ideas;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener las ideas del usuario");
+                throw;
+            }
+        }
     }
 }

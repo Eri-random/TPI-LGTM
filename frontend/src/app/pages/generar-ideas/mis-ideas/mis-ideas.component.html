@@ -1,0 +1,19 @@
+<div class="ideas-container">
+    <div class="header">
+      <h2>Mis Ideas</h2>
+    </div>
+    <div class="ideas-list">
+      <div *ngFor="let item of data" class="idea-item">
+        <div class="idea-header">
+          <h5>{{item.titulo}}</h5>
+          <div class="buttons">
+            <button (click)="verDetalle(item.id)">Ver detalle</button>
+            <button (click)="deleteIdea(item.id)">Eliminar</button>
+          </div>
+        </div>
+        <!-- <div *ngFor="let paso of item.pasos">
+          <p>{{paso.descripcion}}</p>
+        </div> -->
+      </div>
+    </div>
+  </div>

@@ -32,7 +32,8 @@ import { EditInfoComponent } from './pages/dashboard/components/edit-info/edit-i
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ResponseIdeaComponent } from './pages/generar-ideas/response-idea/response-idea.component';
-import { register } from 'swiper/element/bundle'
+import { register } from 'swiper/element/bundle';
+import { MisIdeasComponent } from './pages/generar-ideas/mis-ideas/mis-ideas.component'
 register();
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ register();
     ModalOrganizacionComponent,
     EditInfoComponent,
     SpinnerComponent,
-    ResponseIdeaComponent
+    ResponseIdeaComponent,
+    MisIdeasComponent
   ],
   imports: [
     BrowserModule,

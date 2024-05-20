@@ -97,5 +97,20 @@ namespace backend.api.Controllers
                 return StatusCode(500, $"Error al guardar la idea");
             }
         }
+
+        [HttpGet("user/{usuarioId}")]
+        public async Task<IActionResult> GetIdeasByUsuarioId(int usuarioId)
+        {
+            try
+            {
+                var ideas = await _ideaService.GetIdeasByUsuarioIdAsync(usuarioId);
+                return Ok(ideas);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener las ideas del usuario");
+                return StatusCode(500, $"Error al obtener las ideas del usuario");
+            }
+        }
     }
 }

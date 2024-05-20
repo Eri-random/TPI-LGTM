@@ -17,6 +17,11 @@ export class ResponseIdeaService {
     return this.http.post<any>(url, idea);
   }
 
+  getIdeasByUser(userId: number){
+    const url = `${this.baseUrl}/Idea/user/${userId}`;
+    return this.http.get<any>(url);
+  }
+
   setGeneratedIdea(idea: any){
     localStorage.setItem('idea', JSON.stringify(idea));
   }
