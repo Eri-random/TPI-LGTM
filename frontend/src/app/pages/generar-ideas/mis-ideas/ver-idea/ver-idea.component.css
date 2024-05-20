@@ -1,0 +1,92 @@
+.section-idea{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 4rem;
+}
+
+
+.section-title{
+    margin: 2rem 0rem;
+}
+
+.section-back{
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 2rem;
+}
+
+.section-data{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    flex-direction: column;
+    width: 100%;
+}
+
+swiper-container {
+  width: 100%;
+  height: 100%;
+  margin: 4rem 0rem;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+
+.img-fluid{
+    width: 100%;
+    height: 100%;
+}
+
+.section-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    flex-direction: column;
+    width: 100%;
+}
+
+.pdf{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-direction: row;
+  border: none;
+  background-color: transparent;
+  font-size: 16px;
+  color: hsla(228, 28%, 20%, 1);
+}
+
+.pdf-img{
+  width: 50px;
+  height: 50px;
+}
+
+.mis-ideas{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  flex-direction: row;
+  font-size: 14px;
+  color: hsla(228, 28%, 20%, 1);
+  text-decoration: underline;
+  padding: 0 1rem;
+}

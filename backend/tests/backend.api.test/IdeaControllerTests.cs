@@ -13,6 +13,7 @@ namespace backend.api.test
     public class IdeaControllerTests
     {
         private Mock<IGenerateIdeaApiService> _groqApiServiceMock;
+        private Mock<IIdeaService> _ideaServiceMock;
         private Mock<ILogger<IdeaController>> _loggerMock;
         private IdeaController _controller;
 
@@ -20,8 +21,9 @@ namespace backend.api.test
         public void SetUp()
         {
             _groqApiServiceMock = new Mock<IGenerateIdeaApiService>();
+            _ideaServiceMock = new Mock<IIdeaService>();
             _loggerMock = new Mock<ILogger<IdeaController>>();
-            _controller = new IdeaController(_groqApiServiceMock.Object, _loggerMock.Object);
+            _controller = new IdeaController(_groqApiServiceMock.Object, _loggerMock.Object, _ideaServiceMock.Object);
         }
 
         [Test]

@@ -1,0 +1,36 @@
+<div class="section-idea">
+  <div class="section-title">
+    <h1 class="title-idea">{{ response.idea }}</h1>
+  </div>
+  <swiper-container
+    direction="horizontal"
+    pagination="true"
+    pagination-type="fraction"
+  >
+    <swiper-slide *ngFor="let step of response.steps">
+      <div class="card mb-3" style="max-width: 540px">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img
+              src="https://media.istockphoto.com/id/1226328537/es/vector/soporte-de-posici%C3%B3n-de-imagen-con-un-icono-de-c%C3%A1mara-gris.jpg?s=612x612&w=0&k=20&c=8igCt_oe2wE-aP0qExUDfwicSNUCb4Ho9DiKCq0rSaA="
+              class="img-fluid rounded-start"
+              alt="..."
+            />
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <p class="card-text">{{ step }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </swiper-slide>
+  </swiper-container>
+
+  <div class="section-buttons">
+    <button class="btn btn-primary" (click)="generateNewIdea()">
+      Generar otra idea
+    </button>
+    <button class="btn btn-secondary" (click)="saveIdea()">Guardar idea</button>
+  </div>
+</div>

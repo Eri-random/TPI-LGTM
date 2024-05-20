@@ -80,4 +80,10 @@ export class AuthService {
       return this.userPayload.cuit;
     }
   }
+
+  getEmailFromToken(){
+    if(this.userPayload){
+      return this.userPayload.email;
+    }
+  }
 }
