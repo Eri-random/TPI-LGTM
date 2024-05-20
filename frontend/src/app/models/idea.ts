@@ -1,6 +1,7 @@
 export interface Idea {
     titulo:    string;
     usuarioId: number;
+    dificultad: string;
     pasos:     Paso[];
 }
 

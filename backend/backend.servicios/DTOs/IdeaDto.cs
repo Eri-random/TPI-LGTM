@@ -12,6 +12,7 @@ namespace backend.servicios.DTOs
         public int Id { get; set; }
         public string Titulo { get; set; }
         public int UsuarioId { get; set; }
+        public string Dificultad { get; set; }
         public virtual ICollection<PasoDto> Pasos { get; set; } = new List<PasoDto>();
     }
 }
