@@ -1,4 +1,4 @@
-<div class="container {{seccionIngresar}}">
+<div *ngIf="!isLogged" class="container">
     <div class="row justify-content-center align-items-center">
         <div class="col-md-6 col-12 col-lg-5">
             <div class="panel bg-white">
@@ -17,7 +17,7 @@
                             primero.</h5>
                     </div>
                     <div class="d-flex justify-content-center pt-5">
-                        <button (click)="formIdea()" class="btn btn-secondary py-2 btn-block w-50" id="btnIngresar">Ingresar</button>
+                        <button routerLink="/login" class="btn btn-secondary py-2 btn-block w-50" id="btnIngresar">Ingresar</button>
                     </div>
                 </div>
             </div>
@@ -26,7 +26,7 @@
 </div>
 
 <br>
-<div class="container pt-5 pb-5 {{seccionFormulario}}">
+<div *ngIf="isLogged" class="container pt-5 pb-5">
     <div class="d-flex justify-content-center pb-5">
         <h1>Transformá Retazos de Tela con <span id="ia">IA</span></h1>
     </div>
@@ -88,4 +88,3 @@
         </div>
     </form>
 </div>
-

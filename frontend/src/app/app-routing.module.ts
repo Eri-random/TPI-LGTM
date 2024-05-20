@@ -9,6 +9,10 @@ import { DonacionesComponent } from './pages/donaciones/donaciones.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { EditInfoComponent } from './pages/dashboard/components/edit-info/edit-info.component';
 import { InfoOrganizacionComponent } from './pages/info-organizacion/info-organizacion.component';
+import { ResponseIdeaComponent } from './pages/generar-ideas/response-idea/response-idea.component';
+import { MisIdeasComponent } from './pages/generar-ideas/mis-ideas/mis-ideas.component';
+import { VerIdeaComponent } from './pages/generar-ideas/mis-ideas/ver-idea/ver-idea.component';
+
 
 
 const routes: Routes = [
@@ -21,6 +25,9 @@ const routes: Routes = [
   {path: 'dashboard', component: DashboardComponent},
   {path: 'mi-organizacion', component: EditInfoComponent},
   {path: 'info-organizacion', component: InfoOrganizacionComponent},
+  {path: 'response-idea', component: ResponseIdeaComponent},
+  {path: 'mis-ideas', component: MisIdeasComponent},
+  {path: 'mis-ideas/:id', component: VerIdeaComponent},
   {path:'**',redirectTo:''}
 ];
 

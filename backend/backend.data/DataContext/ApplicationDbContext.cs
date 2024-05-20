@@ -10,9 +10,13 @@ namespace backend.data.DataContext
         {
         }
 
+        public virtual DbSet<Idea> Ideas { get; set; }
+
         public virtual DbSet<InfoOrganizacion> InfoOrganizacions { get; set; }
 
         public virtual DbSet<Organizacion> Organizacions { get; set; }
+
+        public virtual DbSet<Paso> Pasos { get; set; }
 
         public virtual DbSet<Rol> Rols { get; set; }
 
@@ -20,6 +24,24 @@ namespace backend.data.DataContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.Entity<Idea>(entity =>
+            {
+                entity.HasKey(e => e.Id).HasName("idea_pkey");
+
+                entity.ToTable("idea");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Titulo)
+                    .IsRequired()
+                    .HasColumnName("titulo");
+                entity.Property(e => e.UsuarioId).HasColumnName("usuario_id");
+
+                entity.HasOne(d => d.Usuario).WithMany(p => p.Ideas)
+                    .HasForeignKey(d => d.UsuarioId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("idea_usuario_fk");
+            });
 
             modelBuilder.Entity<InfoOrganizacion>(entity =>
             {
@@ -88,6 +110,25 @@ namespace backend.data.DataContext
                     .HasConstraintName("usuario_fkey");
             });
 
+            modelBuilder.Entity<Paso>(entity =>
+            {
+                entity.HasKey(e => e.Id).HasName("paso_pk");
+
+                entity.ToTable("paso");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Descripcion)
+                    .IsRequired()
+                    .HasColumnName("descripcion");
+                entity.Property(e => e.IdeaId).HasColumnName("idea_id");
+                entity.Property(e => e.PasoNum).HasColumnName("paso_num");
+
+                entity.HasOne(d => d.Idea).WithMany(p => p.Pasos)
+                    .HasForeignKey(d => d.IdeaId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("paso_idea_fk");
+            });
+
             modelBuilder.Entity<Rol>(entity =>
             {
                 entity.HasKey(e => e.RolId).HasName("rol_pkey");
@@ -108,6 +149,8 @@ namespace backend.data.DataContext
                 entity.HasKey(e => e.Id).HasName("usuario_pkey");
 
                 entity.ToTable("usuario");
+
+                entity.HasIndex(e => e.RolId, "IX_usuario_rol_id");
 
                 entity.HasIndex(e => e.Email, "usuario_email_key").IsUnique();
 
