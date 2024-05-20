@@ -11,7 +11,7 @@ namespace backend.servicios.Helpers
 {
     public class Token
     {
-        public static string CreateJwtToken(string rol, string nombre, string cuit=null,string orgNombre=null)
+        public static string CreateJwtToken(string rol, string nombre, string email, string cuit=null,string orgNombre=null)
 
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
