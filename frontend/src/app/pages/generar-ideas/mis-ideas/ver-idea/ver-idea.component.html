@@ -2,12 +2,22 @@
   <div class="section-back">
     <a class="mis-ideas" routerLink="/mis-ideas">
       <img class="back" src="assets/images/back.svg" alt="back" />
-      Mis Ideas</a
+      Volver</a
     >
   </div>
   <div class="section-title">
     <h1 class="title-idea">{{ idea.titulo }}</h1>
   </div>
+
+  <p *ngIf="idea.dificultad === 'Facil' || idea.dificultad === 'Fácil' " class="dificultad">
+    Dificultad: <span class="easy">{{ idea.dificultad }}</span>
+  </p>
+  <p *ngIf="idea.dificultad === 'Media'" class="dificultad">
+    Dificultad: <span class="medium">{{ idea.dificultad }}</span>
+  </p>
+  <p *ngIf="idea.dificultad === 'Dificil' || idea.dificultad === 'Difícil'" class="dificultad">
+    Dificultad: <span class="hard">{{ idea.dificultad }}</span>
+  </p>
 
   <div class="section-data">
     <swiper-container

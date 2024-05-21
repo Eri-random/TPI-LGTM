@@ -12,6 +12,8 @@ namespace backend.api.Models
         /// </summary>
         public string Idea { get; set; }
 
+        public string Dificultad { get; set; }
+
         /// <summary>
         /// Gets or sets the steps associated with the generated idea.
         /// </summary>

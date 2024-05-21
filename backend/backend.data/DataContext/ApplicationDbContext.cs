@@ -61,6 +61,7 @@ namespace backend.data.DataContext
                 entity.HasIndex(e => e.UsuarioId, "IX_idea_usuario_id");
 
                 entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Dificultad).HasColumnName("dificultad");
                 entity.Property(e => e.Titulo)
                     .IsRequired()
                     .HasColumnName("titulo");
