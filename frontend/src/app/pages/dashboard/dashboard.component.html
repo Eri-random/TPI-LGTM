@@ -1,6 +1,6 @@
 <div class="container pb-5 pt-5">
 
-    <div class="d-flex justify-content-center pb-5">
+    <div *ngIf="donaciones?.length != 0" class="d-flex justify-content-center pb-5">
         <h1>Organización <span id="nomOrganizacion">{{orgNombre}}</span></h1>
     </div>
 
@@ -8,12 +8,13 @@
         <div class="row justify-content-center pb-5">
             <div class="col-lg-6">
                 <div class="row g-3">
-                    <div class="col-md-12">
-                       <h3 class="text-centers"><strong>Aún no has recibido donaciones!</strong></h3>
+                    <div class="d-flex justify-content-center align-items-center gap-3">
+                       <h3 class="text-centers"><strong>Aún no has recibido donaciones</strong></h3>
+                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEGElEQVR4nO1aPYwTRxQehOJ7zxwxB6EAGhpQJDrSJoEiLSVpAqSLQBRU0IEje55NulCeFECiNF3udL55e5IpIKFAFIAQEhI1IEACiR8pwKG3t3ue9XnXs3/mgvwk63w7M2/et/P2m2/eWqmJfYHW4MoeYmwQ4yNivHFhQU3F9ZU2bfCfoG9DxqrPaee9mZr24BgZ9LTBj8S4HH60gbNx44jhnN3X789wixhP0cL09rEEP3tLfaUNHtIMVzXjOyuYl9rgJTJ40gdl8G3Lq+wdHC/XpC3oI30vydg+IHzn+zZ4SOYqHECju2kfGTyvDTy2gv+gGa9rU/2t3lPTYd8guGVt8Nrystpg+5HVC8ZeDK/Vewo042HNMEcG/7NW6QUxzDY9+D5X8Lpb3SHLrQ3cjqSCwftk8Pd2d2r3sHH1xa+3EsMT6dtiOLrqT9JwJe2exaXQH4w7s8y5NoiYu0MMz9PcnZaBX8Og673pb2xwAqjoLFi1tql+J4EOydc5AZYlX7XBpcDPX5JKcek2yjodtbHpTf2kDV4hxtd9QsE3xNiRNt+nIBxgkRua8Xh7vjajcpj9YCcRQBprz9dmJDaJMcp6eF2RgTsreQj/Fsnp4ksz3LQe3pt5/bdjgAgG1TTwY3jHSpsox4rPxlB+uHfJX8Hgd7ZyeCltDsdOxPhKqLjpTR2Uj3yXa657hu5W92sDf4YkEYx5rxkNGTgSqIMIlauWt3mbZng6SJlJFjcRGVhsLsIv9b9VdXCMXJM2Ccbv22fFJ+Kr6WcHnNYMd6OrCPfIwBm9hLv8eBmOBun6VGKPTGI3Cl3G8XzcRHJd2t3Wse+LGB8MS0Ht31i4IIwaidPlpoc7r1Bm2TtvVsonFyr3VeyAFkqT1y5W76jKIOVLvrsQQDMNMYlyXbPMjhO5WOhfdmzN2HTZWxrBMSHc5ZPUdSKQojbJyIozHMhK5fWOqrhPVLDMlnwOZUuEMtMcE3jl/5GTlfmwJ6lfV4FILkDsiUSxFimzh0n7LMcEGgUk7gxRlMwOKVP0HDH8nHV1aRSQMiTKmuOvpY+yPm+UBIS68IMvtSWIxcq3qqSCxGChIS59MwNZlRsly/giSj+UDKTcg5UzZToYjfJV5lF3rEAGZfba3F6R2SLdlYOtUnmgUscOJLQ+p8MZ/ywQfVjvJkl2W2aHgD47EFVAgW5dAclTMl2XQGyr92pb4vcMOBf2W/dAhp4XGB+SwZ79WuF/BSTJJkCG2GRFVAE2Sa1Cd/ayFaujtbzKXqm4pPYlu3JRijgrkPZ8bYY8PGHVeMOjcC+do4IUcRogHdeXOlksbxXFBUim12x5rMjKR2EvPvNallpU6a+i85hrdZAYLxddEC/N0lRRxvZzjbxmK2JfFa+HH9BMTI3PPgEoMqDqKVb2uwAAAABJRU5ErkJggg==">
                     </div>
                     <div class="col-md-12">
                         <span>
-                            <strong>¡No te desanimes! </strong>Completa toda la información sobre tu organización para que tu perfil sea visible para los donantes. 
+                            <strong>¡No te desanimes! </strong>Completa toda la información sobre tu organización para que tu perfil sea visible para los usuarios. 
                             Asegúrate de que toda tu información esté actualizada y describe claramente tus necesidades.
                         </span>
                     </div>
