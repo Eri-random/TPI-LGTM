@@ -21,6 +21,7 @@ export class GenerarIdeasComponent implements OnInit {
   isLogged!:boolean;
   loading: boolean = false;
   message: string = "";
+  errorImage:string = "";
 
   constructor( private formBuilder: FormBuilder, private router:Router,
     private reconomientoTelaService: ReconocimientoTelaService,
@@ -58,6 +59,7 @@ export class GenerarIdeasComponent implements OnInit {
       this.imagePreviews[index] = reader.result as string;
     };
     this.imageFiles.push(files);
+    this.errorImage = '';
 
     this.spinnerService.showIdea();
     /*Reconocimiento momentanea de una imagen, ver de mejorar*/
@@ -65,6 +67,10 @@ export class GenerarIdeasComponent implements OnInit {
       .subscribe(({tela}) =>{
         this.spinnerService.hideIdea();
         this.ideaForm.get('tipoDeTela')?.setValue(tela);
+      },
+      (error) => {
+        this.spinnerService.hideIdea();
+        this.errorImage = error.error;
       })
   }
 
