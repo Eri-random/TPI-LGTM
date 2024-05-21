@@ -55,17 +55,17 @@ const NAMES: string[] = [
 export class DashboardComponent implements AfterViewInit, OnInit {
   cuit!: string;
   orgNombre:any
-  donaciones:any;
+  existDonaciones!:boolean;
 
   displayedColumns: string[] = [
     'name',
     'telefono',
     'email',
     'producto',
-    'cantidad',
-    'progress',
+    'cantidad'
+    // 'progress',
   ];
-  dataSource: MatTableDataSource<UserData>;
+  dataSource!: MatTableDataSource<UserData>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -76,8 +76,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     private organizacionService: OrganizacionService,
     private donacionesService:DonacionesService
   ) {
-    const users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));
-    this.dataSource = new MatTableDataSource(users);
+    this.dataSource = new MatTableDataSource();
   }
 
   ngOnInit() {
@@ -97,8 +96,13 @@ export class DashboardComponent implements AfterViewInit, OnInit {
       switchMap(({id}) => this.donacionesService.getDonacionesByOrganizacionId(id))
     )
     .subscribe(
-      (resp) => {
-        this.donaciones = resp;
+      (donaciones) => {
+        if(donaciones.length != 0){
+          this.existDonaciones = true;
+          this.dataSource.data = donaciones;
+        }else{
+          this.existDonaciones = false;
+        }
       },
       (error) => {
         console.error('Error:', error);
@@ -128,27 +132,4 @@ export class DashboardComponent implements AfterViewInit, OnInit {
       data: {}, // puedes pasar datos si lo necesitas
     });
   }
-}
-
-function createNewUser(p0?: number): UserData {
-  const name = NAMES[Math.floor(Math.random() * NAMES.length)];
-  const telefono = generateRandomPhoneNumber();
-  const email = generateEmail(name /*, id*/);
-  const producto = PRODUCTOS[Math.floor(Math.random() * PRODUCTOS.length)];
-  const cantidad = Math.floor(Math.random() * 20) + 1;
-  const progress = Math.random() < 0.5 ? 'Pendiente' : 'Recibido';
-  return { name, telefono, email, producto, cantidad, progress };
-}
-
-function generateRandomPhoneNumber(): string {
-  let phoneNumber = '';
-  for (let i = 0; i < 6; i++) {
-    phoneNumber += Math.floor(Math.random() * 10).toString();
-  }
-  return phoneNumber;
-}
-
-function generateEmail(name: string): string {
-  const formattedName = name.toLowerCase().replace(/\s/g, '');
-  return `${formattedName}@example.com`;
 }

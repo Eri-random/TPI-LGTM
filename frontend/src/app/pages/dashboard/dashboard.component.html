@@ -1,10 +1,10 @@
 <div class="container pb-5 pt-5">
 
-    <div *ngIf="donaciones?.length != 0" class="d-flex justify-content-center pb-5">
+    <div *ngIf="existDonaciones" class="d-flex justify-content-center pb-5">
         <h1>Organización <span id="nomOrganizacion">{{orgNombre}}</span></h1>
     </div>
 
-    <div class="container pt-5 pb-5">
+    <div *ngIf="!existDonaciones" class="container pt-5 pb-5">
         <div class="row justify-content-center pb-5">
             <div class="col-lg-6">
                 <div class="row g-3">
@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <div *ngIf="donaciones?.length != 0" class="mb-3 card contenedor">
+    <div *ngIf="existDonaciones" class="mb-3 card contenedor">
 
         <div class=" row tablero">
             <div class="col-sm-2 col-md-2 col-xl-3">
@@ -99,10 +99,10 @@
     </div>
 </div>
 
-<div  *ngIf="donaciones?.length != 0" class="container mb-5">
+<div  *ngIf="existDonaciones" class="container mb-5">
     <h2>Donaciones</h2>
     <mat-form-field class="full-width">
-        <mat-label>Filter</mat-label>
+        <mat-label>Filtro</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Ej. Zoe" #input>
     </mat-form-field>
 
@@ -113,19 +113,19 @@
                 <!-- Name Column -->
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Donandor </th>
-                    <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+                    <td mat-cell *matCellDef="let row"> {{row.usuario.nombre}} </td>
                 </ng-container>
     
                 <!-- Telefono Column -->
                 <ng-container matColumnDef="telefono">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Telefono </th>
-                    <td mat-cell *matCellDef="let row"> {{row.telefono}} </td>
+                    <td mat-cell *matCellDef="let row"> {{row.usuario.telefono}} </td>
                 </ng-container>
     
                 <!-- Email Column -->
                 <ng-container matColumnDef="email">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
-                    <td mat-cell *matCellDef="let row"> {{row.email}} </td>
+                    <td mat-cell *matCellDef="let row"> {{row.usuario.email}} </td>
                 </ng-container>
     
                 <!-- Producto Column -->
@@ -140,11 +140,11 @@
                     <td mat-cell *matCellDef="let row"> {{row.cantidad}} </td>
                 </ng-container>
     
-                <!-- Progress Column -->
-                <ng-container matColumnDef="progress">
+                <!-- Progress Column Estado-->
+                <!-- <ng-container matColumnDef="progress">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
                     <td mat-cell *matCellDef="let row" [ngClass]="{'yellow-background': row.progress === 'Pendiente', 'green-background': row.progress === 'Recibido'}"> {{row.progress}} </td>
-                </ng-container>
+                </ng-container> -->
     
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
