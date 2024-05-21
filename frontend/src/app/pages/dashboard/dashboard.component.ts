@@ -6,6 +6,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ModalOrganizacionComponent } from 'src/app/components/modal-organizacion/modal-organizacion.component';
 import { OrganizacionService } from 'src/app/services/organizacion.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { switchMap,tap } from 'rxjs';
+import { DonacionesService } from 'src/app/services/donaciones.service';
 export interface UserData {
   name: string;
   telefono: string;
@@ -52,8 +54,8 @@ const NAMES: string[] = [
 })
 export class DashboardComponent implements AfterViewInit, OnInit {
   cuit!: string;
-  organizacion:any;
   orgNombre:any
+  donaciones:any;
 
   displayedColumns: string[] = [
     'name',
@@ -71,7 +73,8 @@ export class DashboardComponent implements AfterViewInit, OnInit {
   constructor(
     public dialog: MatDialog,
     private authService: AuthService,
-    private organizacionService: OrganizacionService
+    private organizacionService: OrganizacionService,
+    private donacionesService:DonacionesService
   ) {
     const users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));
     this.dataSource = new MatTableDataSource(users);
@@ -83,6 +86,24 @@ export class DashboardComponent implements AfterViewInit, OnInit {
       this.orgNombre = val || orgNameFromToken;
     });
 
+    this.organizacionService.getCuitFromStore().subscribe((val) => {
+      const cuitFromToken = this.authService.getCuitFromToken();
+      this.cuit = val || cuitFromToken;
+    });
+
+    this.organizacionService
+    .getOrganizacionByCuit(this.cuit)
+    .pipe(
+      switchMap(({id}) => this.donacionesService.getDonacionesByOrganizacionId(id))
+    )
+    .subscribe(
+      (resp) => {
+        this.donaciones = resp;
+      },
+      (error) => {
+        console.error('Error:', error);
+      }
+    );
   }
 
   ngAfterViewInit() {

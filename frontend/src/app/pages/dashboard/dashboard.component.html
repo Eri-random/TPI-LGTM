@@ -9,7 +9,7 @@
             <div class="col-lg-6">
                 <div class="row g-3">
                     <div class="col-md-12">
-                       <h2><strong>Aún no has recibido donaciones!</strong></h2>
+                       <h3 class="text-centers"><strong>Aún no has recibido donaciones!</strong></h3>
                     </div>
                     <div class="col-md-12">
                         <span>
@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <div class="mb-3 card contenedor">
+    <div *ngIf="donaciones?.length != 0" class="mb-3 card contenedor">
 
         <div class=" row tablero">
             <div class="col-sm-2 col-md-2 col-xl-3">
@@ -98,7 +98,7 @@
     </div>
 </div>
 
-<div class="container mb-5">
+<div  *ngIf="donaciones?.length != 0" class="container mb-5">
     <h2>Donaciones</h2>
     <mat-form-field class="full-width">
         <mat-label>Filter</mat-label>
