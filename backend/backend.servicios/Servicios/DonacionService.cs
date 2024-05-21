@@ -18,6 +18,34 @@ namespace backend.servicios.Servicios
 
         private readonly ApplicationDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
         private readonly ILogger<DonacionService> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+        public async Task SaveDonacionAsync(DonacionDto donacionDto)
+        {
+            if (donacionDto == null)
+                throw new ArgumentNullException(nameof(donacionDto), "La donacion proporcionada no puede ser nulo.");
+
+            var donacion = new Donacion
+            {
+               Producto = donacionDto.Producto,
+               Cantidad = donacionDto.Cantidad,
+               UsuarioId = donacionDto.UsuarioId,
+               OrganizacionId = donacionDto.OrganizacionId
+            };
+
+
+            try
+            {
+                _context.Donacions.Add(donacion);
+                await _context.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al guardar una donacion");
+                throw;
+            }
+        }
+
         public async Task<IEnumerable<DonacionDto>> GetDonacionesByOrganizacionIdAsync(int organizacionId)
         {
             try

@@ -1,4 +1,6 @@
-﻿using backend.servicios.Interfaces;
+﻿using backend.api.Models;
+using backend.servicios.DTOs;
+using backend.servicios.Interfaces;
 using backend.servicios.Servicios;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +13,34 @@ namespace backend.api.Controllers
     {
         private readonly ILogger<DonacionController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         private readonly IDonacionService _donacionService = donacionService ?? throw new ArgumentNullException(nameof(donacionService));
+
+        [HttpPost]
+        public async Task<IActionResult> SaveDonacion([FromBody] DonacionRequestModel donacionRequest)
+        {
+            if (donacionRequest == null)
+            {
+                return BadRequest("Datos de donacion inválidos");
+            }
+
+            var nuevaDonacion = new DonacionDto
+            {
+                Producto = donacionRequest.Producto,
+                Cantidad = donacionRequest.Cantidad,
+                UsuarioId = donacionRequest.UsuarioId,
+                OrganizacionId = donacionRequest.OrganizacionId
+            };
+
+            try
+            {
+                await _donacionService.SaveDonacionAsync(nuevaDonacion);
+                return CreatedAtAction(nameof(SaveDonacion), new { organizacionId = donacionRequest.OrganizacionId }, donacionRequest);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al guardar donacion");
+                return StatusCode(500, "Internal server error");
+            }
+        }
 
         [HttpGet("user/{usuarioId}")]
         public async Task<IActionResult> GetDonacionesByUsuarioId(int usuarioId)

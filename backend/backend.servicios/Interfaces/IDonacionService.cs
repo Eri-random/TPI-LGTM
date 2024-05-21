@@ -9,6 +9,8 @@ namespace backend.servicios.Interfaces
 {
     public interface IDonacionService
     {
+        Task SaveDonacionAsync(DonacionDto donacionDto);
+
         Task<IEnumerable<DonacionDto>> GetDonacionesByUsuarioIdAsync(int usuarioId);
 
         Task<IEnumerable<DonacionDto>> GetDonacionesByOrganizacionIdAsync(int organizacionId);
