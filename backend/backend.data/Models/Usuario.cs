@@ -25,6 +25,8 @@ public partial class Usuario
 
     public int RolId { get; set; }
 
+    public virtual ICollection<Donacion> Donacions { get; set; } = new List<Donacion>();
+
     public virtual ICollection<Idea> Ideas { get; set; } = new List<Idea>();
 
     public virtual Organizacion Organizacion { get; set; }

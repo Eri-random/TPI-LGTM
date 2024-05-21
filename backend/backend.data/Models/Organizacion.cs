@@ -21,6 +21,8 @@ public partial class Organizacion
 
     public int UsuarioId { get; set; }
 
+    public virtual ICollection<Donacion> Donacions { get; set; } = new List<Donacion>();
+
     public virtual InfoOrganizacion InfoOrganizacion { get; set; }
 
     public virtual Usuario Usuario { get; set; }
