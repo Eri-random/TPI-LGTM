@@ -27,8 +27,9 @@ import { DonacionesComponent } from './pages/donaciones/donaciones.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ModalOrganizacionComponent } from './components/modal-organizacion/modal-organizacion.component';
 import { MatDialogModule} from '@angular/material/dialog';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule} from '@angular/material/button';
 import { EditInfoComponent } from './pages/dashboard/components/edit-info/edit-info.component';
+import { InfoOrganizacionComponent } from './pages/info-organizacion/info-organizacion.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ResponseIdeaComponent } from './pages/generar-ideas/response-idea/response-idea.component';
@@ -51,6 +52,7 @@ register();
     DashboardComponent,
     ModalOrganizacionComponent,
     EditInfoComponent,
+    InfoOrganizacionComponent,
     SpinnerComponent,
     ResponseIdeaComponent,
     MisIdeasComponent,
