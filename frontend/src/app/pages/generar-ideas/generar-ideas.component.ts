@@ -92,7 +92,7 @@ export class GenerarIdeasComponent implements OnInit {
     `- Color: ${this.ideaForm.get('color')?.value}\n` +
     `- Largo: ${this.ideaForm.get('largo')?.value}\n` +
     `- Ancho: ${this.ideaForm.get('ancho')?.value}\n\n` +
-    `Utilizando estos detalles, generaremos una idea de producto reciclado adecuada.`;
+    `Utilizando estos detalles, generaremos una idea de producto reciclado adecuada y única. Que la respuesta tambien me de la dificultad si es Fácil, Media o Dificil.`;
     this.spinnerService.show();
     
     this.generarIdeaService.postGenerateIdea(this.message).subscribe(

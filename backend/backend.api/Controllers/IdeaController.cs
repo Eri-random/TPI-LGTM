@@ -80,6 +80,7 @@ namespace backend.api.Controllers
                 {
                     Titulo = idea.Titulo,
                     UsuarioId = idea.UsuarioId,
+                    Dificultad = idea.Dificultad,
                     Pasos = idea.Pasos.Select(paso => new PasoDto
                     {
                         PasoNum = paso.PasoNum,

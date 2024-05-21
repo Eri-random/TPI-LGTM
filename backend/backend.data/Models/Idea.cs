@@ -11,6 +11,8 @@ public partial class Idea
 
     public int UsuarioId { get; set; }
 
+    public string Dificultad { get; set; }
+
     public virtual ICollection<Paso> Pasos { get; set; } = new List<Paso>();
 
     public virtual Usuario Usuario { get; set; }

@@ -46,6 +46,7 @@ export class ResponseIdeaComponent {
       .postSaveIdea({
         titulo: this.response.idea,
         usuarioId: this.userId,
+        dificultad: this.response.dificultad,
         pasos:  this.response.steps.map((paso: any, index: number) => ({
           pasoNum: index + 1,
           descripcion: paso

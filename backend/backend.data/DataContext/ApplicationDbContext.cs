@@ -32,6 +32,7 @@ namespace backend.data.DataContext
                 entity.ToTable("idea");
 
                 entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Dificultad).HasColumnName("dificultad");
                 entity.Property(e => e.Titulo)
                     .IsRequired()
                     .HasColumnName("titulo");
