@@ -4,6 +4,8 @@
 
 .marca {
     padding-top: 3%;
+    padding-right: 3rem;
+    padding-left: 3rem;
 }
 
 .primeraParte {
@@ -20,5 +22,5 @@ hr {
 }
 
 .logo {
-    width: 10%;
+    width: 50%;
 }
