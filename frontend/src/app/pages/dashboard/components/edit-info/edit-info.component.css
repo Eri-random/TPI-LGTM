@@ -122,8 +122,15 @@
     align-items: center;
   }
   
-  
-  
+  #organizacion{
+    background-color: #F5F5F5;
+  }
+
+  #organizacion:focus{
+      box-shadow: none;
+      border-color: #ced4da;
+      outline: none;
+  }
   
   .form-organizacion {
     overflow-y: auto;
