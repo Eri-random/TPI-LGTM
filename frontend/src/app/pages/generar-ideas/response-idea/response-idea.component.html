@@ -2,6 +2,16 @@
   <div class="section-title">
     <h1 class="title-idea">{{ response.idea }}</h1>
   </div>
+  <p *ngIf="response.dificultad === 'Facil'" class="dificultad" >
+    Dificultad: <span class="easy">{{ response.dificultad }}</span>
+  </p>
+  <p *ngIf="response.dificultad === 'Media'" class="dificultad">
+    Dificultad: <span class="medium">{{ response.dificultad }}</span>
+  </p>
+  <p *ngIf="response.dificultad === 'Dificil'" class="dificultad">
+    Dificultad: <span class="hard">{{ response.dificultad }}</span>
+  </p>
+
   <swiper-container
     direction="horizontal"
     pagination="true"

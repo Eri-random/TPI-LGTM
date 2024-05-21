@@ -16,6 +16,7 @@ export class VerIdeaComponent implements OnInit, AfterViewInit {
     [key: string]: any;
     usuarioId?: number;
     pasos?: any;
+    dificultad?: string;
   } = {};
 
   logoBase64!: string;
@@ -86,6 +87,12 @@ export class VerIdeaComponent implements OnInit, AfterViewInit {
     const tituloMayusculas = this.idea.titulo?.toUpperCase();
     doc.text('' + tituloMayusculas, 100, 40, { align: 'center' });
 
+    doc.setFontSize(12);
+    doc.setTextColor(80, 80, 80);
+    doc.text('Dificultad: ' + this.idea.dificultad, 28, 56, {
+      align: 'center',
+    });
+
     const pasos = this.idea.pasos.map((paso: any, index: number) => [
       paso.descripcion,
     ]);
@@ -96,9 +103,7 @@ export class VerIdeaComponent implements OnInit, AfterViewInit {
       startY: 60,
       theme: 'striped',
       headStyles: { fillColor: [41, 128, 185] },
-      bodyStyles: { fillColor: [245, 245, 245], 
-        cellPadding: 4 ,
-      },
+      bodyStyles: { fillColor: [245, 245, 245], cellPadding: 4 },
       styles: {
         cellPadding: 2,
       },

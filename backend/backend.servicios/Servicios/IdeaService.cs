@@ -21,6 +21,7 @@ namespace backend.servicios.Servicios
             {
                 Titulo = ideaDto.Titulo,
                 UsuarioId = ideaDto.UsuarioId,
+                Dificultad = ideaDto.Dificultad,
                 Pasos = ideaDto.Pasos.Select(paso => new Paso
                 {
                     PasoNum = paso.PasoNum,
@@ -53,6 +54,7 @@ namespace backend.servicios.Servicios
                         Id = i.Id,
                         Titulo = i.Titulo,
                         UsuarioId = i.UsuarioId,
+                        Dificultad = i.Dificultad,
                         Pasos = i.Pasos.Select(p => new PasoDto
                         {
                             Id = p.Id,
@@ -89,6 +91,7 @@ namespace backend.servicios.Servicios
                 {
                     Titulo = idea.Titulo,
                     UsuarioId = idea.UsuarioId,
+                    Dificultad = idea.Dificultad,
                     Pasos = idea.Pasos.Select(p => new PasoDto
                     {
                         PasoNum = p.PasoNum,
