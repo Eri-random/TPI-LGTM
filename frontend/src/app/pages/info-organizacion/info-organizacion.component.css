@@ -8,6 +8,16 @@
     color: var(--color-primary);
 }
 
+.organizacion_img{
+    width: 100%;
+    padding: 0 6rem;
+}
+
+.necesidades-p{
+    font-size: 18px;
+    font-weight:600;
+}
+
 .btn-primary {
     border-color: transparent;
     outline: none;
