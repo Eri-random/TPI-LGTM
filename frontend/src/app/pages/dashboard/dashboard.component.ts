@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild,ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -52,7 +52,7 @@ const NAMES: string[] = [
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
-export class DashboardComponent implements AfterViewInit, OnInit {
+export class DashboardComponent implements OnInit {
   cuit!: string;
   orgNombre:any
   existDonaciones!:boolean;
@@ -65,18 +65,19 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     'cantidad'
     // 'progress',
   ];
-  dataSource!: MatTableDataSource<UserData>;
+  
+  dataSource: MatTableDataSource<UserData> = new MatTableDataSource();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     public dialog: MatDialog,
+    private cdr: ChangeDetectorRef,
     private authService: AuthService,
     private organizacionService: OrganizacionService,
     private donacionesService:DonacionesService
   ) {
-    this.dataSource = new MatTableDataSource();
   }
 
   ngOnInit() {
@@ -93,6 +94,11 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     this.organizacionService
     .getOrganizacionByCuit(this.cuit)
     .pipe(
+      tap((organizacion) => {
+        // Aquí puedes hacer lo que necesites con los datos de la organización
+        console.log('Organización:', organizacion);
+        // Por ejemplo, puedes guardar algunos datos en una propiedad de la clase
+      }),
       switchMap(({id}) => this.donacionesService.getDonacionesByOrganizacionId(id))
     )
     .subscribe(
@@ -100,6 +106,9 @@ export class DashboardComponent implements AfterViewInit, OnInit {
         if(donaciones.length != 0){
           this.existDonaciones = true;
           this.dataSource.data = donaciones;
+          this.cdr.detectChanges();
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
         }else{
           this.existDonaciones = false;
         }
@@ -108,11 +117,6 @@ export class DashboardComponent implements AfterViewInit, OnInit {
         console.error('Error:', error);
       }
     );
-  }
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   applyFilter(event: Event) {
