@@ -12,7 +12,7 @@ import { InfoOrganizacionComponent } from './pages/info-organizacion/info-organi
 import { ResponseIdeaComponent } from './pages/generar-ideas/response-idea/response-idea.component';
 import { MisIdeasComponent } from './pages/generar-ideas/mis-ideas/mis-ideas.component';
 import { VerIdeaComponent } from './pages/generar-ideas/mis-ideas/ver-idea/ver-idea.component';
-
+import { PedidoDeOrganizacionComponent } from './pages/pedido-de-organizacion/pedido-de-organizacion.component';
 
 
 const routes: Routes = [
@@ -28,6 +28,7 @@ const routes: Routes = [
   {path: 'response-idea', component: ResponseIdeaComponent},
   {path: 'mis-ideas', component: MisIdeasComponent},
   {path: 'mis-ideas/:id', component: VerIdeaComponent},
+  {path: 'pedido', component: PedidoDeOrganizacionComponent},
   {path:'**',redirectTo:''}
 ];
 
