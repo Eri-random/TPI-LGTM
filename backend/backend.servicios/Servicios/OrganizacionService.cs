@@ -91,6 +91,7 @@ namespace backend.servicios.Servicios
 
                 return new OrganizacionDto
                 {
+                    Id = organizacion.Id,
                     Nombre = organizacion.Nombre,
                     Cuit = organizacion.Cuit,
                     Direccion = organizacion.Direccion,
