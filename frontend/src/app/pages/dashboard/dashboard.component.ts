@@ -95,9 +95,9 @@ export class DashboardComponent implements OnInit {
     .getOrganizacionByCuit(this.cuit)
     .pipe(
       tap((organizacion) => {
-        // Aquí puedes hacer lo que necesites con los datos de la organización
-        console.log('Organización:', organizacion);
-        // Por ejemplo, puedes guardar algunos datos en una propiedad de la clase
+        if(organizacion.infoOrganizacion == null){
+          this.openDialog();
+        }
       }),
       switchMap(({id}) => this.donacionesService.getDonacionesByOrganizacionId(id))
     )
