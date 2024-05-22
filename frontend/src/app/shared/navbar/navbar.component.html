@@ -48,8 +48,8 @@
                             </a>
                             <ul class="dropdown-menu">
                               <li><a class="dropdown-item" href="#">Mi Perfil</a></li>
-                              <li *ngIf="role == 'usuario'"><a class="dropdown-item" href="#">Mis Ideas</a></li>
-                              <li *ngIf="role == 'organizacion'"><a class="dropdown-item" href="/mi-organizacion">Mi Organización</a></li>
+                              <li *ngIf="role == 'usuario'"><a class="dropdown-item" routerLink="/mis-ideas">Mis Ideas</a></li>
+                              <li *ngIf="role == 'organizacion'"><a class="dropdown-item" routerLink="/mi-organizacion">Mi Organización</a></li>
                               <li (click)="logout()"><a class="dropdown-item">Cerrar Sesión</a></li>
                             </ul>
                         </li>
