@@ -28,7 +28,7 @@ const routes: Routes = [
   {path: 'response-idea', component: ResponseIdeaComponent},
   {path: 'mis-ideas', component: MisIdeasComponent},
   {path: 'mis-ideas/:id', component: VerIdeaComponent},
-  {path: 'pedido', component: PedidoDeOrganizacionComponent},
+  {path: 'necesidades', component: PedidoDeOrganizacionComponent},
   {path:'**',redirectTo:''}
 ];
 
