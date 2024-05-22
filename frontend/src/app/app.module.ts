@@ -38,7 +38,7 @@ import { MisIdeasComponent } from './pages/generar-ideas/mis-ideas/mis-ideas.com
 import { VerIdeaComponent } from './pages/generar-ideas/mis-ideas/ver-idea/ver-idea.component';
 import { SpinnerIdeaComponent } from './components/spinner-idea/spinner-idea.component'
 import { EditorModule } from '@tinymce/tinymce-angular';
-
+import { PedidoDeOrganizacionComponent } from './pages/pedido-de-organizacion/pedido-de-organizacion.component'
 register();
 @NgModule({
   declarations: [
@@ -59,7 +59,7 @@ register();
     ResponseIdeaComponent,
     MisIdeasComponent,
     VerIdeaComponent,
-    SpinnerIdeaComponent
+    SpinnerIdeaComponent,
   ],
   imports: [
     BrowserModule,
