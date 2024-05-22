@@ -41,6 +41,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IMapsService, MapsService>();
 builder.Services.AddScoped<IOrganizacionService, OrganizacionService>();
+builder.Services.AddScoped<IDonacionService,DonacionService>();
 builder.Services.AddHttpClient<IMapsService, MapsService>();
 builder.Services.AddScoped<IOrganizacionInfoService, InfoOrganizacionService>();
 builder.Services.AddScoped<IIdeaService, IdeaService>();

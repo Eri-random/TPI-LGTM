@@ -10,6 +10,8 @@ namespace backend.data.DataContext
         {
         }
 
+        public virtual DbSet<Donacion> Donacions { get; set; }
+
         public virtual DbSet<Idea> Ideas { get; set; }
 
         public virtual DbSet<InfoOrganizacion> InfoOrganizacions { get; set; }
@@ -25,11 +27,38 @@ namespace backend.data.DataContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
+            modelBuilder.Entity<Donacion>(entity =>
+            {
+                entity.HasKey(e => e.Id).HasName("donacion_pk");
+
+                entity.ToTable("donacion");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Cantidad).HasColumnName("cantidad");
+                entity.Property(e => e.OrganizacionId).HasColumnName("organizacion_id");
+                entity.Property(e => e.Producto)
+                    .IsRequired()
+                    .HasColumnName("producto");
+                entity.Property(e => e.UsuarioId).HasColumnName("usuario_id");
+
+                entity.HasOne(d => d.Organizacion).WithMany(p => p.Donacions)
+                    .HasForeignKey(d => d.OrganizacionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("donacion_organizacion_fk");
+
+                entity.HasOne(d => d.Usuario).WithMany(p => p.Donacions)
+                    .HasForeignKey(d => d.UsuarioId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("donacion_usuario_fk");
+            });
+
             modelBuilder.Entity<Idea>(entity =>
             {
                 entity.HasKey(e => e.Id).HasName("idea_pkey");
 
                 entity.ToTable("idea");
+
+                entity.HasIndex(e => e.UsuarioId, "IX_idea_usuario_id");
 
                 entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.Dificultad).HasColumnName("dificultad");
@@ -117,6 +146,8 @@ namespace backend.data.DataContext
 
                 entity.ToTable("paso");
 
+                entity.HasIndex(e => e.IdeaId, "IX_paso_idea_id");
+
                 entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.Descripcion)
                     .IsRequired()
@@ -185,7 +216,6 @@ namespace backend.data.DataContext
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("usuario_rol_id_fkey");
             });
-
         }
     }
 }

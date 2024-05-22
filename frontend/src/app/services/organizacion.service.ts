@@ -21,7 +21,11 @@ export class OrganizacionService {
     return this.http.get<any>(url);
   }
 
-  
+  getOrganizacionById(id:number){
+    const url = `${this.baseUrl}/Organizacion/id/${id}`;
+    return this.http.get<any>(url);
+  }
+
   getAllOrganizaciones(){
     const url = `${this.baseUrl}/Organizacion`;
     return this.http.get<any>(url);

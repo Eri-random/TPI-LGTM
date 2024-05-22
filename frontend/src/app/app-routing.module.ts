@@ -24,11 +24,11 @@ const routes: Routes = [
   {path: 'donar', component:DonacionesComponent},
   {path: 'dashboard', component: DashboardComponent},
   {path: 'mi-organizacion', component: EditInfoComponent},
-  {path: 'info-organizacion', component: InfoOrganizacionComponent},
+  {path: 'info-organizacion/:id', component: InfoOrganizacionComponent},
   {path: 'response-idea', component: ResponseIdeaComponent},
   {path: 'mis-ideas', component: MisIdeasComponent},
   {path: 'mis-ideas/:id', component: VerIdeaComponent},
-  {path: 'pedido', component: PedidoDeOrganizacionComponent},
+  {path: 'necesidades', component: PedidoDeOrganizacionComponent},
   {path:'**',redirectTo:''}
 ];
 

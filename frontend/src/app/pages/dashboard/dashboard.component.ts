@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild,ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -6,6 +6,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ModalOrganizacionComponent } from 'src/app/components/modal-organizacion/modal-organizacion.component';
 import { OrganizacionService } from 'src/app/services/organizacion.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { switchMap,tap } from 'rxjs';
+import { DonacionesService } from 'src/app/services/donaciones.service';
 export interface UserData {
   name: string;
   telefono: string;
@@ -50,31 +52,32 @@ const NAMES: string[] = [
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
-export class DashboardComponent implements AfterViewInit, OnInit {
+export class DashboardComponent implements OnInit {
   cuit!: string;
-  organizacion:any;
   orgNombre:any
+  existDonaciones!:boolean;
 
   displayedColumns: string[] = [
     'name',
     'telefono',
     'email',
     'producto',
-    'cantidad',
-    'progress',
+    'cantidad'
+    // 'progress',
   ];
-  dataSource: MatTableDataSource<UserData>;
+  
+  dataSource: MatTableDataSource<UserData> = new MatTableDataSource();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     public dialog: MatDialog,
+    private cdr: ChangeDetectorRef,
     private authService: AuthService,
-    private organizacionService: OrganizacionService
+    private organizacionService: OrganizacionService,
+    private donacionesService:DonacionesService
   ) {
-    const users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));
-    this.dataSource = new MatTableDataSource(users);
   }
 
   ngOnInit() {
@@ -83,11 +86,37 @@ export class DashboardComponent implements AfterViewInit, OnInit {
       this.orgNombre = val || orgNameFromToken;
     });
 
-  }
+    this.organizacionService.getCuitFromStore().subscribe((val) => {
+      const cuitFromToken = this.authService.getCuitFromToken();
+      this.cuit = val || cuitFromToken;
+    });
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.organizacionService
+    .getOrganizacionByCuit(this.cuit)
+    .pipe(
+      tap((organizacion) => {
+        if(organizacion.infoOrganizacion == null){
+          this.openDialog();
+        }
+      }),
+      switchMap(({id}) => this.donacionesService.getDonacionesByOrganizacionId(id))
+    )
+    .subscribe(
+      (donaciones) => {
+        if(donaciones.length != 0){
+          this.existDonaciones = true;
+          this.dataSource.data = donaciones;
+          this.cdr.detectChanges();
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }else{
+          this.existDonaciones = false;
+        }
+      },
+      (error) => {
+        console.error('Error:', error);
+      }
+    );
   }
 
   applyFilter(event: Event) {
@@ -107,27 +136,4 @@ export class DashboardComponent implements AfterViewInit, OnInit {
       data: {}, // puedes pasar datos si lo necesitas
     });
   }
-}
-
-function createNewUser(p0?: number): UserData {
-  const name = NAMES[Math.floor(Math.random() * NAMES.length)];
-  const telefono = generateRandomPhoneNumber();
-  const email = generateEmail(name /*, id*/);
-  const producto = PRODUCTOS[Math.floor(Math.random() * PRODUCTOS.length)];
-  const cantidad = Math.floor(Math.random() * 20) + 1;
-  const progress = Math.random() < 0.5 ? 'Pendiente' : 'Recibido';
-  return { name, telefono, email, producto, cantidad, progress };
-}
-
-function generateRandomPhoneNumber(): string {
-  let phoneNumber = '';
-  for (let i = 0; i < 6; i++) {
-    phoneNumber += Math.floor(Math.random() * 10).toString();
-  }
-  return phoneNumber;
-}
-
-function generateEmail(name: string): string {
-  const formattedName = name.toLowerCase().replace(/\s/g, '');
-  return `${formattedName}@example.com`;
 }

@@ -68,13 +68,27 @@
         <label for="descripcionCompleta" class="form-label required"
           >Descripción Completa</label
         >
-        <textarea
-          id="descripcionCompleta"
-          class="form-control"
-          formControlName="descripcionCompleta"
-          rows="5"
-          maxlength="4000"
-        ></textarea>
+        <editor
+        apiKey="ntlo9tszxpfohc7ddllnmtk84am6cbkm3sg6j37b7ow1dc1l"
+        [init]="{
+          height: 300,
+          menubar: false,
+          plugins: [
+            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+            'insertdatetime', 'media', 'table', 'help', 'wordcount'
+          ],
+          toolbar: 'undo redo | fontsize |' +
+          'bold italic forecolor | alignleft aligncenter ' +
+          'alignright alignjustify | bullist numlist outdent indent | ' +
+          'removeformat | help',
+        }"
+        id="descripcionCompleta"
+        class="form-control"
+        formControlName="descripcionCompleta"
+        rows="5"
+        maxlength="4000"
+      ></editor>
         <small
           *ngIf="
             organizationForm.controls['descripcionCompleta']?.dirty &&

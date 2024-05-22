@@ -1,6 +1,11 @@
 <div class="section-form">
   <div class="section-title">
-    <h2 class="title-edit">Editar Información</h2>
+    <h2 class="title-edit">Información de la Organización</h2>
+    <p class="info">Por favor, llena todos los campos a continuación con la información de tu organización. 
+      Una vez que hayas completado tu perfil, tu organización será visible en la sección de donaciones de nuestro sitio web. 
+      Esto permitirá a los usuarios conocer más sobre tu misión, proyectos y necesidades, y así podrán elegir donar productos hechos de tela reciclada a tu organización
+      .Asegúrate de proporcionar detalles claros y precisos para maximizar las oportunidades de recibir donaciones.
+      ¡Gracias por ser parte de nuestra comunidad!</p>
   </div>
 
   <form
@@ -8,13 +13,6 @@
     class="form-organizacion"
     enctype="multipart/form-data"
   >
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Ficha de Organización</h5>
-        <p class="detail-text">
-          Completa los datos, para que nuestros usuarios puedan conocerte<br />mejor
-          y elegir donar.
-        </p>
         <div class="mb-3">
           <label for="organizacion" class="form-label required"
             >Organización</label
@@ -25,6 +23,7 @@
             class="form-control"
             formControlName="organizacion"
             maxlength="30"
+            readonly
           />
           <small
             *ngIf="
@@ -79,13 +78,26 @@
           <label for="descripcionCompleta" class="form-label required"
             >Descripción Completa</label
           >
-          <textarea
-            id="descripcionCompleta"
-            class="form-control"
-            formControlName="descripcionCompleta"
-            rows="5"
-            maxlength="4000"
-          ></textarea>
+          <editor
+          apiKey="ntlo9tszxpfohc7ddllnmtk84am6cbkm3sg6j37b7ow1dc1l"
+          [init]="{
+            height: 300,
+            menubar: false,
+            plugins: [
+              'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+              'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+              'insertdatetime', 'media', 'table', 'help', 'wordcount'
+            ],
+            toolbar: 'undo redo | fontsize |' +
+            'bold italic forecolor | alignleft aligncenter ' +
+            'alignright alignjustify | bullist numlist outdent indent | ' +
+            'removeformat | help',
+          }"
+          id="descripcionCompleta"
+          formControlName="descripcionCompleta"
+          rows="5"
+          maxlength="4000"
+        ></editor>
           <small
             *ngIf="
               organizationForm.controls['descripcionCompleta']?.dirty &&
@@ -144,7 +156,5 @@
             Publicar
           </button>
         </div>
-      </div>
-    </div>
   </form>
 </div>

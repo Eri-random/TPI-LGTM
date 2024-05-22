@@ -94,5 +94,44 @@ namespace backend.api.Controllers
             }
         }
 
+        [HttpGet("Id/{id}")]
+        public async Task<IActionResult> GetOrganizacionById(int id)
+        {
+            try
+            {
+                var organizacion = await _organizacionService.GetOrganizacionByIdAsync(id);
+                if (organizacion == null)
+                {
+                    return NotFound("Organizacion no encontrada");
+                }
+
+                var organizacionResponse = new OrganizacionResponseModel
+                {
+                    Id = organizacion.Id,
+                    Nombre = organizacion.Nombre,
+                    Cuit = organizacion.Cuit,
+                    Direccion = organizacion.Direccion,
+                    Localidad = organizacion.Localidad,
+                    Provincia = organizacion.Provincia,
+                    Telefono = organizacion.Telefono,
+                    InfoOrganizacion = organizacion.InfoOrganizacion != null ? new InfoOrganizacionDto
+                    {
+                        Organizacion = organizacion.InfoOrganizacion.Organizacion,
+                        DescripcionBreve = organizacion.InfoOrganizacion.DescripcionBreve,
+                        DescripcionCompleta = organizacion.InfoOrganizacion.DescripcionCompleta,
+                        Img = organizacion.InfoOrganizacion.Img,
+                        OrganizacionId = organizacion.InfoOrganizacion.OrganizacionId
+                    } : null
+                };
+
+                return Ok(organizacionResponse);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener el organizacion por id {Id}", id);
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
     }
 }
