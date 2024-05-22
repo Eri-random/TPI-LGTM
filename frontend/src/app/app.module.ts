@@ -36,7 +36,8 @@ import { ResponseIdeaComponent } from './pages/generar-ideas/response-idea/respo
 import { register } from 'swiper/element/bundle';
 import { MisIdeasComponent } from './pages/generar-ideas/mis-ideas/mis-ideas.component';
 import { VerIdeaComponent } from './pages/generar-ideas/mis-ideas/ver-idea/ver-idea.component';
-import { SpinnerIdeaComponent } from './components/spinner-idea/spinner-idea.component'
+import { SpinnerIdeaComponent } from './components/spinner-idea/spinner-idea.component';
+import { PedidoDeOrganizacionComponent } from './pages/pedido-de-organizacion/pedido-de-organizacion.component'
 register();
 @NgModule({
   declarations: [
@@ -57,7 +58,7 @@ register();
     ResponseIdeaComponent,
     MisIdeasComponent,
     VerIdeaComponent,
-    SpinnerIdeaComponent
+    SpinnerIdeaComponent,
   ],
   imports: [
     BrowserModule,
