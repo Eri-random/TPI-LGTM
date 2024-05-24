@@ -1,6 +1,7 @@
--- Insertar un usuario administrador en la tabla 'usuario'
-INSERT INTO usuario (nombre,apellido,email, contrasena, telefono, direccion, localidad, provincia,cuit,rol_id)
-VALUES ('NombreOrg',null,'test@test.com', crypt('12345678', gen_salt('bf')), '1234567890', 'Calle Falsa 123', 'Ciudad', 'Provincia','30-57382164-1' 1);
+-- Insertar roles predefinidos en la tabla 'rol'
+INSERT INTO rol (nombre) VALUES 
+('organizacion'), 
+('usuario');
 
 -- Insertar tres usuarios nuevos en la tabla 'usuario'
 INSERT INTO usuario (nombre, apellido, email, contrasena, telefono, direccion, localidad, provincia,cuit,rol_id)
