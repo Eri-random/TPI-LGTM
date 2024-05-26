@@ -7,12 +7,12 @@ import { GenerarIdeasComponent} from './pages/generar-ideas/generar-ideas.compon
 import { MapaOrganizacionesComponent } from './pages/mapa/mapa-organizaciones.component';
 import { DonacionesComponent } from './pages/donaciones/donaciones.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { EditInfoComponent } from './pages/dashboard/components/edit-info/edit-info.component';
 import { InfoOrganizacionComponent } from './pages/info-organizacion/info-organizacion.component';
 import { ResponseIdeaComponent } from './pages/generar-ideas/response-idea/response-idea.component';
 import { MisIdeasComponent } from './pages/generar-ideas/mis-ideas/mis-ideas.component';
 import { VerIdeaComponent } from './pages/generar-ideas/mis-ideas/ver-idea/ver-idea.component';
 import { PedidoDeOrganizacionComponent } from './pages/pedido-de-organizacion/pedido-de-organizacion.component';
+import { MiOrganizacionComponent } from './pages/mi-organizacion/mi-organizacion.component';
 
 
 const routes: Routes = [
@@ -23,7 +23,7 @@ const routes: Routes = [
   {path: 'ubicaciones', component:MapaOrganizacionesComponent},
   {path: 'donar', component:DonacionesComponent},
   {path: 'dashboard', component: DashboardComponent},
-  {path: 'mi-organizacion', component: EditInfoComponent},
+  {path: 'mi-organizacion', component: MiOrganizacionComponent},
   {path: 'info-organizacion/:id', component: InfoOrganizacionComponent},
   {path: 'response-idea', component: ResponseIdeaComponent},
   {path: 'mis-ideas', component: MisIdeasComponent},
