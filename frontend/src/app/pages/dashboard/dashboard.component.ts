@@ -3,11 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ModalOrganizacionComponent } from 'src/app/components/modal-organizacion/modal-organizacion.component';
 import { OrganizacionService } from 'src/app/services/organizacion.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { switchMap,tap } from 'rxjs';
 import { DonacionesService } from 'src/app/services/donaciones.service';
+
 export interface UserData {
   name: string;
   telefono: string;
@@ -16,36 +16,6 @@ export interface UserData {
   cantidad: number;
   progress: string;
 }
-
-const PRODUCTOS: string[] = [
-  'Remera',
-  'Manta',
-  'Remera manga larga',
-  'Pantalon',
-  'Campera',
-];
-
-const NAMES: string[] = [
-  'Maia',
-  'Asher',
-  'Olivia',
-  'Atticus',
-  'Amelia',
-  'Jack',
-  'Charlotte',
-  'Theodore',
-  'Isla',
-  'Oliver',
-  'Isabella',
-  'Jasper',
-  'Cora',
-  'Levi',
-  'Violet',
-  'Arthur',
-  'Mia',
-  'Thomas',
-  'Elizabeth',
-];
 
 @Component({
   selector: 'app-dashboard',
@@ -94,11 +64,6 @@ export class DashboardComponent implements OnInit {
     this.organizacionService
     .getOrganizacionByCuit(this.cuit)
     .pipe(
-      tap((organizacion) => {
-        if(organizacion.infoOrganizacion == null){
-          this.openDialog();
-        }
-      }),
       switchMap(({id}) => this.donacionesService.getDonacionesByOrganizacionId(id))
     )
     .subscribe(
@@ -128,12 +93,4 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  openDialog(): void {
-    this.dialog.open(ModalOrganizacionComponent, {
-      width: 'auto',
-      height: '80%',
-      disableClose: true,
-      data: {}, // puedes pasar datos si lo necesitas
-    });
-  }
 }
