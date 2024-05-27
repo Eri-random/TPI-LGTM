@@ -9,10 +9,11 @@ using Microsoft.Extensions.Logging;
 
 namespace backend.servicios.Servicios
 {
-    public class UsuarioService(ApplicationDbContext context, ILogger<UsuarioService> logger) : IUsuarioService
+    public class UsuarioService(ApplicationDbContext context, ILogger<UsuarioService> logger, IMapsService mapsService) : IUsuarioService
     {
         private readonly ApplicationDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
         private readonly ILogger<UsuarioService> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        private readonly IMapsService _mapsService = mapsService ?? throw new ArgumentNullException(nameof(mapsService));
 
 
         public async Task<IEnumerable<UsuarioDto>> GetAllUsuariosAsync()
@@ -104,6 +105,9 @@ namespace backend.servicios.Servicios
             }
 
             var hashedPassword = PasswordHasher.HashPassword(usuarioDto.Password);
+
+            var (lat, lng) = await _mapsService.GetCoordinates(usuarioDto.Organizacion.Direccion, usuarioDto.Organizacion.Localidad, usuarioDto.Organizacion.Provincia);
+
             var usuario = new Usuario
             {
                 Nombre = usuarioDto.Nombre,
@@ -123,6 +127,8 @@ namespace backend.servicios.Servicios
                     Localidad = usuarioDto.Organizacion.Localidad,
                     Provincia = usuarioDto.Organizacion.Provincia,
                     Telefono = usuarioDto.Organizacion.Telefono,
+                    Latitud = lat,
+                    Longitud = lng
                 } : null
             };
 

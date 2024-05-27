@@ -1,0 +1,117 @@
+<form [formGroup]="sedeForm" (ngSubmit)="submitForm()">
+  <div formArrayName="sedes">
+    <div
+      *ngFor="let sede of sedes.controls; let i = index"
+      [formGroupName]="i"
+      class="row g-3"
+    >
+      <div class="col-md-6">
+        <label for="nombre{{ i }}" class="form-label required">Nombre</label>
+        <input
+          type="text"
+          class="form-control input-field"
+          [class.error]="
+            sede.get('nombre')?.touched && sede.get('nombre')?.errors
+          "
+          id="nombre{{ i }}"
+          formControlName="nombre"
+          placeholder="Ej: Julieta"
+        />
+        <small
+          *ngIf="sede.get('nombre')?.touched && sede.get('nombre')?.errors"
+          class="text-danger"
+          >El nombre es requerido</small
+        >
+      </div>
+      <div class="col-md-6">
+        <label for="direccion{{ i }}" class="form-label required"
+          >Dirección</label
+        >
+        <input
+          type="text"
+          class="form-control input-field"
+          [class.error]="
+            sede.get('direccion')?.touched && sede.get('direccion')?.errors
+          "
+          id="direccion{{ i }}"
+          formControlName="direccion"
+          placeholder="Ej: Calle 123"
+        />
+        <small
+          *ngIf="
+            sede.get('direccion')?.touched && sede.get('direccion')?.errors
+          "
+          class="text-danger"
+          >La dirección es requerida</small
+        >
+      </div>
+      <div class="col-md-6">
+        <label for="localidad{{ i }}" class="form-label required"
+          >Localidad</label
+        >
+        <input
+          type="text"
+          class="form-control input-field"
+          [class.error]="
+            sede.get('localidad')?.touched && sede.get('localidad')?.errors
+          "
+          id="localidad{{ i }}"
+          formControlName="localidad"
+          placeholder="Ej: Buenos Aires"
+        />
+        <small
+          *ngIf="
+            sede.get('localidad')?.touched && sede.get('localidad')?.errors
+          "
+          class="text-danger"
+          >La localidad es requerida</small
+        >
+      </div>
+      <div class="col-md-6">
+        <label for="provincia{{ i }}" class="form-label required"
+          >Provincia</label
+        >
+        <input
+          type="text"
+          class="form-control input-field"
+          [class.error]="
+            sede.get('provincia')?.touched && sede.get('provincia')?.errors
+          "
+          id="provincia{{ i }}"
+          formControlName="provincia"
+          placeholder="Ej: Buenos Aires"
+        />
+        <small
+          *ngIf="
+            sede.get('provincia')?.touched && sede.get('provincia')?.errors
+          "
+          class="text-danger"
+          >La provincia es requerida</small
+        >
+      </div>
+      <div class="col-md-6">
+        <label for="telefono{{ i }}" class="form-label required"
+          >Teléfono</label
+        >
+        <input
+          type="text"
+          class="form-control input-field"
+          [class.error]="
+            sede.get('telefono')?.touched && sede.get('telefono')?.errors
+          "
+          id="telefono{{ i }}"
+          formControlName="telefono"
+          placeholder="Ej: 123456789"
+        />
+        <small
+          *ngIf="sede.get('telefono')?.touched && sede.get('telefono')?.errors"
+          class="text-danger"
+          >El teléfono es requerido</small
+        >
+      </div>
+    </div>
+  </div>
+
+  <button type="button" (click)="agregarOtraSede()">Cargar otra sede</button>
+  <button type="submit" (click)="guardarSedes()">Guardar</button>
+</form>

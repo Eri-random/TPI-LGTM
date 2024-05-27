@@ -13,6 +13,9 @@ import { ResponseIdeaComponent } from './pages/generar-ideas/response-idea/respo
 import { MisIdeasComponent } from './pages/generar-ideas/mis-ideas/mis-ideas.component';
 import { VerIdeaComponent } from './pages/generar-ideas/mis-ideas/ver-idea/ver-idea.component';
 import { PedidoDeOrganizacionComponent } from './pages/pedido-de-organizacion/pedido-de-organizacion.component';
+import { SedeComponent } from './pages/sede/sede.component';
+import { CrearSedeComponent } from './pages/sede/crear-sede/crear-sede.component';
+import { EditarSedeComponent } from './pages/sede/editar-sede/editar-sede.component';
 
 
 const routes: Routes = [
@@ -29,6 +32,9 @@ const routes: Routes = [
   {path: 'mis-ideas', component: MisIdeasComponent},
   {path: 'mis-ideas/:id', component: VerIdeaComponent},
   {path: 'necesidades', component: PedidoDeOrganizacionComponent},
+  {path: 'sedes', component: SedeComponent},
+  {path: 'crear-sede', component: CrearSedeComponent},
+  {path: 'editar-sede/:id', component: EditarSedeComponent},
   {path:'**',redirectTo:''}
 ];
 

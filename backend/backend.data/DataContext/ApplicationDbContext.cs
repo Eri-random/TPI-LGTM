@@ -22,6 +22,8 @@ namespace backend.data.DataContext
 
         public virtual DbSet<Rol> Rols { get; set; }
 
+        public virtual DbSet<Sede> Sedes { get; set; }
+
         public virtual DbSet<Usuario> Usuarios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -32,6 +34,10 @@ namespace backend.data.DataContext
                 entity.HasKey(e => e.Id).HasName("donacion_pk");
 
                 entity.ToTable("donacion");
+
+                entity.HasIndex(e => e.OrganizacionId, "IX_donacion_organizacion_id");
+
+                entity.HasIndex(e => e.UsuarioId, "IX_donacion_usuario_id");
 
                 entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.Cantidad).HasColumnName("cantidad");
@@ -57,8 +63,6 @@ namespace backend.data.DataContext
                 entity.HasKey(e => e.Id).HasName("idea_pkey");
 
                 entity.ToTable("idea");
-
-                entity.HasIndex(e => e.UsuarioId, "IX_idea_usuario_id");
 
                 entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.Dificultad).HasColumnName("dificultad");
@@ -120,9 +124,11 @@ namespace backend.data.DataContext
                 entity.Property(e => e.Direccion)
                     .IsRequired()
                     .HasColumnName("direccion");
+                entity.Property(e => e.Latitud).HasColumnName("latitud");
                 entity.Property(e => e.Localidad)
                     .IsRequired()
                     .HasColumnName("localidad");
+                entity.Property(e => e.Longitud).HasColumnName("longitud");
                 entity.Property(e => e.Nombre)
                     .IsRequired()
                     .HasColumnName("nombre");
@@ -145,8 +151,6 @@ namespace backend.data.DataContext
                 entity.HasKey(e => e.Id).HasName("paso_pk");
 
                 entity.ToTable("paso");
-
-                entity.HasIndex(e => e.IdeaId, "IX_paso_idea_id");
 
                 entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.Descripcion)
@@ -174,6 +178,38 @@ namespace backend.data.DataContext
                     .IsRequired()
                     .HasMaxLength(50)
                     .HasColumnName("nombre");
+            });
+
+            modelBuilder.Entity<Sede>(entity =>
+            {
+                entity.HasKey(e => e.Id).HasName("sede_pkey");
+
+                entity.ToTable("sede");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Direccion)
+                    .IsRequired()
+                    .HasColumnName("direccion");
+                entity.Property(e => e.Latitud).HasColumnName("latitud");
+                entity.Property(e => e.Localidad)
+                    .IsRequired()
+                    .HasColumnName("localidad");
+                entity.Property(e => e.Longitud).HasColumnName("longitud");
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasColumnName("nombre");
+                entity.Property(e => e.OrganizacionId).HasColumnName("organizacion_id");
+                entity.Property(e => e.Provincia)
+                    .IsRequired()
+                    .HasColumnName("provincia");
+                entity.Property(e => e.Telefono)
+                    .IsRequired()
+                    .HasColumnName("telefono");
+
+                entity.HasOne(d => d.Organizacion).WithMany(p => p.Sedes)
+                    .HasForeignKey(d => d.OrganizacionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("organizacion_fkey");
             });
 
             modelBuilder.Entity<Usuario>(entity =>

@@ -16,6 +16,11 @@ export class MapService {
     return this.http.get<any[]>(url);
   }
 
+  getOrganizationSedes(organizacionId: number) {
+    const url = `${this.baseUrl}/Maps/${organizacionId}`;
+    return this.http.get<any[]>(url).toPromise();
+  }
+
   getPronvincias() {
     const url = 'https://apis.datos.gob.ar/georef/api/provincias';
     return this.http.get<Provincias>(url);

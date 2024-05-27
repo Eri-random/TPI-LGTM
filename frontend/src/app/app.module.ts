@@ -38,7 +38,10 @@ import { MisIdeasComponent } from './pages/generar-ideas/mis-ideas/mis-ideas.com
 import { VerIdeaComponent } from './pages/generar-ideas/mis-ideas/ver-idea/ver-idea.component';
 import { SpinnerIdeaComponent } from './components/spinner-idea/spinner-idea.component'
 import { EditorModule } from '@tinymce/tinymce-angular';
-import { PedidoDeOrganizacionComponent } from './pages/pedido-de-organizacion/pedido-de-organizacion.component'
+import { PedidoDeOrganizacionComponent } from './pages/pedido-de-organizacion/pedido-de-organizacion.component';
+import { SedeComponent } from './pages/sede/sede.component';
+import { CrearSedeComponent } from './pages/sede/crear-sede/crear-sede.component';
+import { EditarSedeComponent } from './pages/sede/editar-sede/editar-sede.component'
 register();
 @NgModule({
   declarations: [
@@ -60,6 +63,9 @@ register();
     MisIdeasComponent,
     VerIdeaComponent,
     SpinnerIdeaComponent,
+    SedeComponent,
+    CrearSedeComponent,
+    EditarSedeComponent,
   ],
   imports: [
     BrowserModule,
