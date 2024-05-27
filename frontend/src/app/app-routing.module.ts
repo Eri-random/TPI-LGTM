@@ -7,7 +7,6 @@ import { GenerarIdeasComponent} from './pages/generar-ideas/generar-ideas.compon
 import { MapaOrganizacionesComponent } from './pages/mapa/mapa-organizaciones.component';
 import { DonacionesComponent } from './pages/donaciones/donaciones.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { EditInfoComponent } from './pages/dashboard/components/edit-info/edit-info.component';
 import { InfoOrganizacionComponent } from './pages/info-organizacion/info-organizacion.component';
 import { ResponseIdeaComponent } from './pages/generar-ideas/response-idea/response-idea.component';
 import { MisIdeasComponent } from './pages/generar-ideas/mis-ideas/mis-ideas.component';
@@ -16,25 +15,29 @@ import { PedidoDeOrganizacionComponent } from './pages/pedido-de-organizacion/pe
 import { SedeComponent } from './pages/sede/sede.component';
 import { CrearSedeComponent } from './pages/sede/crear-sede/crear-sede.component';
 import { EditarSedeComponent } from './pages/sede/editar-sede/editar-sede.component';
+import { MiOrganizacionComponent } from './pages/mi-organizacion/mi-organizacion.component';
+import { authGuard } from './guards/auth.guard';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 
 
 const routes: Routes = [
   {path:'',component:LandingComponent, pathMatch:'full'},
   {path:'login',component:LoginComponent},
   {path:'signup',component:SignupComponent},
-  {path: 'generar-ideas', component:GenerarIdeasComponent},
+  {path: 'generar-ideas', component:GenerarIdeasComponent, canActivate: [authGuard], data: { expectedRole: 'usuario' }},
   {path: 'ubicaciones', component:MapaOrganizacionesComponent},
   {path: 'donar', component:DonacionesComponent},
-  {path: 'dashboard', component: DashboardComponent},
-  {path: 'mi-organizacion', component: EditInfoComponent},
+  {path: 'dashboard', component: DashboardComponent, canActivate: [authGuard], data: { expectedRole: 'organizacion' }},
+  {path: 'mi-organizacion', component: MiOrganizacionComponent, canActivate: [authGuard], data: { expectedRole: 'organizacion' }},
   {path: 'info-organizacion/:id', component: InfoOrganizacionComponent},
-  {path: 'response-idea', component: ResponseIdeaComponent},
-  {path: 'mis-ideas', component: MisIdeasComponent},
-  {path: 'mis-ideas/:id', component: VerIdeaComponent},
-  {path: 'necesidades', component: PedidoDeOrganizacionComponent},
   {path: 'sedes', component: SedeComponent},
   {path: 'crear-sede', component: CrearSedeComponent},
   {path: 'editar-sede/:id', component: EditarSedeComponent},
+  {path: 'response-idea', component: ResponseIdeaComponent, canActivate: [authGuard], data: { expectedRole: 'usuario' }},
+  {path: 'mis-ideas', component: MisIdeasComponent, canActivate: [authGuard], data: { expectedRole: 'usuario' }},
+  {path: 'mis-ideas/:id', component: VerIdeaComponent, canActivate: [authGuard], data: { expectedRole: 'usuario' }},
+  {path: 'necesidades', component: PedidoDeOrganizacionComponent, canActivate: [authGuard], data: { expectedRole: 'organizacion' }},
+  {path: 'not-found',component:PageNotFoundComponent},
   {path:'**',redirectTo:''}
 ];
 

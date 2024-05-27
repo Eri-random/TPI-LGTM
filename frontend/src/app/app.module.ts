@@ -25,10 +25,8 @@ import { GenerarIdeasComponent } from './pages/generar-ideas/generar-ideas.compo
 import { MapaOrganizacionesComponent } from './pages/mapa/mapa-organizaciones.component';
 import { DonacionesComponent } from './pages/donaciones/donaciones.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { ModalOrganizacionComponent } from './components/modal-organizacion/modal-organizacion.component';
 import { MatDialogModule} from '@angular/material/dialog';
 import { MatButtonModule} from '@angular/material/button';
-import { EditInfoComponent } from './pages/dashboard/components/edit-info/edit-info.component';
 import { InfoOrganizacionComponent } from './pages/info-organizacion/info-organizacion.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -42,6 +40,9 @@ import { PedidoDeOrganizacionComponent } from './pages/pedido-de-organizacion/pe
 import { SedeComponent } from './pages/sede/sede.component';
 import { CrearSedeComponent } from './pages/sede/crear-sede/crear-sede.component';
 import { EditarSedeComponent } from './pages/sede/editar-sede/editar-sede.component'
+import { MiOrganizacionComponent } from './pages/mi-organizacion/mi-organizacion.component';
+import { DialogDonarComponent } from './pages/info-organizacion/dialog-donar/dialog-donar.component';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 register();
 @NgModule({
   declarations: [
@@ -55,8 +56,7 @@ register();
     MapaOrganizacionesComponent,
     DonacionesComponent,
     DashboardComponent,
-    ModalOrganizacionComponent,
-    EditInfoComponent,
+    DialogDonarComponent,
     InfoOrganizacionComponent,
     SpinnerComponent,
     ResponseIdeaComponent,
@@ -66,6 +66,8 @@ register();
     SedeComponent,
     CrearSedeComponent,
     EditarSedeComponent,
+    MiOrganizacionComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
