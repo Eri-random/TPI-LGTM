@@ -39,6 +39,7 @@ import { EditorModule } from '@tinymce/tinymce-angular';
 import { PedidoDeOrganizacionComponent } from './pages/pedido-de-organizacion/pedido-de-organizacion.component';
 import { MiOrganizacionComponent } from './pages/mi-organizacion/mi-organizacion.component';
 import { DialogDonarComponent } from './pages/info-organizacion/dialog-donar/dialog-donar.component';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 register();
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ register();
     VerIdeaComponent,
     SpinnerIdeaComponent,
     MiOrganizacionComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
