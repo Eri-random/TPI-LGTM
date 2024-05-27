@@ -37,7 +37,8 @@ import { VerIdeaComponent } from './pages/generar-ideas/mis-ideas/ver-idea/ver-i
 import { SpinnerIdeaComponent } from './components/spinner-idea/spinner-idea.component'
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { PedidoDeOrganizacionComponent } from './pages/pedido-de-organizacion/pedido-de-organizacion.component';
-import { MiOrganizacionComponent } from './pages/mi-organizacion/mi-organizacion.component'
+import { MiOrganizacionComponent } from './pages/mi-organizacion/mi-organizacion.component';
+import { DialogDonarComponent } from './pages/info-organizacion/dialog-donar/dialog-donar.component';
 register();
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ register();
     MapaOrganizacionesComponent,
     DonacionesComponent,
     DashboardComponent,
+    DialogDonarComponent,
     InfoOrganizacionComponent,
     SpinnerComponent,
     ResponseIdeaComponent,
