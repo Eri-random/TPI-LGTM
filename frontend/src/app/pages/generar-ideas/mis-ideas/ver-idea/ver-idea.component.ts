@@ -84,8 +84,24 @@ export class VerIdeaComponent implements OnInit, AfterViewInit {
     doc.addImage(this.logoBase64, 'JPEG', 10, 10, logoWidth, logoHeight);
 
     doc.setFontSize(18);
-    const tituloMayusculas = this.idea.titulo?.toUpperCase();
-    doc.text('' + tituloMayusculas, 100, 40, { align: 'center' });
+    const tituloMayusculas = this.idea.titulo?.toUpperCase() || '';
+    
+    // Ancho disponible para el texto (ajustar según sea necesario)
+    const maxWidth = 180; // Ancho máximo en unidades de jsPDF
+    
+    // Dividir el título en varias líneas si es necesario
+    const splitTitle = doc.splitTextToSize(tituloMayusculas, maxWidth);
+    
+    // Calcular la posición Y inicial para centrar el texto verticalmente
+    const initialY = 40;
+    const lineHeight = 10;
+    const totalHeight = splitTitle.length * lineHeight;
+    const startY = initialY - (totalHeight / 2);
+    
+    // Añadir el texto dividido al PDF
+    splitTitle.forEach((line:string, index:number) => {
+      doc.text(line, 100, startY + (index * lineHeight), { align: 'center' });
+    });
 
     doc.setFontSize(12);
     doc.setTextColor(80, 80, 80);
