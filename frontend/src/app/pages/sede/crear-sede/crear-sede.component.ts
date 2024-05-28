@@ -65,17 +65,15 @@ export class CrearSedeComponent implements OnInit {
   }
 
   agregarOtraSede(): void {
-    this.sedes.push(this.crearSedeForm());
+    if(this.sedes.length < 4){
+      this.sedes.push(this.crearSedeForm());
+    }
   }
 
-  submitForm(): void {
-    if (!this.sedeForm.valid) {
-      ValidateForm.validateAllFormFileds(this.sedeForm);
-      console.log("SIN DATOS");
-      return;
+  eliminarSede(index: number): void {
+    if (this.sedes.length > 1) {
+      this.sedes.removeAt(index);
     }
-
-    console.log(this.sedeForm.value);
   }
 
   guardarSedes(): void {

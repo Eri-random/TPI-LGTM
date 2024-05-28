@@ -1,111 +1,61 @@
-<form [formGroup]="sedeForm" (ngSubmit)="submitForm()">
-  <div class="row g-3">
-    <div class="col-md-6">
-      <label for="nombre" class="form-label required">Nombre</label>
-      <input
-        type="text"
-        class="form-control input-field"
-        [class.error]="
+<div class="container mt-5">
+  <h3>Editar sede</h3>
+  <form class="my-4" [formGroup]="sedeForm" (ngSubmit)="submitForm()">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label for="nombre" class="form-label required">Nombre</label>
+        <input type="text" class="form-control input-field" [class.error]="
           sedeForm.get('nombre')?.touched && sedeForm.get('nombre')?.errors
-        "
-        id="nombre"
-        formControlName="nombre"
-        placeholder="Ej: Julieta"
-      />
-      <small
-        *ngIf="
+        " id="nombre" formControlName="nombre" placeholder="Ej: Julieta" />
+        <small *ngIf="
           sedeForm.get('nombre')?.touched && sedeForm.get('nombre')?.errors
-        "
-        class="text-danger"
-        >El nombre es requerido</small
-      >
-    </div>
-    <div class="col-md-6">
-      <label for="direccion" class="form-label required">Dirección</label>
-      <input
-        type="text"
-        class="form-control input-field"
-        [class.error]="
+        " class="text-danger">El nombre es requerido</small>
+      </div>
+      <div class="col-md-6">
+        <label for="direccion" class="form-label required">Dirección</label>
+        <input type="text" class="form-control input-field" [class.error]="
           sedeForm.get('direccion')?.touched &&
           sedeForm.get('direccion')?.errors
-        "
-        id="direccion"
-        formControlName="direccion"
-        placeholder="Ej: Calle 123"
-      />
-      <small
-        *ngIf="
+        " id="direccion" formControlName="direccion" placeholder="Ej: Calle 123" />
+        <small *ngIf="
           sedeForm.get('direccion')?.touched &&
           sedeForm.get('direccion')?.errors
-        "
-        class="text-danger"
-        >La dirección es requerida</small
-      >
-    </div>
-    <div class="col-md-6">
-      <label for="localidad" class="form-label required">Localidad</label>
-      <input
-        type="text"
-        class="form-control input-field"
-        [class.error]="
+        " class="text-danger">La dirección es requerida</small>
+      </div>
+      <div class="col-md-6">
+        <label for="localidad" class="form-label required">Localidad</label>
+        <input type="text" class="form-control input-field" [class.error]="
           sedeForm.get('localidad')?.touched &&
           sedeForm.get('localidad')?.errors
-        "
-        id="localidad"
-        formControlName="localidad"
-        placeholder="Ej: Buenos Aires"
-      />
-      <small
-        *ngIf="
+        " id="localidad" formControlName="localidad" placeholder="Ej: Buenos Aires" />
+        <small *ngIf="
           sedeForm.get('localidad')?.touched &&
           sedeForm.get('localidad')?.errors
-        "
-        class="text-danger"
-        >La localidad es requerida</small
-      >
-    </div>
-    <div class="col-md-6">
-      <label for="provincia" class="form-label required">Provincia</label>
-      <input
-        type="text"
-        class="form-control input-field"
-        [class.error]="
+        " class="text-danger">La localidad es requerida</small>
+      </div>
+      <div class="col-md-6">
+        <label for="provincia" class="form-label required">Provincia</label>
+        <input type="text" class="form-control input-field" [class.error]="
           sedeForm.get('provincia')?.touched &&
           sedeForm.get('provincia')?.errors
-        "
-        id="provincia"
-        formControlName="provincia"
-        placeholder="Ej: Buenos Aires"
-      />
-      <small
-        *ngIf="
+        " id="provincia" formControlName="provincia" placeholder="Ej: Buenos Aires" />
+        <small *ngIf="
           sedeForm.get('provincia')?.touched &&
           sedeForm.get('provincia')?.errors
-        "
-        class="text-danger"
-        >La provincia es requerida</small
-      >
-    </div>
-    <div class="col-md-6">
-      <label for="telefono" class="form-label required">Teléfono</label>
-      <input
-        type="text"
-        class="form-control input-field"
-        [class.error]="
+        " class="text-danger">La provincia es requerida</small>
+      </div>
+      <div class="col-md-6">
+        <label for="telefono" class="form-label required">Teléfono</label>
+        <input type="text" class="form-control input-field" [class.error]="
           sedeForm.get('telefono')?.touched && sedeForm.get('telefono')?.errors
-        "
-        id="telefono"
-        formControlName="telefono"
-        placeholder="Ej: 123456789"
-      />
-      <small
-        *ngIf="
+        " id="telefono" formControlName="telefono" placeholder="Ej: 123456789" />
+        <small *ngIf="
           sedeForm.get('telefono')?.touched && sedeForm.get('telefono')?.errors
-        "
-        class="text-danger"
-        >El teléfono es requerido</small
-      >
+        " class="text-danger">El teléfono es requerido</small>
+      </div>
     </div>
-  </div>
-  <button type="submit">Guardar</button>
-</form>
+    <div class="d-flex justify-content-center mt-4">
+      <button type="submit" type="button" class="btn btn-block btn-primary">Guardar</button>
+    </div>
+  </form>
+</div>
