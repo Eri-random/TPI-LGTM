@@ -37,6 +37,9 @@ import { VerIdeaComponent } from './pages/generar-ideas/mis-ideas/ver-idea/ver-i
 import { SpinnerIdeaComponent } from './components/spinner-idea/spinner-idea.component'
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { PedidoDeOrganizacionComponent } from './pages/pedido-de-organizacion/pedido-de-organizacion.component';
+import { SedeComponent } from './pages/sede/sede.component';
+import { CrearSedeComponent } from './pages/sede/crear-sede/crear-sede.component';
+import { EditarSedeComponent } from './pages/sede/editar-sede/editar-sede.component'
 import { MiOrganizacionComponent } from './pages/mi-organizacion/mi-organizacion.component';
 import { DialogDonarComponent } from './pages/info-organizacion/dialog-donar/dialog-donar.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
@@ -60,6 +63,9 @@ register();
     MisIdeasComponent,
     VerIdeaComponent,
     SpinnerIdeaComponent,
+    SedeComponent,
+    CrearSedeComponent,
+    EditarSedeComponent,
     MiOrganizacionComponent,
     PageNotFoundComponent,
   ],

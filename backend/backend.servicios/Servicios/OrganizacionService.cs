@@ -30,6 +30,8 @@ namespace backend.servicios.Servicios
                         Localidad = u.Localidad,
                         Provincia = u.Provincia,
                         Telefono = u.Telefono,
+                        Latitud = u.Latitud,
+                        Longitud = u.Longitud,
                         InfoOrganizacion = u.InfoOrganizacion != null ? new InfoOrganizacionDto
                         {
                             Organizacion = u.InfoOrganizacion.Organizacion,

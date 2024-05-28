@@ -12,6 +12,9 @@ import { ResponseIdeaComponent } from './pages/generar-ideas/response-idea/respo
 import { MisIdeasComponent } from './pages/generar-ideas/mis-ideas/mis-ideas.component';
 import { VerIdeaComponent } from './pages/generar-ideas/mis-ideas/ver-idea/ver-idea.component';
 import { PedidoDeOrganizacionComponent } from './pages/pedido-de-organizacion/pedido-de-organizacion.component';
+import { SedeComponent } from './pages/sede/sede.component';
+import { CrearSedeComponent } from './pages/sede/crear-sede/crear-sede.component';
+import { EditarSedeComponent } from './pages/sede/editar-sede/editar-sede.component';
 import { MiOrganizacionComponent } from './pages/mi-organizacion/mi-organizacion.component';
 import { authGuard } from './guards/auth.guard';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
@@ -27,6 +30,9 @@ const routes: Routes = [
   {path: 'dashboard', component: DashboardComponent, canActivate: [authGuard], data: { expectedRole: 'organizacion' }},
   {path: 'mi-organizacion', component: MiOrganizacionComponent, canActivate: [authGuard], data: { expectedRole: 'organizacion' }},
   {path: 'info-organizacion/:id', component: InfoOrganizacionComponent},
+  {path: 'sedes', component: SedeComponent, canActivate: [authGuard], data: { expectedRole: 'organizacion' }},
+  {path: 'crear-sede', component: CrearSedeComponent, canActivate: [authGuard], data: { expectedRole: 'organizacion' }},
+  {path: 'editar-sede/:id', component: EditarSedeComponent, canActivate: [authGuard], data: { expectedRole: 'organizacion' }},
   {path: 'response-idea', component: ResponseIdeaComponent, canActivate: [authGuard], data: { expectedRole: 'usuario' }},
   {path: 'mis-ideas', component: MisIdeasComponent, canActivate: [authGuard], data: { expectedRole: 'usuario' }},
   {path: 'mis-ideas/:id', component: VerIdeaComponent, canActivate: [authGuard], data: { expectedRole: 'usuario' }},

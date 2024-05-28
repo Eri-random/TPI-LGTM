@@ -14,5 +14,8 @@
         public int Rol { get; set; }
         public string RolNombre { get; set; }
         public OrganizacionDto Organizacion { get; set; }
+
+        public double Latitud { get; set; }
+        public double Longitud { get; set; }
     }
 }

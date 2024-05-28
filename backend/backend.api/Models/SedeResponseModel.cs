@@ -1,19 +1,26 @@
-﻿using backend.servicios.DTOs;
+﻿using backend.data.Models;
 
 namespace backend.api.Models
 {
-    public class OrganizacionResponseModel
+    public class SedeResponseModel
     {
         public int Id { get; set; }
-        public string Nombre { get; set; }
-        public string Cuit { get; set; }
-        public string Telefono { get; set; }
         public string Direccion { get; set; }
+
         public string Localidad { get; set; }
+
         public string Provincia { get; set; }
 
+        public int OrganizacionId { get; set; }
+
+        public string Nombre { get; set; }
+
+        public string Telefono { get; set; }
+
         public double Latitud { get; set; }
+
         public double Longitud { get; set; }
-        public InfoOrganizacionDto InfoOrganizacion { get; set; }
+
+        public virtual Organizacion Organizacion { get; set; }
     }
 }
