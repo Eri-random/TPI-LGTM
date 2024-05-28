@@ -59,6 +59,7 @@ export class MapaOrganizacionesComponent implements OnInit {
         position: { lat: org.latitud, lng: org.longitud },
         map: map,
         title: org.nombre,
+        icon: 'https://maps.gstatic.com/mapfiles/ms2/micons/red-pushpin.png',
       });
 
       const infoWindow = new google.maps.InfoWindow({
