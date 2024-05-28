@@ -106,7 +106,13 @@ namespace backend.servicios.Servicios
 
             var hashedPassword = PasswordHasher.HashPassword(usuarioDto.Password);
 
-            var (lat, lng) = await _mapsService.GetCoordinates(usuarioDto.Organizacion.Direccion, usuarioDto.Organizacion.Localidad, usuarioDto.Organizacion.Provincia);
+            var lat=0.0;
+            var lng=0.0;
+
+            if (usuarioDto.Organizacion != null)
+            {
+               (lat, lng) = await _mapsService.GetCoordinates(usuarioDto.Organizacion.Direccion, usuarioDto.Organizacion.Localidad, usuarioDto.Organizacion.Provincia);
+            }
 
             var usuario = new Usuario
             {
