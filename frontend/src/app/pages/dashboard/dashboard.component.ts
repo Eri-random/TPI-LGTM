@@ -37,6 +37,7 @@ export class DashboardComponent implements OnInit {
   ];
   
   dataSource: MatTableDataSource<UserData> = new MatTableDataSource();
+  loading: boolean = true;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -74,8 +75,16 @@ export class DashboardComponent implements OnInit {
           this.cdr.detectChanges();
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
+
+          setTimeout(() => {
+            this.loading = false; 
+          }, 1000);
         }else{
           this.existDonaciones = false;
+
+          setTimeout(() => {
+            this.loading = false; 
+          }, 1000);
         }
       },
       (error) => {

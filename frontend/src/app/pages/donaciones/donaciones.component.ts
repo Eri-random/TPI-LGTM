@@ -20,6 +20,7 @@ export class DonacionesComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarOrganizaciones();
+    
   }
 
   cargarOrganizaciones(): void {
