@@ -47,7 +47,6 @@ export class MiOrganizacionComponent {
     this.organizacionService
       .getOrganizacionByCuit(this.cuit)
       .subscribe((resp) => {
-
         this.organizationForm.get('organizacion')?.setValue(resp.nombre);
         this.organizationForm.get('organizacionId')?.setValue(resp.id);
 

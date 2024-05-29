@@ -31,6 +31,11 @@ export class OrganizacionService {
     return this.http.get<any>(url);
   }
 
+  getOrganizacionesPaginadas(page: number, pageSize: number): Observable<any[]> {
+    const url = `${this.baseUrl}/Organizacion/paginacion?page=${page}&pageSize=${pageSize}`;
+    return this.http.get<any[]>(url);
+  }
+
   postInfoOrganizacion(formData: FormData): Observable<any> {
     const url = `${this.baseUrl}/Informacion/Detalles`;
     return this.http.post<any>(url, formData);

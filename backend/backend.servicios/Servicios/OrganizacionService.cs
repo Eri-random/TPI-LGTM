@@ -155,5 +155,15 @@ namespace backend.servicios.Servicios
                 throw;
             }
         }
+
+        public async Task<IEnumerable<Organizacion>> GetOrganizacionesPaginadasAsync(int page, int pageSize)
+        {
+            return await _context.Organizacions
+                 .Include(o => o.InfoOrganizacion)
+                 .Where(o => o.InfoOrganizacion != null) 
+                 .Skip((page - 1) * pageSize)
+                 .Take(pageSize)
+                 .ToListAsync();
+        }
     }
 }

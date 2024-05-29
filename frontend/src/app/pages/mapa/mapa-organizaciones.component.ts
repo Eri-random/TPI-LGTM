@@ -61,9 +61,19 @@ export class MapaOrganizacionesComponent implements OnInit {
 
   applyFilters(): void {
     if (this.dataDirection) {
-      this.provinciaSeleccionada = this.provincias.find(
-        (provincia) => provincia.nombre === this.dataDirection.provincia
-      );
+      let localidad = this.dataDirection.localidad.toLowerCase();
+      if (
+        localidad === 'caba' ||
+        localidad === 'ciudad autónoma de buenos aires'
+      ) {
+        this.provinciaSeleccionada = this.provincias.find(
+          (provincia) => provincia.nombre === 'Ciudad Autónoma de Buenos Aires'
+        );
+      } else {
+        this.provinciaSeleccionada = this.provincias.find(
+          (provincia) => provincia.nombre === this.dataDirection.provincia
+        );
+      }
       this.organizacionSeleccionada = this.organizations.find((org: any) => {
         if (
           this.dataDirection.nombreOrganizacion !== null &&
