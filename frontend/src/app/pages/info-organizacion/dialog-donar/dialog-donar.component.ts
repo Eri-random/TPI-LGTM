@@ -22,6 +22,7 @@ export class DialogDonarComponent implements OnInit {
   usuario: any;
   dataDirection: any;
   sedes: any;
+  isSubmitted: boolean = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { organizacionId: number },
@@ -68,21 +69,22 @@ export class DialogDonarComponent implements OnInit {
       })
       .subscribe(
         (resp) => {
-          this.toast.success({
-            detail: 'EXITO',
-            summary: 'Muchas Gracias por la ayuda!',
-            duration: 5000,
-            position: 'topRight',
-          });
-          this.close();
+          // this.toast.success({
+          //   detail: 'EXITO',
+          //   summary: 'Muchas Gracias por la ayuda!',
+          //   duration: 5000,
+          //   position: 'topRight',
+          // });
+          // this.close();
+          this.isSubmitted = true;
         },
         (error) => {
-          this.toast.error({
-            detail: 'ERROR',
-            summary: 'Ocurrió un error al procesar la donación!',
-            duration: 5000,
-            position: 'topRight',
-          });
+          // this.toast.error({
+          //   detail: 'ERROR',
+          //   summary: 'Ocurrió un error al procesar la donación!',
+          //   duration: 5000,
+          //   position: 'topRight',
+          // });
         }
       );
 
@@ -108,7 +110,6 @@ export class DialogDonarComponent implements OnInit {
 
           this.sedeService.setDataDirection(this.dataDirection);
 
-          this.router.navigate(['/ubicaciones']);
         },
         (error) => {
           console.error('Error:', error);
