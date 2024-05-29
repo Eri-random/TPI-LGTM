@@ -26,6 +26,7 @@ export class DashboardComponent implements OnInit {
   cuit!: string;
   orgNombre:any
   existDonaciones!:boolean;
+  totalDonaciones: number = 0;
 
   displayedColumns: string[] = [
     'name',
@@ -72,9 +73,10 @@ export class DashboardComponent implements OnInit {
         if(donaciones.length != 0){
           this.existDonaciones = true;
           this.dataSource.data = donaciones;
-          this.cdr.detectChanges();
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
+          this.totalDonaciones = donaciones.reduce((total: any, donacion: any) => total + donacion.cantidad, 0);
+          this.cdr.detectChanges();
 
           setTimeout(() => {
             this.loading = false; 
