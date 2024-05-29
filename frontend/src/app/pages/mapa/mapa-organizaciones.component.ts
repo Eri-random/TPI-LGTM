@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { MapService } from 'src/app/services/map.service';
 import { GoogleMapsLoaderService } from 'src/app/services/google-maps-loader.service';
 import { NgToastService } from 'ng-angular-popup';
+import { SedeService } from 'src/app/services/sede.service';
 
 @Component({
   selector: 'app-mapa-organizaciones',
@@ -16,17 +17,32 @@ export class MapaOrganizacionesComponent implements OnInit {
   provinciaSeleccionada: any = 'todas';
   organizacionSeleccionada: any = 'todas';
   filteredOrganizations: any[] = [];
+  dataDirection: any = null;
 
   constructor(
     private http: HttpClient,
     private mapService: MapService,
     private googleMapsLoader: GoogleMapsLoaderService,
-    private toast: NgToastService
+    private toast: NgToastService,
+    private sedeService: SedeService
   ) {}
 
   ngOnInit(): void {
-    this.getMarker();
     this.getProvinces();
+    this.checkSedeMasCercana();
+  }
+
+  getProvinces(): void {
+    this.mapService.getPronvincias().subscribe(
+      (data) => {
+        this.provincias = data.provincias;
+        this.provincias.sort((a, b) => a.nombre.localeCompare(b.nombre));
+        this.getMarker();
+      },
+      (error) => {
+        console.error('Error al cargar los datos de provincias:', error);
+      }
+    );
   }
 
   getMarker(): void {
@@ -34,13 +50,36 @@ export class MapaOrganizacionesComponent implements OnInit {
       (data) => {
         this.organizations = data;
         this.googleMapsLoader.load().then(() => {
-          this.loadMap();
+          this.applyFilters();
         });
       },
       (error) => {
         console.error('Error al cargar los datos de ubicaciones:', error);
       }
     );
+  }
+
+  applyFilters(): void {
+    if (this.dataDirection) {
+      this.provinciaSeleccionada = this.provincias.find(
+        (provincia) => provincia.nombre === this.dataDirection.provincia
+      );
+      this.organizacionSeleccionada = this.organizations.find((org: any) => {
+        if (
+          this.dataDirection.nombreOrganizacion !== null &&
+          this.dataDirection.nombreOrganizacion !== undefined
+        ) {
+          return org.nombre === this.dataDirection.nombreOrganizacion;
+        } else {
+          return org.nombre === this.dataDirection.nombre;
+        }
+      });
+      this.filterOrganizations();
+      this.loadMap();
+    } else {
+      this.filterOrganizations();
+      this.loadMap();
+    }
   }
 
   loadMap(): void {
@@ -54,7 +93,7 @@ export class MapaOrganizacionesComponent implements OnInit {
       }
     );
 
-    this.organizations.forEach((org) => {
+    this.filteredOrganizations.forEach((org) => {
       const marker = new google.maps.Marker({
         position: { lat: org.latitud, lng: org.longitud },
         map: map,
@@ -64,9 +103,13 @@ export class MapaOrganizacionesComponent implements OnInit {
 
       const infoWindow = new google.maps.InfoWindow({
         content: `
-        <h3>${org.nombre}</h3><p>${org.direccion}</p>
-        <p>${org.localidad}, ${org.provincia}</p>
-        <p>Teléfono de contacto: ${org.telefono}</p>
+        <div class="info-window">
+          <h3>${org.nombre}</h3>
+          <p>Dirección: ${org.direccion}</p>
+          <p>Localidad: ${org.localidad}</p>
+          <p>Provincia: ${org.provincia}</p>
+          <p>Teléfono: ${org.telefono}</p>
+        </div>
         `,
       });
 
@@ -74,43 +117,12 @@ export class MapaOrganizacionesComponent implements OnInit {
         infoWindow.open(map, marker);
       });
     });
-  }
 
-  getProvinces(): void {
-    this.mapService.getPronvincias().subscribe(
-      (data) => {
-        this.provincias = data.provincias;
-        this.provincias.sort((a, b) => {
-          if (a.nombre > b.nombre) {
-            return 1;
-          }
-          if (a.nombre < b.nombre) {
-            return -1;
-          }
-          return 0;
-        });
-      },
-      (error) => {
-        console.error('Error al cargar los datos de provincias:', error);
-      }
-    );
-  }
-
-  onProvinciaChange(): void {
-    this.organizacionSeleccionada = 'todas';
-    this.filterOrganizations();
-    this.updateMap();
-  }
-  
-  onOrganizacionChange(): void {
-    if (this.organizacionSeleccionada === 'todas') {
-      this.filterOrganizations();
-      this.updateMap();
-    } else {
-      this.selectOrganization();
+    if (this.dataDirection) {
+      this.highlightSedeMasCercana(map);
     }
   }
-  
+
   filterOrganizations(): void {
     if (this.provinciaSeleccionada === 'todas') {
       this.filteredOrganizations = this.organizations;
@@ -118,6 +130,86 @@ export class MapaOrganizacionesComponent implements OnInit {
       this.filteredOrganizations = this.organizations.filter(
         (org) => org.provincia === this.provinciaSeleccionada.nombre
       );
+    }
+
+    if (this.organizacionSeleccionada !== 'todas') {
+      this.filteredOrganizations = this.filteredOrganizations.filter(
+        (org) => org.nombre === this.organizacionSeleccionada.nombreOrganizacion
+      );
+    }
+  }
+
+  checkSedeMasCercana(): void {
+    this.sedeService.getDataDirection().subscribe((data: any) => {
+      if (data) {
+        this.dataDirection = data;
+      }
+    });
+  }
+
+  highlightSedeMasCercana(map: google.maps.Map): void {
+    const {
+      latitud,
+      longitud,
+      nombre,
+      direccion,
+      localidad,
+      provincia,
+      telefono,
+    } = this.dataDirection;
+
+    console.log('Sede más cercana:', this.dataDirection);
+    const marker = new google.maps.Marker({
+      position: { lat: latitud, lng: longitud },
+      map: map,
+      title: nombre || 'Sede más cercana',
+      icon: 'https://maps.gstatic.com/mapfiles/ms2/micons/red-pushpin.png', // Ícono especial para la sede más cercana
+    });
+
+    const infoWindow = new google.maps.InfoWindow({
+      content: `
+      <div class="info-window">
+          <h3>${nombre || 'Sede más cercana'}</h3>
+          <p>Dirección: ${direccion || ''}</p>
+          <p>Localidad: ${localidad || ''}</p>
+          <p>Provincia: ${provincia || ''}</p>
+          <p>Teléfono: ${telefono || ''}</p>
+      </div>
+      `,
+    });
+
+    marker.addListener('click', () => {
+      infoWindow.open(map, marker);
+    });
+
+    // Abrir el popup al cargar el mapa
+    infoWindow.open(map, marker);
+
+    infoWindow.addListener('closeclick', () => {
+      console.log('Cerrando infoWindow');
+      this.provinciaSeleccionada = 'todas';
+      this.organizacionSeleccionada = 'todas';
+      this.dataDirection = null;
+      this.filterOrganizations();
+      this.loadMap();
+    });
+
+    map.setCenter({ lat: latitud, lng: longitud });
+    map.setZoom(10);
+  }
+
+  onProvinciaChange(): void {
+    this.organizacionSeleccionada = 'todas';
+    this.filterOrganizations();
+    this.updateMap();
+  }
+
+  onOrganizacionChange(): void {
+    if (this.organizacionSeleccionada === 'todas') {
+      this.filterOrganizations();
+      this.updateMap();
+    } else {
+      this.selectOrganization();
     }
   }
 
@@ -133,12 +225,12 @@ export class MapaOrganizacionesComponent implements OnInit {
                 lat: provincia.centroide.lat,
                 lng: provincia.centroide.lon,
               },
-        zoom: provincia === 'todas' ? 5 : 7, // Ajusta el zoom según la selección de provincia
+        zoom: provincia === 'todas' ? 5 : 7,
         minZoom: 5,
         maxZoom: 16,
       }
     );
-  
+
     if (provincia !== 'todas') {
       this.mapService.getPoligonosProvincias().then((geojson) => {
         geojson.features.forEach((feature: any) => {
@@ -158,7 +250,7 @@ export class MapaOrganizacionesComponent implements OnInit {
         });
       });
     }
-  
+
     this.filteredOrganizations.forEach((org) => {
       const marker = new google.maps.Marker({
         position: { lat: org.latitud, lng: org.longitud },
@@ -166,20 +258,29 @@ export class MapaOrganizacionesComponent implements OnInit {
         title: org.nombre,
         icon: 'https://maps.gstatic.com/mapfiles/ms2/micons/red-pushpin.png',
       });
-  
+
       const infoWindow = new google.maps.InfoWindow({
         content: `
-          <h3>${org.nombre}</h3><p>${org.direccion}</p>
-          <p>${org.localidad}, ${org.provincia}</p>
-          <p>Teléfono de contacto: ${org.telefono}</p>
+          <div class="info-window">
+            <h3>${org.nombre}</h3>
+            <p>Dirección: ${org.direccion}</p>
+            <p>Localidad: ${org.localidad}</p>
+            <p>Provincia: ${org.provincia}</p>
+            <p>Teléfono: ${org.telefono}</p>
+          </div>
           `,
       });
-  
+
       marker.addListener('click', () => {
         infoWindow.open(map, marker);
       });
     });
+
+    if (this.dataDirection) {
+      this.highlightSedeMasCercana(map);
+    }
   }
+
   selectOrganization(): void {
     const org = this.organizacionSeleccionada;
 
@@ -232,19 +333,22 @@ export class MapaOrganizacionesComponent implements OnInit {
       });
     }
 
-
     const marker = new google.maps.Marker({
       position: { lat: org.latitud, lng: org.longitud },
       map: map,
       title: org.nombre,
-      icon: 'https://maps.gstatic.com/mapfiles/ms2/micons/red-pushpin.png', // Ícono para la organización seleccionada
+      icon: 'https://maps.gstatic.com/mapfiles/ms2/micons/red-pushpin.png',
     });
 
     const infoWindow = new google.maps.InfoWindow({
       content: `
-      <h3>${org.nombre}</h3><p>${org.direccion}</p>
-      <p>${org.localidad}, ${org.provincia}</p>
-      <p>Teléfono de contacto: ${org.telefono}</p>
+        <div class="info-window">
+          <h3>${org.nombre}</h3>
+          <p>Dirección: ${org.direccion}</p>
+          <p>Localidad: ${org.localidad}</p>
+          <p>Provincia: ${org.provincia}</p>
+          <p>Teléfono: ${org.telefono}</p>
+        </div>
       `,
     });
 
@@ -260,15 +364,18 @@ export class MapaOrganizacionesComponent implements OnInit {
             position: { lat: sede.latitud, lng: sede.longitud },
             map: map,
             title: sede.nombre,
-            icon: 'https://maps.gstatic.com/mapfiles/ms2/micons/blue-pushpin.png', // Ícono para las sedes
+            icon: 'https://maps.gstatic.com/mapfiles/ms2/micons/blue-pushpin.png',
           });
-
 
           const sedeInfoWindow = new google.maps.InfoWindow({
             content: `
-          <h3>${sede.nombre}</h3><p>${sede.direccion}</p>
-          <p>${sede.localidad}, ${sede.provincia}</p>
-          <p>Teléfono de contacto: ${sede.telefono}</p>
+              <div class="info-window">
+                <h3>${sede.nombre}</h3>
+                <p>Dirección: ${sede.direccion}</p>
+                <p>Localidad: ${sede.localidad}</p>
+                <p>Provincia: ${sede.provincia}</p>
+                <p>Teléfono: ${sede.telefono}</p>
+              </div>
           `,
           });
 

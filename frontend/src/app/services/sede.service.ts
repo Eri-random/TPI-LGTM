@@ -9,6 +9,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class SedeService {
 
   private baseUrl = environments.baseUrl;
+  private dataDirection$ = new BehaviorSubject<any>(null);
 
   constructor(private http: HttpClient) { }
 
@@ -36,4 +37,19 @@ export class SedeService {
     const url = `${this.baseUrl}/Sede/Detalle/${sedeId}`;
     return this.http.get<any>(url);
   }
+
+  postSedeMasCercana(data: any): Observable<any> {
+    const url = `${this.baseUrl}/Sede/MasCercana`;
+    return this.http.post<any>(url, data);
+  }
+
+
+  public setDataDirection(data: any): void {
+    this.dataDirection$.next(data);
+  }
+
+  public getDataDirection(): any {
+    return this.dataDirection$.asObservable();
+  }
+
 }

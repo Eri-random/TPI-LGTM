@@ -2,26 +2,38 @@
   <div class="section-mapa">
     <div class="container-filtrado">
       <div>
-      <h5>Seleccionar Provincia</h5>
-      <!--Por Pronvicia-->
+        <h5>Seleccionar Provincia</h5>
+        <!--Por Provincia-->
+        <div>
+          <select
+            class="select"
+            [(ngModel)]="provinciaSeleccionada"
+            (change)="onProvinciaChange()"
+          >
+            <option value="todas" selected>Todas las Provincias</option>
+            <option *ngFor="let prov of provincias" [ngValue]="prov">
+              {{ prov.nombre }}
+            </option>
+          </select>
+        </div>
+      </div>
       <div>
-        <select class="select" [(ngModel)]="provinciaSeleccionada" (change)="onProvinciaChange()">
-          <option value="todas" selected>Todas las Provincias</option>
-          <option *ngFor="let prov of provincias" [ngValue]="prov">{{prov.nombre}}</option>
-        </select>
+        <h5>Seleccionar Organización</h5>
+        <!--Por Tipo de Organización-->
+        <div>
+          <select
+            class="select"
+            [(ngModel)]="organizacionSeleccionada"
+            (change)="onOrganizacionChange()"
+          >
+            <option value="todas" selected>Todas las Organizaciones</option>
+            <option *ngFor="let org of organizations" [ngValue]="org">
+              {{ org.nombre }}
+            </option>
+          </select>
+        </div>
       </div>
     </div>
-    <div>
-      <h5>Seleccionar Organización</h5>
-      <!--Por Tipo de Organización-->
-      <div>
-        <select class="select" [(ngModel)]="organizacionSeleccionada" (change)="onOrganizacionChange()">
-          <option value="todas" selected>Todas las Organizaciones</option>
-          <option *ngFor="let org of organizations" [ngValue]="org">{{org.nombre}}</option>
-        </select>
-      </div>
-    </div>
-    </div>
-    <div id="map"></div>
+    <div id="map" style="height: 600px; width: 100%"></div>
   </div>
 </div>

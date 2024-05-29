@@ -100,6 +100,8 @@ namespace backend.servicios.Servicios
                     Localidad = organizacion.Localidad,
                     Provincia = organizacion.Provincia,
                     Telefono = organizacion.Telefono,
+                    Latitud = organizacion.Latitud,
+                    Longitud = organizacion.Longitud,
                     InfoOrganizacion = organizacion.InfoOrganizacion != null ? new InfoOrganizacionDto
                     {
                         Organizacion = organizacion.InfoOrganizacion.Organizacion,
