@@ -1,23 +1,64 @@
-<div class="ideas-container">
-    <div class="header">
-      <h2>Mis Ideas</h2>
+<section>
+  <div class="page-header min-vh-100">
+    <div>
+      <img class="position-absolute fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/curved-images/curved8.jpg" alt="image">
     </div>
-    <div class="ideas-list">
-      <div *ngIf="!data || data.length === 0" class="empty-ideas">
-        <div class="section-empty">
-          <p class="idea-empty">¡Es hora de darle un nuevo propósito a tu tela de reciclaje! Te animamos a aprovechar al máximo este recurso y generar una idea innovadora. Nuestra IA está aquí para ayudarte a encontrar la inspiración perfecta.</p>
-          <a class="genera-idea" routerLink="/generar-ideas">Generar Idea</a>
+    <div class="container">
+      <div class="card d-flex blur justify-content-center shadow px-xs-0 px-sm-5 my-sm-0 my-sm-6 mt-8 mb-5">
+        <div class="col-8 text-center mx-auto pt-3">
+          <h1 class="pt-3">Mis Ideas</h1>
         </div>
-        <img class="reciclar" src="assets/images/reciclar.jpg" alt="empty-ideas" />
-      </div>
-      <div *ngFor="let item of data" class="idea-item">
-        <div class="idea-header">
-          <h5>{{item.titulo}}</h5>
-          <div class="buttons">
-            <button (click)="verDetalle(item)">Ver detalle</button>
-            <button (click)="deleteIdea(item.id)">Eliminar</button>
+        <!--==================== SI NO HAY IDEAS SE MUESTRA EL CARTEL ====================-->
+        <div *ngIf="!data || data.length === 0">
+          <div class="card-body">
+            <div class="row">
+              <div class="col text-center justify-content-center">
+                <p class="lead mt-3">¡Es hora de darle un nuevo propósito a tu tela de reciclaje! Te animamos a aprovechar al máximo este recurso y generar una idea innovadora. Nuestra <span class="text-gradient text-secondary">IA</span> está aquí para ayudarte a encontrar la inspiración perfecta. </p>
+              </div>
+            </div>
+            <div class="text-center justify-content-center align-items-center">
+              <button routerLink="/generar-ideas" class="btn btn-lg bg-gradient-primary mt-4 mb-4">Generar Idea</button>
+            </div>
+          </div>
+        </div>
+        <div class="row pb-5">
+          <div *ngFor="let item of data" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4 mb-md-0 mt-4">
+            <div class="card m-4 m-md-0 h-100">
+              <div class="text-center mt-4">
+                <img class="card-img-top w-25 mb-4" src="../../../../assets/img/idea-svgrepo-com.svg">
+              </div>
+              <div class="position-relative" style="height: 50px;overflow: hidden;margin-top: -50px;z-index:2;position: relative;">
+                <div class="position-absolute w-100 top-0" style="z-index: 1;">
+                  <svg class="waves waves-sm" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 40" preserveAspectRatio="none" shape-rendering="auto">
+                    <defs>
+                      <path id="card-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"></path>
+                    </defs>
+                    <g class="moving-waves">
+                      <use xlink:href="#card-wave" x="48" y="-1" fill="rgba(255,255,255,0.30"></use>
+                      <use xlink:href="#card-wave" x="48" y="3" fill="rgba(255,255,255,0.35)"></use>
+                      <use xlink:href="#card-wave" x="48" y="5" fill="rgba(255,255,255,0.25)"></use>
+                      <use xlink:href="#card-wave" x="48" y="8" fill="rgba(255,255,255,0.20)"></use>
+                      <use xlink:href="#card-wave" x="48" y="13" fill="rgba(255,255,255,0.15)"></use>
+                      <use xlink:href="#card-wave" x="48" y="16" fill="rgba(255,255,255,0.99)"></use>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+              <div class="card-body pb-0 text-center">
+                <p>
+                  {{item.titulo}}
+                </p>
+              </div>
+              <div class="d-flex justify-content-center">
+                <button class="btn bg-gradient-primary" (click)="verDetalle(item)">Ver detalle</button>
+              </div>
+              <div class="d-flex justify-content-center">
+                <button class="btn bg-gradient-secondary" (click)="deleteIdea(item.id)">Eliminar</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+</section>
