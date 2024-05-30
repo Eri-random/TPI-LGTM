@@ -26,12 +26,13 @@
             ],
             "styles": [
               "src/custom-theme.scss",
-              "src/styles.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/font-awesome/css/font-awesome.min.css"
+              "src/assets/css/soft-design-system.css",
+              "src/assets/css/nucleo-icons.css",
+              "src/assets/css/nucleo-svg.css",
+              "node_modules/font-awesome/css/font-awesome.min.css",
+              "src/styles.css"
             ],
             "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/jquery-ui/dist/jquery-ui.min.js"
             ]
