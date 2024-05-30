@@ -1,63 +1,87 @@
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#"><img src="assets/logos/ReCrea.svg"></a>
-        <div class="d-flex gap-2 align-items-center">
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+<div class="container position-sticky z-index-sticky top-0">
+    <div class="row">
+      <div class="col-12">
+        <nav class="navbar navbar-expand-lg  blur blur-rounded top-0 z-index-fixed shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
+          <div class="container-fluid px-0">
+            <a class="navbar-brand font-weight-bolder ms-sm-3" href="#">
+              <img src="assets/logos/ReCrea.svg">
+            </a>
+            <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon mt-2">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </span>
             </button>
-        </div>
-        <div class="offcanvas offcanvas-end" id="navbarNav" aria-labelledby="navbarNavLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="navbarNavLabel">Menú</h5>
-                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <div class="collapse navbar-collapse pt-3 pb-3 py-lg-0 w-100 my-sm-0 mb-3" id="navigation">
+              <ul *ngIf="!isLoggedIn || (isLoggedIn && role == 'usuario')" class="navbar-nav navbar-nav-hover w-100">
+                <li class="nav-item dropdown dropdown-hover mx-2">
+                  <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/generar-ideas">Generar ideas</a>
+                </li>
+                <li class="nav-item dropdown dropdown-hover mx-2">
+                  <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/donar">Donar</a>
+                </li>
+                <li class="nav-item dropdown dropdown-hover mx-2">
+                  <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/ubicaciones">Nuestra red</a>
+                </li>
+              </ul>
+              <ul *ngIf="role == 'organizacion' && isLoggedIn" class="navbar-nav navbar-nav-hover w-100">
+                <li class="nav-item dropdown dropdown-hover mx-2">
+                  <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/dashboard">Dashboard</a>
+                </li>
+                <li class="nav-item dropdown dropdown-hover mx-2">
+                  <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/mi-organizacion">Mi organización</a>
+                </li>
+                <li class="nav-item dropdown dropdown-hover mx-2">
+                  <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/necesidades">Necesidades</a>
+                </li>
+                <li class="nav-item dropdown dropdown-hover mx-2">
+                  <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/sedes">Mis sedes</a>
+                </li>
+              </ul>
+              <ul class="navbar-nav navbar-nav-hover ms-lg-12 ps-lg-5">
+                <li *ngIf="!isLoggedIn" class="nav-item ms-lg-auto">
+                  <a class="btn btn-sm btn-outline-primary btn-round mb-0 me-1 mt-2 mt-md-0" routerLink="/login">
+                    <span class="fa fa-user"></span> Ingresar </a>
+                </li>
+                <li *ngIf="isLoggedIn" class="nav-item dropdown">
+                  <a class="btn btn-sm btn-outline-primary mb-0 me-1 mt-2 mt-md-0 dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="fa fa-user"></span> Hola, {{fullName}}
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a class="dropdown-item" href="#">Mi Perfil</a>
+                    </li>
+                    <li *ngIf="role == 'usuario'">
+                      <a class="dropdown-item" routerLink="/mis-ideas">Mis Ideas</a>
+                    </li>
+                    <li *ngIf="role == 'organizacion'">
+                      <a class="dropdown-item" routerLink="/mi-organizacion">Mi Organización</a>
+                    </li>
+                    <li (click)="logout()">
+                      <a class="dropdown-item">Salir</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+              <!-- <li class="nav-item ms-lg-auto">
+              <a class="nav-link nav-link-icon me-2" href="https://github.com/creativetimofficial/soft-ui-design-system" target="_blank">
+                <i class="fa fa-github me-1"></i>
+                <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Star us on Github">Github</p>
+              </a>
+            </li>
+            <li class="nav-item my-auto ms-3 ms-lg-0">
+              <a href="https://www.creative-tim.com/builder?ref=navbar-soft-design-system" class="btn btn-sm btn-outline-primary btn-round mb-0 me-1 mt-2 mt-md-0">Online Builder</a>
+            </li>
+            <li class="nav-item my-auto ms-3 ms-lg-0">
+              
+              <a href="https://www.creative-tim.com/product/soft-ui-design-system-pro" class="btn btn-sm  bg-gradient-primary  btn-round mb-0 me-1 mt-2 mt-md-0">Upgrade to Pro</a>
+              
+            </li> -->
             </div>
-            <div class="offcanvas-body d-lg-flex justify-content-between">
-                    <ul *ngIf="!isLoggedIn || (isLoggedIn && role == 'usuario')" class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" routerLink="/generar-ideas">Generar ideas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" routerLink="/donar">Donar</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" routerLink="/ubicaciones">Nuestra red</a>
-                        </li>
-                    </ul>
-                    <ul *ngIf="role == 'organizacion' && isLoggedIn" class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" routerLink="/dashboard">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" routerLink="/mi-organizacion">Mi organización</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" routerLink="/necesidades">Necesidades</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" routerLink="/sedes">Mis sedes</a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav">
-                        <li *ngIf="!isLoggedIn" class="nav-item">
-                            <a class="nav-link" routerLink="/login">
-                                <span class="fa fa-user"></span>
-                                Ingresar
-                            </a>
-                        </li>
-                        <li *ngIf="isLoggedIn" class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span class="fa fa-user"></span> Hola, {{fullName}}
-                            </a>
-                            <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="#">Mi Perfil</a></li>
-                              <li *ngIf="role == 'usuario'"><a class="dropdown-item" routerLink="/mis-ideas">Mis Ideas</a></li>
-                              <li *ngIf="role == 'organizacion'"><a class="dropdown-item" routerLink="/mi-organizacion">Mi Organización</a></li>
-                              <li (click)="logout()"><a class="dropdown-item">Cerrar Sesión</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-            </div>
-        </div>
+          </div>
+        </nav>
+      </div>
     </div>
-</nav>
+</div>
+
