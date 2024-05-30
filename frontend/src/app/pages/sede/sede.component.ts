@@ -15,6 +15,7 @@ import { SedeService } from 'src/app/services/sede.service';
 export class SedeComponent implements OnInit {
   sedes: any[] = [];
   orgNombre: any;
+  cuit!:string
   organizacion: any;
   loading: boolean = true;
   selectedSede: any;
@@ -36,10 +37,14 @@ export class SedeComponent implements OnInit {
       this.orgNombre = val || orgNameFromToken;
     });
 
-    const cuitFromToken = this.authService.getCuitFromToken();
+    this.organizacionService.getCuitFromStore().subscribe((val) => {
+      const cuitFromToken = this.authService.getCuitFromToken();
+      this.cuit = val || cuitFromToken;
+    });
+
 
     this.organizacionService
-      .getOrganizacionByCuit(cuitFromToken)
+      .getOrganizacionByCuit(this.cuit)
       .pipe(
         tap((organizacion) => {
           this.organizacion = organizacion;

@@ -33,5 +33,7 @@ namespace backend.servicios.Interfaces
         /// <param name="email">The email of the user to delete.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         Task DeleteUsuarioAsync(string email);
+
+        Task<UsuarioDto> GetUsuarioByIdAsync(int id);
     }
 }

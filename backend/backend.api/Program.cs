@@ -1,12 +1,19 @@
+using backend.api;
 using backend.api.Models;
 using backend.data.DataContext;
+using backend.data.Models;
 using backend.servicios.Config;
 using backend.servicios.Interfaces;
 using backend.servicios.Servicios;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.ML;
+using System.Collections.Concurrent;
+using System.Net.WebSockets;
+using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -68,12 +75,43 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+var webSocketOptions = new WebSocketOptions()
+{
+    KeepAliveInterval = TimeSpan.FromMinutes(2)
+};
+
+
+app.UseWebSockets(webSocketOptions);
+
 app.UseHttpsRedirection();
+app.UseRouting();
+
 app.UseCors("MyPolicy");
 app.UseStaticFiles();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+var webSockets = new ConcurrentDictionary<string, WebSocket>();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.Map("/ws", async context =>
+    {
+        if (context.WebSockets.IsWebSocketRequest)
+        {
+            var webSocket = await context.WebSockets.AcceptWebSocketAsync();
+            var socketId = Guid.NewGuid().ToString();
+            WebSocketHandler.AddSocket(socketId, webSocket);
+            await WebSocketHandler.HandleWebSocketAsync(context, webSocket, socketId);
+        }
+        else
+        {
+            context.Response.StatusCode = 400;
+        }
+    });
+});
 
 app.Run();

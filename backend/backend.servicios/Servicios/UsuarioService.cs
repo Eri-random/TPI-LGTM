@@ -203,5 +203,49 @@ namespace backend.servicios.Servicios
                 throw;
             }
         }
+
+        public async Task<UsuarioDto> GetUsuarioByIdAsync(int id)
+        {
+            try
+            {
+                var usuario = await _context.Usuarios.Include(u => u.Rol)
+                    .Include(u => u.Organizacion)
+                    .FirstOrDefaultAsync(u => u.Id == id);
+
+                if (usuario == null)
+                {
+                    return null;
+                }
+
+                return new UsuarioDto
+                {
+                    Id = usuario.Id,
+                    Nombre = usuario.Nombre,
+                    Apellido = usuario.Apellido,
+                    Direccion = usuario.Direccion,
+                    Email = usuario.Email,
+                    Password = usuario.Contrasena,
+                    Localidad = usuario.Localidad,
+                    Provincia = usuario.Provincia,
+                    Telefono = usuario.Telefono,
+                    Rol = usuario.RolId,
+                    RolNombre = usuario.Rol.Nombre,
+                    Organizacion = usuario.Organizacion != null ? new OrganizacionDto
+                    {
+                        Nombre = usuario.Organizacion.Nombre,
+                        Cuit = usuario.Organizacion.Cuit,
+                        Telefono = usuario.Organizacion.Telefono,
+                        Direccion = usuario.Organizacion.Direccion,
+                        Localidad = usuario.Organizacion.Localidad,
+                        Provincia = usuario.Organizacion.Provincia
+                    } : null
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener el usuario con id {UserId}", id);
+                throw;
+            }
+        }
     }
 }

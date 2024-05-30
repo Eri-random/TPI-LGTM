@@ -1,4 +1,5 @@
-﻿using backend.servicios.DTOs;
+﻿using backend.data.Models;
+using backend.servicios.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace backend.servicios.Interfaces
         Task<OrganizacionDto> GetOrganizacionByIdAsync(int id);
 
         Task<OrganizacionDto> GetOrganizacionByCuitAsync(string cuit);
+
+        Task<IEnumerable<Organizacion>> GetOrganizacionesPaginadasAsync(int page, int pageSize);
 
         Task AsignarSubcategoriasAsync(int organizacionId, List<SubcategoriaDto> subcategoriasDto);
 

@@ -1,10 +1,12 @@
-﻿using backend.servicios.DTOs;
+﻿using backend.data.Models;
+using backend.servicios.DTOs;
 
 namespace backend.api.Models
 {
     public class DonacionRequestModel
     {
 
+        public int Id { get; set; }
         public string Producto { get; set; }
 
         public int Cantidad { get; set; }

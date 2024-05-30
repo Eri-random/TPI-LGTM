@@ -1,4 +1,4 @@
-﻿using backend.data.DataContext;
+using backend.data.DataContext;
 using backend.data.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
@@ -100,6 +100,8 @@ namespace backend.servicios.Servicios
                     Localidad = organizacion.Localidad,
                     Provincia = organizacion.Provincia,
                     Telefono = organizacion.Telefono,
+                    Latitud = organizacion.Latitud,
+                    Longitud = organizacion.Longitud,
                     InfoOrganizacion = organizacion.InfoOrganizacion != null ? new InfoOrganizacionDto
                     {
                         Organizacion = organizacion.InfoOrganizacion.Organizacion,
@@ -154,6 +156,16 @@ namespace backend.servicios.Servicios
             }
         }
 
+        public async Task<IEnumerable<Organizacion>> GetOrganizacionesPaginadasAsync(int page, int pageSize)
+        {
+            return await _context.Organizacions
+                 .Include(o => o.InfoOrganizacion)
+                 .Where(o => o.InfoOrganizacion != null) 
+                 .Skip((page - 1) * pageSize)
+                 .Take(pageSize)
+                 .ToListAsync();
+        }
+        
         public async Task AsignarSubcategoriasAsync(int organizacionId, List<SubcategoriaDto> subcategoriasDto)
         {
             try

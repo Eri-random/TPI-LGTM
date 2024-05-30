@@ -1,7 +1,9 @@
-﻿using backend.api.Models;
+using backend.api.Models;
+using backend.data.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
 using backend.servicios.Servicios;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -114,6 +116,8 @@ namespace backend.api.Controllers
                     Localidad = organizacion.Localidad,
                     Provincia = organizacion.Provincia,
                     Telefono = organizacion.Telefono,
+                    Latitud = organizacion.Latitud,
+                    Longitud = organizacion.Longitud,
                     InfoOrganizacion = organizacion.InfoOrganizacion != null ? new InfoOrganizacionDto
                     {
                         Organizacion = organizacion.InfoOrganizacion.Organizacion,
@@ -133,6 +137,53 @@ namespace backend.api.Controllers
             }
         }
 
+        [HttpGet("paginacion")]
+        public async Task<IActionResult> GetOrganizacionesPaginadasAsync([FromQuery] int page = 1, [FromQuery] int pageSize = 8)
+        {
+            try
+            {
+                var organizaciones = await _organizacionService.GetOrganizacionesPaginadasAsync(page, pageSize);
+                var organizacionResponse = MapearOrganizaciones(organizaciones);
+                return Ok(organizacionResponse);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener las organizaciones paginadas");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        private List<OrganizacionResponseModel> MapearOrganizaciones(IEnumerable<Organizacion> organizaciones)
+        {
+            var organizacionResponse = new List<OrganizacionResponseModel>();
+
+            foreach (var organizacion in organizaciones)
+            {
+                organizacionResponse.Add(new OrganizacionResponseModel
+                {
+                    Id = organizacion.Id,
+                    Nombre = organizacion.Nombre,
+                    Cuit = organizacion.Cuit,
+                    Direccion = organizacion.Direccion,
+                    Localidad = organizacion.Localidad,
+                    Provincia = organizacion.Provincia,
+                    Telefono = organizacion.Telefono,
+                    Latitud = organizacion.Latitud,
+                    Longitud = organizacion.Longitud,
+                    InfoOrganizacion = organizacion.InfoOrganizacion != null ? new InfoOrganizacionDto
+                    {
+                        Organizacion = organizacion.InfoOrganizacion.Organizacion,
+                        DescripcionBreve = organizacion.InfoOrganizacion.DescripcionBreve,
+                        DescripcionCompleta = organizacion.InfoOrganizacion.DescripcionCompleta,
+                        Img = organizacion.InfoOrganizacion.Img,
+                        OrganizacionId = organizacion.InfoOrganizacion.OrganizacionId
+                    } : null
+                });
+            }
+
+          return organizacionResponse;
+      }
+      
         [HttpPost("{organizacionId}/asignar-necesidad")]
         public async Task<IActionResult> AsignarSubcategoriasAsync(int organizacionId, [FromBody] List<SubcategoriaDto> subcategoriasDto)
         {

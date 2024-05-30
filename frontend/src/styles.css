@@ -59,3 +59,34 @@ label.required::after {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.info-window{
+    padding: .5rem .5rem .5rem 0rem;
+}
+
+.info-window > h3{
+    color: var(--color-secondary);
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.info-window > p{
+    color: var(--color-dark-grey);
+    font-size: 14px;
+    text-transform: capitalize;
+    font-weight: 400;
+    margin-bottom: .5rem;
+}
+
+.gm-ui-hover-effect{
+    top: -3px !important;
+    right: -3px !important;
+    color: var(--color-dark-grey);
+    height: 30px !important;
+}
+
+.gm-style .gm-style-iw-c{
+    border-radius: 2px;
+}

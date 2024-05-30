@@ -1,68 +1,161 @@
-<!-- popup -->
 <div class="newModal">
-    <div class="modal-dialog h-75 d-flex align-items-center justify-content-center">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button (click)="close()" type="button" class="btn-close" aria-label="Close"></button>
-            </div>
-            <div class="modal-body ">
-                <div class="text-center pb-5">
-                    <h3>Formulario de <span id="donaciones">Donaciones</span></h3>
-                </div>
-                <div class="d-flex">
-                    <form [formGroup]='donarForm'>
-                        <div class="col-lg-12">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label for="nombre" class="form-label required">Nombre</label>
-                                    <input value="{{usuario.nombre}}" type="text" class="form-control input-field"
-                                        id="nombre" name="nombre" placeholder="Ej: Julieta" disabled>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="apellido" class="form-label required">Apellido</label>
-                                    <input value="{{usuario.apellido}}" type="text" class="form-control input-field"
-                                        id="apellido" name="apellido" placeholder="Ej: Gomez" disabled>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="telefono" class="form-label d-flex align-items-center required">Teléfono
-                                    </label>
-                                    <input value="{{usuario.telefono}}" type="number" class="form-control input-field"
-                                        id="telefono" name="telefono" placeholder="Ej: 123456789" disabled>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="email"
-                                        class="form-label d-flex align-items-center required">Email</label>
-                                    <input value="{{usuario.email}}" type="email" class="form-control input-field"
-                                        id="email" name="email" placeholder="ejemplo@email.com" disabled>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="producto" class="form-label d-flex align-items-center required">Producto
-                                    </label>
-                                    <input type="text" class="form-control input-field"
-                                        [class.error]="fm['producto'].dirty && fm['producto'].errors" id="producto"
-                                        name="producto" placeholder="Ej: Mantas" required formControlName="producto">
-                                    <small *ngIf="fm['producto'].dirty && fm['producto'].errors" class="text-danger">El
-                                        producto requerido</small>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="cantidad"
-                                        class="form-label d-flex align-items-center required">Cantidad</label>
-                                    <input type="number" class="form-control input-field"
-                                        [class.error]="fm['cantidad'].dirty && fm['cantidad'].errors" id="cantidad"
-                                        name="cantidad" placeholder="Ej: 2" required formControlName="cantidad">
-                                    <small *ngIf="fm['cantidad'].dirty && fm['cantidad'].errors" class="text-danger">La
-                                        cantidad es requerido</small>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="d-flex justify-content-center pt-4">
-                            <button (click)="donar()" type="button" class="btn btn-primary w-100">Donar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+  <div
+    class="modal-dialog h-75 d-flex align-items-center justify-content-center"
+  >
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          (click)="close()"
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body" *ngIf="!isSubmitted; else graciasView">
+        <div class="text-center pb-5">
+          <h3>Formulario de <span id="donaciones">Donaciones</span></h3>
         </div>
+        <div class="d-flex">
+          <form [formGroup]="donarForm">
+            <div class="col-lg-12">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="nombre" class="form-label required">Nombre</label>
+                  <input
+                    value="{{ usuario?.nombre }}"
+                    type="text"
+                    class="form-control input-field"
+                    id="nombre"
+                    name="nombre"
+                    placeholder="Ej: Julieta"
+                    disabled
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label for="apellido" class="form-label required"
+                    >Apellido</label
+                  >
+                  <input
+                    value="{{ usuario?.apellido }}"
+                    type="text"
+                    class="form-control input-field"
+                    id="apellido"
+                    name="apellido"
+                    placeholder="Ej: Gomez"
+                    disabled
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label
+                    for="telefono"
+                    class="form-label d-flex align-items-center required"
+                    >Teléfono
+                  </label>
+                  <input
+                    value="{{ usuario?.telefono }}"
+                    type="number"
+                    class="form-control input-field"
+                    id="telefono"
+                    name="telefono"
+                    placeholder="Ej: 123456789"
+                    disabled
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label
+                    for="email"
+                    class="form-label d-flex align-items-center required"
+                    >Email</label
+                  >
+                  <input
+                    value="{{ usuario?.email }}"
+                    type="email"
+                    class="form-control input-field"
+                    id="email"
+                    name="email"
+                    placeholder="ejemplo@email.com"
+                    disabled
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label
+                    for="producto"
+                    class="form-label d-flex align-items-center required"
+                    >Producto
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control input-field"
+                    [class.error]="
+                      fm['producto'].dirty && fm['producto'].errors
+                    "
+                    id="producto"
+                    name="producto"
+                    placeholder="Ej: Mantas"
+                    required
+                    formControlName="producto"
+                  />
+                  <small
+                    *ngIf="fm['producto'].dirty && fm['producto'].errors"
+                    class="text-danger"
+                    >El producto requerido</small
+                  >
+                </div>
+                <div class="col-md-6">
+                  <label
+                    for="cantidad"
+                    class="form-label d-flex align-items-center required"
+                    >Cantidad</label
+                  >
+                  <input
+                    type="number"
+                    class="form-control input-field"
+                    [class.error]="
+                      fm['cantidad'].dirty && fm['cantidad'].errors
+                    "
+                    id="cantidad"
+                    name="cantidad"
+                    placeholder="Ej: 2"
+                    required
+                    formControlName="cantidad"
+                  />
+                  <small
+                    *ngIf="fm['cantidad'].dirty && fm['cantidad'].errors"
+                    class="text-danger"
+                    >La cantidad es requerido</small
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-center pt-4">
+              <button
+                (click)="donar()"
+                type="button"
+                class="btn btn-primary w-100"
+              >
+                Donar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <ng-template #graciasView>
+        <div class="section-agreadecimiento">
+          <h3 class="title">¡Muchas gracias por tu donación!</h3>
+          <img src="assets/images/success.svg" alt="Donar" class="img-fluid" />
+          <p class="parrafo-agradecimiento">
+            Agradecemos mucho tu donación. Puedes acercarte presencialmente para
+            traernos lo donado o bien ayudarnos y conocer mejor la organización.
+            ¡Te esperamos!
+          </p>
+          <div class="section-link-mapa">
+            <p class="sugerencia-mapa">Tu sede más cercana a tu domicilio:</p>
+            <a [routerLink]="['/ubicaciones']" (click)="close()" class="ver-mapa"
+              >Ver</a
+            >
+          </div>
+        </div>
+      </ng-template>
     </div>
+  </div>
 </div>

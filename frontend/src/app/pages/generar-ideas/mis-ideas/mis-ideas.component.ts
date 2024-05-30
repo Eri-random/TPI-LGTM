@@ -15,6 +15,7 @@ export class MisIdeasComponent implements OnInit {
   email: string = '';
   userId: number = 0;
   data: any[] = [];
+  loading: boolean = true;
 
   constructor(
     private responseIdeaService: ResponseIdeaService,
@@ -25,7 +26,11 @@ export class MisIdeasComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.email = this.authService.getEmailFromToken();
+    this.userStore.getEmailFromStore()
+    .subscribe(val =>{
+      const emailFromToken =  this.authService.getEmailFromToken();
+      this.email = val || emailFromToken;
+    });
     
     this.userStore.getUserByEmail(this.email)
     .subscribe({
@@ -35,6 +40,10 @@ export class MisIdeasComponent implements OnInit {
             next: (res) => {
               console.log('Ideas retrieved:', res); // Verificar las ideas recibidas
               this.data = res;
+
+              setTimeout(() => {
+                this.loading = false;
+              }, 1000);
             },
           });
         },
