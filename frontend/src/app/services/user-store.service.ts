@@ -12,6 +12,7 @@ export class UserStoreService {
 
   private fullName$ = new BehaviorSubject<string>("");
   private role$ = new BehaviorSubject<string>("");
+  private email$ = new BehaviorSubject<string>("");
 
   constructor(private http: HttpClient) { }
 
@@ -20,7 +21,6 @@ export class UserStoreService {
     const url = `${this.baseUrl}/Usuarios/${email}`;
     return this.http.get<any>(url);
   }
-
 
   public getRolFromStore(){
     return this.role$.asObservable();
@@ -36,6 +36,14 @@ export class UserStoreService {
 
   public setFullNameForStore(fullname:string){
     this.fullName$.next(fullname);
+  }
+
+  public getEmailFromStore(){
+    return this.email$.asObservable();
+  }
+
+  public setEmailForStore(role:string){
+    this.email$.next(role);
   }
 
 }

@@ -58,6 +58,7 @@ export class LoginComponent implements OnInit {
 
         this.userStore.setFullNameForStore(tokenPayload.name);
         this.userStore.setRolForStore(tokenPayload.role);
+        this.userStore.setEmailForStore(tokenPayload.email);
         this.authService.setIsLoggedIn(true);
 
         this.toast.success({
