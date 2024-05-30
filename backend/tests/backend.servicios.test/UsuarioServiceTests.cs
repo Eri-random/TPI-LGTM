@@ -2,7 +2,7 @@
 using backend.data.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Helpers;
-
+using backend.servicios.Interfaces;
 using backend.servicios.Servicios;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -14,6 +14,7 @@ namespace backend.servicios.test
     public class UsuarioServiceTests
     {
         private Mock<ILogger<UsuarioService>> _loggerMock;
+        private Mock<IMapsService> _mapsMock;
 
         private ApplicationDbContext _context;
         private UsuarioService _usuarioService;
@@ -23,6 +24,7 @@ namespace backend.servicios.test
         public void SetUp()
         {
             _loggerMock = new Mock<ILogger<UsuarioService>>();
+            _mapsMock = new Mock<IMapsService>();
 
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
@@ -41,21 +43,21 @@ namespace backend.servicios.test
             );
 
             _context.SaveChanges();
-            _usuarioService = new UsuarioService(_context, _loggerMock.Object);
+            _usuarioService = new UsuarioService(_context, _loggerMock.Object, _mapsMock.Object);
         }
 
         [Test]
         public void Constructor_WithAllDependencies_ShouldNotThrowException()
         {
             // Act & Assert
-            Assert.DoesNotThrow(() => new UsuarioService(_context, _loggerMock.Object));
+            Assert.DoesNotThrow(() => new UsuarioService(_context, _loggerMock.Object, _mapsMock.Object));
         }
 
         [Test]
         public void Constructor_WithNullDbContext_ShouldThrowArgumentNullException()
         {
             // Act & Assert
-            var ex = Assert.Throws<ArgumentNullException>(() => new UsuarioService(null, _loggerMock.Object));
+            var ex = Assert.Throws<ArgumentNullException>(() => new UsuarioService(null, _loggerMock.Object, _mapsMock.Object));
             Assert.That(ex.ParamName, Is.EqualTo("context"));
         }
 
@@ -63,7 +65,7 @@ namespace backend.servicios.test
         public void Constructor_WithNullLogger_ShouldThrowArgumentNullException()
         {
             // Act & Assert
-            var ex = Assert.Throws<ArgumentNullException>(() => new UsuarioService(_context, null));
+            var ex = Assert.Throws<ArgumentNullException>(() => new UsuarioService(_context, null, _mapsMock.Object));
             Assert.That(ex.ParamName, Is.EqualTo("logger"));
         }
 

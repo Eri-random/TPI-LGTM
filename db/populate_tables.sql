@@ -9,3 +9,15 @@ VALUES
 ('Nombre1', 'Apellido1', 'test1@test.com', crypt('12345678', gen_salt('bf')), '1234567890', 'Calle Uno 123', 'Ciudad Uno', 'Provincia Uno',null,2),
 ('Nombre2', 'Apellido2', 'test2@test.com', crypt('12345678', gen_salt('bf')), '2345678901', 'Calle Dos 234', 'Ciudad Dos', 'Provincia Dos',null,2),
 ('Nombre3', 'Apellido3', 'test3@test.com', crypt('12345678', gen_salt('bf')), '3456789012', 'Calle Tres 345', 'Ciudad Tres', 'Provincia Tres',null,2);
+
+INSERT INTO public.necesidad(nombre, icono)
+VALUES ('Ropa y vestimenta', 'http://localhost:5203/iconos/Jumper.png'),
+('Ropa de cama y baño', 'http://localhost:5203/iconos/Single-Bed.png');
+
+INSERT INTO public.subcategoria(nombre, necesidad_id)
+VALUES ('Camisetas', 1),
+('Pantalones', 1),
+('Chaquetas',1),
+('Sábanas',2),
+('Fundas de Almohada',2),
+('Toallas',2);

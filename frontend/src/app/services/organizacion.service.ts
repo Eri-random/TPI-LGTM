@@ -41,6 +41,16 @@ export class OrganizacionService {
     return this.http.put<any>(url, formData);
   }
 
+  getSubcategoriasAsignadas(organizacionId: number) {
+    const url = `${this.baseUrl}/Organizacion/${organizacionId}/subcategorias`
+    return this.http.get<any[]>(url);
+  }
+
+  asignarSubcategorias(organizacionId: number, subcategorias: any[]) {
+    const url = `${this.baseUrl}/Organizacion/${organizacionId}/asignar-necesidad`
+    return this.http.post(url, subcategorias);
+  }
+
   public getCuitFromStore(){
     return this.cuit$.asObservable();
   }

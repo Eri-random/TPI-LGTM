@@ -133,5 +133,33 @@ namespace backend.api.Controllers
             }
         }
 
+        [HttpPost("{organizacionId}/asignar-necesidad")]
+        public async Task<IActionResult> AsignarSubcategoriasAsync(int organizacionId, [FromBody] List<SubcategoriaDto> subcategoriasDto)
+        {
+            try
+            {
+                await _organizacionService.AsignarSubcategoriasAsync(organizacionId, subcategoriasDto);
+                return Ok(new { message = "Necesidades guardadas correctamente" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = $"Error al asignar necesidades: {ex.Message}" });
+            }
+        }
+
+        [HttpGet("{organizacionId}/subcategorias")]
+        public async Task<IActionResult> GetSubcategoriasAsignadas(int organizacionId)
+        {
+            try
+            {
+                var subcategorias = await _organizacionService.GetSubcategoriasAsignadasAsync(organizacionId);
+                return Ok(subcategorias);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error al obtener subcategorias: {ex.Message}");
+            }
+        }
+
     }
 }
