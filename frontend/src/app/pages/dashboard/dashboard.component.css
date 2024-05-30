@@ -1,147 +1,170 @@
 #nomOrganizacion {
-    color: var(--color-primary);
+  color: var(--color-primary);
 }
 
 #btnMiOrganizacion {
-    display:block;
-    border-radius:20px ;
-    box-shadow:0px 4px 6px 2px rgba(0,0,0,0.2);
-    margin-top:-5px;
-    background-color: var(--color-secondary);;
-    color: white;
+  display: block;
+  border-radius: 20px;
+  box-shadow: 0px 4px 6px 2px rgba(0, 0, 0, 0.2);
+  margin-top: -5px;
+  background-color: var(--color-secondary);
+  ;
+  color: white;
 }
 
 table {
-    width: 100%;
+  width: 100%;
 }
 
 .mat-mdc-form-field {
-    font-size: 14px;
-    width: 100%;
+  font-size: 14px;
+  width: 100%;
 }
 
 td,
 th {
-    width: 25%;
+  width: 25%;
 }
 
 .yellow-background {
-    background-color: yellow;
+  background-color: yellow;
 }
 
 .green-background {
-    background-color: var(--color-primary);
+  background-color: var(--color-primary);
 }
 
 .full-width {
-    width: 100%;
+  width: 100%;
 }
 
 .table-container {
-    overflow-x: auto;
+  overflow-x: auto;
 }
 
 .responsive-table {
-    width: 100%;
-    min-width: 600px;
+  width: 100%;
+  min-width: 600px;
 }
 
 @media (max-width: 600px) {
-    .responsive-table th.mat-header-cell,
-    .responsive-table td.mat-cell {
-        display: none;
-    }
 
-    .responsive-table th.mat-header-cell:first-child,
-    .responsive-table td.mat-cell:first-child {
-        display: table-cell;
-    }
+  .responsive-table th.mat-header-cell,
+  .responsive-table td.mat-cell {
+    display: none;
+  }
+
+  .responsive-table th.mat-header-cell:first-child,
+  .responsive-table td.mat-cell:first-child {
+    display: table-cell;
+  }
 }
 
 .contenedor {
-    border-width: 1px;
-    border-radius: 30px;
+  border-width: 1px;
+  border-radius: 30px;
 }
 
 .tablero {
-    margin-right: 0;
-    margin-left: 0;
+  margin-right: 0;
+  margin-left: 0;
 }
 
 .tablero>.col,
 .tablero>[class*=col-] {
-    padding-right: 0;
-    padding-left: 0;
+  padding-right: 0;
+  padding-left: 0;
 }
 
 .subcaja {
-    text-align: center;
-    padding: 1rem;
-    position: relative;
-    border-width: 0px;
+  text-align: center;
+  padding: 1rem;
+  position: relative;
+  border-width: 0px;
+  justify-content: center;
+  align-items: center;
 }
 
 .subcaja .titulo:first-child {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 .subcaja .titulo {
-    margin: -.5rem 0 0;
-    display: block;
-    opacity: .6;
+  margin: -.5rem 0 0;
+  display: block;
+  opacity: .6;
 }
 
 .datos {
-    flex: 1;
-    align-items: flex-start;
+  flex: 1;
+  align-items: flex-start;
 }
 
 .tablero {
-    display: flex;
-    justify-content: space-around;
+  display: flex;
+  justify-content: space-around;
 }
 
 .numero {
-    font-weight: 700;
-    font-size: 2.5rem;
-    margin-top: -10px;
+  font-weight: 700;
+  font-size: 26px;
 }
 
 
 .loading-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    /* Altura completa de la ventana */
-    background-color: rgba(255, 255, 255, 0.8);
-    /* Fondo semitransparente */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 9999;
-    /* Asegura que esté encima de otros elementos */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /* Altura completa de la ventana */
+  background-color: rgba(255, 255, 255, 0.8);
+  /* Fondo semitransparente */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  /* Asegura que esté encima de otros elementos */
+}
+
+.spinner {
+  border: 16px solid #f3f3f3;
+  /* Color de fondo */
+  border-top: 16px solid green;
+  /* Color del spinner */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
-  
-  .spinner {
-    border: 16px solid #f3f3f3;
-    /* Color de fondo */
-    border-top: 16px solid green;
-    /* Color del spinner */
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
-    animation: spin 2s linear infinite;
+
+  100% {
+    transform: rotate(360deg);
   }
-  
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-  
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-  
+}
+
+
+.highlight {
+  background-color: var(--color-primary);
+  transition: background-color 1s;
+}
+
+
+.product-more{
+  text-transform: capitalize;
+}
+
+.numero-donado{
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: row;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 26px;
+}

@@ -61,14 +61,14 @@
             </div>
             <div class="d-flex flex-column datos ps-3">
               <div class="titulo">Total Donaciones</div>
-              <div class="numero">{{ totalDonaciones | number:'1.0-0' }}</div>
-              <div class="contenedorDeDatos">
-                <div class="d-inline datoPorcentaje">
-                  <i class="fa fa-angle-down"></i>
-                  <span class="ps-1">54.1%</span>
+              <div *ngIf="totalDonaciones > 0; else noData">
+                <div class="numero">
+                  {{ totalDonaciones | number : "1.0-0" }}
                 </div>
-                Este mes
               </div>
+              <ng-template #noData>
+                <div class="numero">No hay datos disponibles</div>
+              </ng-template>
             </div>
           </div>
         </div>
@@ -83,15 +83,15 @@
               />
             </div>
             <div class="d-flex flex-column datos ps-3">
-              <div class="titulo">Total Recibidas</div>
-              <div class="numero"><span>9M</span></div>
-              <div class="contenedorDeDatos">
-                <span class="datoPorcentaje">
-                  <i class="fa fa-angle-down"></i>
-                  <span class="ps-1">14.1%</span>
-                </span>
-                Este mes
+              <div class="titulo">Promedio de Donaciones</div>
+              <div *ngIf="promedioDonaciones > 0; else noDataPromedio">
+                <div class="numero">
+                  {{ promedioDonaciones | number : "1.0-2" }}
+                </div>
               </div>
+              <ng-template #noDataPromedio>
+                <div class="numero">No hay datos disponibles</div>
+              </ng-template>
             </div>
           </div>
           <div class="divider m-0 d-md-none d-sm-block"></div>
@@ -107,14 +107,21 @@
               />
             </div>
             <div class="d-flex flex-column datos ps-3">
-              <div class="titulo">Total Pendientes</div>
-              <div class="numero"><span>563</span></div>
-              <div class="contenedorDeDatos">
-                <span class="datoPorcentaje">
-                  <!-- <i class="fa fa-angle-down"></i> -->
-                  <span class="ps-1"></span>
-                </span>
+              <div class="titulo">Producto Más Donado</div>
+              <div
+                *ngIf="
+                  productoMasDonado && productoMasDonado.cantidad > 0;
+                  else noDataProducto
+                "
+              >
+                <div class="numero">
+                  {{ productoMasDonado.producto }}:
+                  {{ productoMasDonado.cantidad }}
+                </div>
               </div>
+              <ng-template #noDataProducto>
+                <div class="numero">No hay datos disponibles</div>
+              </ng-template>
             </div>
           </div>
         </div>
@@ -145,31 +152,61 @@
           <!-- Name Column -->
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Donandor</th>
-            <td mat-cell *matCellDef="let row">{{ row.usuario.nombre }}</td>
+            <td
+              mat-cell
+              *matCellDef="let row"
+              [ngClass]="{ highlight: row.highlight }"
+            >
+              {{ row.name }}
+            </td>
           </ng-container>
 
           <!-- Telefono Column -->
           <ng-container matColumnDef="telefono">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Telefono</th>
-            <td mat-cell *matCellDef="let row">{{ row.usuario.telefono }}</td>
+            <td
+              mat-cell
+              *matCellDef="let row"
+              [ngClass]="{ highlight: row.highlight }"
+            >
+              {{ row.telefono }}
+            </td>
           </ng-container>
 
           <!-- Email Column -->
           <ng-container matColumnDef="email">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
-            <td mat-cell *matCellDef="let row">{{ row.usuario.email }}</td>
+            <td
+              mat-cell
+              *matCellDef="let row"
+              [ngClass]="{ highlight: row.highlight }"
+            >
+              {{ row.email }}
+            </td>
           </ng-container>
 
           <!-- Producto Column -->
           <ng-container matColumnDef="producto">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
-            <td mat-cell *matCellDef="let row">{{ row.producto }}</td>
+            <td
+              mat-cell
+              *matCellDef="let row"
+              [ngClass]="{ highlight: row.highlight }"
+            >
+              {{ row.producto }}
+            </td>
           </ng-container>
 
           <!-- Cantidad Column -->
           <ng-container matColumnDef="cantidad">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
-            <td mat-cell *matCellDef="let row">{{ row.cantidad }}</td>
+            <td
+              mat-cell
+              *matCellDef="let row"
+              [ngClass]="{ highlight: row.highlight }"
+            >
+              {{ row.cantidad }}
+            </td>
           </ng-container>
 
           <!-- Progress Column Estado-->
@@ -188,13 +225,15 @@
           </tr>
         </table>
       </div>
-
-      <mat-paginator
-        [pageSizeOptions]="[5, 10, 20]"
-        showFirstLastButtons
-        aria-label="Select page of periodic elements"
-      >
-      </mat-paginator>
     </div>
   </div>
+</div>
+
+<div *ngIf="existDonaciones">
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons
+    aria-label="Select page of periodic elements"
+  >
+  </mat-paginator>
 </div>
