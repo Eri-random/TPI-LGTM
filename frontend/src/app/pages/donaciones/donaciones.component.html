@@ -7,12 +7,12 @@
       <div class="container align-items-center ">
         <div class="card d-flex blur justify-content-center shadow px-xs-0 px-sm-5 my-sm-0 my-sm-6 mt-7 mb-5">
           <!-- <div class="card blur card-plain"> -->
-          <div class="col-8 text-center mx-auto pt-3 pb-4">
+          <div class="col-8 text-center mx-auto pt-3">
             <h1 class="pt-3">Organizaciones Benéficas</h1>
           </div>
           <div class="row pb-5">
             <!-- comienzo -->
-            <div *ngFor="let org of organizaciones;" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4 mb-md-0">
+            <div *ngFor="let org of organizaciones;" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4 mb-md-0 mt-4">
               <div class="card m-4 m-md-0 h-100">
                 <img class="card-img-top" src="{{org.infoOrganizacion.img}}" alt="{{ org.nombre }}">
                 <div class="position-relative" style="height: 50px;overflow: hidden;margin-top: -50px;z-index:2;position: relative;">
