@@ -1,99 +1,42 @@
-import { Component, ViewChild } from '@angular/core';
-import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatNativeDateModule } from '@angular/material/core';
-
-import { FormBuilder, FormsModule, ReactiveFormsModule, FormGroup } from '@angular/forms';
-import { JsonPipe } from '@angular/common';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatAccordion } from '@angular/material/expansion';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { NecesidadService } from 'src/app/services/necesidad.service';
 
 @Component({
   selector: 'app-pedido-de-organizacion',
   templateUrl: './pedido-de-organizacion.component.html',
   styleUrls: ['./pedido-de-organizacion.component.css'],
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    MatExpansionModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    FormsModule, ReactiveFormsModule, MatCheckboxModule, JsonPipe
-  ],
 })
-export class PedidoDeOrganizacionComponent {
+export class PedidoDeOrganizacionComponent implements OnInit{
   @ViewChild(MatAccordion) accordion!: MatAccordion;
+  necesidades:any [] = [];
+  formGroups: { [key: string]: FormGroup } = {};
 
-  ropa_y_vestimenta: FormGroup;
-  accesorios: FormGroup;
-  ropa_de_cama_y_banio: FormGroup;
-  productos_para_el_hogar: FormGroup;
-  juguetes_y_productos_para_ninios: FormGroup;
-  productos_para_mascotas: FormGroup;
+  constructor(private _formBuilder: FormBuilder,
+    private necesidadService:NecesidadService
+  ) {}
 
-  constructor(private _formBuilder: FormBuilder) {
-    this.ropa_y_vestimenta = this._formBuilder.group({
-      camisetas: false,
-      pantalones: false,
-      chaquetas: false,
-      ropa_interior: false,
-      ropa_para_niños: false
-    });
 
-    this.accesorios = this._formBuilder.group({
-      bolsas_de_mano: false,
-      mochilas: false,
-      sombreros: false,
-      bufandas: false,
-      guantes: false
-    });
-
-    this.ropa_de_cama_y_banio = this._formBuilder.group({
-      sabanas: false,
-      fundas_de_almohada: false,
-      toallas: false,
-      cortinas_de_banio: false,
-      colchas: false
-    });
-
-    this.productos_para_el_hogar = this._formBuilder.group({
-      fundas_para_cojines: false,
-      manteles: false,
-      servilletas_de_tela: false,
-      alfombras: false,
-      tapetes: false
-    });
-
-    this.juguetes_y_productos_para_ninios = this._formBuilder.group({
-      peluches: false,
-      mantitas: false,
-      ropa_de_cama_infantil: false,
-      baberos: false,
-      muniecos_de_tela: false
-    });
-
-    this.productos_para_mascotas = this._formBuilder.group({
-      camas_para_mascotas: false,
-      juguetes_de_tela: false,
-      mantas_para_mascotas: false,
-      ropa_para_mascotas: false,
-      bolsas_de_transporte: false
+  ngOnInit(): void {
+    this.necesidadService.getAllNecesidades().subscribe(resp => {
+      this.necesidades = resp;
+  
+      // Crear los grupos de formularios dinámicamente
+      this.necesidades.forEach((necesidad:any) => {
+        const formGroup = this._formBuilder.group({});
+        necesidad.subcategoria.forEach((sub:any) => {
+          formGroup.addControl(sub.nombre, this._formBuilder.control(false));
+        });
+        this.formGroups[necesidad.nombre] = formGroup; // Asigna el FormGroup a una propiedad del componente
+      });
     });
   }
 
   mostrarSeleccionados() {
-    this.mostrarSeleccionGrupo('Ropa y Vestimenta', this.ropa_y_vestimenta);
-    this.mostrarSeleccionGrupo('Accesorios', this.accesorios);
-    this.mostrarSeleccionGrupo('Ropa de Cama y Baño', this.ropa_de_cama_y_banio);
-    this.mostrarSeleccionGrupo('Productos para el Hogar', this.productos_para_el_hogar);
-    this.mostrarSeleccionGrupo('Juguetes y Productos para Niños', this.juguetes_y_productos_para_ninios);
-    this.mostrarSeleccionGrupo('Productos para Mascotas', this.productos_para_mascotas);
+    this.necesidades.forEach(necesidad => {
+      this.mostrarSeleccionGrupo(necesidad.nombre, this.formGroups[necesidad.nombre]);
+    });
   }
 
   private mostrarSeleccionGrupo(nombreGrupo: string, formGroup: FormGroup) {
