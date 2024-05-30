@@ -1,4 +1,4 @@
-.tanFacil {
+/* .tanFacil {
   background-color: var(--color-primary);; 
   border-radius: 10px; 
   padding-right: 13px; 
@@ -90,4 +90,30 @@
 .form-control{
   outline: none;
   box-shadow:none;
+} */
+
+.card .card-body {
+  font-family: "Fredoka", sans-serif !important;
+  font-weight: 400 !important;
+}
+
+.uploadFile{
+  display: none;
+}
+
+.imagePreview {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.imgUp {
+  position: relative;
+}
+
+#selectFile {
+  margin-left: 0 !important;
 }
