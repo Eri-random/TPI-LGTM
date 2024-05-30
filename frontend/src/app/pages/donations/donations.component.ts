@@ -3,15 +3,15 @@ import { Router } from '@angular/router';
 import { OrganizacionService } from 'src/app/services/organizacion.service';
 
 @Component({
-  selector: 'app-donaciones',
-  templateUrl: './donaciones.component.html',
-  styleUrls: ['./donaciones.component.css'],
+  selector: 'app-donations',
+  templateUrl: './donations.component.html',
+  styleUrls: ['./donations.component.css'],
 })
-export class DonacionesComponent implements OnInit {
-  organizaciones: any[] = [];
+export class DonationsComponent implements OnInit {
+  organizations: any[] = [];
   page: number = 1;
   pageSize: number = 8;
-  mostrarVerMas: boolean = true;
+  showSeeMore: boolean = true;
 
   constructor(
     private organizacionService: OrganizacionService,
@@ -19,27 +19,26 @@ export class DonacionesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.cargarOrganizaciones();
-    
+    this.uploadOrganizations();
   }
 
-  cargarOrganizaciones(): void {
+  uploadOrganizations(): void {
     this.organizacionService
       .getOrganizacionesPaginadas(this.page, this.pageSize)
       .subscribe((resp: any[]) => {
-        this.organizaciones = this.organizaciones.concat(resp);
+        this.organizations = this.organizations.concat(resp);
         if (resp.length < this.pageSize) {
-          this.mostrarVerMas = false;
+          this.showSeeMore = false;
         }
       });
   }
 
-  cargarMas(): void {
+  loadMore(): void {
     this.page++;
-    this.cargarOrganizaciones();
+    this.uploadOrganizations();
   }
 
-  verDetalle(org: any): void {
+  seeDetail(org: any): void {
     this.router.navigate(['/info-organizacion', org.id]);
   }
 }

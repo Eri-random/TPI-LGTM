@@ -22,8 +22,7 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { LandingComponent } from './pages/landing/landing.component';
 import { NgToastModule } from 'ng-angular-popup';
 import { GenerarIdeasComponent } from './pages/generar-ideas/generar-ideas.component';
-import { MapaOrganizacionesComponent } from './pages/mapa/mapa-organizaciones.component';
-import { DonacionesComponent } from './pages/donaciones/donaciones.component';
+import { MapOrganizationsComponent } from './pages/map/map-organizations.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { MatDialogModule} from '@angular/material/dialog';
 import { MatButtonModule} from '@angular/material/button';
@@ -40,9 +39,10 @@ import { PedidoDeOrganizacionComponent } from './pages/pedido-de-organizacion/pe
 import { SedeComponent } from './pages/sede/sede.component';
 import { CrearSedeComponent } from './pages/sede/crear-sede/crear-sede.component';
 import { EditarSedeComponent } from './pages/sede/editar-sede/editar-sede.component'
-import { MiOrganizacionComponent } from './pages/mi-organizacion/mi-organizacion.component';
+import { MyOrganizationComponent } from './pages/my-organization/my-organization.component';
 import { DialogDonarComponent } from './pages/info-organizacion/dialog-donar/dialog-donar.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
+import { DonationsComponent } from './pages/donations/donations.component';
 register();
 @NgModule({
   declarations: [
@@ -53,8 +53,8 @@ register();
     FooterComponent,
     LandingComponent,
     GenerarIdeasComponent,
-    MapaOrganizacionesComponent,
-    DonacionesComponent,
+    MapOrganizationsComponent,
+    DonationsComponent,
     DashboardComponent,
     DialogDonarComponent,
     InfoOrganizacionComponent,
@@ -66,7 +66,7 @@ register();
     SedeComponent,
     CrearSedeComponent,
     EditarSedeComponent,
-    MiOrganizacionComponent,
+    MyOrganizationComponent,
     PageNotFoundComponent,
   ],
   imports: [

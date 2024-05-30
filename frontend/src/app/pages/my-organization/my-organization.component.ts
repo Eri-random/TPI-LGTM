@@ -9,11 +9,11 @@ import { AuthService } from 'src/app/services/auth.service';
 import { OrganizacionService } from 'src/app/services/organizacion.service';
 
 @Component({
-  selector: 'app-mi-organizacion',
-  templateUrl: './mi-organizacion.component.html',
-  styleUrls: ['./mi-organizacion.component.css']
+  selector: 'app-my-organization',
+  templateUrl: './my-organization.component.html',
+  styleUrls: ['./my-organization.component.css']
 })
-export class MiOrganizacionComponent {
+export class MyOrganizationComponent {
   organizationForm: FormGroup;
   cuit!: string;
   imageSrc: string | ArrayBuffer | null =

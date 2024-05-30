@@ -17,7 +17,7 @@
 .spinner {
   border: 16px solid #f3f3f3;
   /* Color de fondo */
-  border-top: 16px solid green;
+  border-top: 16px solid var(--color-primary);
   /* Color del spinner */
   border-radius: 50%;
   width: 120px;

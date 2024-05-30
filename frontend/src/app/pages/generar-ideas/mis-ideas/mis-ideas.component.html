@@ -1,4 +1,8 @@
-<div class="ideas-container">
+<div *ngIf="loading" class="loading-container">
+  <div class="spinner"></div>
+</div>
+
+<div class="ideas-container" *ngIf="!loading">
     <div class="header">
       <h2>Mis Ideas</h2>
     </div>

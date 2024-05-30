@@ -7,11 +7,11 @@
         <div>
           <select
             class="select"
-            [(ngModel)]="provinciaSeleccionada"
-            (change)="onProvinciaChange()"
+            [(ngModel)]="provinceSelected"
+            (change)="onProvinceChange()"
           >
             <option value="todas" selected>Todas las Provincias</option>
-            <option *ngFor="let prov of provincias" [ngValue]="prov">
+            <option *ngFor="let prov of provinces" [ngValue]="prov">
               {{ prov.nombre }}
             </option>
           </select>
@@ -23,8 +23,8 @@
         <div>
           <select
             class="select"
-            [(ngModel)]="organizacionSeleccionada"
-            (change)="onOrganizacionChange()"
+            [(ngModel)]="selectedOrganization"
+            (change)="onOrganizationChange()"
           >
             <option value="todas" selected>Todas las Organizaciones</option>
             <option *ngFor="let org of organizations" [ngValue]="org">

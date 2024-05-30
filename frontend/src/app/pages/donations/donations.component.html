@@ -5,7 +5,7 @@
   <div class="row">
     <!-- comienzo -->
     <div
-      *ngFor="let org of organizaciones"
+      *ngFor="let org of organizations"
       class="col-lg-3 col-md-4 col-sm-6 col-xs-12"
     >
       <div class="titulo">
@@ -22,7 +22,7 @@
           </div>
           <div class="d-flex justify-content-center btnFooter">
             <button
-              (click)="verDetalle(org)"
+              (click)="seeDetail(org)"
               class="btn py-2 btn-block"
               id="btnMasInfo"
             >
@@ -34,7 +34,7 @@
     </div>
     <!-- fin -->
   </div>
-  <div class="d-flex justify-content-center" *ngIf="mostrarVerMas">
-    <button (click)="cargarMas()" class="btn btn-primary">Ver más</button>
+  <div class="d-flex justify-content-center" *ngIf="showSeeMore">
+    <button (click)="loadMore()" class="btn btn-primary">Ver más</button>
   </div>
 </div>

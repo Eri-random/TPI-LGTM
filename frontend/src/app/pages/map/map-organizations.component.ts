@@ -8,14 +8,14 @@ import { SedeService } from 'src/app/services/sede.service';
 
 @Component({
   selector: 'app-mapa-organizaciones',
-  templateUrl: './mapa-organizaciones.component.html',
-  styleUrls: ['./mapa-organizaciones.component.css'],
+  templateUrl: './map-organizations.component.html',
+  styleUrls: ['./map-organizations.component.css'],
 })
-export class MapaOrganizacionesComponent implements OnInit {
+export class MapOrganizationsComponent implements OnInit {
   organizations: any[] = [];
-  provincias: any[] = [];
-  provinciaSeleccionada: any = 'todas';
-  organizacionSeleccionada: any = 'todas';
+  provinces: any[] = [];
+  provinceSelected: any = 'todas';
+  selectedOrganization: any = 'todas';
   filteredOrganizations: any[] = [];
   dataDirection: any = null;
 
@@ -29,14 +29,14 @@ export class MapaOrganizacionesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProvinces();
-    this.checkSedeMasCercana();
+    this.checkCloserHeadquarters();
   }
 
   getProvinces(): void {
     this.mapService.getPronvincias().subscribe(
       (data) => {
-        this.provincias = data.provincias;
-        this.provincias.sort((a, b) => a.nombre.localeCompare(b.nombre));
+        this.provinces = data.provincias;
+        this.provinces.sort((a, b) => a.nombre.localeCompare(b.nombre));
         this.getMarker();
       },
       (error) => {
@@ -61,20 +61,20 @@ export class MapaOrganizacionesComponent implements OnInit {
 
   applyFilters(): void {
     if (this.dataDirection) {
-      let localidad = this.dataDirection.localidad.toLowerCase();
+      let location = this.dataDirection.localidad.toLowerCase();
       if (
-        localidad === 'caba' ||
-        localidad === 'ciudad autónoma de buenos aires'
+        location === 'caba' ||
+        location === 'ciudad autónoma de buenos aires'
       ) {
-        this.provinciaSeleccionada = this.provincias.find(
-          (provincia) => provincia.nombre === 'Ciudad Autónoma de Buenos Aires'
+        this.provinceSelected = this.provinces.find(
+          (provinces) => provinces.nombre === 'Ciudad Autónoma de Buenos Aires'
         );
       } else {
-        this.provinciaSeleccionada = this.provincias.find(
-          (provincia) => provincia.nombre === this.dataDirection.provincia
+        this.provinceSelected = this.provinces.find(
+          (provinces) => provinces.nombre === this.dataDirection.provincia
         );
       }
-      this.organizacionSeleccionada = this.organizations.find((org: any) => {
+      this.selectedOrganization = this.organizations.find((org: any) => {
         if (
           this.dataDirection.nombreOrganizacion !== null &&
           this.dataDirection.nombreOrganizacion !== undefined
@@ -134,22 +134,22 @@ export class MapaOrganizacionesComponent implements OnInit {
   }
 
   filterOrganizations(): void {
-    if (this.provinciaSeleccionada === 'todas') {
+    if (this.provinceSelected === 'todas') {
       this.filteredOrganizations = this.organizations;
     } else {
       this.filteredOrganizations = this.organizations.filter(
-        (org) => org.provincia === this.provinciaSeleccionada.nombre
+        (org) => org.provincia === this.provinceSelected.nombre
       );
     }
 
-    if (this.organizacionSeleccionada !== 'todas') {
+    if (this.selectedOrganization !== 'todas') {
       this.filteredOrganizations = this.filteredOrganizations.filter(
-        (org) => org.nombre === this.organizacionSeleccionada.nombreOrganizacion
+        (org) => org.nombre === this.selectedOrganization.nombreOrganizacion
       );
     }
   }
 
-  checkSedeMasCercana(): void {
+  checkCloserHeadquarters(): void {
     this.sedeService.getDataDirection().subscribe((data: any) => {
       if (data) {
         this.dataDirection = data;
@@ -197,8 +197,8 @@ export class MapaOrganizacionesComponent implements OnInit {
 
     infoWindow.addListener('closeclick', () => {
       console.log('Cerrando infoWindow');
-      this.provinciaSeleccionada = 'todas';
-      this.organizacionSeleccionada = 'todas';
+      this.provinceSelected = 'todas';
+      this.selectedOrganization = 'todas';
       this.dataDirection = null;
       this.filterOrganizations();
       this.loadMap();
@@ -208,14 +208,14 @@ export class MapaOrganizacionesComponent implements OnInit {
     map.setZoom(10);
   }
 
-  onProvinciaChange(): void {
-    this.organizacionSeleccionada = 'todas';
+  onProvinceChange(): void {
+    this.selectedOrganization = 'todas';
     this.filterOrganizations();
     this.updateMap();
   }
 
-  onOrganizacionChange(): void {
-    if (this.organizacionSeleccionada === 'todas') {
+  onOrganizationChange(): void {
+    if (this.selectedOrganization === 'todas') {
       this.filterOrganizations();
       this.updateMap();
     } else {
@@ -224,7 +224,7 @@ export class MapaOrganizacionesComponent implements OnInit {
   }
 
   updateMap(): void {
-    const provincia = this.provinciaSeleccionada;
+    const provincia = this.provinceSelected;
     const map = new google.maps.Map(
       document.getElementById('map') as HTMLElement,
       {
@@ -292,11 +292,11 @@ export class MapaOrganizacionesComponent implements OnInit {
   }
 
   selectOrganization(): void {
-    const org = this.organizacionSeleccionada;
+    const org = this.selectedOrganization;
 
     if (
-      this.provinciaSeleccionada !== 'todas' &&
-      org.provincia !== this.provinciaSeleccionada.nombre
+      this.provinceSelected !== 'todas' &&
+      org.provincia !== this.provinceSelected.nombre
     ) {
       this.toast.error({
         detail: 'Error',
@@ -323,10 +323,10 @@ export class MapaOrganizacionesComponent implements OnInit {
       }
     );
 
-    if (this.provinciaSeleccionada !== 'todas') {
+    if (this.provinceSelected !== 'todas') {
       this.mapService.getPoligonosProvincias().then((geojson) => {
         geojson.features.forEach((feature: any) => {
-          if (feature.properties.nombre === this.provinciaSeleccionada.nombre) {
+          if (feature.properties.nombre === this.provinceSelected.nombre) {
             const polygon = new google.maps.Polygon({
               paths: feature.geometry.coordinates[0].map((coord: any) => {
                 return { lat: coord[1], lng: coord[0] };
