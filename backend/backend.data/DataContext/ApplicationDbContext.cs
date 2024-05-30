@@ -16,6 +16,8 @@ namespace backend.data.DataContext
 
         public virtual DbSet<InfoOrganizacion> InfoOrganizacions { get; set; }
 
+        public virtual DbSet<Necesidad> Necesidads { get; set; }
+
         public virtual DbSet<Organizacion> Organizacions { get; set; }
 
         public virtual DbSet<Paso> Pasos { get; set; }
@@ -23,6 +25,8 @@ namespace backend.data.DataContext
         public virtual DbSet<Rol> Rols { get; set; }
 
         public virtual DbSet<Sede> Sedes { get; set; }
+
+        public virtual DbSet<Subcategorium> Subcategoria { get; set; }
 
         public virtual DbSet<Usuario> Usuarios { get; set; }
 
@@ -83,7 +87,9 @@ namespace backend.data.DataContext
 
                 entity.ToTable("info_organizacion");
 
-                entity.HasIndex(e => e.OrganizacionId, "organizacion_id").IsUnique();
+                entity.HasIndex(e => e.OrganizacionId, "organizacion_id");
+
+                entity.HasIndex(e => e.OrganizacionId, "organizacion_info").IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.DescripcionBreve)
@@ -109,13 +115,30 @@ namespace backend.data.DataContext
                     .HasConstraintName("organizacion_fkey");
             });
 
+            modelBuilder.Entity<Necesidad>(entity =>
+            {
+                entity.HasKey(e => e.Id).HasName("necesidad_pkey");
+
+                entity.ToTable("necesidad");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Icono)
+                    .IsRequired()
+                    .HasColumnName("icono");
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasColumnName("nombre");
+            });
+
             modelBuilder.Entity<Organizacion>(entity =>
             {
                 entity.HasKey(e => e.Id).HasName("organizacion_pkey");
 
                 entity.ToTable("organizacion");
 
-                entity.HasIndex(e => e.UsuarioId, "usuario_id_key").IsUnique();
+                entity.HasIndex(e => e.UsuarioId, "usuario_id").IsUnique();
+
+                entity.HasIndex(e => e.UsuarioId, "usuario_id_key");
 
                 entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.Cuit)
@@ -144,6 +167,25 @@ namespace backend.data.DataContext
                     .HasForeignKey<Organizacion>(d => d.UsuarioId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("usuario_fkey");
+
+                entity.HasMany(d => d.Subcategoria).WithMany(p => p.Organizacions)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "OrganizacionNecesidad",
+                        r => r.HasOne<Subcategorium>().WithMany()
+                            .HasForeignKey("SubcategoriaId")
+                            .OnDelete(DeleteBehavior.ClientSetNull)
+                            .HasConstraintName("organizacion_subcategoria_fk"),
+                        l => l.HasOne<Organizacion>().WithMany()
+                            .HasForeignKey("OrganizacionId")
+                            .OnDelete(DeleteBehavior.ClientSetNull)
+                            .HasConstraintName("organizacion_necesidad_fk"),
+                        j =>
+                        {
+                            j.HasKey("OrganizacionId", "SubcategoriaId").HasName("organizacion_necesidad_pk");
+                            j.ToTable("organizacion_necesidad");
+                            j.IndexerProperty<int>("OrganizacionId").HasColumnName("organizacion_id");
+                            j.IndexerProperty<int>("SubcategoriaId").HasColumnName("subcategoria_id");
+                        });
             });
 
             modelBuilder.Entity<Paso>(entity =>
@@ -170,8 +212,6 @@ namespace backend.data.DataContext
                 entity.HasKey(e => e.RolId).HasName("rol_pkey");
 
                 entity.ToTable("rol");
-
-                entity.HasIndex(e => e.Nombre, "rol_nombre_key").IsUnique();
 
                 entity.Property(e => e.RolId).HasColumnName("rol_id");
                 entity.Property(e => e.Nombre)
@@ -212,6 +252,24 @@ namespace backend.data.DataContext
                     .HasConstraintName("organizacion_fkey");
             });
 
+            modelBuilder.Entity<Subcategorium>(entity =>
+            {
+                entity.HasKey(e => e.Id).HasName("subcategorias_pkey");
+
+                entity.ToTable("subcategoria");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.NecesidadId).HasColumnName("necesidad_id");
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasColumnName("nombre");
+
+                entity.HasOne(d => d.Necesidad).WithMany(p => p.Subcategoria)
+                    .HasForeignKey(d => d.NecesidadId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("subcategoria_necesidad_fk");
+            });
+
             modelBuilder.Entity<Usuario>(entity =>
             {
                 entity.HasKey(e => e.Id).HasName("usuario_pkey");
@@ -219,8 +277,6 @@ namespace backend.data.DataContext
                 entity.ToTable("usuario");
 
                 entity.HasIndex(e => e.RolId, "IX_usuario_rol_id");
-
-                entity.HasIndex(e => e.Email, "usuario_email_key").IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.Apellido)
