@@ -19,5 +19,9 @@ namespace backend.servicios.Interfaces
         Task<OrganizacionDto> GetOrganizacionByCuitAsync(string cuit);
 
         Task<IEnumerable<Organizacion>> GetOrganizacionesPaginadasAsync(int page, int pageSize);
+
+        Task AsignarSubcategoriasAsync(int organizacionId, List<SubcategoriaDto> subcategoriasDto);
+
+        Task<List<SubcategoriaDto>> GetSubcategoriasAsignadasAsync(int organizacionId);
     }
 }

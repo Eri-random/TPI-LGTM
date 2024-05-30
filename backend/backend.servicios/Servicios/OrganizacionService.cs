@@ -1,4 +1,4 @@
-﻿using backend.data.DataContext;
+using backend.data.DataContext;
 using backend.data.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
@@ -164,6 +164,58 @@ namespace backend.servicios.Servicios
                  .Skip((page - 1) * pageSize)
                  .Take(pageSize)
                  .ToListAsync();
+        }
+        
+        public async Task AsignarSubcategoriasAsync(int organizacionId, List<SubcategoriaDto> subcategoriasDto)
+        {
+            try
+            {
+                var organizacion = await _context.Organizacions
+                    .Include(o => o.Subcategoria)
+                    .FirstOrDefaultAsync(o => o.Id == organizacionId);
+
+                if (organizacion == null)
+                {
+                    throw new Exception("Organización no encontrada");
+                }
+
+                // Eliminar las relaciones existentes
+                organizacion.Subcategoria.Clear();
+
+                // Obtener las nuevas subcategorías desde la base de datos
+                var nuevasSubcategorias = await _context.Subcategoria
+                    .Where(s => subcategoriasDto.Select(dto => dto.Id).Contains(s.Id))
+                    .ToListAsync();
+
+                // Asignar las nuevas subcategorías
+                foreach (var subcategoria in nuevasSubcategorias)
+                {
+                    organizacion.Subcategoria.Add(subcategoria);
+                }
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al asignar subcategorías: " + ex.Message);
+            }
+        }
+
+
+
+        public async Task<List<SubcategoriaDto>> GetSubcategoriasAsignadasAsync(int organizacionId)
+        {
+            var subcategorias = await _context.Subcategoria
+                .Where(s => s.Organizacions.Any(o => o.Id == organizacionId))
+                .Select(s => new SubcategoriaDto
+                {
+                    Id = s.Id,
+                    Nombre = s.Nombre,
+                    NecesidadId = s.NecesidadId
+                })
+                .ToListAsync();
+
+            return subcategorias;
         }
     }
 }

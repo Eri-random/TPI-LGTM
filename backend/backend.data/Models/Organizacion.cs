@@ -32,4 +32,6 @@ public partial class Organizacion
     public virtual ICollection<Sede> Sedes { get; set; } = new List<Sede>();
 
     public virtual Usuario Usuario { get; set; }
+
+    public virtual ICollection<Subcategorium> Subcategoria { get; set; } = new List<Subcategorium>();
 }
