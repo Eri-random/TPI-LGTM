@@ -22,7 +22,7 @@
                 <div class="col-md-6">
                   <label for="nombre" class="form-label required">Nombre</label>
                   <input
-                    value="{{ usuario.nombre }}"
+                    value="{{ usuario?.nombre }}"
                     type="text"
                     class="form-control input-field"
                     id="nombre"
@@ -36,7 +36,7 @@
                     >Apellido</label
                   >
                   <input
-                    value="{{ usuario.apellido }}"
+                    value="{{ usuario?.apellido }}"
                     type="text"
                     class="form-control input-field"
                     id="apellido"
@@ -52,7 +52,7 @@
                     >Teléfono
                   </label>
                   <input
-                    value="{{ usuario.telefono }}"
+                    value="{{ usuario?.telefono }}"
                     type="number"
                     class="form-control input-field"
                     id="telefono"
@@ -68,7 +68,7 @@
                     >Email</label
                   >
                   <input
-                    value="{{ usuario.email }}"
+                    value="{{ usuario?.email }}"
                     type="email"
                     class="form-control input-field"
                     id="email"
