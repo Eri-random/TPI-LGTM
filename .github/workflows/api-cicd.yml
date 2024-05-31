@@ -34,10 +34,12 @@ jobs:
       
     - name: Generate package
       id: generate-package
-      run: dotnet publish ./backend/backend.api/backend.api.csproj -c Release -r linux-x64 --self-contained false -o ./backend/bin/Release/net8.0/publish
+      run: |
+        dotnet publish ./backend/backend.api/backend.api.csproj -c Release -r linux-x64 --self-contained false -o ./backend/bin/Release/net8.0/publish
+        echo "PACKAGE_PATH=$(pwd)/backend/bin/Release/net8.0/publish" >> $GITHUB_ENV
 
     outputs:
-      package-path: ${{ steps.generate-package.outputs.package-path }}
+      package-path: ${{ steps.generate-package.outputs.PACKAGE_PATH }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -52,4 +54,4 @@ jobs:
       with:
         app-name: 'lgtm-dev-api'
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: ./backend/bin/Release/net8.0/publish
+        package: ${{ needs.build.outputs.package-path }}
