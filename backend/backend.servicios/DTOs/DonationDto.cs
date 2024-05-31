@@ -9,7 +9,7 @@ namespace backend.servicios.DTOs
 {
     public class DonationDto
     {
-        public int Id { get; set; }
+        public int Id { get; set; } 
 
         public string Producto { get; set; }
 
