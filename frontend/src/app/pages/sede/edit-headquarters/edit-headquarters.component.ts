@@ -20,6 +20,7 @@ export class EditHeadquartersComponent implements OnInit {
   headquartersForm!: FormGroup;
   orgName: any;
   organization: any;
+  cuit: any;
 
   constructor(
     private fb: FormBuilder,
@@ -46,9 +47,12 @@ export class EditHeadquartersComponent implements OnInit {
       this.orgName = val || orgNameFromToken;
     });
 
-    const cuitFromToken = this.authService.getCuitFromToken();
+    this.organizationService.getCuitFromStore().subscribe((val) => {
+      const cuitFromToken = this.authService.getCuitFromToken();
+      this.cuit = val || cuitFromToken;
+    });
 
-    this.organizationService.getOrganizationByCuit(cuitFromToken).subscribe(
+    this.organizationService.getOrganizationByCuit(this.cuit).subscribe(
       (data) => {
         this.organization = data;
       },

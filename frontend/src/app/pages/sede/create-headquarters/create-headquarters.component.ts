@@ -41,9 +41,12 @@ export class CreateHeadquartersComponent implements OnInit {
       this.orgName = val || orgNameFromToken;
     });
 
-    const cuitFromToken = this.authService.getCuitFromToken();
+    this.organizationService.getCuitFromStore().subscribe((val) => {
+      const cuitFromToken = this.authService.getCuitFromToken();
+      this.cuit = val || cuitFromToken;
+    });
 
-    this.organizationService.getOrganizationByCuit(cuitFromToken).subscribe(
+    this.organizationService.getOrganizationByCuit(this.cuit).subscribe(
       (data) => {
         this.organization = data;
         console.log(this.organization);
