@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import ValidateForm from 'src/app/helpers/validateForm';
 import { AuthService } from 'src/app/services/auth.service';
-import { OrganizacionService } from 'src/app/services/organizacion.service';
+import { OrganizationService } from 'src/app/services/organization.service';
 import { UserStoreService } from 'src/app/services/user-store.service';
 
 @Component({
@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private userStore: UserStoreService,
-    private organizacionService: OrganizacionService,
+    private organizacionService: OrganizationService,
     private router: Router,
     private toast: NgToastService
   ) {}

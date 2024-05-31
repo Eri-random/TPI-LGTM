@@ -80,10 +80,10 @@ export class SignupComponent {
     } 
 
     const newUsuario:User = this.registerForm.value;
-    this.selectedRole == 'usuario' ? newUsuario.rolId = Roles.Usuario : newUsuario.rolId = Roles.Organizacion;
+    this.selectedRole == 'usuario' ? newUsuario.rolId = Roles.User : newUsuario.rolId = Roles.Organization;
 
 
-    this.authService.crearCuenta(newUsuario)
+    this.authService.createAccount(newUsuario)
     .subscribe({
       next:()=>{
       this.registerForm.reset();

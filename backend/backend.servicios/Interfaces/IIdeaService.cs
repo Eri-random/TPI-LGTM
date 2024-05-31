@@ -10,7 +10,7 @@ namespace backend.servicios.Interfaces
     public interface IIdeaService
     {
         Task SaveIdeaAsync(IdeaDto ideaDto);
-        Task<IEnumerable<IdeaDto>> GetIdeasByUsuarioIdAsync(int usuarioId);
+        Task<IEnumerable<IdeaDto>> GetIdeasByUserIdAsync(int userId);
 
         Task<IdeaDto> GetIdeaByIdAsync(int ideaId);
 

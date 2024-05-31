@@ -6,7 +6,7 @@ import { NgToastService } from 'ng-angular-popup';
 import { catchError, throwError } from 'rxjs';
 import ValidateForm from 'src/app/helpers/validateForm';
 import { AuthService } from 'src/app/services/auth.service';
-import { OrganizacionService } from 'src/app/services/organizacion.service';
+import { OrganizationService } from 'src/app/services/organization.service';
 
 @Component({
   selector: 'app-my-organization',
@@ -25,7 +25,7 @@ export class MyOrganizationComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private organizacionService: OrganizacionService,
+    private organizacionService: OrganizationService,
     private toast: NgToastService,
     private router:Router
   ) {
@@ -45,7 +45,7 @@ export class MyOrganizationComponent {
     });
 
     this.organizacionService
-      .getOrganizacionByCuit(this.cuit)
+      .getOrganizationByCuit(this.cuit)
       .subscribe((resp) => {
         this.organizationForm.get('organizacion')?.setValue(resp.nombre);
         this.organizationForm.get('organizacionId')?.setValue(resp.id);
@@ -119,7 +119,7 @@ export class MyOrganizationComponent {
 
     if (this.isEditMode) {
       this.organizacionService
-        .putInfoOrganizacion(formData)
+        .putInfoOrganization(formData)
         .pipe(
           catchError((error: HttpErrorResponse) => {
             this.handleError(error);
@@ -131,7 +131,7 @@ export class MyOrganizationComponent {
         });
     } else {
       this.organizacionService
-        .postInfoOrganizacion(formData)
+        .postInfoOrganization(formData)
         .pipe(
           catchError((error: HttpErrorResponse) => {
             this.handleError(error);

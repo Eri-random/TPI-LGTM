@@ -16,7 +16,7 @@ namespace backend.api.test
         [Test]
         public void Validate_WhenNombreIsEmpty_ShouldBeInvalid()
         {
-            var model = new UsuarioRequestModel { Nombre = "" };
+            var model = new UserRequestModel { Nombre = "" };
             var result = _validator.Validate(model);
             Assert.Multiple(() =>
             {
@@ -28,7 +28,7 @@ namespace backend.api.test
         [Test]
         public void Validate_WhenEmailIsInvalid_ShouldBeInvalid()
         {
-            var model = new UsuarioRequestModel { Email = "invalidemail" };
+            var model = new UserRequestModel { Email = "invalidemail" };
             var result = _validator.Validate(model);
             Assert.Multiple(() =>
             {
@@ -40,7 +40,7 @@ namespace backend.api.test
         [Test]
         public void Validate_WhenTelefonoIsTooShort_ShouldBeInvalid()
         {
-            var model = new UsuarioRequestModel { Telefono = "1234567" };
+            var model = new UserRequestModel { Telefono = "1234567" };
             var result = _validator.Validate(model);
             Assert.Multiple(() =>
             {
@@ -52,7 +52,7 @@ namespace backend.api.test
         [Test]
         public void Validate_WhenRolIdIsInvalid_ShouldBeInvalid()
         {
-            var model = new UsuarioRequestModel { RolId = 3 };
+            var model = new UserRequestModel { RolId = 3 };
             var result = _validator.Validate(model);
             Assert.Multiple(() =>
             {
@@ -64,7 +64,7 @@ namespace backend.api.test
         [Test]
         public void Validate_WhenPasswordIsTooShort_ShouldBeInvalid()
         {
-            var model = new UsuarioRequestModel { Password = "12345" };
+            var model = new UserRequestModel { Password = "12345" };
             var result = _validator.Validate(model);
             Assert.Multiple(() =>
             {
@@ -76,7 +76,7 @@ namespace backend.api.test
         [Test]
         public void Validate_WhenDireccionIsEmpty_ShouldBeInvalid()
         {
-            var model = new UsuarioRequestModel { Direccion = "" };
+            var model = new UserRequestModel { Direccion = "" };
             var result = _validator.Validate(model);
             Assert.Multiple(() =>
             {
@@ -88,7 +88,7 @@ namespace backend.api.test
         [Test]
         public void Validate_WhenLocalidadIsEmpty_ShouldBeInvalid()
         {
-            var model = new UsuarioRequestModel { Localidad = "" };
+            var model = new UserRequestModel { Localidad = "" };
             var result = _validator.Validate(model);
             Assert.Multiple(() =>
             {
@@ -100,7 +100,7 @@ namespace backend.api.test
         [Test]
         public void Validate_WhenProvinciaIsEmpty_ShouldBeInvalid()
         {
-            var model = new UsuarioRequestModel { Provincia = "" };
+            var model = new UserRequestModel { Provincia = "" };
             var result = _validator.Validate(model);
             Assert.Multiple(() =>
             {

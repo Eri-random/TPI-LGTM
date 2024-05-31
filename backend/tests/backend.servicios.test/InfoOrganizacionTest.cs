@@ -13,14 +13,14 @@ namespace backend.servicios.test
     [TestFixture]
     public class InfoOrganizacionTest
     {
-        private Mock<ILogger<OrganizacionService>> _loggerMock;
+        private Mock<ILogger<OrganizationService>> _loggerMock;
         private ApplicationDbContext _context;
-        private InfoOrganizacionService _infoOrganizacionService;
+        private InfoOrganizationService _infoOrganizacionService;
 
         [SetUp]
         public void SetUp()
         {
-            _loggerMock = new Mock<ILogger<OrganizacionService>>();
+            _loggerMock = new Mock<ILogger<OrganizationService>>();
 
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(databaseName: "Test")
@@ -30,7 +30,7 @@ namespace backend.servicios.test
 
             _context.SaveChanges();
 
-            _infoOrganizacionService = new InfoOrganizacionService(_context, _loggerMock.Object);
+            _infoOrganizacionService = new InfoOrganizationService(_context, _loggerMock.Object);
 
 
         }
@@ -45,7 +45,7 @@ namespace backend.servicios.test
         public async Task SaveDataInfoOrganizacion_Returns_CorrectInfoOrganizacion()
         {
             // Arrange
-            var infoOrganizacionDto = new InfoOrganizacionDto
+            var infoOrganizacionDto = new InfoOrganizationDto
             {
                 Organizacion = "Organizacion",
                 DescripcionBreve = "DescripcionBreve",
@@ -54,7 +54,7 @@ namespace backend.servicios.test
                 OrganizacionId = 1
             };
 
-            await _infoOrganizacionService.SaveDataInfoOrganizacion(infoOrganizacionDto);
+            await _infoOrganizacionService.SaveDataInfoOrganization(infoOrganizacionDto);
 
             var organizacionCreate = await _context.InfoOrganizacions.FirstOrDefaultAsync(u => u.Organizacion == "Organizacion");
 
@@ -67,10 +67,10 @@ namespace backend.servicios.test
         public void SaveDataInfoOrganizacionc_NullInfoOrganizacionDto_ArgumentNullException()
         {
             // Act & Assert
-            var ex = Assert.ThrowsAsync<ArgumentNullException>(() => _infoOrganizacionService.SaveDataInfoOrganizacion(null));
+            var ex = Assert.ThrowsAsync<ArgumentNullException>(() => _infoOrganizacionService.SaveDataInfoOrganization(null));
             Assert.Multiple(() =>
             {
-                Assert.That(ex.ParamName, Is.EqualTo("infoOrganizacionDto"));
+                Assert.That(ex.ParamName, Is.EqualTo("infoOrganizationDto"));
                 Assert.That(ex.Message, Contains.Substring("La informacion de la organizacion proporcionada no puede ser nula."));
             });
         }
@@ -80,7 +80,7 @@ namespace backend.servicios.test
         {
             var testOrganizacion = "Amigos";
 
-            var infoOrganizacionDto = new InfoOrganizacionDto
+            var infoOrganizacionDto = new InfoOrganizationDto
             {
                 Organizacion = "organizacion",
                 DescripcionBreve = "DescripcionBreve",
@@ -93,7 +93,7 @@ namespace backend.servicios.test
 
             infoOrganizacionDto.Organizacion = testOrganizacion;
 
-            await _infoOrganizacionService.UpdateInfoOrganizacionAsync(infoOrganizacionDto);
+            await _infoOrganizacionService.UpdateInfoOrganizationAsync(infoOrganizacionDto);
 
             var organizacionUpdate = await _context.InfoOrganizacions.FirstOrDefaultAsync(u => u.Organizacion == testOrganizacion);
 
@@ -105,13 +105,13 @@ namespace backend.servicios.test
         [Test]
         public async Task UpdateInfoOrganizacionAsync_InfoDoesNotExist_InvalidOperationException()
         {
-            var infoOrganizacionDto = new InfoOrganizacionDto
+            var infoOrganizacionDto = new InfoOrganizationDto
             {
                 Organizacion = "organizacion"
             };
 
             // Act & Assert
-            var ex = Assert.ThrowsAsync<InvalidOperationException>(() => _infoOrganizacionService.UpdateInfoOrganizacionAsync(infoOrganizacionDto));
+            var ex = Assert.ThrowsAsync<InvalidOperationException>(() => _infoOrganizacionService.UpdateInfoOrganizationAsync(infoOrganizacionDto));
             Assert.That(ex.Message, Is.EqualTo("La informacion de la organizacion no existe."));
         }
     }

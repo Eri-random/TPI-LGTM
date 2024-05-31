@@ -13,17 +13,17 @@ namespace backend.servicios.test
     [TestFixture]
     public class UsuarioServiceTests
     {
-        private Mock<ILogger<UsuarioService>> _loggerMock;
+        private Mock<ILogger<UserService>> _loggerMock;
         private Mock<IMapsService> _mapsMock;
 
         private ApplicationDbContext _context;
-        private UsuarioService _usuarioService;
+        private UserService _usuarioService;
 
 
         [SetUp]
         public void SetUp()
         {
-            _loggerMock = new Mock<ILogger<UsuarioService>>();
+            _loggerMock = new Mock<ILogger<UserService>>();
             _mapsMock = new Mock<IMapsService>();
 
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
@@ -43,21 +43,21 @@ namespace backend.servicios.test
             );
 
             _context.SaveChanges();
-            _usuarioService = new UsuarioService(_context, _loggerMock.Object, _mapsMock.Object);
+            _usuarioService = new UserService(_context, _loggerMock.Object, _mapsMock.Object);
         }
 
         [Test]
         public void Constructor_WithAllDependencies_ShouldNotThrowException()
         {
             // Act & Assert
-            Assert.DoesNotThrow(() => new UsuarioService(_context, _loggerMock.Object, _mapsMock.Object));
+            Assert.DoesNotThrow(() => new UserService(_context, _loggerMock.Object, _mapsMock.Object));
         }
 
         [Test]
         public void Constructor_WithNullDbContext_ShouldThrowArgumentNullException()
         {
             // Act & Assert
-            var ex = Assert.Throws<ArgumentNullException>(() => new UsuarioService(null, _loggerMock.Object, _mapsMock.Object));
+            var ex = Assert.Throws<ArgumentNullException>(() => new UserService(null, _loggerMock.Object, _mapsMock.Object));
             Assert.That(ex.ParamName, Is.EqualTo("context"));
         }
 
@@ -65,7 +65,7 @@ namespace backend.servicios.test
         public void Constructor_WithNullLogger_ShouldThrowArgumentNullException()
         {
             // Act & Assert
-            var ex = Assert.Throws<ArgumentNullException>(() => new UsuarioService(_context, null, _mapsMock.Object));
+            var ex = Assert.Throws<ArgumentNullException>(() => new UserService(_context, null, _mapsMock.Object));
             Assert.That(ex.ParamName, Is.EqualTo("logger"));
         }
 
@@ -73,7 +73,7 @@ namespace backend.servicios.test
         public async Task GetAllUsuariosAsync_WhenUsersExist_ReturnsTransformedUsers()
         {
             // Act
-            var result = await _usuarioService.GetAllUsuariosAsync();
+            var result = await _usuarioService.GetAllUsersAsync();
 
             // Assert
             Assert.That(result, Is.Not.Null);
@@ -88,7 +88,7 @@ namespace backend.servicios.test
         public async Task GetAllUsuariosAsync_ReturnsCorrectData()
         {
             // Act
-            var result = await _usuarioService.GetAllUsuariosAsync();
+            var result = await _usuarioService.GetAllUsersAsync();
 
             // Assert
             var user = result.FirstOrDefault();
@@ -108,7 +108,7 @@ namespace backend.servicios.test
             _context.SaveChanges();
 
             // Act
-            var result = await _usuarioService.GetAllUsuariosAsync();
+            var result = await _usuarioService.GetAllUsersAsync();
 
             // Assert
             Assert.That(result, Is.Not.Null);
@@ -118,14 +118,14 @@ namespace backend.servicios.test
         [Test]
         public void GetUsuarioByEmailAsync_NullOrWhitespaceEmail_ThrowsArgumentNullException()
         {
-            var nullEmail = Assert.ThrowsAsync<ArgumentNullException>(() => _usuarioService.GetUsuarioByEmailAsync(null));
+            var nullEmail = Assert.ThrowsAsync<ArgumentNullException>(() => _usuarioService.GetUserByEmailAsync(null));
             Assert.Multiple(() =>
             {
                 Assert.That(nullEmail.ParamName, Is.EqualTo("email"));
                 Assert.That(nullEmail.Message, Does.Contain("El email no puede ser nulo o estar vacío."));
             });
 
-            var whitespaceEmail = Assert.ThrowsAsync<ArgumentNullException>(() => _usuarioService.GetUsuarioByEmailAsync("  "));
+            var whitespaceEmail = Assert.ThrowsAsync<ArgumentNullException>(() => _usuarioService.GetUserByEmailAsync("  "));
             Assert.Multiple(() =>
             {
                 Assert.That(whitespaceEmail.ParamName, Is.EqualTo("email"));
@@ -140,7 +140,7 @@ namespace backend.servicios.test
             var testEmail = "test@test.com";
 
             // Act
-            var result = await _usuarioService.GetUsuarioByEmailAsync(testEmail);
+            var result = await _usuarioService.GetUserByEmailAsync(testEmail);
 
             // Assert
             Assert.That(result, Is.Not.Null);
@@ -158,7 +158,7 @@ namespace backend.servicios.test
             var nonExistentEmail = "nonexistent@test.com";
 
             // Act
-            var result = await _usuarioService.GetUsuarioByEmailAsync(nonExistentEmail);
+            var result = await _usuarioService.GetUserByEmailAsync(nonExistentEmail);
 
             // Assert
             Assert.That(result, Is.Null);
@@ -169,10 +169,10 @@ namespace backend.servicios.test
         public void CreateUsuarioAsync_NullUsuarioDto_ThrowsArgumentNullException()
         {
             // Act & Assert
-            var ex = Assert.ThrowsAsync<ArgumentNullException>(() => _usuarioService.CreateUsuarioAsync(null));
+            var ex = Assert.ThrowsAsync<ArgumentNullException>(() => _usuarioService.CreateUserAsync(null));
             Assert.Multiple(() =>
             {
-                Assert.That(ex.ParamName, Is.EqualTo("usuarioDto"));
+                Assert.That(ex.ParamName, Is.EqualTo("userDto"));
                 Assert.That(ex.Message, Contains.Substring("El usuario proporcionado no puede ser nulo."));
             });
         }
@@ -181,10 +181,10 @@ namespace backend.servicios.test
         public async Task CreateUsuarioAsync_UserExists_ThrowsInvalidOperationException()
         {
             // Arrange
-            var usuarioDto = new UsuarioDto { Email = "test@test.com", Nombre = "New Name" };
+            var usuarioDto = new UserDto { Email = "test@test.com", Nombre = "New Name" };
 
             // Act & Assert
-            var ex = Assert.ThrowsAsync<InvalidOperationException>(() => _usuarioService.CreateUsuarioAsync(usuarioDto));
+            var ex = Assert.ThrowsAsync<InvalidOperationException>(() => _usuarioService.CreateUserAsync(usuarioDto));
             Assert.That(ex.Message, Contains.Substring("Ya existe un usuario con el email proporcionado."));
         }
 
@@ -192,7 +192,7 @@ namespace backend.servicios.test
         public async Task CreateUsuarioAsync_ValidUser_AddsUserSuccessfully()
         {
             // Arrange
-            var usuarioDto = new UsuarioDto
+            var usuarioDto = new UserDto
             {
                 Nombre = "John",
                 Apellido = "Doe",
@@ -205,7 +205,7 @@ namespace backend.servicios.test
             };
 
             // Act
-            await _usuarioService.CreateUsuarioAsync(usuarioDto);
+            await _usuarioService.CreateUserAsync(usuarioDto);
             var createdUser = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == "john.doe@example.com");
 
             // Assert
@@ -217,10 +217,10 @@ namespace backend.servicios.test
         public void UpdateUsuarioAsync_NullUsuarioDto_ThrowsArgumentNullException()
         {
             // Act & Assert
-            var ex = Assert.ThrowsAsync<ArgumentNullException>(() => _usuarioService.UpdateUsuarioAsync(null));
+            var ex = Assert.ThrowsAsync<ArgumentNullException>(() => _usuarioService.UpdateUserAsync(null));
             Assert.Multiple(() =>
             {
-                Assert.That(ex.ParamName, Is.EqualTo("usuarioDto"));
+                Assert.That(ex.ParamName, Is.EqualTo("userDto"));
                 Assert.That(ex.Message, Contains.Substring("El usuario proporcionado no puede ser nulo."));
             });
         }
@@ -229,10 +229,10 @@ namespace backend.servicios.test
         public void UpdateUsuarioAsync_UserDoesNotExist_ThrowsKeyNotFoundException()
         {
             // Arrange
-            var usuarioDto = new UsuarioDto { Email = "nonexistent@example.com" };
+            var usuarioDto = new UserDto { Email = "nonexistent@example.com" };
 
             // Act & Assert
-            var ex = Assert.ThrowsAsync<KeyNotFoundException>(() => _usuarioService.UpdateUsuarioAsync(usuarioDto));
+            var ex = Assert.ThrowsAsync<KeyNotFoundException>(() => _usuarioService.UpdateUserAsync(usuarioDto));
             Assert.That(ex.Message, Contains.Substring("Usuario no encontrado para actualizar."));
         }
 
@@ -254,7 +254,7 @@ namespace backend.servicios.test
             });
             await _context.SaveChangesAsync();
 
-            var usuarioDto = new UsuarioDto
+            var usuarioDto = new UserDto
             {
                 Email = testEmail,
                 Nombre = "New Name",
@@ -267,7 +267,7 @@ namespace backend.servicios.test
             };
 
             // Act
-            await _usuarioService.UpdateUsuarioAsync(usuarioDto);
+            await _usuarioService.UpdateUserAsync(usuarioDto);
             var updatedUser = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == testEmail);
 
             // Assert
@@ -288,12 +288,12 @@ namespace backend.servicios.test
         public void DeleteUsuarioAsync_NullOrEmptyEmail_ThrowsArgumentNullException()
         {
             // Null email test
-            var exNull = Assert.ThrowsAsync<ArgumentNullException>(() => _usuarioService.DeleteUsuarioAsync(null));
+            var exNull = Assert.ThrowsAsync<ArgumentNullException>(() => _usuarioService.DeleteUserAsync(null));
             Assert.That(exNull.ParamName, Is.EqualTo("email"));
             Assert.That(exNull.Message, Contains.Substring("El email proporcionado no puede ser nulo o estar vacío."));
 
             // Empty email test
-            var exEmpty = Assert.ThrowsAsync<ArgumentNullException>(() => _usuarioService.DeleteUsuarioAsync(""));
+            var exEmpty = Assert.ThrowsAsync<ArgumentNullException>(() => _usuarioService.DeleteUserAsync(""));
             Assert.That(exEmpty.ParamName, Is.EqualTo("email"));
             Assert.That(exEmpty.Message, Contains.Substring("El email proporcionado no puede ser nulo o estar vacío."));
         }
@@ -305,7 +305,7 @@ namespace backend.servicios.test
             var nonExistentEmail = "nonexistent@example.com";
 
             // Act & Assert
-            var ex = Assert.ThrowsAsync<KeyNotFoundException>(() => _usuarioService.DeleteUsuarioAsync(nonExistentEmail));
+            var ex = Assert.ThrowsAsync<KeyNotFoundException>(() => _usuarioService.DeleteUserAsync(nonExistentEmail));
             Assert.That(ex.Message, Contains.Substring("Usuario no encontrado para eliminar."));
         }
 
@@ -318,7 +318,7 @@ namespace backend.servicios.test
             await _context.SaveChangesAsync();
 
             // Act
-            await _usuarioService.DeleteUsuarioAsync(emailToDelete);
+            await _usuarioService.DeleteUserAsync(emailToDelete);
             var deletedUser = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == emailToDelete);
 
             // Assert

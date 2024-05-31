@@ -9,10 +9,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { OrganizacionService } from 'src/app/services/organizacion.service';
+import { OrganizationService } from 'src/app/services/organization.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { switchMap, tap } from 'rxjs';
-import { DonacionesService } from 'src/app/services/donaciones.service';
+import { DonationsService } from 'src/app/services/donations.service';
 import { WebsocketService } from 'src/app/services/websocket.service';
 import { NgToastService } from 'ng-angular-popup';
 
@@ -33,12 +33,12 @@ export interface UserData {
 })
 export class DashboardComponent implements OnInit {
   cuit!: string;
-  orgNombre: any;
-  existDonaciones!: boolean;
-  totalDonaciones: number = 0;
-  totalDonacionesCount: number = 0;
-  productoMasDonado: { producto: string, cantidad: number } | null = null;
-  promedioDonaciones: number = 0;
+  orgName: any;
+  existDonations!: boolean;
+  totalDonations: number = 0;
+  totalDonationsCount: number = 0;
+  productMostDonate: { product: string, amount: number } | null = null;
+  averageDonations: number = 0;
 
   displayedColumns: string[] = [
     'name',
@@ -58,24 +58,24 @@ export class DashboardComponent implements OnInit {
     public dialog: MatDialog,
     private cdr: ChangeDetectorRef,
     private authService: AuthService,
-    private organizacionService: OrganizacionService,
-    private donacionesService: DonacionesService,
+    private organizationService: OrganizationService,
+    private donationsService: DonationsService,
     private webSocketService: WebsocketService,
     private toast: NgToastService
   ) {}
 
   ngOnInit() {
-    this.organizacionService.getOrgNameFromStore().subscribe((val) => {
+    this.organizationService.getOrgNameFromStore().subscribe((val) => {
       const orgNameFromToken = this.authService.getOrgNameFromToken();
-      this.orgNombre = val || orgNameFromToken;
+      this.orgName = val || orgNameFromToken;
     });
 
-    this.organizacionService.getCuitFromStore().subscribe((val) => {
+    this.organizationService.getCuitFromStore().subscribe((val) => {
       const cuitFromToken = this.authService.getCuitFromToken();
       this.cuit = val || cuitFromToken;
     });
 
-    this.loadDonaciones();
+    this.loadDonations();
 
     this.webSocketService.messages.subscribe((message) => {
       if (message.type === 'actualizarDonaciones') {
@@ -84,45 +84,45 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  loadDonaciones() {
-    this.organizacionService
-      .getOrganizacionByCuit(this.cuit)
+  loadDonations() {
+    this.organizationService
+      .getOrganizationByCuit(this.cuit)
       .pipe(
         switchMap(({ id }) =>
-          this.donacionesService.getDonacionesByOrganizacionId(id)
+          this.donationsService.getDonationsByOrganizationId(id)
         )
       )
       .subscribe(
-        (donaciones) => {
-          if (donaciones.length != 0) {
-            const formattedDonations = donaciones.map((donacion: any) => ({
-              name: donacion.usuario.nombre,
-              telefono: donacion.usuario.telefono,
-              email: donacion.usuario.email,
-              producto: donacion.producto,
-              cantidad: donacion.cantidad,
+        (donations) => {
+          if (donations.length != 0) {
+            const formattedDonations = donations.map((donation: any) => ({
+              name: donation.usuario.nombre,
+              telefono: donation.usuario.telefono,
+              email: donation.usuario.email,
+              producto: donation.producto,
+              cantidad: donation.cantidad,
               progress: '',
             }));
 
-            this.existDonaciones = true;
+            this.existDonations = true;
             this.dataSource.data = formattedDonations;
             this.cdr.detectChanges();
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
-            this.totalDonaciones = donaciones.reduce(
-              (total: any, donacion: any) => total + donacion.cantidad,
+            this.totalDonations = donations.reduce(
+              (total: any, donation: any) => total + donation.cantidad,
               0
             );
 
-            this.totalDonacionesCount = donaciones.length;
-            this.promedioDonaciones = this.totalDonaciones / this.totalDonacionesCount;
-            this.calcularProductoMasDonado(donaciones);
+            this.totalDonationsCount = donations.length;
+            this.averageDonations = this.totalDonations / this.totalDonationsCount;
+            this.calculateProductMostDonated(donations);
 
             setTimeout(() => {
               this.loading = false;
             }, 1000);
           } else {
-            this.existDonaciones = false;
+            this.existDonations = false;
 
             setTimeout(() => {
               this.loading = false;
@@ -136,35 +136,35 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  calcularProductoMasDonado(donaciones: any[]) {
+  calculateProductMostDonated(donations: any[]) {
     const productoMap = new Map<string, number>();
 
-    donaciones.forEach((donacion) => {
-      if (productoMap.has(donacion.producto)) {
-        productoMap.set(donacion.producto, productoMap.get(donacion.producto)! + donacion.cantidad);
+    donations.forEach((donation) => {
+      if (productoMap.has(donation.producto)) {
+        productoMap.set(donation.producto, productoMap.get(donation.producto)! + donation.cantidad);
       } else {
-        productoMap.set(donacion.producto, donacion.cantidad);
+        productoMap.set(donation.producto, donation.cantidad);
       }
     });
 
-    const sortedProductos = Array.from(productoMap, ([producto, cantidad]) => ({ producto, cantidad }))
-      .sort((a, b) => b.cantidad - a.cantidad);
+    const sortedProductos = Array.from(productoMap, ([product, amount]) => ({ product, amount }))
+      .sort((a, b) => b.amount - a.amount);
 
-    this.productoMasDonado = sortedProductos.length > 0 ? sortedProductos[0] : null;
+    this.productMostDonate = sortedProductos.length > 0 ? sortedProductos[0] : null;
   }
 
   handleNewDonation(data: any) {
-    if (data && data.nuevaDonacion && data.usuario) {
-      this.totalDonaciones += data.nuevaDonacion.Cantidad;
-      this.totalDonacionesCount += 1;
-      this.promedioDonaciones = this.totalDonaciones / this.totalDonacionesCount;
+    if (data && data.newDonation && data.user) {
+      this.totalDonations += data.newDonation.Cantidad;
+      this.totalDonationsCount += 1;
+      this.averageDonations = this.totalDonations / this.totalDonationsCount;
 
       let newDonation: UserData = {
-        name: data.usuario.Nombre,
-        telefono: data.usuario.Telefono,
-        email: data.usuario.Email,
-        producto: data.nuevaDonacion.Producto,
-        cantidad: data.nuevaDonacion.Cantidad,
+        name: data.user.Nombre,
+        telefono: data.user.Telefono,
+        email: data.user.Email,
+        producto: data.newDonation.Producto,
+        cantidad: data.newDonation.Cantidad,
         progress: '',
         highlight: true,
       };
@@ -172,7 +172,7 @@ export class DashboardComponent implements OnInit {
       let newData = [...this.dataSource.data, newDonation];
       this.dataSource.data = newData;
 
-      this.calcularProductoMasDonado(newData);
+      this.calculateProductMostDonated(newData);
 
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
