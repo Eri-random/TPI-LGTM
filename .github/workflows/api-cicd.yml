@@ -33,6 +33,7 @@ jobs:
       run: dotnet test ./backend/backend.sln --no-build --verbosity normal
       
     - name: Generate package
+      id: generate-package
       run: dotnet publish ./backend/backend.api/backend.api.csproj -c Release -r linux-x64 --self-contained false -o ./backend/bin/Release/net8.0/publish
 
     outputs:
