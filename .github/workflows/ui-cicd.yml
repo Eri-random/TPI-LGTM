@@ -52,4 +52,4 @@ jobs:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         action: "upload"
         app_location: "./frontend"
-        output_location: ${{ needs.build.outputs.build-path }}
+        output_location: "dist/frontend"
