@@ -12,7 +12,7 @@ export class DonationService {
   constructor(private http: HttpClient) { }
 
   postSaveDonation(data: any){
-    const url = `${this.baseUrl}/Donacion`;
+    const url = `${this.baseUrl}/Donation`;
     return this.http.post<any>(url, data);
   }
 }

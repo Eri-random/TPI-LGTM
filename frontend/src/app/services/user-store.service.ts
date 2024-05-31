@@ -18,7 +18,7 @@ export class UserStoreService {
 
 
   getUserByEmail(email:string){
-    const url = `${this.baseUrl}/Usuarios/${email}`;
+    const url = `${this.baseUrl}/User/${email}`;
     return this.http.get<any>(url);
   }
 

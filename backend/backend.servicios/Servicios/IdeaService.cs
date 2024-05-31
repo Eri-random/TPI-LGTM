@@ -42,20 +42,20 @@ namespace backend.servicios.Servicios
             }
         }
 
-        public async Task<IEnumerable<IdeaDto>> GetIdeasByUsuarioIdAsync(int usuarioId)
+        public async Task<IEnumerable<IdeaDto>> GetIdeasByUserIdAsync(int userId)
         {
             try
             {
                 var ideas = await _context.Ideas
                     .Include(i => i.Pasos)
-                    .Where(i => i.UsuarioId == usuarioId)
+                    .Where(i => i.UsuarioId == userId)
                     .Select(i => new IdeaDto
                     {
                         Id = i.Id,
                         Titulo = i.Titulo,
                         UsuarioId = i.UsuarioId,
                         Dificultad = i.Dificultad,
-                        Pasos = i.Pasos.Select(p => new PasoDto
+                        Pasos = i.Pasos.Select(p => new StepDto
                         {
                             Id = p.Id,
                             PasoNum = p.PasoNum,
@@ -92,7 +92,7 @@ namespace backend.servicios.Servicios
                     Titulo = idea.Titulo,
                     UsuarioId = idea.UsuarioId,
                     Dificultad = idea.Dificultad,
-                    Pasos = idea.Pasos.Select(p => new PasoDto
+                    Pasos = idea.Pasos.Select(p => new StepDto
                     {
                         PasoNum = p.PasoNum,
                         Descripcion = p.Descripcion

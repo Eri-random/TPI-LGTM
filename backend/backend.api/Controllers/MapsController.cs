@@ -7,41 +7,41 @@ namespace backend.api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class MapsController(IOrganizacionService organizacionService, IMapsService mapsService, ISedeService sedeService) : ControllerBase
+    public class MapsController(IOrganizationService organizationService, IMapsService mapsService, IHeadquartersService headquartersService) : ControllerBase
     {
-        private readonly IOrganizacionService _organizacionService = organizacionService ?? throw new ArgumentNullException(nameof(organizacionService));
+        private readonly IOrganizationService _organizationService = organizationService ?? throw new ArgumentNullException(nameof(organizationService));
         private readonly IMapsService _mapsService = mapsService ?? throw new ArgumentNullException(nameof(mapsService));
-        private readonly ISedeService _sedeService = sedeService ?? throw new ArgumentNullException(nameof(sedeService));
+        private readonly IHeadquartersService _headquartersService = headquartersService ?? throw new ArgumentNullException(nameof(headquartersService));
 
         [HttpGet]
         public async Task<IActionResult> GetOrganizationCoordinates()
         {
-            var organizaciones = await _organizacionService.GetAllOrganizacionAsync();
+            var organizations = await _organizationService.GetAllOrganizationAsync();
 
-            var organizacionesResponse = new List<OrganizacionResponseModel>();
+            var organizationsResponse = new List<OrganizationResponseModel>();
 
-            foreach (var organizacion in organizaciones)
+            foreach (var org in organizations)
             {
-                organizacionesResponse.Add(new OrganizacionResponseModel
+                organizationsResponse.Add(new OrganizationResponseModel
                 {
-                    Id = organizacion.Id,
-                    Nombre = organizacion.Nombre,
-                    Direccion = organizacion.Direccion,
-                    Localidad = organizacion.Localidad,
-                    Provincia = organizacion.Provincia,
-                    Telefono = organizacion.Telefono,
-                    Latitud = organizacion.Latitud,
-                    Longitud = organizacion.Longitud
+                    Id = org.Id,
+                    Nombre = org.Nombre,
+                    Direccion = org.Direccion,
+                    Localidad = org.Localidad,
+                    Provincia = org.Provincia,
+                    Telefono = org.Telefono,
+                    Latitud = org.Latitud,
+                    Longitud = org.Longitud
                 });
             }
 
-            return Ok(organizacionesResponse);
+            return Ok(organizationsResponse);
         }
 
-        [HttpGet("{organizacionId}")]
-        public async Task<IActionResult> GetOrganizationSedesCoordinates(int organizacionId)
+        [HttpGet("{organizationId}")]
+        public async Task<IActionResult> GetOrganizationHeadquartersCoordinates(int organizationId)
         {
-            var sedes = await _sedeService.GetSedesByOrganizacionIdAsync(organizacionId);
+            var sedes = await _headquartersService.GetHeadquartersByOrganizationIdAsync(organizationId);
             return Ok(sedes);
         }
     }

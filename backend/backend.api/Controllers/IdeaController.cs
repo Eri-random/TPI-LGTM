@@ -81,7 +81,7 @@ namespace backend.api.Controllers
                     Titulo = idea.Titulo,
                     UsuarioId = idea.UsuarioId,
                     Dificultad = idea.Dificultad,
-                    Pasos = idea.Pasos.Select(paso => new PasoDto
+                    Pasos = idea.Pasos.Select(paso => new StepDto
                     {
                         PasoNum = paso.PasoNum,
                         Descripcion = paso.Descripcion
@@ -104,7 +104,7 @@ namespace backend.api.Controllers
         {
             try
             {
-                var ideas = await _ideaService.GetIdeasByUsuarioIdAsync(usuarioId);
+                var ideas = await _ideaService.GetIdeasByUserIdAsync(usuarioId);
                 return Ok(ideas);
             }
             catch (Exception ex)
@@ -114,7 +114,7 @@ namespace backend.api.Controllers
             }
         }
 
-        [HttpGet("ver-detalle/{ideaId}")]
+        [HttpGet("see-detail/{ideaId}")]
         public async Task<IActionResult> GetIdeaById(int ideaId)
         {
             try

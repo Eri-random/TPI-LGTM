@@ -154,17 +154,17 @@ export class DashboardComponent implements OnInit {
   }
 
   handleNewDonation(data: any) {
-    if (data && data.nuevaDonacion && data.usuario) {
-      this.totalDonations += data.nuevaDonacion.Cantidad;
+    if (data && data.newDonation && data.user) {
+      this.totalDonations += data.newDonation.Cantidad;
       this.totalDonationsCount += 1;
       this.averageDonations = this.totalDonations / this.totalDonationsCount;
 
       let newDonation: UserData = {
-        name: data.usuario.Nombre,
-        telefono: data.usuario.Telefono,
-        email: data.usuario.Email,
-        producto: data.nuevaDonacion.Producto,
-        cantidad: data.nuevaDonacion.Cantidad,
+        name: data.user.Nombre,
+        telefono: data.user.Telefono,
+        email: data.user.Email,
+        producto: data.newDonation.Producto,
+        cantidad: data.newDonation.Cantidad,
         progress: '',
         highlight: true,
       };

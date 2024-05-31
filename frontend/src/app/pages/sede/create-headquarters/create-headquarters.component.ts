@@ -91,7 +91,7 @@ export class CreateHeadquartersComponent implements OnInit {
     this.headquartersService.postHeadquarters(headquartersToSave).subscribe(
       (data) => {
         console.log(headquartersToSave.length);
-        if(headquartersToSave.length >= 1){
+        if(headquartersToSave.length > 1){
           this.toast.success({
             detail: 'EXITO',
             summary: 'Sedes guardadas con éxito',

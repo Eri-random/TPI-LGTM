@@ -45,16 +45,16 @@ builder.Services.AddCors(option =>
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMapsService, MapsService>();
-builder.Services.AddScoped<IOrganizacionService, OrganizacionService>();
-builder.Services.AddScoped<IDonacionService,DonacionService>();
+builder.Services.AddScoped<IOrganizationService, OrganizationService>();
+builder.Services.AddScoped<IDonationService,DonationService>();
 builder.Services.AddHttpClient<IMapsService, MapsService>();
-builder.Services.AddScoped<IOrganizacionInfoService, InfoOrganizacionService>();
+builder.Services.AddScoped<IOrganizationInfoService, InfoOrganizationService>();
 builder.Services.AddScoped<IIdeaService, IdeaService>();
-builder.Services.AddScoped<ISedeService, SedeService>();
-builder.Services.AddScoped<INecesidadService, NecesidadService>();
-builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UsuarioRequestModel>());
+builder.Services.AddScoped<IHeadquartersService, headquartersService>();
+builder.Services.AddScoped<INeedService, NecesidadService>();
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UserRequestModel>());
 
 var groqApiConfig = builder.Configuration.GetSection("GroqApiConfig").Get<GroqApiConfig>();
 builder.Services.AddSingleton(groqApiConfig);

@@ -12,21 +12,21 @@ using System.Threading.Tasks;
 
 namespace backend.servicios.Servicios
 {
-    public class NecesidadService(ApplicationDbContext context, ILogger<NecesidadService> logger) : INecesidadService
+    public class NecesidadService(ApplicationDbContext context, ILogger<NecesidadService> logger) : INeedService
     {
         private readonly ApplicationDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
         private readonly ILogger<NecesidadService> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        public async Task<IEnumerable<NecesidadDto>> GetAllNecesidadAsync()
+        public async Task<IEnumerable<NeedDto>> GetAllNeedAsync()
         {
             try
             {
-                var necesidades = await _context.Necesidads.Include(u => u.Subcategoria)
-                    .Select(u => new NecesidadDto
+                var needs = await _context.Necesidads.Include(u => u.Subcategoria)
+                    .Select(u => new NeedDto
                     {
                         Id = u.Id,
                         Nombre = u.Nombre,
                         Icono = u.Icono,
-                        Subcategoria = u.Subcategoria.Select(p => new SubcategoriaDto
+                        Subcategoria = u.Subcategoria.Select(p => new SubcategoriesDto
                         {
                             Id = p.Id,
                             Nombre = p.Nombre,
@@ -35,7 +35,7 @@ namespace backend.servicios.Servicios
 
                     }).ToListAsync();
 
-                return necesidades;
+                return needs;
 
             }
             catch (Exception ex)

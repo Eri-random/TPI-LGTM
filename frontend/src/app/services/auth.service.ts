@@ -25,12 +25,12 @@ export class AuthService {
    }
 
    login(user:LoginForm){
-    const url = `${this.baseUrl}/Usuarios/authenticate`;
+    const url = `${this.baseUrl}/User/authenticate`;
     return this.http.post<LoginForm>(url,user);
    }
 
    createAccount(user:User){
-    const url = `${this.baseUrl}/Usuarios`;
+    const url = `${this.baseUrl}/User`;
     return this.http.post<User>(url,user);
   }
 

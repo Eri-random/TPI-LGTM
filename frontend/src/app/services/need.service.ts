@@ -12,7 +12,7 @@ export class NeedService {
   constructor(private http: HttpClient) { }
 
   getAllNeeds(){
-    const url = `${this.baseUrl}/Necesidad`;
+    const url = `${this.baseUrl}/Need`;
     return this.http.get<any>(url);
   }
 

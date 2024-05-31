@@ -24,7 +24,7 @@ export class ResponseIdeaService {
   }
 
   getIdea(ideaId: number): Observable<any> {
-    const url = `${this.baseUrl}/Idea/ver-detalle/${ideaId}`;
+    const url = `${this.baseUrl}/Idea/see-detail/${ideaId}`;
     return this.http.get<any>(url);
   }
 

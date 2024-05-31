@@ -26,7 +26,7 @@ export class DonationsService {
   constructor(private http: HttpClient) {}
 
   getDonationsByOrganizationId(id: number) {
-    const url = `${this.baseUrl}/Donacion/organizacion/${id}`;
+    const url = `${this.baseUrl}/Donation/organization/${id}`;
     return this.http.get<any>(url);
   }
 
