@@ -6,6 +6,8 @@ import ValidateForm from 'src/app/helpers/validateForm';
 import { AuthService } from 'src/app/services/auth.service';
 import { OrganizationService } from 'src/app/services/organization.service';
 import { HeadquartersService } from 'src/app/services/headquarters.service';
+import { Province, Provinces } from 'src/app/interfaces/provinces.interface';
+import { MapService } from 'src/app/services/map.service';
 
 @Component({
   selector: 'app-create-headquarters',
@@ -13,6 +15,7 @@ import { HeadquartersService } from 'src/app/services/headquarters.service';
   styleUrls: ['./create-headquarters.component.css']
 })
 export class CreateHeadquartersComponent implements OnInit {
+  provinces: Province[] = [];
   HeadquartersForm!: FormGroup;
   organization: any;
   cuit!: string;
@@ -23,6 +26,7 @@ export class CreateHeadquartersComponent implements OnInit {
     private route: ActivatedRoute,
     private organizationService: OrganizationService,
     private headquartersService: HeadquartersService,
+    private mapService:MapService,
     private authService: AuthService,
     private toast: NgToastService,
   ) {
@@ -48,6 +52,17 @@ export class CreateHeadquartersComponent implements OnInit {
         console.error(error);
       }
     );
+
+    this.mapService.getProvinces().subscribe(
+      (data:Provinces) => {
+        this.provinces = data.provincias
+          .filter((province:Province) => 
+            province.nombre.toLowerCase() !== 'ciudad autónoma de buenos aires' &&
+            province.nombre.toLowerCase() !== 'tierra del fuego, antártida e islas del atlántico sur'
+          )
+          .sort((a:Province, b:Province) => a.nombre.localeCompare(b.nombre));
+        }
+      );
   }
 
   get headquarters(): FormArray {

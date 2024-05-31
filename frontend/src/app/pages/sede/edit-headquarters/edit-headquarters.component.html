@@ -35,10 +35,20 @@
       </div>
       <div class="col-md-6">
         <label for="provincia" class="form-label required">Provincia</label>
-        <input type="text" class="form-control input-field" [class.error]="
-          headquartersForm.get('provincia')?.touched &&
-          headquartersForm.get('provincia')?.errors
-        " id="provincia" formControlName="provincia" placeholder="Ej: Buenos Aires" />
+        <select
+        class="form-control input-field"
+        [class.error]="
+        headquartersForm.get('provincia')?.dirty &&
+        headquartersForm.get('provincia')?.errors
+        "
+        id="provincia"
+        formControlName="provincia"
+      >
+        <option value="" selected disabled>Seleccionar Provincia</option>
+        <option *ngFor="let prov of provinces" [ngValue]="prov.nombre">
+          {{ prov.nombre }}
+        </option>
+      </select>
         <small *ngIf="
           headquartersForm.get('provincia')?.touched &&
           headquartersForm.get('provincia')?.errors

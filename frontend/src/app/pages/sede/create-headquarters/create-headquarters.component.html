@@ -81,17 +81,20 @@
           <label for="provincia{{ i }}" class="form-label required"
             >Provincia</label
           >
-          <input
-            type="text"
-            class="form-control input-field"
-            [class.error]="
-            headquarter.get('provincia')?.dirty &&
-            headquarter.get('provincia')?.errors
-            "
-            id="provincia{{ i }}"
-            formControlName="provincia"
-            placeholder="Ej: Buenos Aires"
-          />
+          <select
+          class="form-control input-field"
+          [class.error]="
+          headquarter.get('provincia')?.dirty &&
+          headquarter.get('provincia')?.errors
+          "
+          id="provincia{{ i }}"
+          formControlName="provincia"
+        >
+          <option value="" selected disabled>Seleccionar Provincia</option>
+          <option *ngFor="let prov of provinces" [ngValue]="prov.nombre">
+            {{ prov.nombre }}
+          </option>
+        </select>
           <small
             *ngIf="
             headquarter.get('provincia')?.dirty &&
