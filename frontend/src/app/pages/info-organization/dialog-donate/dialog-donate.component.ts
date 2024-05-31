@@ -43,7 +43,11 @@ export class DialogDonateComponent implements OnInit {
       cantidad: ['', [Validators.required]],
     });
 
-    this.email = this.authService.getEmailFromToken();
+    this.userStore.getEmailFromStore()
+    .subscribe(val =>{
+      const emailFromToken = this.authService.getEmailFromToken();
+      this.email = val || emailFromToken;
+    });
 
     this.userStore.getUserByEmail(this.email).subscribe((resp) => {
       this.user = resp;
