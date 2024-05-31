@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { OrganizacionService } from 'src/app/services/organizacion.service';
+import { OrganizationService } from 'src/app/services/organization.service';
 
 @Component({
   selector: 'app-donations',
@@ -14,7 +14,7 @@ export class DonationsComponent implements OnInit {
   showSeeMore: boolean = true;
 
   constructor(
-    private organizacionService: OrganizacionService,
+    private organizacionService: OrganizationService,
     private router: Router
   ) {}
 
@@ -24,7 +24,7 @@ export class DonationsComponent implements OnInit {
 
   uploadOrganizations(): void {
     this.organizacionService
-      .getOrganizacionesPaginadas(this.page, this.pageSize)
+      .getPaginatedOrganizations(this.page, this.pageSize)
       .subscribe((resp: any[]) => {
         this.organizations = this.organizations.concat(resp);
         if (resp.length < this.pageSize) {

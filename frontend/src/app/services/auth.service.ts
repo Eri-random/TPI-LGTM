@@ -29,7 +29,7 @@ export class AuthService {
     return this.http.post<LoginForm>(url,user);
    }
 
-   crearCuenta(user:User){
+   createAccount(user:User){
     const url = `${this.baseUrl}/Usuarios`;
     return this.http.post<User>(url,user);
   }
