@@ -75,13 +75,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-var webSocketOptions = new WebSocketOptions()
-{
-    KeepAliveInterval = TimeSpan.FromMinutes(2)
-};
+//var webSocketOptions = new WebSocketOptions()
+//{
+//    KeepAliveInterval = TimeSpan.FromMinutes(2)
+//};
 
 
-app.UseWebSockets(webSocketOptions);
+//app.UseWebSockets(webSocketOptions);
 
 app.UseHttpsRedirection();
 app.UseRouting();
@@ -93,22 +93,22 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-var webSockets = new ConcurrentDictionary<string, WebSocket>();
+//var webSockets = new ConcurrentDictionary<string, WebSocket>();
 
-app.Map("/ws", async context =>
-{
-    if (context.WebSockets.IsWebSocketRequest)
-    {
-        var webSocket = await context.WebSockets.AcceptWebSocketAsync();
-        var socketId = Guid.NewGuid().ToString();
-        WebSocketHandler.AddSocket(socketId, webSocket);
-        await WebSocketHandler.HandleWebSocketAsync(context, webSocket, socketId);
-    }
-    else
-    {
-        context.Response.StatusCode = 400;
-    }
-});
+//app.Map("/ws", async context =>
+//{
+//    if (context.WebSockets.IsWebSocketRequest)
+//    {
+//        var webSocket = await context.WebSockets.AcceptWebSocketAsync();
+//        var socketId = Guid.NewGuid().ToString();
+//        WebSocketHandler.AddSocket(socketId, webSocket);
+//        await WebSocketHandler.HandleWebSocketAsync(context, webSocket, socketId);
+//    }
+//    else
+//    {
+//        context.Response.StatusCode = 400;
+//    }
+//});
 
 app.Run();
 
