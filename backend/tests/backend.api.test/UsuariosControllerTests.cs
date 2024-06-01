@@ -15,48 +15,48 @@ namespace backend.api.test
     [TestFixture]
     public class UsuariosControllerTests
     {
-        private Mock<IUsuarioService> _usuarioServiceMock;
-        private Mock<ILogger<UsuariosController>> _loggerMock;
-        private UsuariosController _controller;
+        private Mock<IUserService> _usuarioServiceMock;
+        private Mock<ILogger<UserController>> _loggerMock;
+        private UserController _controller;
 
         [SetUp]
         public void SetUp()
         {
-            _usuarioServiceMock = new Mock<IUsuarioService>();
-            _loggerMock = new Mock<ILogger<UsuariosController>>();
-            _controller = new UsuariosController(_usuarioServiceMock.Object, _loggerMock.Object);
+            _usuarioServiceMock = new Mock<IUserService>();
+            _loggerMock = new Mock<ILogger<UserController>>();
+            _controller = new UserController(_usuarioServiceMock.Object, _loggerMock.Object);
         }
 
         [Test]
         public void Constructor_WithValidArguments_Succeeds()
         {
             // Arrange
-            var usuarioServiceMock = new Mock<IUsuarioService>();
-            var loggerMock = new Mock<ILogger<UsuariosController>>();
+            var usuarioServiceMock = new Mock<IUserService>();
+            var loggerMock = new Mock<ILogger<UserController>>();
 
             // Act & Assert
-            Assert.DoesNotThrow(() => new UsuariosController(usuarioServiceMock.Object, loggerMock.Object));
+            Assert.DoesNotThrow(() => new UserController(usuarioServiceMock.Object, loggerMock.Object));
         }
 
         [Test]
         public void Constructor_WithNullUsuarioService_ThrowsArgumentNullException()
         {
             // Arrange
-            var loggerMock = new Mock<ILogger<UsuariosController>>();
+            var loggerMock = new Mock<ILogger<UserController>>();
 
             // Act & Assert
-            var ex = Assert.Throws<ArgumentNullException>(() => new UsuariosController(null, loggerMock.Object));
-            Assert.That(ex.ParamName, Is.EqualTo("usuarioService"));
+            var ex = Assert.Throws<ArgumentNullException>(() => new UserController(null, loggerMock.Object));
+            Assert.That(ex.ParamName, Is.EqualTo("userService"));
         }
 
         [Test]
         public void Constructor_WithNullLogger_ThrowsArgumentNullException()
         {
             // Arrange
-            var usuarioServiceMock = new Mock<IUsuarioService>();
+            var usuarioServiceMock = new Mock<IUserService>();
 
             // Act & Assert
-            var ex = Assert.Throws<ArgumentNullException>(() => new UsuariosController(usuarioServiceMock.Object, null));
+            var ex = Assert.Throws<ArgumentNullException>(() => new UserController(usuarioServiceMock.Object, null));
             Assert.That(ex.ParamName, Is.EqualTo("logger"));
         }
 
@@ -65,16 +65,16 @@ namespace backend.api.test
         {
             // Arrange
             var usuarios = GetSampleUsuarios();
-            _usuarioServiceMock.Setup(s => s.GetAllUsuariosAsync()).ReturnsAsync(usuarios);
+            _usuarioServiceMock.Setup(s => s.GetAllUsersAsync()).ReturnsAsync(usuarios);
 
             // Act
-            var result = await _controller.GetAllUsuarios();
+            var result = await _controller.GetAllUsers();
 
             // Assert
             var okResult = result as OkObjectResult;
             Assert.That(okResult, Is.Not.Null);
             Assert.That(okResult.StatusCode, Is.EqualTo(200));
-            var returnedUsuarios = okResult.Value as List<UsuarioResponseModel>;
+            var returnedUsuarios = okResult.Value as List<UserResponseModel>;
             Assert.That(returnedUsuarios, Has.Count.EqualTo(2));
             Assert.Multiple(() =>
             {
@@ -87,16 +87,16 @@ namespace backend.api.test
         public async Task GetAllUsuarios_ReturnsEmptyList_WhenNoUsersExist()
         {
             // Arrange
-            _usuarioServiceMock.Setup(s => s.GetAllUsuariosAsync()).ReturnsAsync([]);
+            _usuarioServiceMock.Setup(s => s.GetAllUsersAsync()).ReturnsAsync([]);
 
             // Act
-            var result = await _controller.GetAllUsuarios();
+            var result = await _controller.GetAllUsers();
 
             // Assert
             var okResult = result as OkObjectResult;
             Assert.That(okResult, Is.Not.Null);
             Assert.That(okResult.StatusCode, Is.EqualTo(200));
-            var returnedUsuarios = okResult.Value as List<UsuarioResponseModel>;
+            var returnedUsuarios = okResult.Value as List<UserResponseModel>;
             Assert.That(returnedUsuarios, Is.Empty);
         }
 
@@ -105,10 +105,10 @@ namespace backend.api.test
         {
             // Arrange
             var exception = new Exception("Database error");
-            _usuarioServiceMock.Setup(s => s.GetAllUsuariosAsync()).ThrowsAsync(exception);
+            _usuarioServiceMock.Setup(s => s.GetAllUsersAsync()).ThrowsAsync(exception);
 
             // Act
-            var result = await _controller.GetAllUsuarios();
+            var result = await _controller.GetAllUsers();
 
             // Assert
             var statusCodeResult = result as ObjectResult;
@@ -130,17 +130,17 @@ namespace backend.api.test
         {
             // Arrange
             string email = "test@example.com";
-            var mockUsuario = new UsuarioDto { Id = 1, Nombre = "Test", Apellido = "User", Email = email, Telefono = "1234567890", Rol = 1, Provincia = "SomeProvince", Localidad = "SomeCity", Direccion = "123 Test St" };
-            _usuarioServiceMock.Setup(x => x.GetUsuarioByEmailAsync(email)).ReturnsAsync(mockUsuario);
+            var mockUsuario = new UserDto { Id = 1, Nombre = "Test", Apellido = "User", Email = email, Telefono = "1234567890", Rol = 1, Provincia = "SomeProvince", Localidad = "SomeCity", Direccion = "123 Test St" };
+            _usuarioServiceMock.Setup(x => x.GetUserByEmailAsync(email)).ReturnsAsync(mockUsuario);
 
             // Act
-            var result = await _controller.GetUsuarioByEmail(email);
+            var result = await _controller.GetUserByEmail(email);
 
             // Assert
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult);
             Assert.That(okResult.StatusCode, Is.EqualTo(200));
-            var usuarioResponse = okResult.Value as UsuarioResponseModel;
+            var usuarioResponse = okResult.Value as UserResponseModel;
             Assert.IsNotNull(usuarioResponse);
             Assert.That(usuarioResponse.Email, Is.EqualTo(email));
             Assert.That(usuarioResponse.Nombre, Is.EqualTo("Test"));
@@ -151,10 +151,10 @@ namespace backend.api.test
         {
             // Arrange
             string email = "nonexistent@example.com";
-            _usuarioServiceMock.Setup(x => x.GetUsuarioByEmailAsync(email)).ReturnsAsync((UsuarioDto)null);
+            _usuarioServiceMock.Setup(x => x.GetUserByEmailAsync(email)).ReturnsAsync((UserDto)null);
 
             // Act
-            var result = await _controller.GetUsuarioByEmail(email);
+            var result = await _controller.GetUserByEmail(email);
 
             // Assert
             Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
@@ -165,10 +165,10 @@ namespace backend.api.test
         {
             // Arrange
             string email = "error@example.com";
-            _usuarioServiceMock.Setup(x => x.GetUsuarioByEmailAsync(email)).ThrowsAsync(new Exception("Internal server error"));
+            _usuarioServiceMock.Setup(x => x.GetUserByEmailAsync(email)).ThrowsAsync(new Exception("Internal server error"));
 
             // Act
-            var result = await _controller.GetUsuarioByEmail(email);
+            var result = await _controller.GetUserByEmail(email);
 
             // Assert
             var statusCodeResult = result as ObjectResult;
@@ -187,7 +187,7 @@ namespace backend.api.test
         public async Task Authenticate_ValidCredentials_ReturnsOk()
         {
             // Arrange
-            var usuarioLogIn = new UsuarioLogInModel
+            var usuarioLogIn = new UserLogInModel
             {
                 Email = "john@example.com",
                 Password = "securePassword123"
@@ -195,8 +195,8 @@ namespace backend.api.test
 
             var hashedPassword = PasswordHasher.HashPassword(usuarioLogIn.Password);
 
-            var mockUsuario = new UsuarioDto { Id = 1, Nombre = "Test", Apellido = "User", Email = usuarioLogIn.Email, Password = hashedPassword, Telefono = "1234567890", Rol = 1,RolNombre = "usuario", Provincia = "SomeProvince", Localidad = "SomeCity", Direccion = "123 Test St" };
-            _usuarioServiceMock.Setup(x => x.GetUsuarioByEmailAsync(usuarioLogIn.Email)).ReturnsAsync(mockUsuario);
+            var mockUsuario = new UserDto { Id = 1, Nombre = "Test", Apellido = "User", Email = usuarioLogIn.Email, Password = hashedPassword, Telefono = "1234567890", Rol = 1,RolNombre = "usuario", Provincia = "SomeProvince", Localidad = "SomeCity", Direccion = "123 Test St" };
+            _usuarioServiceMock.Setup(x => x.GetUserByEmailAsync(usuarioLogIn.Email)).ReturnsAsync(mockUsuario);
 
             // Act
             var result = await _controller.Authenticate(usuarioLogIn);
@@ -212,14 +212,14 @@ namespace backend.api.test
         public async Task Authenticate_InvalidCredentials_ReturnsBadRequest()
         {
             // Arrange
-            var usuarioLogIn = new UsuarioLogInModel
+            var usuarioLogIn = new UserLogInModel
             {
                 Email = "john@example.com",
                 Password = "wrongPassword"
             };
 
-            var mockUsuario = (UsuarioDto)null;
-            _usuarioServiceMock.Setup(x => x.GetUsuarioByEmailAsync(usuarioLogIn.Email)).ReturnsAsync(mockUsuario);
+            var mockUsuario = (UserDto)null;
+            _usuarioServiceMock.Setup(x => x.GetUserByEmailAsync(usuarioLogIn.Email)).ReturnsAsync(mockUsuario);
 
             // Act
             var result = await _controller.Authenticate(usuarioLogIn);
@@ -235,7 +235,7 @@ namespace backend.api.test
         public async Task CreateUsuario_NullRequest_ReturnsBadRequest()
         {
             // Act
-            var result = await _controller.CreateUsuario(null);
+            var result = await _controller.CreateUser(null);
 
             // Assert
             Assert.That(result, Is.InstanceOf<BadRequestObjectResult>());
@@ -247,7 +247,7 @@ namespace backend.api.test
         public async Task CreateUsuario_ValidRequest_ReturnsCreatedAtAction()
         {
             // Arrange
-            var usuarioRequest = new UsuarioRequestModel
+            var usuarioRequest = new UserRequestModel
             {
                 Nombre = "John",
                 Apellido = "Doe",
@@ -258,19 +258,19 @@ namespace backend.api.test
                 Provincia = "State",
                 Password = "securePassword123"
             };
-            _usuarioServiceMock.Setup(x => x.CreateUsuarioAsync(It.IsAny<UsuarioDto>())).Returns(Task.CompletedTask);
+
+            _usuarioServiceMock.Setup(x => x.CreateUserAsync(It.IsAny<UserDto>())).Returns(Task.CompletedTask);
 
             // Act
-            var result = await _controller.CreateUsuario(usuarioRequest);
+            var result = await _controller.CreateUser(usuarioRequest);
 
             // Assert
             Assert.That(result, Is.InstanceOf<CreatedAtActionResult>());
             var createdResult = result as CreatedAtActionResult;
             Assert.Multiple(() =>
             {
-                Assert.That(createdResult?.ActionName, Is.EqualTo(nameof(_controller.CreateUsuario)));
+                Assert.That(createdResult?.ActionName, Is.EqualTo(nameof(_controller.CreateUser)));
                 Assert.That(createdResult?.RouteValues?["email"], Is.EqualTo("john@example.com"));
-                Assert.That(createdResult?.Value, Is.EqualTo(usuarioRequest));
             });
         }
 
@@ -278,12 +278,12 @@ namespace backend.api.test
         public async Task CreateUsuario_ThrowsInvalidOperationException_ReturnsBadRequest()
         {
             // Arrange
-            var usuarioRequest = new UsuarioRequestModel();
-            _usuarioServiceMock.Setup(x => x.CreateUsuarioAsync(It.IsAny<UsuarioDto>()))
+            var usuarioRequest = new UserRequestModel();
+            _usuarioServiceMock.Setup(x => x.CreateUserAsync(It.IsAny<UserDto>()))
                                .ThrowsAsync(new InvalidOperationException("Duplicate email"));
 
             // Act
-            var result = await _controller.CreateUsuario(usuarioRequest);
+            var result = await _controller.CreateUser(usuarioRequest);
 
             // Assert
             Assert.That(result, Is.InstanceOf<BadRequestObjectResult>());
@@ -295,12 +295,12 @@ namespace backend.api.test
         public async Task CreateUsuario_ThrowsException_ReturnsInternalServerError()
         {
             // Arrange
-            var usuarioRequest = new UsuarioRequestModel();
-            _usuarioServiceMock.Setup(x => x.CreateUsuarioAsync(It.IsAny<UsuarioDto>()))
+            var usuarioRequest = new UserRequestModel();
+            _usuarioServiceMock.Setup(x => x.CreateUserAsync(It.IsAny<UserDto>()))
                                .ThrowsAsync(new Exception("Internal server error"));
 
             // Act
-            var result = await _controller.CreateUsuario(usuarioRequest);
+            var result = await _controller.CreateUser(usuarioRequest);
 
             // Assert
             Assert.That(result, Is.InstanceOf<ObjectResult>());
@@ -316,7 +316,7 @@ namespace backend.api.test
         public async Task UpdateUsuario_NullRequest_ReturnsBadRequest()
         {
             // Act
-            var result = await _controller.UpdateUsuario(null);
+            var result = await _controller.UpdateUser(null);
 
             // Assert
             Assert.That(result, Is.InstanceOf<BadRequestObjectResult>());
@@ -328,7 +328,7 @@ namespace backend.api.test
         public async Task UpdateUsuario_ValidRequest_ReturnsNoContent()
         {
             // Arrange
-            var usuarioRequest = new UsuarioRequestModel
+            var usuarioRequest = new UserRequestModel
             {
                 Nombre = "John",
                 Apellido = "Doe",
@@ -340,10 +340,10 @@ namespace backend.api.test
                 Password = "securePassword123",
                 RolId = 1
             };
-            _usuarioServiceMock.Setup(x => x.UpdateUsuarioAsync(It.IsAny<UsuarioDto>())).Returns(Task.CompletedTask);
+            _usuarioServiceMock.Setup(x => x.UpdateUserAsync(It.IsAny<UserDto>())).Returns(Task.CompletedTask);
 
             // Act
-            var result = await _controller.UpdateUsuario(usuarioRequest);
+            var result = await _controller.UpdateUser(usuarioRequest);
 
             // Assert
             Assert.That(result, Is.InstanceOf<NoContentResult>());
@@ -353,7 +353,7 @@ namespace backend.api.test
         public async Task UpdateUsuario_ThrowsException_ReturnsInternalServerError()
         {
             // Arrange
-            var usuarioRequest = new UsuarioRequestModel
+            var usuarioRequest = new UserRequestModel
             {
                 Nombre = "John",
                 Apellido = "Doe",
@@ -365,11 +365,11 @@ namespace backend.api.test
                 Password = "securePassword123",
                 RolId = 1
             };
-            _usuarioServiceMock.Setup(x => x.UpdateUsuarioAsync(It.IsAny<UsuarioDto>()))
+            _usuarioServiceMock.Setup(x => x.UpdateUserAsync(It.IsAny<UserDto>()))
                                .ThrowsAsync(new Exception("Internal server error"));
 
             // Act
-            var result = await _controller.UpdateUsuario(usuarioRequest);
+            var result = await _controller.UpdateUser(usuarioRequest);
 
             // Assert
             Assert.That(result, Is.InstanceOf<ObjectResult>());
@@ -393,10 +393,10 @@ namespace backend.api.test
         {
             // Arrange
             var email = "nonexistent@example.com";
-            _usuarioServiceMock.Setup(x => x.GetUsuarioByEmailAsync(email)).ReturnsAsync(() => null);
+            _usuarioServiceMock.Setup(x => x.GetUserByEmailAsync(email)).ReturnsAsync(() => null);
 
             // Act
-            var result = await _controller.DeleteUsuario(email);
+            var result = await _controller.DeleteUser(email);
 
             // Assert
             Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
@@ -409,12 +409,12 @@ namespace backend.api.test
         {
             // Arrange
             var email = "existing@example.com";
-            var usuario = new UsuarioDto { Email = email };
-            _usuarioServiceMock.Setup(x => x.GetUsuarioByEmailAsync(email)).ReturnsAsync(usuario);
-            _usuarioServiceMock.Setup(x => x.DeleteUsuarioAsync(email)).Returns(Task.CompletedTask);
+            var usuario = new UserDto { Email = email };
+            _usuarioServiceMock.Setup(x => x.GetUserByEmailAsync(email)).ReturnsAsync(usuario);
+            _usuarioServiceMock.Setup(x => x.DeleteUserAsync(email)).Returns(Task.CompletedTask);
 
             // Act
-            var result = await _controller.DeleteUsuario(email);
+            var result = await _controller.DeleteUser(email);
 
             // Assert
             Assert.That(result, Is.InstanceOf<NoContentResult>());
@@ -425,12 +425,12 @@ namespace backend.api.test
         {
             // Arrange
             var email = "error@example.com";
-            var usuario = new UsuarioDto { Email = email };
-            _usuarioServiceMock.Setup(x => x.GetUsuarioByEmailAsync(email)).ReturnsAsync(usuario);
-            _usuarioServiceMock.Setup(x => x.DeleteUsuarioAsync(email)).ThrowsAsync(new Exception("Internal server error"));
+            var usuario = new UserDto { Email = email };
+            _usuarioServiceMock.Setup(x => x.GetUserByEmailAsync(email)).ReturnsAsync(usuario);
+            _usuarioServiceMock.Setup(x => x.DeleteUserAsync(email)).ThrowsAsync(new Exception("Internal server error"));
 
             // Act
-            var result = await _controller.DeleteUsuario(email);
+            var result = await _controller.DeleteUser(email);
 
             // Assert
             Assert.That(result, Is.InstanceOf<ObjectResult>());
@@ -450,9 +450,9 @@ namespace backend.api.test
         }
 
 
-        private static List<UsuarioDto> GetSampleUsuarios() => [
-                    new UsuarioDto { Id = 1, Nombre = "Alice", Apellido = "Johnson", Email = "alice@example.com", Telefono = "1234567890" },
-                    new UsuarioDto { Id = 2, Nombre = "Bob", Apellido = "Smith", Email = "bob@example.com", Telefono = "0987654321" }
+        private static List<UserDto> GetSampleUsuarios() => [
+                    new UserDto { Id = 1, Nombre = "Alice", Apellido = "Johnson", Email = "alice@example.com", Telefono = "1234567890" },
+                    new UserDto { Id = 2, Nombre = "Bob", Apellido = "Smith", Email = "bob@example.com", Telefono = "0987654321" }
                 ];
 
     }

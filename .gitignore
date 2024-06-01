@@ -106,7 +106,6 @@ Thumbs.db
 *.tgz
 
 # Package Lock files
-package-lock.json
 yarn.lock
 
 # Logs

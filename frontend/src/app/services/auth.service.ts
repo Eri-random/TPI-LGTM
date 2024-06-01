@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../models/user';
-import { environments } from '../environments/environments';
+import { environments } from '../../environments/environments';
 import { LoginForm } from '../interfaces/login-form.interface';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
@@ -25,12 +25,12 @@ export class AuthService {
    }
 
    login(user:LoginForm){
-    const url = `${this.baseUrl}/Usuarios/authenticate`;
+    const url = `${this.baseUrl}/User/authenticate`;
     return this.http.post<LoginForm>(url,user);
    }
 
-   crearCuenta(user:User){
-    const url = `${this.baseUrl}/Usuarios`;
+   createAccount(user:User){
+    const url = `${this.baseUrl}/User`;
     return this.http.post<User>(url,user);
   }
 

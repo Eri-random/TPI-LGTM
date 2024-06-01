@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { environments } from '../environments/environments';
+import { environments } from '../../environments/environments';
 import { HttpClient } from '@angular/common/http';
 import { Idea } from '../models/idea';
 import { Observable } from 'rxjs';
@@ -24,7 +24,7 @@ export class ResponseIdeaService {
   }
 
   getIdea(ideaId: number): Observable<any> {
-    const url = `${this.baseUrl}/Idea/ver-detalle/${ideaId}`;
+    const url = `${this.baseUrl}/Idea/see-detail/${ideaId}`;
     return this.http.get<any>(url);
   }
 

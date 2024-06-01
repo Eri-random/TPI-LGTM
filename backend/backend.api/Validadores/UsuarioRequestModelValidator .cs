@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace backend.api.Validadores
 {
-    public class UsuarioRequestModelValidator : AbstractValidator<UsuarioRequestModel>
+    public class UsuarioRequestModelValidator : AbstractValidator<UserRequestModel>
     {
         public UsuarioRequestModelValidator()
         {

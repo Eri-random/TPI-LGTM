@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environments } from '../environments/environments';
-import { Provincias } from '../interfaces/provincias.interface';
+import { environments } from '../../environments/environments';
+import { Provinces } from '../interfaces/provinces.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -16,17 +16,17 @@ export class MapService {
     return this.http.get<any[]>(url);
   }
 
-  getOrganizationSedes(organizacionId: number) {
+  getOrganizationHeadquarters(organizacionId: number) {
     const url = `${this.baseUrl}/Maps/${organizacionId}`;
     return this.http.get<any[]>(url).toPromise();
   }
 
-  getPronvincias() {
+  getProvinces() {
     const url = 'https://apis.datos.gob.ar/georef/api/provincias';
-    return this.http.get<Provincias>(url);
+    return this.http.get<Provinces>(url);
   }
 
-  async getPoligonosProvincias() {
+  async getPolygonosProvinces() {
     const response = await fetch('assets/ProvinciasArgentina.geojson');
     return await response.json();
   }

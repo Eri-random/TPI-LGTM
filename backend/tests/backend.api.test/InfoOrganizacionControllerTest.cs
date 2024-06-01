@@ -18,19 +18,19 @@ namespace backend.api.test
 
     public class InfoOrganizacionControllerTest
     {
-        private Mock<IOrganizacionService> _organizacionService;
-        private Mock<IOrganizacionInfoService> _organizacionInfoService;
-        private Mock<ILogger<UsuariosController>> _logger;
-        private InfoOrganizacionController _controller;
+        private Mock<IOrganizationService> _organizacionService;
+        private Mock<IOrganizationInfoService> _organizacionInfoService;
+        private Mock<ILogger<UserController>> _logger;
+        private InfoOrganizationController _controller;
 
         [SetUp]
 
         public void SetUp()
         {
-            _organizacionService = new Mock<IOrganizacionService>();
-            _organizacionInfoService = new Mock<IOrganizacionInfoService>();
-            _logger = new Mock<ILogger<UsuariosController>>();
-            _controller = new InfoOrganizacionController(_organizacionService.Object, _organizacionInfoService.Object, _logger.Object);
+            _organizacionService = new Mock<IOrganizationService>();
+            _organizacionInfoService = new Mock<IOrganizationInfoService>();
+            _logger = new Mock<ILogger<UserController>>();
+            _controller = new InfoOrganizationController(_organizacionService.Object, _organizacionInfoService.Object, _logger.Object);
         }
 
         [Test]
@@ -52,13 +52,13 @@ namespace backend.api.test
         public async Task Details_WhenCalled_ReturnsNotFound()
         {
             // Arrange
-            var infoOrganizacionRequest = new InfoOrganizacionRequest
+            var infoOrganizacionRequest = new InfoOrganizationRequest
             {
                 OrganizacionId = 1
             };
 
 
-            _organizacionService.Setup(x => x.GetOrganizacionByIdAsync(infoOrganizacionRequest.OrganizacionId))
+            _organizacionService.Setup(x => x.GetOrganizationByIdAsync(infoOrganizacionRequest.OrganizacionId))
                 .ReturnsAsync(() => null);
 
             // Act
@@ -76,7 +76,7 @@ namespace backend.api.test
         public async Task Details_WithValidInput_ReturnsCreatedAtActionResult()
         {
             // Arrange
-            var infoOrganizacionRequest = new InfoOrganizacionRequest
+            var infoOrganizacionRequest = new InfoOrganizationRequest
             {
                 OrganizacionId = 1,
                 Organizacion = "Organizacion",
@@ -85,7 +85,7 @@ namespace backend.api.test
                 File = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("file content")), 0, "file content".Length, "file", "test.jpg")
             };
 
-            var organizacion = new OrganizacionDto
+            var organizacion = new OrganizationDto
             {
                 Nombre = "Organizacion",
                 Direccion = "Calle 123",
@@ -94,10 +94,10 @@ namespace backend.api.test
                 Telefono = "123456789"
             };
 
-            _organizacionService.Setup(x => x.GetOrganizacionByIdAsync(infoOrganizacionRequest.OrganizacionId))
+            _organizacionService.Setup(x => x.GetOrganizationByIdAsync(infoOrganizacionRequest.OrganizacionId))
                 .ReturnsAsync(organizacion);
 
-            _organizacionInfoService.Setup(x => x.SaveDataInfoOrganizacion(It.IsAny<InfoOrganizacionDto>()))
+            _organizacionInfoService.Setup(x => x.SaveDataInfoOrganization(It.IsAny<InfoOrganizationDto>()))
                 .Returns(Task.CompletedTask);
 
             // Act
@@ -111,8 +111,8 @@ namespace backend.api.test
             Assert.AreEqual("Details", createdResult.ActionName);
             Assert.AreEqual(1, createdResult.RouteValues["id"]);
             Assert.AreEqual(infoOrganizacionRequest.OrganizacionId, createdResult.RouteValues["id"]);
-            Assert.AreEqual(infoOrganizacionRequest.OrganizacionId, (createdResult.Value as InfoOrganizacionDto).OrganizacionId);
-            Assert.AreEqual(infoOrganizacionRequest.Organizacion, (createdResult.Value as InfoOrganizacionDto).Organizacion);
+            Assert.AreEqual(infoOrganizacionRequest.OrganizacionId, (createdResult.Value as InfoOrganizationDto).OrganizacionId);
+            Assert.AreEqual(infoOrganizacionRequest.Organizacion, (createdResult.Value as InfoOrganizationDto).Organizacion);
         }
 
 
@@ -120,7 +120,7 @@ namespace backend.api.test
         public async Task Update_WhenCalled_ReturnsCreatedAtActionResult()
         {
             // Arrange
-            var infoOrganizacionRequest = new InfoOrganizacionRequest
+            var infoOrganizacionRequest = new InfoOrganizationRequest
             {
                 OrganizacionId = 1,
                 Organizacion = "Organizacion",
@@ -129,24 +129,24 @@ namespace backend.api.test
                 File = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("file content")), 0, "file content".Length, "file", "test.jpg")
             };
 
-            var organizacion = new OrganizacionDto
+            var organizacion = new OrganizationDto
             {
                 Nombre = "Organizacion",
                 Direccion = "Calle 123",
                 Localidad = "Localidad 1",
                 Provincia = "Provincia 1",
                 Telefono = "123456789",
-                InfoOrganizacion = new InfoOrganizacionDto
+                InfoOrganizacion = new InfoOrganizationDto
                 {
                     Img = "http://localhost:5203/images/old_image.jpg"
                 }
             };
 
 
-            _organizacionService.Setup(x => x.GetOrganizacionByIdAsync(infoOrganizacionRequest.OrganizacionId))
+            _organizacionService.Setup(x => x.GetOrganizationByIdAsync(infoOrganizacionRequest.OrganizacionId))
                 .ReturnsAsync(organizacion);
 
-            _organizacionInfoService.Setup(x => x.UpdateInfoOrganizacionAsync(It.IsAny<InfoOrganizacionDto>()))
+            _organizacionInfoService.Setup(x => x.UpdateInfoOrganizationAsync(It.IsAny<InfoOrganizationDto>()))
                 .Returns(Task.CompletedTask);
 
 
@@ -161,7 +161,7 @@ namespace backend.api.test
             Assert.AreEqual("Update", createdResult.ActionName);
             Assert.AreEqual(infoOrganizacionRequest.OrganizacionId, createdResult.RouteValues["id"]);
 
-            var returnedValue = createdResult.Value as InfoOrganizacionDto;
+            var returnedValue = createdResult.Value as InfoOrganizationDto;
             Assert.IsNotNull(returnedValue);
             Assert.AreEqual(infoOrganizacionRequest.OrganizacionId, returnedValue.OrganizacionId);
             Assert.AreEqual(infoOrganizacionRequest.Organizacion, returnedValue.Organizacion);
@@ -174,7 +174,7 @@ namespace backend.api.test
         public async Task Update_WhenCalled_ReturnsBadRequest()
         {
             // Arrange
-            var infoOrganizacionRequest = new InfoOrganizacionRequest
+            var infoOrganizacionRequest = new InfoOrganizationRequest
             {
                 OrganizacionId = 1,
                 Organizacion = "Organizacion",
@@ -183,7 +183,7 @@ namespace backend.api.test
                 File = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("file content")), 0, "file content".Length, "file", "test.jpg")
             };
 
-            var organizacion = new OrganizacionDto
+            var organizacion = new OrganizationDto
             {
                 Nombre = "Organizacion",
                 Direccion = "Calle 123",
@@ -192,10 +192,10 @@ namespace backend.api.test
                 Telefono = "123456789"
             };
 
-            _organizacionService.Setup(x => x.GetOrganizacionByIdAsync(infoOrganizacionRequest.OrganizacionId))
+            _organizacionService.Setup(x => x.GetOrganizationByIdAsync(infoOrganizacionRequest.OrganizacionId))
                 .ReturnsAsync(() => null);
 
-            var infoOrganizacionDto = new InfoOrganizacionDto
+            var infoOrganizacionDto = new InfoOrganizationDto
             {
                 Organizacion = infoOrganizacionRequest.Organizacion,
                 DescripcionBreve = infoOrganizacionRequest.DescripcionBreve,
@@ -204,7 +204,7 @@ namespace backend.api.test
                 OrganizacionId = infoOrganizacionRequest.OrganizacionId
             };
 
-            _organizacionInfoService.Setup(x => x.UpdateInfoOrganizacionAsync(infoOrganizacionDto)).Returns(Task.CompletedTask);
+            _organizacionInfoService.Setup(x => x.UpdateInfoOrganizationAsync(infoOrganizacionDto)).Returns(Task.CompletedTask);
 
             // Act
             var result = await _controller.Update(infoOrganizacionRequest);

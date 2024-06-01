@@ -1,5 +1,5 @@
-/* You can add global styles to this file, and also import other style files 
-html, body { height: 100%; } */
+/* You can add global styles to this file, and also import other style files*/
+html, body { height: 100%; }
 body {font-family: "Fredoka", sans-serif !important; font-weight: 400 !important; } 
 :root{
     --color-primary: #8BC53F;
@@ -80,4 +80,34 @@ svg.text-primary .color-background {
     height: 48px;
     background-position: 50%;
     border-radius: .75rem;
+}
+
+.info-window{
+    padding: .5rem .5rem .5rem 0rem;
+}
+
+.info-window > h3{
+    color: var(--color-secondary);
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.info-window > p{
+    color: var(--color-dark-grey);
+    font-size: 14px;
+    text-transform: capitalize;
+    font-weight: 400;
+    margin-bottom: .5rem;
+}
+
+.gm-ui-hover-effect{
+    top: -3px !important;
+    right: -3px !important;
+    color: var(--color-dark-grey);
+    height: 30px !important;
+}
+
+.gm-style .gm-style-iw-c{
+    border-radius: 2px;
 }
