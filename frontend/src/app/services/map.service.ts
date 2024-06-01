@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environments } from '../environments/environments';
+import { environments } from '../../environments/environments';
 import { Provinces } from '../interfaces/provinces.interface';
 
 @Injectable({
