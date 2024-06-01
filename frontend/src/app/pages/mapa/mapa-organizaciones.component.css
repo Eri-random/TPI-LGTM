@@ -1,43 +1,4 @@
-.container-mapas-organizaciones{
-    max-width: 100%;
-    width: 100%;
-    height: 100%;
-}
-
-.section-mapa{
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-}
-
-.container-filtrado{
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    flex-direction: column;
-    padding: 2rem 3rem 2rem 1rem;
-}
-
-.select{
-    width: 100%;
-}
-
 #map{
-    height: 800px;
+    height: 650px;
     width: 100%;
-}
-
-@media (max-width: 768px){
-    .section-mapa{
-        flex-direction: column;
-    }
-
-    #map{
-        width: 96%;
-        margin: 0 auto;
-        margin-bottom: 1rem;
-    }
-
 }
