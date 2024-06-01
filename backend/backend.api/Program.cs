@@ -95,23 +95,21 @@ app.MapControllers();
 
 var webSockets = new ConcurrentDictionary<string, WebSocket>();
 
-app.UseEndpoints(endpoints =>
+app.Map("/ws", async context =>
 {
-    endpoints.MapControllers();
-    endpoints.Map("/ws", async context =>
+    if (context.WebSockets.IsWebSocketRequest)
     {
-        if (context.WebSockets.IsWebSocketRequest)
-        {
-            var webSocket = await context.WebSockets.AcceptWebSocketAsync();
-            var socketId = Guid.NewGuid().ToString();
-            WebSocketHandler.AddSocket(socketId, webSocket);
-            await WebSocketHandler.HandleWebSocketAsync(context, webSocket, socketId);
-        }
-        else
-        {
-            context.Response.StatusCode = 400;
-        }
-    });
+        var webSocket = await context.WebSockets.AcceptWebSocketAsync();
+        var socketId = Guid.NewGuid().ToString();
+        WebSocketHandler.AddSocket(socketId, webSocket);
+        await WebSocketHandler.HandleWebSocketAsync(context, webSocket, socketId);
+    }
+    else
+    {
+        context.Response.StatusCode = 400;
+    }
 });
 
 app.Run();
+
+
