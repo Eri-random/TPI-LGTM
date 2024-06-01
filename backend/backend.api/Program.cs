@@ -17,7 +17,7 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddJsonFile("appsettings.json");
+builder.Configuration.AddJsonFile("appsettings.json", optional: true);
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
