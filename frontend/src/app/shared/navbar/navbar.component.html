@@ -14,41 +14,41 @@
               </span>
             </button>
             <div class="collapse navbar-collapse pt-3 pb-3 py-lg-0 w-100 my-sm-0 mb-3" id="navigation">
-              <ul *ngIf="!isLoggedIn || (isLoggedIn && role == 'usuario')" class="navbar-nav navbar-nav-hover w-100">
-                <li class="nav-item dropdown dropdown-hover mx-2">
+              <ul *ngIf="!isLoggedIn || (isLoggedIn && role == 'usuario')" class="navbar-nav navbar-nav-hover w-100 gap-2">
+                <li class="nav-item dropdown dropdown-hover">
                   <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/generar-ideas">Generar ideas</a>
                 </li>
-                <li class="nav-item dropdown dropdown-hover mx-2">
+                <li class="nav-item dropdown dropdown-hover">
                   <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/donar">Donar</a>
                 </li>
-                <li class="nav-item dropdown dropdown-hover mx-2">
+                <li class="nav-item dropdown dropdown-hover">
                   <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/ubicaciones">Nuestra red</a>
                 </li>
               </ul>
               <ul *ngIf="role == 'organizacion' && isLoggedIn" class="navbar-nav navbar-nav-hover w-100">
-                <li class="nav-item dropdown dropdown-hover mx-2">
+                <li class="nav-item dropdown dropdown-hover">
                   <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/dashboard">Dashboard</a>
                 </li>
-                <li class="nav-item dropdown dropdown-hover mx-2">
+                <li class="nav-item dropdown dropdown-hover">
                   <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/mi-organizacion">Mi organización</a>
                 </li>
-                <li class="nav-item dropdown dropdown-hover mx-2">
+                <li class="nav-item dropdown dropdown-hover">
                   <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/necesidades">Necesidades</a>
                 </li>
-                <li class="nav-item dropdown dropdown-hover mx-2">
+                <li class="nav-item dropdown dropdown-hover">
                   <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/sedes">Mis sedes</a>
                 </li>
               </ul>
-              <ul class="navbar-nav navbar-nav-hover ms-lg-12 ps-lg-5">
+              <ul class="navbar-nav navbar-nav-hover">
                 <li *ngIf="!isLoggedIn" class="nav-item ms-lg-auto">
-                  <a class="btn btn-sm btn-outline-primary btn-round mb-0 me-1 mt-2 mt-md-0" routerLink="/login">
+                  <a class="btn btn-sm btn-outline-primary btn-round mb-0 me-1 mt-2 mt-md-0 d-inline-flex align-items-center gap-2" routerLink="/login">
                     <span class="fa fa-user"></span> Ingresar </a>
                 </li>
                 <li *ngIf="isLoggedIn" class="nav-item dropdown">
                   <a class="btn btn-sm btn-outline-primary mb-0 me-1 mt-2 mt-md-0 dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <span class="fa fa-user"></span> Hola, {{fullName}}
                   </a>
-                  <ul class="dropdown-menu">
+                  <ul class="dropdown-menu" style="overflow: hidden;">
                     <li>
                       <a class="dropdown-item" href="#">Mi Perfil</a>
                     </li>
