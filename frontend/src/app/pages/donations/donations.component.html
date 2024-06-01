@@ -1,40 +1,55 @@
-<div class="container mt-5">
-  <div class="d-flex justify-content-center pb-5">
-    <h1>Organizaciones <span id="beneficas">Benéficas</span></h1>
-  </div>
-  <div class="row">
-    <!-- comienzo -->
-    <div
-      *ngFor="let org of organizations"
-      class="col-lg-3 col-md-4 col-sm-6 col-xs-12"
-    >
-      <div class="titulo">
-        <div class="wrapper">
-          <div class="banner-img">
-            <img src="{{ org.infoOrganizacion.img }}" alt="{{ org.nombre }}" />
+<section>
+  <div class="page-header min-vh-100">
+    <div>
+      <img class="position-absolute fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/curved-images/curved8.jpg" alt="image">
+    </div>
+    <div class="container align-items-center ">
+      <div class="card d-flex blur justify-content-center shadow px-xs-0 px-sm-5 my-sm-0 my-sm-6 mt-7 mb-5">
+        <!-- <div class="card blur card-plain"> -->
+        <div class="col-8 text-center mx-auto pt-3">
+          <h1 class="pt-3">Organizaciones Benéficas</h1>
+        </div>
+        <div class="row pb-5">
+          <!-- comienzo -->
+          <div *ngFor="let org of organizations;" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-4 mb-md-0 mt-4">
+            <div class="card m-4 m-md-0 h-100">
+              <img class="card-img-top" src="{{org.infoOrganizacion.img}}" alt="{{ org.nombre }}">
+              <div class="position-relative" style="height: 50px;overflow: hidden;margin-top: -50px;z-index:2;position: relative;">
+                <div class="position-absolute w-100 top-0" style="z-index: 1;">
+                  <svg class="waves waves-sm" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 40" preserveAspectRatio="none" shape-rendering="auto">
+                    <defs>
+                      <path id="card-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"></path>
+                    </defs>
+                    <g class="moving-waves">
+                      <use xlink:href="#card-wave" x="48" y="-1" fill="rgba(255,255,255,0.30"></use>
+                      <use xlink:href="#card-wave" x="48" y="3" fill="rgba(255,255,255,0.35)"></use>
+                      <use xlink:href="#card-wave" x="48" y="5" fill="rgba(255,255,255,0.25)"></use>
+                      <use xlink:href="#card-wave" x="48" y="8" fill="rgba(255,255,255,0.20)"></use>
+                      <use xlink:href="#card-wave" x="48" y="13" fill="rgba(255,255,255,0.15)"></use>
+                      <use xlink:href="#card-wave" x="48" y="16" fill="rgba(255,255,255,0.99)"></use>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+              <div class="card-body pb-0">
+                <h4>
+                  {{org.nombre}}
+                </h4>
+                <p>
+                  {{org.infoOrganizacion.descripcionBreve}}
+                </p>
+              </div>
+              <div class="d-flex justify-content-center">
+                <button (click)="seeDetail(org)" class="btn bg-gradient-primary mb-4">Ver Más</button>
+              </div>
+            </div>
           </div>
-          <div class="texto">
-            <h4 class="card-title">{{ org.nombre }}</h4>
-            <br />
-            <p class="card-text">
-              {{ org.infoOrganizacion.descripcionBreve }}
-            </p>
-          </div>
-          <div class="d-flex justify-content-center btnFooter">
-            <button
-              (click)="seeDetail(org)"
-              class="btn py-2 btn-block"
-              id="btnMasInfo"
-            >
-              Ver Más
-            </button>
-          </div>
+          <!-- fin -->
+        </div>
+        <div class="d-flex justify-content-center" *ngIf="showSeeMore">
+          <button (click)="loadMore()" class="btn btn-primary">Ver más</button>
         </div>
       </div>
     </div>
-    <!-- fin -->
   </div>
-  <div class="d-flex justify-content-center" *ngIf="showSeeMore">
-    <button (click)="loadMore()" class="btn btn-primary">Ver más</button>
-  </div>
-</div>
+</section>
