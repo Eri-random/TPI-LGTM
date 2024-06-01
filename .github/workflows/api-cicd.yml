@@ -46,8 +46,11 @@ jobs:
     needs: build
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+    - name: Download Build Artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: published-api
+        path: ./backend/bin/Release/net8.0/publish
 
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v2
