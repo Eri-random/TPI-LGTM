@@ -1,7 +1,6 @@
 using backend.api;
 using backend.api.Models;
 using backend.data.DataContext;
-using backend.data.Models;
 using backend.servicios.Config;
 using backend.servicios.Interfaces;
 using backend.servicios.Servicios;
@@ -10,10 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.ML;
 using System.Collections.Concurrent;
 using System.Net.WebSockets;
-using System.Text;
-using System.Text.Json;
 using System.Text.Json.Serialization;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
