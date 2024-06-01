@@ -272,6 +272,7 @@ namespace backend.data.DataContext
 
             modelBuilder.Entity<Usuario>(entity =>
             {
+<<<<<<< HEAD
                 entity.HasKey(e => e.Id).HasName("usuario_pkey");
 
                 entity.ToTable("usuario");
@@ -308,6 +309,35 @@ namespace backend.data.DataContext
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("usuario_rol_id_fkey");
             });
+=======
+                entity.ToTable("usuario");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id");
+                entity.Property(e => e.Nombre)
+                    .HasColumnName("nombre");
+                entity.Property(e => e.RolId)
+                    .HasColumnName("rol_id");
+                entity.Property(e => e.Telefono)
+                    .HasColumnName("telefono");
+                entity.Property(e => e.Direccion)
+                    .HasColumnName("direccion");
+                entity.Property(e => e.Localidad)
+                    .HasColumnName("localidad");
+                entity.Property(e => e.Provincia)
+                    .HasColumnName("provincia");
+                entity.Property(e => e.Apellido)
+                    .HasColumnName("apellido");
+                entity.Property(e => e.Email)
+                    .HasColumnName("email");
+                entity.Property(e => e.Contrasena)
+                    .HasColumnName("contrasena");
+            });
+            modelBuilder.Entity<Usuario>()
+                .HasOne(u => u.Rol)
+                .WithMany(r => r.Usuarios)
+                .HasForeignKey(u => u.RolId);
+>>>>>>> origin/main
         }
     }
 }
