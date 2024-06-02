@@ -206,16 +206,50 @@ namespace backend.servicios.Servicios
         public async Task<List<SubcategoriesDto>> GetAssignedSubcategoriesAsync(int organizationId)
         {
             var subcategories = await _context.Subcategoria
+       .Where(s => s.Organizacions.Any(o => o.Id == organizationId))
+       .Select(s => new SubcategoriesDto
+       {
+           Id = s.Id,
+           Nombre = s.Nombre,
+           NecesidadId = s.NecesidadId
+       })
+       .ToListAsync();
+
+            return subcategories;
+        }
+
+        public async Task<List<NeedDto>> GetAssignedSubcategoriesGroupedAsync(int organizationId)
+        {
+            var subcategories = await _context.Subcategoria
                 .Where(s => s.Organizacions.Any(o => o.Id == organizationId))
                 .Select(s => new SubcategoriesDto
                 {
                     Id = s.Id,
                     Nombre = s.Nombre,
-                    NecesidadId = s.NecesidadId
+                    NecesidadId = s.NecesidadId,
+                    NecesidadNombre = s.Necesidad.Nombre,
+                    NecesidadIcono = s.Necesidad.Icono
                 })
                 .ToListAsync();
 
-            return subcategories;
+            var groupedSubcategories = subcategories
+                .GroupBy(s => new { s.NecesidadId, s.NecesidadNombre, s.NecesidadIcono })
+                .Select(g => new NeedDto
+                {
+                    Id = g.Key.NecesidadId,
+                    Nombre = g.Key.NecesidadNombre,
+                    Icono = g.Key.NecesidadIcono,
+                    Subcategoria = g.Select(sub => new SubcategoriesDto
+                    {
+                        Id = sub.Id,
+                        Nombre = sub.Nombre,
+                        NecesidadId = sub.NecesidadId
+                    }).ToList()
+                })
+                .ToList();
+
+            return groupedSubcategories;
         }
+
     }
 }
