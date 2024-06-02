@@ -13,7 +13,7 @@
           <h1>Organización <span class="text-gradient text-secondary">{{ orgName }}</span>
           </h1>
         </div>
-        <div *ngIf="!existDonations" class="col-8 text-center mx-auto">
+        <div *ngIf="!existDonations" class="col-8 pt-3 text-center mx-auto">
           <h1>Aún no has recibido donaciones</h1>
           <div class="card-body">
             <div class="row">
@@ -23,7 +23,7 @@
               </div>
             </div>
             <div class="text-center justify-content-center align-items-center">
-              <button routerLink="/mi-organizacion" class="btn btn-lg bg-gradient-primary mt-4 mb-4">Mi Organización</button>
+              <button routerLink="/mi-organizacion" class="btn btn-lg bg-gradient-primary mt-4">Mi Organización</button>
             </div>
           </div>
         </div>
@@ -90,9 +90,8 @@
           </div>
         </div>
 
-        <hr class="horizontal dark">
-
         <div *ngIf="existDonations" class="container mb-5">
+          <hr class="horizontal dark">
           <div class="col-8 text-center mx-auto pt-3">
             <h3>Donaciones</h3>
           </div>
