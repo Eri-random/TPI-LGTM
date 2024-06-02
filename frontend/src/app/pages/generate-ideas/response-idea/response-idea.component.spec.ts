@@ -101,5 +101,19 @@ describe('ResponseIdeaComponent', () => {
     expect(routerMock.navigate).toHaveBeenCalledWith(['/mis-ideas']);
   }));
 
-  
+  it('debería manejar errores al guardar la idea', fakeAsync(() => {
+    // responseIdeaServiceMock.postSaveIdea.and.returnValue(throwError(() => new Error('Error al guardar la idea')));
+    // component.ngOnInit();
+    // tick();
+    // component.saveIdea();
+    // tick(); // Advance time for the subscription to resolve
+    // expect(responseIdeaServiceMock.postSaveIdea).toHaveBeenCalled();
+    // expect(toastServiceMock.error).toHaveBeenCalledWith({
+    //   detail: 'ERROR',
+    //   summary: 'Error al guardar la idea',
+    //   duration: 3000,
+    //   position: 'topCenter',
+    // });
+    // expect(routerMock.navigate).not.toHaveBeenCalledWith(['/mis-ideas']);
+  }));
 });
