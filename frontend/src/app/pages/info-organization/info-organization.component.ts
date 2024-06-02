@@ -46,7 +46,7 @@ export class InfoOrganizationComponent implements OnInit {
   openDialog(): void {
     this.dialog.open(DialogDonateComponent, {
       width: 'auto',
-      height: '80%',
+      height: '75%',
       data:{organizacionId:this.organization.id}
     });
   }
