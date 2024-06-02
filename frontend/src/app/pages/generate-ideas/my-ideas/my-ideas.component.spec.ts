@@ -48,7 +48,7 @@ describe('MyIdeasComponent', () => {
   });
 
   it('debería inicializar y cargar datos', () => {
-    const mockEmail = 'test@example.com';
+    const mockEmail = 'test@ejemplo.com';
     const mockUser = { id: 1 };
     const mockIdeas = [{ id: 1, title: 'Idea 1' }, { id: 2, title: 'Idea 2' }];
 
