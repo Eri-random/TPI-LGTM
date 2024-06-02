@@ -91,28 +91,28 @@
   align-items: center;
   height: 100vh;
   /* Altura completa de la ventana */
-  /* background-color: rgba(255, 255, 255, 0.8); */
+  background-color: rgba(255, 255, 255, 0.8);
   /* Fondo semitransparente */
-  /* position: fixed;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 9999; */
+  z-index: 9999; 
   /* Asegura que esté encima de otros elementos */
-/* } */
+} 
 
-/* .spinner {
-  border: 16px solid #f3f3f3; */
+.spinner {
+  border: 16px solid #f3f3f3; 
   /* Color de fondo */
-  /* border-top: 16px solid var(--color-primary); */
+  border-top: 16px solid var(--color-primary); 
   /* Color del spinner */
-  /* border-radius: 50%; */
-  /* width: 120px;
+  border-radius: 50%; 
+   width: 120px;
   height: 120px;
-  animation: spin 2s linear infinite; */
-/* } */
+  animation: spin 2s linear infinite;
+} 
 
-/* @keyframes spin {
+@keyframes spin {
   0% {
     transform: rotate(0deg);
   }
