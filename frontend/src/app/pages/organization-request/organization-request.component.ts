@@ -34,19 +34,18 @@ export class OrganizationRequestComponent implements OnInit {
       this.cuit = val || cuitFromToken;
     });
 
-    this.loadForm();
-
     this.organizationService.getOrganizationByCuit(this.cuit).subscribe((rep) => {
       this.id = rep.id;
-      this.loadNeeds();
+      this.loadForm();
     });
 
   }
 
+
   loadForm() {
     this.needsService.getAllNeeds().subscribe((resp) => {
       this.needs = resp;
-
+  
       // Crear los grupos de formularios dinámicamente
       this.needs.forEach((need: any) => {
         const formGroup = this._formBuilder.group({});
@@ -55,21 +54,21 @@ export class OrganizationRequestComponent implements OnInit {
         });
         this.formGroups[need.nombre] = formGroup; // Asigna el FormGroup a una propiedad del componente
       });
-
-      setTimeout(() => {
-        this.loading = false; 
-      }, 1000);
-    });
-  }
-
-  loadNeeds(): void {
-    this.organizationService.getAssignedSubcategories(this.id).subscribe((assigned) => {
-      this.needs.forEach((need: any) => {
-        const formGroup = this.formGroups[need.nombre];
-        need.subcategoria.forEach((sub: any) => {
-          const isChecked = assigned.some(assign => assign.id === sub.id);
-          formGroup.get(sub.nombre)?.setValue(isChecked); // Marcar las subcategorías asignadas
+  
+      // Obtener subcategorías asignadas a la organización
+      this.organizationService.getAssignedSubcategories(this.id).subscribe((assigned) => {
+        this.needs.forEach((need: any) => {
+          const formGroup = this.formGroups[need.nombre];
+          need.subcategoria.forEach((sub: any) => {
+            const isChecked = assigned.some(assign => assign.id === sub.id);
+            formGroup.get(sub.nombre)?.setValue(isChecked); // Marcar las subcategorías asignadas
+          });
         });
+  
+        // Desactivar el estado de carga
+        setTimeout(() => {
+          this.loading = false; 
+        }, 1000);
       });
     });
   }
