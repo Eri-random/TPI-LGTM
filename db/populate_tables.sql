@@ -31,5 +31,11 @@ VALUES ('Camisetas', 1),
 ('Peluches',3),
 ('Ropa',4),
 ('Juguetes de tela',4),
-('Camas',4);
+('Camas',4),
+('Fundas para Almohadones',5),
+('Alfombras',5),
+('Manteles',5),
+('Mochilas',6),
+('Bufandas',6),
+('Guantes',6);
 
