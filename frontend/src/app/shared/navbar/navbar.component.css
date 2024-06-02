@@ -1,22 +1,12 @@
-.navbar-toggler{
-    border: none;
+.navbar {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
 }
 
-.navbar-toggler-icon{
-    width: 1em;
-    height: 1em;
+.navbar-toggler {
+    border: none !important;
 }
 
-.navbar-toggler:focus {
-    text-decoration: none;
-    outline: none;
-    box-shadow: none;
-}
-
-li{
-    cursor: pointer;
-}
-
-.navbar-nav:last-child{
-    margin-right: 4rem;
+.blur.blur-rounded {
+    border-radius: 1rem;
 }
