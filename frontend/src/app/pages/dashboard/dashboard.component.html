@@ -225,15 +225,21 @@
           </tr>
         </table>
       </div>
+      <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      aria-label="Select page of periodic elements"
+    >
+    </mat-paginator>
     </div>
   </div>
 </div>
 
-<div *ngIf="existDonations">
+<!-- <div *ngIf="existDonations">
   <mat-paginator
     [pageSizeOptions]="[5, 10, 20]"
     showFirstLastButtons
     aria-label="Select page of periodic elements"
   >
   </mat-paginator>
-</div>
+</div> -->
