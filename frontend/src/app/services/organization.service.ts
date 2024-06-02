@@ -56,6 +56,11 @@ export class OrganizationService {
     return this.http.post(url, subcategories);
   }
 
+  getGroupedSubcategories(organizationId:number){
+    const url = `${this.baseUrl}/Organization/${organizationId}/grouped-subcategories`
+    return this.http.get(url);
+  }
+
   public getCuitFromStore(){
     return this.cuit$.asObservable();
   }

@@ -15,5 +15,9 @@ namespace backend.servicios.DTOs
 
         public int NecesidadId { get; set; }
 
+        public string NecesidadNombre { get; set; }
+
+        public string NecesidadIcono { get; set; }
+
     }
 }
