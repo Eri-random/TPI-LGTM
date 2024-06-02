@@ -1,91 +1,100 @@
-<div *ngIf="!isLogged" class="container">
-    <div class="row justify-content-center align-items-center">
-        <div class="col-md-6 col-12 col-lg-5">
-            <div class="panel bg-white">
-                <div class="panel-body">
-
-                    <div class="pt-5">
-                        <h1 class="primerTitulo">¡Reciclar telas <br>
-                            nunca fué <br>
-                            <span class="tanFacil">
-                                tan fácil!
-                            </span>
-                        </h1>
-                    </div>
-                    <div class="pt-5">
-                        <h5>Para poder acceder a la herramienta de generación de ideas, tenés que iniciar sesión
-                            primero.</h5>
-                    </div>
-                    <div class="d-flex justify-content-center pt-5">
-                        <button routerLink="/login" class="btn btn-secondary py-2 btn-block w-50" id="btnIngresar">Ingresar</button>
-                    </div>
-                </div>
+<section *ngIf="!isLogged">
+    <div class="page-header min-vh-100">
+      <div class="container">
+        <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-8 mb-5 ">
+          
+            <div class="col-8 text-center mx-auto">
+                <h1 class="pt-3">¡Reciclar telas nunca fue <span class="text-gradient text-secondary">tan fácil</span>!</h1>   
+              </div>
+          
+          <div class="card-body">
+            <div class="row">
+              <div class="col text-center justify-content-center">
+                <p class="lead mt-3">Para poder acceder a la herramienta de generación de ideas, tenés que iniciar sesión primero.</p>
+              </div>
             </div>
+            <div class="text-center justify-content-center align-items-center">
+            <button routerLink="/login" class="btn btn-lg bg-gradient-primary mt-4 mb-4">Ingresar</button>
+          </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
+</section> 
 
-<br>
-<div *ngIf="isLogged" class="container pt-5 pb-5">
-    <div class="d-flex justify-content-center pb-5">
-        <h1>Transformá Retazos de Tela con <span id="ia">IA</span></h1>
+<!-- <section *ngIf="isLogged"> -->
+
+<section *ngIf="isLogged">
+  <div class="page-header min-vh-100">
+    <div>
+      <img class="position-absolute fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/curved-images/curved8.jpg" alt="image">
     </div>
-    <div class="d-flex justify-content-center pb-4">
-        <i class="fa fa-exclamation-triangle pe-2 noSabesQueTela"></i>
-        <h6>¿No sabés qué tela es? Subí una foto y te ayudamos a identificarla.</h6>
-    </div>
-    <form [formGroup]='ideaForm'  (ngSubmit)="submitForm()">
-        <div class="row row-cols-2 row-cols-md-6 justify-content-center mb-4">
-            <div class="col-6 col-md-3 col-lg-2 imgUp" *ngFor="let preview of imagePreviews; let i = index">
-                <div class="imagePreview" [style.backgroundImage]="'url(' + preview + ')'"></div>
-                <label class="btn btn-secondary">
-                    Cargar imagen
-                    <input type="file" class="uploadFile img" (change)="onFileChange($event, i)" >
-                </label>
+    <div class="container">
+      <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-7 mb-5 ">
+        <!-- <div class="card blur card-plain"> -->
+        <div class="col-8 text-center mx-auto pt-3 pb-0">
+          <h1 class="pt-3">Transformá Retazos de Tela con <span class="text-gradient text-secondary">IA</span>! </h1>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col text-center justify-content-center">
+              <p class="lead mb-5">¿No sabés qué tela es? Subí una foto y te ayudamos a identificarla.</p>
+            </div>
+          </div>
+          <form [formGroup]='ideaForm' (ngSubmit)="submitForm()">
+            <div class="row row-cols-2 row-cols-md-6 justify-content-center mb-2">
+              <div class="col-6 col-md-3 col-lg-2 imgUp align-items-center justify-content-center" *ngFor="let preview of imagePreviews; let i = index">
+                <div class="imagePreview shadow border-radius-md" [style.backgroundImage]="'url(' + preview + ')'"></div>
+                <div class="text-center justify-content-center align-items-center">
+                  <label class="btn bg-gradient-primary mt-4" id="selectFile"> Cargar imagen <input type="file" class="uploadFile img" (change)="onFileChange($event, i)">
+                  </label>
+                </div>
                 <ng-container *ngIf="i > 0">
-                    <i class="fa fa-times del" (click)="removeImage(i)"></i>
+                  <i class="fa fa-times del" (click)="removeImage(i)"></i>
                 </ng-container>
+              </div>
+              <!-- <i *ngIf="imagePreviews.length < 4" class="fa fa-plus-square icon_add d-none d-md-block" (click)="addImage()"></i> -->
             </div>
-            <!-- <i *ngIf="imagePreviews.length < 4" class="fa fa-plus-square icon_add d-none d-md-block" (click)="addImage()"></i> -->
-        </div>
-        <small *ngIf="errorImage" class="msj-error d-flex justify-content-center mb-5">{{errorImage}}</small>
-
-        <!-- <button type="button" *ngIf="imagePreviews.length < 4" class="btn btn-primary py-2 my-4 w-100 d-block d-md-none" (click)="addImage()">
-            Agregar Imágen
-        </button> -->
-  
-        <div class="row justify-content-center pb-5">
-            <div class="col-lg-6">
+            <small *ngIf="errorImage" class="msj-error d-flex justify-content-center mb-5">{{errorImage}}</small>
+            <!-- <button type="button" *ngIf="imagePreviews.length < 4" class="btn btn-primary py-2 my-4 w-100 d-block d-md-none" (click)="addImage()">
+                    Agregar Imágen
+                </button> -->
+            <div class="row justify-content-center">
+              <div class="col-lg-6">
                 <div class="row g-3">
-                    <div class="col-md-6">
-                        <label for="tipoDeTela" class="form-label required">Tipo de tela</label>
-                        <input type="text" class="form-control input-field" [class.error]="fm['tipoDeTela'].dirty && fm['tipoDeTela'].errors" id="tipoDeTela" name="tipoDeTela" placeholder="Ej: Algodón" formControlName="tipoDeTela">
-                        <small *ngIf="fm['tipoDeTela'].dirty && fm['tipoDeTela'].errors" class="text-danger">El tipo de tela es requerido</small>
+                  <div class="col-md-6">
+                    <label for="tipoDeTela" class="form-label required">Tipo de tela</label>
+                    <input type="text" class="form-control input-field" [class.error]="fm['tipoDeTela'].dirty && fm['tipoDeTela'].errors" id="tipoDeTela" name="tipoDeTela" placeholder="Ej: Algodón" formControlName="tipoDeTela">
+                    <small *ngIf="fm['tipoDeTela'].dirty && fm['tipoDeTela'].errors" class="text-danger">El tipo de tela es requerido</small>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="color" class="form-label required">Color</label>
+                    <input type="text" class="form-control input-field" [class.error]="fm['color'].dirty && fm['color'].errors" id="color" name="color" placeholder="Ej: Negro" required formControlName="color">
+                    <small *ngIf="fm['color'].dirty && fm['color'].errors" class="text-danger">El color es requerido</small>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="largo" class="form-label d-flex align-items-center required">Largo (cm.)</label>
+                    <input type="number" class="form-control input-field" [class.error]="fm['largo'].dirty && fm['largo'].errors" id="largo" name="largo" placeholder="Ej: 80" required formControlName="largo">
+                    <small *ngIf="fm['largo'].dirty && fm['largo'].errors" class="text-danger">El largo es requerido</small>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="ancho" class="form-label d-flex align-items-center required">Ancho (cm.)</label>
+                    <input type="number" class="form-control input-field" [class.error]="fm['ancho'].dirty && fm['ancho'].errors" id="ancho" name="ancho" placeholder="Ej: 50" required formControlName="ancho">
+                    <small *ngIf="fm['ancho'].dirty && fm['ancho'].errors" class="text-danger">El ancho es requerido</small>
+                  </div>
+                  <div class="col-12">
+                    <div class="row">
+                      <div class="d-flex justify-content-center pt-3">
+                        <button class="btn btn-lg bg-gradient-primary">Generar idea</button>
+                      </div>
                     </div>
-                    <div class="col-md-6">
-                        <label for="color" class="form-label required">Color</label>
-                        <input type="text" class="form-control input-field" [class.error]="fm['color'].dirty && fm['color'].errors" id="color" name="color" placeholder="Ej: Negro" required formControlName="color" >
-                        <small *ngIf="fm['color'].dirty && fm['color'].errors" class="text-danger">El color es requerido</small>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="largo" class="form-label d-flex align-items-center required">Largo </label>
-                        <input type="number" class="form-control input-field" [class.error]="fm['largo'].dirty && fm['largo'].errors" id="largo" name="largo" placeholder="Ej: 80" required formControlName="largo">
-                        <small *ngIf="fm['largo'].dirty && fm['largo'].errors" class="text-danger">El largo es requerido</small>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="ancho" class="form-label d-flex align-items-center required">Ancho</label>
-                        <input type="number" class="form-control input-field" [class.error]="fm['ancho'].dirty && fm['ancho'].errors" id="ancho" name="ancho" placeholder="Ej: 50" required formControlName="ancho">
-                        <small *ngIf="fm['ancho'].dirty && fm['ancho'].errors" class="text-danger">El ancho es requerido</small>
-                    </div>
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="d-flex justify-content-center pt-3">
-                                <button class="btn  py-2 btn-block w-50" id="btnGenerarIdea">Generar idea</button>
-                            </div>
-                        </div>
-                    </div>
+                  </div>
                 </div>
+              </div>
             </div>
+          </form>
         </div>
-    </form>
-</div>
+      </div>
+    </div>
+  </div>
+</section>
