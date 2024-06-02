@@ -39,6 +39,13 @@ describe('DonationsComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('debería inicializarse con los valores predeterminados', () => {
+    expect(component.organizations).toEqual([]);
+    expect(component.page).toBe(1);
+    expect(component.pageSize).toBe(8);
+    expect(component.showSeeMore).toBe(true);
+  });
+
   it('debería llamar a uploadOrganizations en init', () => {
     spyOn(component, 'uploadOrganizations');
     component.ngOnInit();
