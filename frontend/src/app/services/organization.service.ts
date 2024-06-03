@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environments } from '../environments/environments';
+import { environments } from '../../environments/environments';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 @Injectable({
@@ -54,6 +54,11 @@ export class OrganizationService {
   assignSubcategories(organizationId: number, subcategories: any[]) {
     const url = `${this.baseUrl}/Organization/${organizationId}/assign-need`
     return this.http.post(url, subcategories);
+  }
+
+  getGroupedSubcategories(organizationId:number){
+    const url = `${this.baseUrl}/Organization/${organizationId}/grouped-subcategories`
+    return this.http.get(url);
   }
 
   public getCuitFromStore(){

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../models/user';
-import { environments } from '../environments/environments';
+import { environments } from '../../environments/environments';
 import { LoginForm } from '../interfaces/login-form.interface';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';

@@ -1,19 +1,12 @@
 <div class="newModal">
-  <div
-    class="modal-dialog h-75 d-flex align-items-center justify-content-center"
-  >
+  <div class="modal-dialog d-flex align-items-center justify-content-center card blur">
     <div class="modal-content">
       <div class="modal-header">
-        <button
-          (click)="close()"
-          type="button"
-          class="btn-close"
-          aria-label="Close"
-        ></button>
+        <button (click)="close()" type="button" class="btn-close text-gradient text-primary p-1" aria-label="Cerrar"><i class="fas fa-times"></i></button>
       </div>
       <div class="modal-body" *ngIf="!isSubmitted; else graciasView">
         <div class="text-center pb-5">
-          <h3>Formulario de <span id="donaciones">Donaciones</span></h3>
+          <h3>Formulario de <span class="text-highlight">donaciones</span></h3>
         </div>
         <div class="d-flex">
           <form [formGroup]="donateForm">
@@ -21,68 +14,22 @@
               <div class="row g-3">
                 <div class="col-md-6">
                   <label for="nombre" class="form-label required">Nombre</label>
-                  <input
-                    value="{{ user?.nombre }}"
-                    type="text"
-                    class="form-control input-field"
-                    id="nombre"
-                    name="nombre"
-                    placeholder="Ej: Julieta"
-                    disabled
-                  />
+                  <input value="{{ user?.nombre }}" type="text" class="form-control input-field" id="nombre" name="nombre" placeholder="Nombre" disabled />
                 </div>
                 <div class="col-md-6">
-                  <label for="apellido" class="form-label required"
-                    >Apellido</label
-                  >
-                  <input
-                    value="{{ user?.apellido }}"
-                    type="text"
-                    class="form-control input-field"
-                    id="apellido"
-                    name="apellido"
-                    placeholder="Ej: Gomez"
-                    disabled
-                  />
+                  <label for="apellido" class="form-label required">Apellido</label>
+                  <input value="{{ user?.apellido }}" type="text" class="form-control input-field" id="apellido" name="apellido" placeholder="Apellido" disabled />
                 </div>
                 <div class="col-md-6">
-                  <label
-                    for="telefono"
-                    class="form-label d-flex align-items-center required"
-                    >Teléfono
-                  </label>
-                  <input
-                    value="{{ user?.telefono }}"
-                    type="number"
-                    class="form-control input-field"
-                    id="telefono"
-                    name="telefono"
-                    placeholder="Ej: 123456789"
-                    disabled
-                  />
+                  <label for="telefono" class="form-label d-flex align-items-center required">Teléfono</label>
+                  <input value="{{ user?.telefono }}" type="number" class="form-control input-field" id="telefono" name="telefono" placeholder="Teléfono" disabled />
                 </div>
                 <div class="col-md-6">
-                  <label
-                    for="email"
-                    class="form-label d-flex align-items-center required"
-                    >Email</label
-                  >
-                  <input
-                    value="{{ user?.email }}"
-                    type="email"
-                    class="form-control input-field"
-                    id="email"
-                    name="email"
-                    placeholder="ejemplo@email.com"
-                    disabled
-                  />
+                  <label for="email" class="form-label d-flex align-items-center required">Email</label>
+                  <input value="{{ user?.email }}" type="email" class="form-control input-field" id="email" name="email" placeholder="ejemplo@correo.com" disabled />
                 </div>
                 <div class="col-md-6">
-                  <label
-                    for="producto"
-                    class="form-label d-flex align-items-center required"
-                    >Producto
-                  </label>
+                  <label for="producto" class="form-label d-flex align-items-center required">Producto</label>
                   <input
                     type="text"
                     class="form-control input-field"
@@ -95,18 +42,10 @@
                     required
                     formControlName="producto"
                   />
-                  <small
-                    *ngIf="fm['producto'].dirty && fm['producto'].errors"
-                    class="text-danger"
-                    >El producto requerido</small
-                  >
+                  <small *ngIf="fm['producto'].dirty && fm['producto'].errors" class="text-danger">El producto requerido</small>
                 </div>
                 <div class="col-md-6">
-                  <label
-                    for="cantidad"
-                    class="form-label d-flex align-items-center required"
-                    >Cantidad</label
-                  >
+                  <label for="cantidad" class="form-label d-flex align-items-center required">Cantidad</label>
                   <input
                     type="number"
                     class="form-control input-field"
@@ -119,40 +58,35 @@
                     required
                     formControlName="cantidad"
                   />
-                  <small
-                    *ngIf="fm['cantidad'].dirty && fm['cantidad'].errors"
-                    class="text-danger"
-                    >La cantidad es requerido</small
-                  >
+                  <small *ngIf="fm['cantidad'].dirty && fm['cantidad'].errors" class="text-danger">La cantidad es requerido</small>
                 </div>
               </div>
             </div>
             <div class="d-flex justify-content-center pt-4">
-              <button
-                (click)="donate()"
-                type="button"
-                class="btn btn-primary w-100"
-              >
-                Donar
-              </button>
+              <button (click)="donate()" type="button" class="btn btn-round bg-gradient-secondary w-50">Donar</button>
             </div>
           </form>
         </div>
       </div>
       <ng-template #graciasView>
         <div class="section-agreadecimiento">
-          <h3 class="title">¡Muchas gracias por tu donación!</h3>
-          <img src="assets/images/success.svg" alt="Donar" class="img-fluid" />
-          <p class="parrafo-agradecimiento">
-            Agradecemos mucho tu donación. Puedes acercarte presencialmente para
-            traernos lo donado o bien ayudarnos y conocer mejor la organización.
-            ¡Te esperamos!
-          </p>
-          <div class="section-link-mapa">
-            <p class="sugerencia-mapa">Tu sede más cercana a tu domicilio:</p>
-            <a [routerLink]="['/ubicaciones']" (click)="close()" class="ver-mapa"
-              >Ver</a
-            >
+          <div class="p-lg-3 info-horizontal">
+            <div class="icon icon-shape rounded-circle bg-gradient-primary shadow text-center">
+              <i class="fas fa-check opacity-10"></i>
+            </div>
+            <div class="description ps-3">
+              <h3 class="text-gradient text-secondary">¡Muchas gracias por tu donación!</h3>
+            </div>
+          </div>
+          <div>
+            <p>
+              Agradecemos mucho tu colaboración.<br>
+              Podés acercarte presencialmente para entregarnos lo donado, o bien ayudarnos y conocer mejor la organización.<br>
+              ¡Te esperamos!<br>
+              <br>
+              La sede más cercana a tu domicilio
+            </p>
+            <div class="text-center"><a [routerLink]="['/ubicaciones']" (click)="close()" class="ver-mapa btn btn-round bg-gradient-secondary align-items-center"><i class="fas fa-map-marked-alt"></i> Ver ubicación</a></div>
           </div>
         </div>
       </ng-template>
