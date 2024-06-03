@@ -212,5 +212,24 @@ namespace backend.api.Controllers
             }
         }
 
+        [HttpGet("{organizationId}/grouped-subcategories")]
+        public async Task<ActionResult<List<NeedDto>>> GetGroupedSubcategories(int organizationId)
+        {
+            try
+            {
+                var groupedSubcategories = await _organizationService.GetAssignedSubcategoriesGroupedAsync(organizationId);
+                if (groupedSubcategories == null || !groupedSubcategories.Any())
+                {
+                    return NotFound();
+                }
+                return Ok(groupedSubcategories);
+            }
+            catch (Exception ex)
+            {
+                // Manejar la excepción (por ejemplo, registrar el error)
+                return StatusCode(500, "Error interno del servidor");
+            }
+        }
+
     }
 }

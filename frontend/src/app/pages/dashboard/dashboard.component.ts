@@ -4,6 +4,7 @@ import {
   OnInit,
   ViewChild,
   ChangeDetectorRef,
+  ViewContainerRef,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -65,6 +66,7 @@ export class DashboardComponent implements OnInit {
     private organizationService: OrganizationService,
     private donationsService: DonationsService,
     private webSocketService: WebsocketService,
+    private viewContainerRef: ViewContainerRef,
     private toast: NgToastService
   ) { }
 
@@ -98,6 +100,7 @@ export class DashboardComponent implements OnInit {
       )
       .subscribe(
         (donations) => {
+          console.log(donations);
           if (donations.length != 0) {
             const formattedDonations = donations.map((donation: any) => ({
               id: donation.id,
@@ -111,9 +114,7 @@ export class DashboardComponent implements OnInit {
 
             this.existDonations = true;
             this.dataSource.data = formattedDonations;
-            this.cdr.detectChanges();
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
+            // this.cdr.detectChanges();
             this.totalDonations = donations.reduce(
               (total: any, donation: any) => total + donation.cantidad,
               0
@@ -140,6 +141,24 @@ export class DashboardComponent implements OnInit {
         }
       );
   }
+
+  ngAfterViewInit(): void {  
+    // Observador para esperar hasta que los elementos estén disponibles
+    const observer = new MutationObserver(() => {
+      if (this.paginator && this.sort) {
+        // Asignar paginator y sort a dataSource cuando estén disponibles
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        observer.disconnect(); // Detener el observador una vez que se han asignado los elementos
+      }
+    });
+  
+    observer.observe(this.viewContainerRef.element.nativeElement, {
+      childList: true, // Observar cambios en los hijos del contenedor
+      subtree: true // Observar cambios en todo el árbol del contenedor
+    });
+  }
+
 
   calculateProductMostDonated(donations: any[]) {
     const productoMap = new Map<string, number>();
@@ -202,7 +221,7 @@ export class DashboardComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.dataSource._updateChangeSubscription(); // Notifica a la tabla que hay nuevos datos
-      this.cdr.detectChanges();
+      // this.cdr.detectChanges();
 
       this.toast.success({
         detail: 'EXITO',
@@ -213,7 +232,7 @@ export class DashboardComponent implements OnInit {
 
       setTimeout(() => {
         newDonation.highlight = false;
-        this.cdr.detectChanges();
+        // this.cdr.detectChanges();
       }, 8000);
     } else {
       console.error('Invalid data format received:', data);
