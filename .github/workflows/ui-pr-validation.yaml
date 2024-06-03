@@ -24,6 +24,10 @@ jobs:
 
     - run: npm ci
       working-directory: ./frontend
+    
+    - name: Run Tests
+    - run: npm test -- --watch=false --browsers=ChromeHeadless
+      working-directory: ./frontend
 
     - run: npm run build --if-present
       working-directory: ./frontend
