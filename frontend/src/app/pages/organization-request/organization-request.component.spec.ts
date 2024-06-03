@@ -96,7 +96,7 @@ describe('OrganizationRequestComponent', () => {
 
     organizationServiceMock.getAssignedSubcategories.and.returnValue(of(assignedMock));
     
-    component.loadNeeds();
+    component.loadForm();
     
     expect(component.formGroups['Necesidad 1'].get('Sub 1')?.value).toBe(true);
   }));
