@@ -33,7 +33,7 @@ describe('MyOrganizationComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [MyOrganizationComponent],
-      imports: [HttpClientTestingModule, ReactiveFormsModule, EditorModule], // Importar el módulo del editor
+      imports: [HttpClientTestingModule, ReactiveFormsModule, EditorModule],
       providers: [
         { provide: AuthService, useValue: authServiceMock },
         { provide: OrganizationService, useValue: organizationServiceMock },
