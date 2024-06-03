@@ -43,7 +43,7 @@ describe('DonationsComponent', () => {
     expect(component.organizations).toEqual([]);
     expect(component.page).toBe(1);
     expect(component.pageSize).toBe(8);
-    expect(component.showSeeMore).toBe(true);
+    expect(component.showSeeMore).toBe(false);
   });
 
   it('debería llamar a uploadOrganizations en init', () => {
