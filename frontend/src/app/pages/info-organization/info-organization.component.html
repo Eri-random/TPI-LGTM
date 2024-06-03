@@ -1,40 +1,85 @@
-<div class="d-flex justify-content-center pb-3 pt-5">
-    <h1>{{organization?.nombre}}</h1>
-</div>
-
-<div class="container pt-5 pb-5">
-    <div class="d-flex row">
-        <div class="col-md-6">
-            <div class="h-75 d-flex align-items-start justify-content-center">
-                <img ngClass="organizacion_img" src="{{organization?.infoOrganizacion.img}}">
-            </div>
-        </div>
-
-        <div class="col-md-6 organizacion_contenido">
-            <div [innerHTML]="safeContent"></div>
-
-            <div *ngIf="!needs.empty" class="necesidades pt-5">
-                <p class="necesidades-p">Necesidades</p>
-                <div class="row flex-column pt-3">
-                    <div *ngFor="let need of needs" class="col">
-                        <div class="d-flex align-items-start g-2">
-                            <div class="me-3">
-                                <img [src]="need.icono" alt="{{need.nombre}}">
-                            </div>
-                            <div>
-                                <span>{{need.nombre}}</span>
-                                <ul>
-                                    <li *ngFor="let sub of need.subcategoria">{{sub.nombre}}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="d-flex justify-content-center pt-5">
-                <button (click)="openDialog()" class="btn btn-primary w-100">Hace la diferencia</button>
-            </div>
-        </div>
+<section>
+  <div class="page-header min-vh-100">
+    <div>
+      <img
+        class="position-absolute fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0"
+        src="../assets/img/curved-images/curved8.jpg" alt="image">
     </div>
-</div>
+    <div class="container">
+      <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-8 mb-5">
+        <div class="card-body pt-0">
+          <div class="d-flex row">
+            <div class="col-md-4 pt-4">
+              <div class="card m-md-0">
+                <img class="card-img-top" ngClass="organizacion_img" src="{{organization?.infoOrganizacion.img}}">
+                <div class="position-relative"
+                  style="height: 50px;overflow: hidden;margin-top: -50px;z-index:2;position: relative;">
+                  <div class="position-absolute w-100 top-0" style="z-index: 1;">
+                    <svg class="waves waves-sm" xmlns="http://www.w3.org/2000/svg"
+                      xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 40" preserveAspectRatio="none"
+                      shape-rendering="auto">
+                      <defs>
+                        <path id="card-wave"
+                          d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"></path>
+                      </defs>
+                      <g class="moving-waves">
+                        <use xlink:href="#card-wave" x="48" y="-1" fill="rgba(255,255,255,0.30"></use>
+                        <use xlink:href="#card-wave" x="48" y="3" fill="rgba(255,255,255,0.35)"></use>
+                        <use xlink:href="#card-wave" x="48" y="5" fill="rgba(255,255,255,0.25)"></use>
+                        <use xlink:href="#card-wave" x="48" y="8" fill="rgba(255,255,255,0.20)"></use>
+                        <use xlink:href="#card-wave" x="48" y="13" fill="rgba(255,255,255,0.15)"></use>
+                        <use xlink:href="#card-wave" x="48" y="16" fill="rgba(255,255,255,0.99)"></use>
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+                <div class="card-body pb-0 text-center">
+                  <h2 class="pt-3 mb-4">{{organization?.nombre}}</h2>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-8 organizacion_contenido pt-4 px-4">
+              <div class="p-lg-3 info-horizontal">
+                <div class="icon icon-shape rounded-circle bg-gradient-primary shadow text-center">
+                  <i class="fas fa-info opacity-10"></i>
+                </div>
+                <div class="description ps-3">
+                  <h3 class="text-gradient text-secondary">Acerca de {{organization?.nombre}}</h3>
+                  <p [innerHTML]="safeContent"></p>
+                </div>
+              </div>
+
+              <div *ngIf="!needs?.empty" class="p-lg-3 info-horizontal">
+                <div class="icon icon-shape rounded-circle bg-gradient-primary shadow text-center">
+                  <i class="fas fa-hand-holding-heart opacity-10"></i>
+                </div>
+                <div class="description ps-3">
+                  <h3 class="text-gradient text-secondary mb-4">Necesidades de {{organization?.nombre}}</h3>
+                  <div *ngFor="let need of needs" class="col">
+                    <div class="d-flex align-items-start g-2">
+                      <div class="me-3">
+                        <img [src]="need.icono" alt="{{need.nombre}}">
+                      </div>
+                      <div>
+                        <span>{{need.nombre}}</span>
+                        <ul>
+                          <li *ngFor="let sub of need.subcategoria">{{sub.nombre}}</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-center pt-5">
+                <button (click)="openDialog()" class="btn btn-lg btn-round bg-gradient-secondary">¡Hacé la
+                  diferencia!</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
