@@ -66,21 +66,21 @@ export class DashboardComponent implements OnInit {
     private donationsService: DonationsService,
     private webSocketService: WebsocketService,
     private toast: NgToastService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.organizationService.getOrgNameFromStore().subscribe((val) => {
       const orgNameFromToken = this.authService.getOrgNameFromToken();
       this.orgName = val || orgNameFromToken;
     });
-  
+
     this.organizationService.getCuitFromStore().subscribe((val) => {
       const cuitFromToken = this.authService.getCuitFromToken();
       this.cuit = val || cuitFromToken;
     });
-  
+
     this.loadDonations();
-  
+
     this.webSocketService.messages.subscribe((message) => {
       if (message.type === 'actualizarDonaciones' && message.data.newDonation.Cuit === this.cuit) {
         this.handleNewDonation(message.data);
@@ -143,7 +143,7 @@ export class DashboardComponent implements OnInit {
 
   calculateProductMostDonated(donations: any[]) {
     const productoMap = new Map<string, number>();
-  
+
     donations.forEach((donation) => {
       const normalizedProduct = normalizeProductName(donation.producto);
       if (productoMap.has(normalizedProduct)) {
@@ -152,16 +152,16 @@ export class DashboardComponent implements OnInit {
         productoMap.set(normalizedProduct, donation.cantidad);
       }
     });
-  
+
     const sortedProductos = Array.from(productoMap, ([product, amount]) => ({ product, amount }))
       .sort((a, b) => b.amount - a.amount);
-  
+
     this.productMostDonate = sortedProductos.length > 0 ? sortedProductos[0] : null;
   }
 
   calculateTopDonor(donations: any[]) {
     const donorMap = new Map<string, number>();
-  
+
     donations.forEach((donation) => {
       if (donorMap.has(donation.usuario.nombre)) {
         donorMap.set(donation.usuario.nombre, donorMap.get(donation.usuario.nombre)! + donation.cantidad);
@@ -172,7 +172,7 @@ export class DashboardComponent implements OnInit {
 
     const sortedDonors = Array.from(donorMap, ([name, amount]) => ({ name, amount }))
       .sort((a, b) => b.amount - a.amount);
-  
+
     this.topDonor = sortedDonors.length > 0 ? sortedDonors[0] : null;
   }
 
@@ -181,7 +181,7 @@ export class DashboardComponent implements OnInit {
       this.totalDonations += data.newDonation.Cantidad;
       this.totalDonationsCount += 1;
       this.averageDonations = this.totalDonations / this.totalDonationsCount;
-  
+
       let newDonation: UserData = {
         id: data.newDonation.Id,
         name: data.user.Nombre,
@@ -192,10 +192,10 @@ export class DashboardComponent implements OnInit {
         progress: '',
         highlight: true,
       };
-  
+
       let newData = [newDonation, ...this.dataSource.data];
       this.dataSource.data = newData;
-  
+
       this.calculateProductMostDonated(newData);
       this.calculateTopDonor(newData);
 
@@ -203,14 +203,14 @@ export class DashboardComponent implements OnInit {
       this.dataSource.sort = this.sort;
       this.dataSource._updateChangeSubscription(); // Notifica a la tabla que hay nuevos datos
       this.cdr.detectChanges();
-  
+
       this.toast.success({
         detail: 'EXITO',
         summary: 'Nueva donación recibida',
         duration: 5000,
         position: 'topRight',
       });
-  
+
       setTimeout(() => {
         newDonation.highlight = false;
         this.cdr.detectChanges();
@@ -256,7 +256,7 @@ export class DashboardComponent implements OnInit {
     });
 
     let amountFixed = parseFloat(this.averageDonations.toFixed(2));
-    
+
     dataToExport.push({
       Nombre: 'Promedio de Productos donados',
       Teléfono: '',
@@ -295,7 +295,10 @@ export class DashboardComponent implements OnInit {
   private saveAsExcelFile(buffer: any, fileName: string): void {
     const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
     const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
-    saveAs(data, `${fileName}_export_${new Date().getTime()}.xlsx`);
+    const currentDate = new Date();
+    const formattedDate = `${currentDate.getFullYear()}${(currentDate.getMonth() + 1).toString().padStart(2, '0')}${currentDate.getDate().toString().padStart(2, '0')}`;
+    const formattedTime = `${currentDate.getHours().toString().padStart(2, '0')}${currentDate.getMinutes().toString().padStart(2, '0')}${currentDate.getSeconds().toString().padStart(2, '0')}`;
+    saveAs(data, `${fileName}_export_${formattedDate}_${formattedTime}.xlsx`);
   }
 
   private applyExcelStyles(worksheet: XLSX.WorkSheet) {
