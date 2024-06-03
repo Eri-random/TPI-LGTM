@@ -23,6 +23,7 @@ export class DialogDonateComponent implements OnInit {
   dataDirection: any;
   headquarters: any;
   isSubmitted: boolean = false;
+  cuit !: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { organizacionId: number },
@@ -43,14 +44,17 @@ export class DialogDonateComponent implements OnInit {
       cantidad: ['', [Validators.required]],
     });
 
-    this.userStore.getEmailFromStore()
-    .subscribe(val =>{
+    this.userStore.getEmailFromStore().subscribe((val) => {
       const emailFromToken = this.authService.getEmailFromToken();
       this.email = val || emailFromToken;
     });
 
     this.userStore.getUserByEmail(this.email).subscribe((resp) => {
       this.user = resp;
+    });
+
+    this.organizationService.getOrganizationById(this.data.organizacionId).subscribe((resp) => {
+      this.cuit = resp.cuit;
     });
   }
 
@@ -70,40 +74,29 @@ export class DialogDonateComponent implements OnInit {
         cantidad: this.donateForm.value.cantidad,
         usuarioId: this.user.id,
         organizacionId: this.data.organizacionId,
+        cuit: this.cuit,
       })
       .subscribe(
         (resp) => {
-          // this.toast.success({
-          //   detail: 'EXITO',
-          //   summary: 'Muchas Gracias por la ayuda!',
-          //   duration: 5000,
-          //   position: 'topRight',
-          // });
-          // this.close();
           this.isSubmitted = true;
         },
         (error) => {
-          // this.toast.error({
-          //   detail: 'ERROR',
-          //   summary: 'Ocurrió un error al procesar la donación!',
-          //   duration: 5000,
-          //   position: 'topRight',
-          // });
+          console.error('Error:', error);
         }
       );
 
-      this.organizationService
+    this.organizationService
       .getOrganizationById(this.data.organizacionId)
       .pipe(
         switchMap((org) =>
-          this.headquarterService.getHeadquartersByOrganization(org.id).pipe(
-            map((sedes: any) => ({ organizacion: org, sedes }))
-          )
+          this.headquarterService
+            .getHeadquartersByOrganization(org.id)
+            .pipe(map((sedes: any) => ({ organizacion: org, sedes })))
         ),
-        switchMap((data) => 
+        switchMap((data) =>
           this.headquarterService.postNearestHeadquarter({
             ...data,
-            usuario: this.user
+            usuario: this.user,
           })
         )
       )
@@ -113,14 +106,12 @@ export class DialogDonateComponent implements OnInit {
           console.log(this.dataDirection);
 
           this.headquarterService.setDataDirection(this.dataDirection);
-
         },
         (error) => {
           console.error('Error:', error);
         }
       );
   }
-
 
   close(): void {
     this.dialogRef.close();

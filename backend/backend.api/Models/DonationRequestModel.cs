@@ -15,5 +15,7 @@ namespace backend.api.Models
 
         public int OrganizacionId { get; set; }
 
+        public string Cuit { get; set; }
+
     }
 }

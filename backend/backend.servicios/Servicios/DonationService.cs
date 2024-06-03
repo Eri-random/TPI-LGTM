@@ -53,22 +53,21 @@ namespace backend.servicios.Servicios
                 var donaciones = await _context.Donacions
                     .Include(u => u.Usuario)
                     .Where(u => u.OrganizacionId == organizacionId)
+                    .OrderByDescending(u => u.Id) // Ordenar por Id descendente
                     .Select(u => new DonationDto
                     {
-                       Id  = u.Id,
-                       Producto = u.Producto,
-                       Cantidad = u.Cantidad,
-                       Usuario = new UserDto()
-                       {
-                           Nombre = u.Usuario.Nombre,
-                           Telefono = u.Usuario.Telefono,
-                           Email = u.Usuario.Email
-                       }
-
+                        Id = u.Id,
+                        Producto = u.Producto,
+                        Cantidad = u.Cantidad,
+                        Usuario = new UserDto()
+                        {
+                            Nombre = u.Usuario.Nombre,
+                            Telefono = u.Usuario.Telefono,
+                            Email = u.Usuario.Email
+                        }
                     }).ToListAsync();
 
                 return donaciones;
-
             }
             catch (Exception ex)
             {

@@ -11,7 +11,6 @@ export class OrganizationService {
   private cuit$ = new BehaviorSubject<string>("");
   private orgName$ = new BehaviorSubject<string>("");
 
-
   private baseUrl = environments.baseUrl;
 
   constructor(private http: HttpClient) { }
@@ -71,4 +70,5 @@ export class OrganizationService {
   public setOrgNameForStore(orgName:string){
     this.orgName$.next(orgName);
   }
+  
 }
