@@ -9,7 +9,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule, JsonPipe } from '@angular/common';
@@ -47,6 +47,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { CustomMatPaginatorIntl } from './components/custom-mat-paginator-intl/custom-mat-paginator-intl.component';
 register();
 @NgModule({
   declarations: [
@@ -101,7 +102,9 @@ register();
     MatNativeDateModule,
     MatCheckboxModule, JsonPipe
   ],
-  providers: [],
+  providers: [
+      { provide: MatPaginatorIntl, useClass: CustomMatPaginatorIntl }
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
