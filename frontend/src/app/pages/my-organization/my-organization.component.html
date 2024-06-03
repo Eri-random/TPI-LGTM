@@ -9,11 +9,11 @@
       <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-8 mb-5">
         <div class="card-body pt-0">
           <div class="d-flex row">
-            <div class="col-8 pt-3 text-center mx-auto">
+            <div class="col pt-3 text-center mx-auto">
               <h1>Información de la Organización</h1>
               <div class="card-body">
                 <div class="row">
-                  <div class="col text-center justify-content-center">
+                  <div class="col justify-content-center">
                     <p>
                       Por favor, completá la información para que los usuarios conozcan tu organización y hagan donaciones.<br>
                       Brindá detalles claros sobre tu misión, proyectos y necesidades para aumentar las donaciones.<br>
@@ -68,7 +68,7 @@
       </div>
   
       <div class="mb-3">
-        <label for="descripcionCompleta" class="form-label required">Descripción Completa</label>
+        <label for="descripcionCompleta" class="form-label required">Descripción completa</label>
         <editor
           apiKey="ntlo9tszxpfohc7ddllnmtk84am6cbkm3sg6j37b7ow1dc1l"
           [init]="{
@@ -95,11 +95,11 @@
             organizationForm.hasError('required', 'descripcionCompleta')
           "
           class="text-danger"
-          >Descripción Completa requerida</small
+          >Descripción completa requerida</small
         >
   
         <div class="section-detail-complete">
-          <div class="form-text">
+          <div class="form-text small">
             {{ organizationForm.get('descripcionCompleta')?.value.length }}/4000
           </div>
         </div>
@@ -108,8 +108,7 @@
       <div class="mb-3">
         <label for="imagen" class="form-label">Imagen</label>
         <p class="info">
-          Cargá el logo de tu organización para promocionarla en ReCrea.<br />Revisa
-          toda tu información antes de públicarla.
+          Cargá el logo de tu organización para darte a conocer en reCrea.
         </p>
         <div>
           <div *ngIf="imageSrc" class="mb-2">
@@ -121,6 +120,7 @@
           </div>
           <input
             type="file"
+            class="form-control"
             (change)="onFileSelected($event)"
             accept="image/*"
             formControlName="file"
@@ -136,9 +136,9 @@
           >Imagen requerida</small
         >
       </div>
-  
+
       <div class="section-btn">
-        <button (click)="onSubmit()" type="button" class="btn btn-primary mt-3">
+        <button (click)="onSubmit()" type="button" class="btn btn-lg btn-round bg-gradient-secondary">
           {{ isEditMode ? 'Actualizar' : 'Publicar' }}
         </button>
       </div>
