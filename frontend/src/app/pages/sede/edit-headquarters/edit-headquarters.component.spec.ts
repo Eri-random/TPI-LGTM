@@ -157,7 +157,7 @@ describe('EditHeadquartersComponent', () => {
 
     component.organization = mockOrganization;
     component.headquartersForm.setValue(mockHeadquartersFormValue);
-    component.headquartersId = 1;  // Asegúrate de que headquartersId esté configurado correctamente
+    component.headquartersId = 1;  // Asegurarse de que headquartersId esté configurado correctamente
 
     mockHeadquartersService.updateHeadquarters.and.returnValue(throwError(mockError));
 
