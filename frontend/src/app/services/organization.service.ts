@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environments } from '../../environments/environments';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
@@ -16,24 +16,31 @@ export class OrganizationService {
 
   constructor(private http: HttpClient) { }
 
-  getOrganizationByCuit(cuit:string){
+  getOrganizationByCuit(cuit: string) {
     const url = `${this.baseUrl}/Organization/${cuit}`;
     return this.http.get<any>(url);
   }
 
-  getOrganizationById(id:number){
+  getOrganizationById(id: number) {
     const url = `${this.baseUrl}/Organization/id/${id}`;
     return this.http.get<any>(url);
   }
 
-  getAllOrganizations(){
+  getAllOrganizations() {
     const url = `${this.baseUrl}/Organization`;
     return this.http.get<any>(url);
   }
 
-  getPaginatedOrganizations(page: number, pageSize: number): Observable<any[]> {
-    const url = `${this.baseUrl}/Organization/pagination?page=${page}&pageSize=${pageSize}`;
-    return this.http.get<any[]>(url);
+  getPaginatedOrganizations(page: number, pageSize: number, selectedSubcategoryIds?: number[]): Observable<any[]> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('pageSize', pageSize.toString());
+
+    if (selectedSubcategoryIds && selectedSubcategoryIds.length > 0) {
+      params = params.set('subcategoriaIds', selectedSubcategoryIds.join(','));
+    }
+
+    return this.http.get<any[]>(`${this.baseUrl}/Organization/pagination`, { params });
   }
 
   postInfoOrganization(formData: FormData): Observable<any> {
@@ -56,24 +63,24 @@ export class OrganizationService {
     return this.http.post(url, subcategories);
   }
 
-  getGroupedSubcategories(organizationId:number){
+  getGroupedSubcategories(organizationId: number) {
     const url = `${this.baseUrl}/Organization/${organizationId}/grouped-subcategories`
     return this.http.get(url);
   }
 
-  public getCuitFromStore(){
+  public getCuitFromStore() {
     return this.cuit$.asObservable();
   }
 
-  public setCuitForStore(cuit:string){
+  public setCuitForStore(cuit: string) {
     this.cuit$.next(cuit);
   }
 
-  public getOrgNameFromStore(){
+  public getOrgNameFromStore() {
     return this.orgName$.asObservable();
   }
 
-  public setOrgNameForStore(orgName:string){
+  public setOrgNameForStore(orgName: string) {
     this.orgName$.next(orgName);
   }
 }

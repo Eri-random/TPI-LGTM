@@ -156,14 +156,46 @@ namespace backend.servicios.Servicios
             }
         }
 
-        public async Task<IEnumerable<Organizacion>> GetPaginatedOrganizationsAsync(int page, int pageSize)
+        public async Task<IEnumerable<OrganizationDto>> GetPaginatedOrganizationsAsync(int page, int pageSize, List<int> subcategoriaIds)
         {
-            return await _context.Organizacions
-                 .Include(o => o.InfoOrganizacion)
-                 .Where(o => o.InfoOrganizacion != null) 
-                 .Skip((page - 1) * pageSize)
-                 .Take(pageSize)
-                 .ToListAsync();
+            var query = _context.Organizacions
+           .Include(o => o.InfoOrganizacion)
+           .Where(o => o.InfoOrganizacion != null)
+           .AsQueryable();
+
+            if (subcategoriaIds != null && subcategoriaIds.Any())
+            {
+                query = query.Where(o => o.Subcategoria.Any(s => subcategoriaIds.Contains(s.Id)));
+            }
+
+             var organizations = await query
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+            var organizationDtos = organizations.Select(o => new OrganizationDto
+            {
+
+                Id = o.Id,
+                Nombre = o.Nombre,
+                Cuit = o.Cuit,
+                Direccion = o.Direccion,
+                Localidad = o.Localidad,
+                Provincia = o.Provincia,
+                Telefono = o.Telefono,
+                Latitud = o.Latitud,
+                Longitud = o.Longitud,
+                InfoOrganizacion = o.InfoOrganizacion != null ? new InfoOrganizationDto
+                {
+                    Organizacion = o.InfoOrganizacion.Organizacion,
+                    DescripcionBreve = o.InfoOrganizacion.DescripcionBreve,
+                    DescripcionCompleta = o.InfoOrganizacion.DescripcionCompleta,
+                    Img = o.InfoOrganizacion.Img,
+                    OrganizacionId = o.InfoOrganizacion.OrganizacionId
+                } : null
+            }).ToList();           
+
+            return organizationDtos;
         }
         
         public async Task AssignSubcategoriesAsync(int organizationId, List<SubcategoriesDto> subcategoriesDto)

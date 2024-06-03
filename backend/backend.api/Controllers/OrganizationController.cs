@@ -138,11 +138,22 @@ namespace backend.api.Controllers
         }
 
         [HttpGet("pagination")]
-        public async Task<IActionResult> GetPaginatedOrganizationsAsync([FromQuery] int page = 1, [FromQuery] int pageSize = 8)
+        public async Task<IActionResult> GetPaginatedOrganizationsAsync(
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 8,
+        [FromQuery] string subcategoriaIds = null)
         {
             try
             {
-                var organizations = await _organizationService.GetPaginatedOrganizationsAsync(page, pageSize);
+                List<int> subcategoriaIdList = null;
+                if (!string.IsNullOrEmpty(subcategoriaIds))
+                {
+                    subcategoriaIdList = subcategoriaIds.Split(',')
+                        .Select(int.Parse)
+                        .ToList();
+                }
+
+                var organizations = await _organizationService.GetPaginatedOrganizationsAsync(page, pageSize, subcategoriaIdList);
                 var organizationResponse = MapOrganizations(organizations);
                 return Ok(organizationResponse);
             }
@@ -153,7 +164,7 @@ namespace backend.api.Controllers
             }
         }
 
-        private List<OrganizationResponseModel> MapOrganizations(IEnumerable<Organizacion> organizations)
+        private List<OrganizationResponseModel> MapOrganizations(IEnumerable<OrganizationDto> organizations)
         {
             var organizationResponse = new List<OrganizationResponseModel>();
 
