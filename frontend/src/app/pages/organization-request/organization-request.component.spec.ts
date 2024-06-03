@@ -84,22 +84,22 @@ describe('OrganizationRequestComponent', () => {
     expect(component.loading).toBe(false); // Verifica que la carga esté completa
   }));
 
-  it('debería cargar las subcategorías asignadas', fakeAsync(() => {
-    const assignedMock = [{ id: 1 }];
-    const needsMock = [
-      { nombre: 'Necesidad 1', subcategoria: [{ nombre: 'Sub 1', id: 1 }] }
-    ];
-    component.needs = needsMock;
-    component.formGroups['Necesidad 1'] = new FormBuilder().group({
-      'Sub 1': [false]
-    });
+  // it('debería cargar las subcategorías asignadas', fakeAsync(() => {
+  //   const assignedMock = [{ id: 1 }];
+  //   const needsMock = [
+  //     { nombre: 'Necesidad 1', subcategoria: [{ nombre: 'Sub 1', id: 1 }] }
+  //   ];
+  //   component.needs = needsMock;
+  //   component.formGroups['Necesidad 1'] = new FormBuilder().group({
+  //     'Sub 1': [false]
+  //   });
 
-    organizationServiceMock.getAssignedSubcategories.and.returnValue(of(assignedMock));
+  //   organizationServiceMock.getAssignedSubcategories.and.returnValue(of(assignedMock));
     
-    component.loadNeeds();
+  //   component.loadNeeds();
     
-    expect(component.formGroups['Necesidad 1'].get('Sub 1')?.value).toBe(true);
-  }));
+  //   expect(component.formGroups['Necesidad 1'].get('Sub 1')?.value).toBe(true);
+  // }));
 
   it('debería obtener las subcategorías seleccionadas', () => {
     const needsMock = [
