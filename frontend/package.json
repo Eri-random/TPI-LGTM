@@ -37,7 +37,7 @@
     "zone.js": "~0.13.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^16.2.13",
+    "@angular-devkit/build-angular": "^16.2.14",
     "@angular/cli": "^16.2.13",
     "@angular/compiler-cli": "^16.2.0",
     "@types/googlemaps": "^3.43.3",
@@ -46,6 +46,7 @@
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
+    "karma-coverage-istanbul-reporter": "^3.0.3",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.1.3"
