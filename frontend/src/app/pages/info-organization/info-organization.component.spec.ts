@@ -96,7 +96,7 @@ describe('InfoOrganizationComponent', () => {
 
     expect(mockDialog.open).toHaveBeenCalledWith(DialogDonateComponent, {
       width: 'auto',
-      height: '80%',
+      height: '75%',
       data: { organizacionId: 1 }
     });
   });
