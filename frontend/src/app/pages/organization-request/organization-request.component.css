@@ -1,6 +1,6 @@
-#necesitamos {
+/* #necesitamos {
     color: var(--color-primary);
-}
+} */
 
 .loading-container {
     display: flex;
@@ -38,17 +38,16 @@
       transform: rotate(360deg);
     }
   }
-  
 
 
-.formulario {
-    padding-bottom: 20%;
+.mat-accordion .mat-expansion-panel:not(.mat-expanded), .mat-accordion .mat-expansion-panel:not(.mat-expansion-panel-spacing) {
+  border-radius: 1rem !important;
 }
 
-.formulario {
-    background-image: url('../../../assets/images/5.jpg');
-    background-attachment: fixed;
-    background-position: center center;
-    background-size: cover;
+.mat-expansion-panel:not([class*=mat-elevation-z]) {
+  box-shadow: 0 0.3125rem 0.625rem 0 rgba(0, 0, 0, 0.12) !important;
+}
 
+.mat-expansion-panel {
+  border-radius: 1rem !important;
 }
