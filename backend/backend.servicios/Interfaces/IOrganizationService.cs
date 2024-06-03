@@ -23,5 +23,7 @@ namespace backend.servicios.Interfaces
         Task AssignSubcategoriesAsync(int organizationId, List<SubcategoriesDto> subcategoriesDto);
 
         Task<List<SubcategoriesDto>> GetAssignedSubcategoriesAsync(int organizationId);
+
+        Task<List<NeedDto>> GetAssignedSubcategoriesGroupedAsync(int organizationId);
     }
 }

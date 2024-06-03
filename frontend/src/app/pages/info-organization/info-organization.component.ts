@@ -14,6 +14,7 @@ import { DialogDonateComponent } from './dialog-donate/dialog-donate.component';
 export class InfoOrganizationComponent implements OnInit {
   donateForm!: FormGroup;
   organization:any;
+  needs:any;
   safeContent!: SafeHtml;
 
   constructor(
@@ -36,6 +37,12 @@ export class InfoOrganizationComponent implements OnInit {
           console.error(error);
         }
       );
+      this.organizationService.getGroupedSubcategories(organizacionId)
+      .subscribe(resp=>{
+        this.needs = resp;
+      },error =>{
+        console.log(error);
+      })
     });
   }
 

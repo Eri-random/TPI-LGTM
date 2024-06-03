@@ -132,18 +132,18 @@
           <i
             *ngIf="i === headquarters.controls.length - 1"
             (click)="addingOtherHeadquarters()"
-            class="material-icons"
+            class="fas fa-plus-circle"
             style="font-size: 38px; color: var(--color-primary)"
-            >add_circle</i
+            ></i
           >
           <i
             *ngIf="
               i === headquarters.controls.length - 1 && headquarters.length > 1
             "
             (click)="deleteHeadquarters(i)"
-            class="material-icons"
+            class="fas fa-minus-circle"
             style="font-size: 38px; color: var(--color-secondary)"
-            >remove_circle</i
+            ></i
           >
         </div>
       </div>
