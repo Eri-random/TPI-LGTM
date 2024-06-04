@@ -1,4 +1,9 @@
-<section>
+<div *ngIf="loading" class="loading-container">
+  <div class="spinner"></div>
+</div>
+
+
+<section *ngIf="!loading">
   <div class="page-header min-vh-100">
     <div>
       <img class="position-absolute fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/curved-images/curved8.jpg" alt="image">
