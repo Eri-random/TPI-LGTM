@@ -141,7 +141,8 @@ namespace backend.api.Controllers
         public async Task<IActionResult> GetPaginatedOrganizationsAsync(
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 8,
-        [FromQuery] string subcategoriaIds = null)
+        [FromQuery] string subcategoriaIds = null,
+        [FromQuery] string name = null)
         {
             try
             {
@@ -153,7 +154,7 @@ namespace backend.api.Controllers
                         .ToList();
                 }
 
-                var organizations = await _organizationService.GetPaginatedOrganizationsAsync(page, pageSize, subcategoriaIdList);
+                var organizations = await _organizationService.GetPaginatedOrganizationsAsync(page, pageSize, subcategoriaIdList, name);
                 var organizationResponse = MapOrganizations(organizations);
                 return Ok(organizationResponse);
             }

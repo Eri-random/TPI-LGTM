@@ -31,18 +31,11 @@ export class OrganizationService {
     return this.http.get<any>(url);
   }
 
-  getPaginatedOrganizations(page: number, pageSize: number, selectedSubcategoryIds?: number[]): Observable<any[]> {
-    let params = new HttpParams()
-      .set('page', page.toString())
-      .set('pageSize', pageSize.toString());
-
-    if (selectedSubcategoryIds && selectedSubcategoryIds.length > 0) {
-      params = params.set('subcategoriaIds', selectedSubcategoryIds.join(','));
-    }
-
-    return this.http.get<any[]>(`${this.baseUrl}/Organization/pagination`, { params });
+  getPaginatedOrganizations(params: any): Observable<any[]> {
+    const url = `${this.baseUrl}/Organization/pagination`;
+    return this.http.get<any[]>(url, { params });
   }
-
+  
   postInfoOrganization(formData: FormData): Observable<any> {
     const url = `${this.baseUrl}/Information/Details`;
     return this.http.post<any>(url, formData);

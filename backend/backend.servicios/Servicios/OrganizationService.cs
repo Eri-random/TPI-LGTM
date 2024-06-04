@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace backend.servicios.Servicios
 {
@@ -156,26 +157,30 @@ namespace backend.servicios.Servicios
             }
         }
 
-        public async Task<IEnumerable<OrganizationDto>> GetPaginatedOrganizationsAsync(int page, int pageSize, List<int> subcategoriaIds)
+        public async Task<IEnumerable<OrganizationDto>> GetPaginatedOrganizationsAsync(int page, int pageSize, List<int> subcategoriaIds,string name)
         {
             var query = _context.Organizacions
-           .Include(o => o.InfoOrganizacion)
-           .Where(o => o.InfoOrganizacion != null)
-           .AsQueryable();
+             .Include(o => o.InfoOrganizacion)
+             .Where(o => o.InfoOrganizacion != null)
+             .AsQueryable();
 
             if (subcategoriaIds != null && subcategoriaIds.Any())
             {
                 query = query.Where(o => o.Subcategoria.Any(s => subcategoriaIds.Contains(s.Id)));
             }
 
-             var organizations = await query
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize)
-            .ToListAsync();
+            if (!string.IsNullOrEmpty(name))
+            {
+                query = query.Where(o => o.Nombre.ToLower().Contains(name.ToLower()));
+            }
+
+            var organizations = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
 
             var organizationDtos = organizations.Select(o => new OrganizationDto
             {
-
                 Id = o.Id,
                 Nombre = o.Nombre,
                 Cuit = o.Cuit,
@@ -193,7 +198,7 @@ namespace backend.servicios.Servicios
                     Img = o.InfoOrganizacion.Img,
                     OrganizacionId = o.InfoOrganizacion.OrganizacionId
                 } : null
-            }).ToList();           
+            }).ToList();
 
             return organizationDtos;
         }

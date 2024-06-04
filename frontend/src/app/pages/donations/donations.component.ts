@@ -10,9 +10,10 @@ import { OrganizationService } from 'src/app/services/organization.service';
 })
 export class DonationsComponent implements OnInit {
   organizations: any[] = [];
-  needs: any[] = []; 
+  needs: any[] = [];
   selectedNeeds: any = {};
   selectedSubcategories: any = {};
+  searchName: string = '';
   page: number = 1;
   pageSize: number = 8;
   showSeeMore: boolean = true;
@@ -20,9 +21,9 @@ export class DonationsComponent implements OnInit {
 
   constructor(
     private organizacionService: OrganizationService,
-    private needsService:NeedService,
+    private needsService: NeedService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.uploadOrganizations();
@@ -30,14 +31,21 @@ export class DonationsComponent implements OnInit {
   }
 
   uploadOrganizations(): void {
-    this.organizacionService
-      .getPaginatedOrganizations(this.page, this.pageSize)
-      .subscribe((resp: any[]) => {
-        this.organizations = this.organizations.concat(resp);
-        if (resp.length < this.pageSize) {
-          this.showSeeMore = false;
-        }
-      });
+    const selectedSubcategoryIds = this.getSelectedSubcategoryIds();
+
+    const params = {
+      page: this.page.toString(),
+      pageSize: this.pageSize.toString(),
+      subcategoriaIds: selectedSubcategoryIds.join(','),
+      name: this.searchName
+    };
+
+    this.organizacionService.getPaginatedOrganizations(params).subscribe((resp: any[]) => {
+      this.organizations = this.organizations.concat(resp);
+      if (resp.length < this.pageSize) {
+        this.showSeeMore = false;
+      }
+    });
   }
 
   loadNeeds() {
@@ -49,16 +57,27 @@ export class DonationsComponent implements OnInit {
   applyFilter() {
     const selectedSubcategoryIds = this.getSelectedSubcategoryIds();
     this.page = 1; // Reset page to 1 when applying filters
-    this.organizacionService.getPaginatedOrganizations(this.page, this.pageSize, selectedSubcategoryIds).subscribe((resp: any) => {
+
+    const params = {
+      page: this.page.toString(),
+      pageSize: this.pageSize.toString(),
+      subcategoriaIds: selectedSubcategoryIds.join(','),
+      name: this.searchName
+    };
+
+    this.organizacionService.getPaginatedOrganizations(params).subscribe((resp: any) => {
       this.organizations = resp;
       this.noResultsFound = resp.length === 0;
       this.showSeeMore = resp.length === this.pageSize;
     });
   }
-  
+
   getSelectedSubcategoryIds(): number[] {
-    return Object.keys(this.selectedSubcategories).filter(key => this.selectedSubcategories[+key]).map(Number);
+    return Object.keys(this.selectedSubcategories)
+    .filter(key => this.selectedSubcategories[+key])
+    .map(Number);
   }
+
   loadMore(): void {
     this.page++;
     this.uploadOrganizations();

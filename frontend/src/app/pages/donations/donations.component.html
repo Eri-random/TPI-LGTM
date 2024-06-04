@@ -1,7 +1,9 @@
 <section>
   <div class="page-header min-vh-100">
     <div>
-      <img class="position-absolute fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/curved-images/curved8.jpg" alt="image">
+      <img
+        class="position-absolute fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0"
+        src="../assets/img/curved-images/curved8.jpg" alt="image">
     </div>
     <div class="container align-items-center">
       <div class="card blur justify-content-center shadow pb-5 px-xs-0 px-sm-5 my-sm-0 my-sm-6 mt-7 mb-5">
@@ -11,37 +13,47 @@
         <div class="row">
           <!-- Filtros al costado -->
           <div class="col-lg-3">
+            <div class="buscador-container mb-4">
+              <h5 class="mt-4">Buscar por nombre</h5>
+              <input type="text" class="form-control" [(ngModel)]="searchName" (input)="applyFilter()">
+            </div>
             <div class="filters-container">
-                <h5>Filtros</h5>
-                <div *ngFor="let need of needs">
-                  <div>
-                    <label>{{ need.nombre }}</label>
-                  </div>
-                  <ul class="list-unstyled ms-3">
-                    <li *ngFor="let sub of need.subcategoria" class="d-flex align-items-center">
-                      <input type="checkbox" id="{{'sub-' + sub.id}}" [(ngModel)]="selectedSubcategories[sub.id]" (change)="applyFilter()">
-                      <label class="mb-0" for="{{'sub-' + sub.id}}">{{ sub.nombre }}</label>
-                    </li>
-                  </ul>
+              <h5>Filtros</h5>
+              <div *ngFor="let need of needs">
+                <div>
+                  <label>{{ need.nombre }}</label>
                 </div>
+                <ul class="list-unstyled ms-3">
+                  <li *ngFor="let sub of need.subcategoria" class="d-flex align-items-center">
+                    <input type="checkbox" id="{{'sub-' + sub.id}}" [(ngModel)]="selectedSubcategories[sub.id]"
+                      (change)="applyFilter()">
+                    <label class="mb-0" for="{{'sub-' + sub.id}}">{{ sub.nombre }}</label>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
-          
+
           <!-- Lista de tarjetas -->
           <div class="col-lg-9">
             <div class="row pb-5">
-              <div *ngIf="noResultsFound" class="col-12 text-center d-flex align-items-center justify-content-center mt-5">
+              <div *ngIf="noResultsFound"
+                class="col-12 text-center d-flex align-items-center justify-content-center mt-5">
                 <p>No se encontraron organizaciones que coincidan con los filtros seleccionados.</p>
               </div>
               <!-- comienzo -->
               <div *ngFor="let org of organizations;" class="col-lg-4 col-md-6 col-sm-12 mb-4 mb-md-0 mt-4">
                 <div class="card m-4 m-md-0 h-100">
                   <img class="card-img-top" src="{{org.infoOrganizacion.img}}" alt="{{ org.nombre }}">
-                  <div class="position-relative" style="height: 50px;overflow: hidden;margin-top: -50px;z-index:2;position: relative;">
+                  <div class="position-relative"
+                    style="height: 50px;overflow: hidden;margin-top: -50px;z-index:2;position: relative;">
                     <div class="position-absolute w-100 top-0" style="z-index: 1;">
-                      <svg class="waves waves-sm" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 40" preserveAspectRatio="none" shape-rendering="auto">
+                      <svg class="waves waves-sm" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 40" preserveAspectRatio="none"
+                        shape-rendering="auto">
                         <defs>
-                          <path id="card-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"></path>
+                          <path id="card-wave"
+                            d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"></path>
                         </defs>
                         <g class="moving-waves">
                           <use xlink:href="#card-wave" x="48" y="-1" fill="rgba(255,255,255,0.30"></use>
@@ -67,7 +79,7 @@
             </div>
           </div>
         </div>
-        
+
         <!-- Botón "Ver más" -->
         <div class="d-flex justify-content-center" *ngIf="showSeeMore">
           <button (click)="loadMore()" class="btn btn-primary">Ver más</button>

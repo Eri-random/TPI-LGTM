@@ -13,7 +13,7 @@
         <div class="col-md-6 organizacion_contenido">
             <div [innerHTML]="safeContent"></div>
 
-            <div *ngIf="!needs.empty" class="necesidades pt-5">
+            <div *ngIf="!needs?.empty" class="necesidades pt-5">
                 <p class="necesidades-p">Necesidades</p>
                 <div class="row flex-column pt-3">
                     <div *ngFor="let need of needs" class="col">
