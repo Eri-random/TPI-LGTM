@@ -325,28 +325,32 @@ namespace backend.api.test
         }
 
         [Test]
-        public async Task UpdateUsuario_ValidRequest_ReturnsNoContent()
+        public async Task UpdateUser_ReturnsOk_WhenUserIsUpdatedSuccessfully()
         {
             // Arrange
-            var usuarioRequest = new UserRequestModel
+            var userRequest = new UserRequestModel
             {
                 Nombre = "John",
                 Apellido = "Doe",
-                Email = "john@example.com",
-                Telefono = "1234567890",
-                Direccion = "123 Main St",
-                Localidad = "Townsville",
-                Provincia = "State",
-                Password = "securePassword123",
+                Telefono = "123456789",
+                Direccion = "123 Street",
+                Localidad = "City",
+                Provincia = "Province",
+                Email = "john.doe@example.com",
+                Password = "password",
                 RolId = 1
             };
-            _usuarioServiceMock.Setup(x => x.UpdateUserAsync(It.IsAny<UserDto>())).Returns(Task.CompletedTask);
+
+            _usuarioServiceMock.Setup(service => service.UpdateUserAsync(It.IsAny<UserDto>()))
+                .Returns(Task.CompletedTask);
 
             // Act
-            var result = await _controller.UpdateUser(usuarioRequest);
+            var result = await _controller.UpdateUser(userRequest);
 
             // Assert
-            Assert.That(result, Is.InstanceOf<NoContentResult>());
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            var okResult = result as OkObjectResult;
+            Assert.That(okResult?.StatusCode, Is.EqualTo(200));
         }
 
         [Test]

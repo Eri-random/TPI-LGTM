@@ -18,6 +18,7 @@ export class DonationsComponent implements OnInit {
   pageSize: number = 8;
   showSeeMore: boolean = true;
   noResultsFound: boolean = false;
+  loading: boolean = true;
 
   constructor(
     private organizacionService: OrganizationService,
@@ -45,6 +46,9 @@ export class DonationsComponent implements OnInit {
       if (resp.length < this.pageSize) {
         this.showSeeMore = false;
       }
+      setTimeout(() => {
+        this.loading = false;
+      }, 1000);
     });
   }
 

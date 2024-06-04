@@ -48,6 +48,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CustomMatPaginatorIntl } from './components/custom-mat-paginator-intl/custom-mat-paginator-intl.component';
+import { UpdateAccountComponent } from './pages/update-account/update-account.component';
 register();
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ register();
     MyOrganizationComponent,
     OrganizationRequestComponent,
     PageNotFoundComponent,
+    UpdateAccountComponent,
   ],
   imports: [
     BrowserModule,

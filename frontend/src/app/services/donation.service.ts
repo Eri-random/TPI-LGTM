@@ -15,4 +15,9 @@ export class DonationService {
     const url = `${this.baseUrl}/Donation`;
     return this.http.post<any>(url, data);
   }
+
+  getAllDonationsByUserId(userId: number){
+    const url = `${this.baseUrl}/Donation/user/${userId}`;
+    return this.http.get<any>(url);
+  }
 }

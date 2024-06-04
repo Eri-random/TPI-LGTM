@@ -1,4 +1,9 @@
-<section>
+<div *ngIf="loading" class="loading-container">
+  <div class="spinner"></div>
+</div>
+
+
+<section *ngIf="!loading">
   <div class="page-header min-vh-100">
     <div>
       <img

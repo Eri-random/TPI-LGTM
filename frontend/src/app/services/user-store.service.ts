@@ -22,6 +22,11 @@ export class UserStoreService {
     return this.http.get<any>(url);
   }
 
+  putUser(user:any){
+    const url = `${this.baseUrl}/User`;
+    return this.http.put<any>(url,user);
+  }
+
   public getRolFromStore(){
     return this.role$.asObservable();
   }
