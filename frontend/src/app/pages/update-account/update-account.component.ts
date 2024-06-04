@@ -98,8 +98,13 @@ export class UpdateAccountComponent implements OnInit {
       this.cuit = val || cuitFromToken;
     });
 
-    this.role = this.authService.getRoleFromToken();
+    this.userStore.getRolFromStore()
+    .subscribe(val =>{
+      const roleFromToken = this.authService.getRoleFromToken();
+      this.role = val || roleFromToken;
+    });
 
+    if(this.role == 'organizacion'){
     this.organizationService
       .getOrganizationByCuit(this.cuit)
       .pipe(
@@ -124,6 +129,7 @@ export class UpdateAccountComponent implements OnInit {
           }, 1000);
         }
       );
+    }
 
 
 
