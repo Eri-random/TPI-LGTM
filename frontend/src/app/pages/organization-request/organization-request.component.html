@@ -2,44 +2,40 @@
   <div class="spinner"></div>
 </div>
 
-<div class="formulario" *ngIf="!loading">
-  <div class="container">
-    <div class="d-flex justify-content-center pb-5 pt-5">
-      <h1>¿Qué <span id="necesitamos">Necesitamos</span>?</h1>
+<section *ngIf="!loading">
+  <div class="page-header min-vh-100">
+    <div>
+      <img class="position-absolute fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/curved-images/curved8.jpg" alt="image">
     </div>
-    <div class="col-lg-12">
-      <div
-        class="row g-3 d-flex justify-content-center pb-4"
-        *ngFor="let need of needs"
-      >
-        <div class="col-12 col-md-6">
-          <mat-accordion multi>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  {{ need.nombre }}
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <section
-                class="d-flex flex-column"
-                [formGroup]="formGroups[need.nombre]"
-              >
-                <mat-checkbox
-                  *ngFor="let subcategory of need.subcategoria"
-                  formControlName="{{ subcategory.nombre }}"
-                >
-                  {{ subcategory.nombre }}
-                </mat-checkbox>
-              </section>
-            </mat-expansion-panel>
-          </mat-accordion>
+    <div class="container">
+      <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-8 mb-5 ">
+        <div class="col-10 text-center mx-auto">
+          <h1 class="pt-3">¿Qué <span class="text-gradient text-secondary">necesitamos</span>? </h1>
+        </div>
+        <div class="card-body">
+          <div class="row g-3 d-flex justify-content-center pb-4" *ngFor="let need of needs">
+            <div class="col-12 col-md-6">
+              <mat-accordion multi>
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      {{ need.nombre }}
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <section class="d-flex flex-column" [formGroup]="formGroups[need.nombre]">
+                    <mat-checkbox *ngFor="let subcategory of need.subcategoria" formControlName="{{ subcategory.nombre }}">
+                      {{ subcategory.nombre }}
+                    </mat-checkbox>
+                  </section>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+          </div>
+          <div class="text-center justify-content-center align-items-center">
+            <button (click)="saveNeeds()" class="btn btn-lg bg-gradient-primary mt-3 mb-3">Guardar</button>
+          </div>
         </div>
       </div>
     </div>
-    <div class="d-flex justify-content-center pt-5">
-      <button (click)="saveNeeds()" class="btn btn-primary w-50 p-2">
-        Guardar
-      </button>
-    </div>
   </div>
-</div>
+</section> 

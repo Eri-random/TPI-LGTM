@@ -111,3 +111,8 @@ svg.text-primary .color-background {
 .gm-style .gm-style-iw-c{
     border-radius: 2px;
 }
+
+.vertical-alignment {
+    display: flex;
+    align-items: center;
+  }
