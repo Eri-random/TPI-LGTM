@@ -31,6 +31,7 @@ namespace backend.api.Controllers
                 Cantidad = donationRequest.Cantidad,
                 UsuarioId = donationRequest.UsuarioId,
                 OrganizacionId = donationRequest.OrganizacionId,
+                Cuit = donationRequest.Cuit
             };
 
             try

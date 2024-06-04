@@ -168,3 +168,18 @@ th {
   font-weight: 700;
   font-size: 26px;
 }
+
+
+
+
+
+
+
+
+h6 {
+  font-family: "Fredoka", sans-serif !important; font-weight: 400 !important;
+}
+
+ng-container {
+  font-family: "Fredoka", sans-serif !important; font-weight: 400 !important;
+}
