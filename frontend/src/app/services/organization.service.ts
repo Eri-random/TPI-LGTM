@@ -45,6 +45,11 @@ export class OrganizationService {
     return this.http.put<any>(url, formData);
   }
 
+  putOrganization(organization: any): Observable<any> {
+    const url = `${this.baseUrl}/Organization`;
+    return this.http.put<any>(url, organization);
+  }
+
   getAssignedSubcategories(organizationId: number) {
     const url = `${this.baseUrl}/Organization/${organizationId}/subcategories`
     return this.http.get<any[]>(url);

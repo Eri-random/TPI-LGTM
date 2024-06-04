@@ -12,10 +12,12 @@ using System.Threading.Tasks;
 
 namespace backend.servicios.Servicios
 {
-    public class OrganizationService(ApplicationDbContext context, ILogger<OrganizationService> logger) : IOrganizationService
+    public class OrganizationService(ApplicationDbContext context, ILogger<OrganizationService> logger, IMapsService mapsService) : IOrganizationService
     {
         private readonly ApplicationDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
         private readonly ILogger<OrganizationService> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        private readonly IMapsService _mapsService = mapsService ?? throw new ArgumentNullException(nameof(mapsService));
+
         public async Task<IEnumerable<OrganizationDto>> GetAllOrganizationAsync()
         {
             try
@@ -201,8 +203,6 @@ namespace backend.servicios.Servicios
             }
         }
 
-
-
         public async Task<List<SubcategoriesDto>> GetAssignedSubcategoriesAsync(int organizationId)
         {
             var subcategories = await _context.Subcategoria
@@ -251,5 +251,37 @@ namespace backend.servicios.Servicios
             return groupedSubcategories;
         }
 
+        public async Task UpdateOrganizationAsync(OrganizationDto organizationDto)
+        {
+            if (organizationDto == null)
+                throw new ArgumentNullException(nameof(organizationDto), "La organizacion proporcionado no puede ser nula.");
+
+            var organization = await _context.Organizacions.FirstOrDefaultAsync(o => o.Id == organizationDto.Id);
+
+            if (organization == null)
+                throw new Exception("Organización no encontrada");
+
+            var (lat, lng) = await _mapsService.GetCoordinates(organizationDto.Direccion, organizationDto.Localidad, organizationDto.Provincia);
+
+            try
+            {
+                organization.Nombre = organizationDto.Nombre;
+                organization.Cuit = organizationDto.Cuit;
+                organization.Direccion = organizationDto.Direccion;
+                organization.Localidad = organizationDto.Localidad;
+                organization.Provincia = organizationDto.Provincia;
+                organization.Telefono = organizationDto.Telefono;
+                organization.Latitud = lat;
+                organization.Longitud = lng;
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al actualizar la organizacion");
+                throw;
+            }
+
+        }
     }
 }
