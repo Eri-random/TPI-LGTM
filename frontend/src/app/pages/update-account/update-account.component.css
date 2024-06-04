@@ -1,0 +1,99 @@
+.container {
+  padding-top: 6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.section-account {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.form {
+  width: 56%;
+}
+
+.data {
+  margin-top: 2rem;
+  width: 36%;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /* Altura completa de la ventana */
+  background-color: rgba(255, 255, 255, 0.8);
+  /* Fondo semitransparente */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  /* Asegura que esté encima de otros elementos */
+}
+
+.spinner {
+  border: 16px solid #f3f3f3;
+  /* Color de fondo */
+  border-top: 16px solid var(--color-primary);
+  /* Color del spinner */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+.headquarters-length{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+.headquarters-length > p{
+  margin: 0rem;
+  padding: 0rem;
+  font-size: 24px;
+}
+
+.headquarters-name > p{
+  margin: 0rem;
+  padding: 0rem;
+  font-size: 18px;
+}
+
+.aviso {
+  background-color: #fffaea; /* Amarillo de aviso */
+  color: #6c757d; /* Gris oscuro para el texto */
+  padding: 4px 8px;
+  border-top: 4px solid #ffc107; /* Borde amarillo */
+  border-radius: 5px;
+  font-weight: bold;
+  width: max-content;
+}
+
+.aviso-agregar {
+  background-color: #e0f7fa; /* Azul claro de aviso */
+  color: #3498db; /* Azul oscuro para el texto */
+  padding: 4px 8px;
+  border-top: 4px solid #00bcd4; /* Borde azul */
+  border-radius: 5px;
+  font-weight: bold;
+  width: max-content;
+}

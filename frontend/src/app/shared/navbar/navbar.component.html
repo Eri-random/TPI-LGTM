@@ -49,8 +49,11 @@
                     <span class="fa fa-user"></span> Hola, {{fullName}}
                   </a>
                   <ul class="dropdown-menu" style="overflow: hidden;">
-                    <li>
-                      <a class="dropdown-item" href="#">Mi Perfil</a>
+                    <li *ngIf="role == 'usuario'">
+                      <a class="dropdown-item" href="/mi-cuenta">Mi Cuenta</a>
+                    </li>
+                    <li *ngIf="role == 'organizacion'">
+                      <a class="dropdown-item" routerLink="/mis-datos">Mis Datos</a>
                     </li>
                     <li *ngIf="role == 'usuario'">
                       <a class="dropdown-item" routerLink="/mis-ideas">Mis Ideas</a>

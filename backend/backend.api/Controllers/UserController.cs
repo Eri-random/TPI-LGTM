@@ -151,6 +151,7 @@ namespace backend.api.Controllers
                 return BadRequest("Datos de usuario inválidos");
             }
 
+
             var userToUpdate = new UserDto
             {
                 Nombre = userRequest.Nombre,
@@ -159,14 +160,16 @@ namespace backend.api.Controllers
                 Direccion = userRequest.Direccion,
                 Localidad = userRequest.Localidad,
                 Provincia = userRequest.Provincia,
-                Password = userRequest.Password,
-                Email = userRequest.Email
+                Email = userRequest.Email,
+                Password = userRequest?.Password,
+                Rol = userRequest.RolId,
             };
 
+            
             try
             {
                 await _userService.UpdateUserAsync(userToUpdate);
-                return NoContent();
+                return Ok(new { message = "Usuario actualizado con éxito" });
 
             }
             catch (KeyNotFoundException ex)
