@@ -1,53 +1,46 @@
-<div class="section-form">
-    <div class="section-title">
-      <h2 class="title-edit">Información de la Organización</h2>
-      <p class="info">
-        Por favor, llena todos los campos a continuación con la información de tu
-        organización. Una vez que hayas completado tu perfil, tu organización será
-        visible en la sección de donaciones de nuestro sitio web. Esto permitirá a
-        los usuarios conocer más sobre tu misión, proyectos y necesidades, y así
-        podrán elegir donar productos hechos de tela reciclada a tu organización.
-        Asegúrate de proporcionar detalles claros y precisos para maximizar las
-        oportunidades de recibir donaciones. ¡Gracias por ser parte de nuestra
-        comunidad!
-      </p>
+<section>
+  <div class="page-header min-vh-100">
+    <div>
+      <img
+        class="position-absolute fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0"
+        src="../assets/img/curved-images/curved8.jpg" alt="image">
     </div>
-  
-    <form
+    <div class="container">
+      <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-8 mb-5">
+        <div class="card-body pt-0">
+          <div class="d-flex row">
+            <div class="col pt-3 text-center mx-auto">
+              <h1>Información de la Organización</h1>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col justify-content-center">
+                    <p>
+                      Por favor, completá la información para que los usuarios conozcan tu organización y hagan donaciones.<br>
+                      Brindá detalles claros sobre tu misión, proyectos y necesidades para aumentar las donaciones.<br>
+                      ¡Gracias por ser parte de nuestra comunidad!</p>
+                  </div>
+                </div>
+                <form
       [formGroup]="organizationForm"
       class="form-organizacion"
       enctype="multipart/form-data"
     >
       <div class="mb-3">
         <label for="organizacion" class="form-label required">Organización</label>
-        <input
-          id="organizacion"
-          type="text"
-          class="form-control"
-          formControlName="organizacion"
-          maxlength="30"
-          readonly
-        />
-        <small
-          *ngIf="
-            organizationForm.controls['organizacion'].dirty &&
-            organizationForm.hasError('required', 'organizacion')
-          "
-          class="text-danger"
-          >Nombre de Organizacion requerido</small
-        >
+        <input id="organizacion" type="text" class="form-control" formControlName="organizacion" maxlength="30" readonly />
+        <small *ngIf="organizationForm.controls['organizacion'].dirty && organizationForm.hasError('required', 'organizacion')" class="text-danger">Nombre de organización requerido</small>
         <div class="section-detail">
-          <p class="info">
-            Este es el nombre que aparecera en la portada de tu organización
+          <p class="info small">
+            Este es el nombre que aparecerá en la portada de tu organización.
           </p>
-          <div class="form-text">
+          <div class="form-text small mt-n2">
             {{ getCharacterCount('organizacion', 30) }}
           </div>
         </div>
       </div>
   
       <div class="mb-3">
-        <label for="descripcionBreve" class="form-label required">Descripción Breve</label>
+        <label for="descripcionBreve" class="form-label required">Descripción breve</label>
         <textarea
           id="descripcionBreve"
           class="form-control"
@@ -65,18 +58,17 @@
         >
   
         <div class="section-detail">
-          <p class="info">
-            Breve descripción de tu organización. Los usuarios pordran<br />informarse
-            sobre ella
+          <p class="info small">
+            Una descripción breve de tu organización. Los usuarios pueden ver esta en el directorio de organizaciones (Nuestra red).
           </p>
-          <div class="form-text">
+          <div class="form-text small mt-n2">
             {{ organizationForm.get('descripcionBreve')?.value.length }}/150
           </div>
         </div>
       </div>
   
       <div class="mb-3">
-        <label for="descripcionCompleta" class="form-label required">Descripción Completa</label>
+        <label for="descripcionCompleta" class="form-label required">Descripción completa</label>
         <editor
           apiKey="ntlo9tszxpfohc7ddllnmtk84am6cbkm3sg6j37b7ow1dc1l"
           [init]="{
@@ -103,11 +95,11 @@
             organizationForm.hasError('required', 'descripcionCompleta')
           "
           class="text-danger"
-          >Descripción Completa requerida</small
+          >Descripción completa requerida</small
         >
   
         <div class="section-detail-complete">
-          <div class="form-text">
+          <div class="form-text small">
             {{ organizationForm.get('descripcionCompleta')?.value.length }}/4000
           </div>
         </div>
@@ -116,8 +108,7 @@
       <div class="mb-3">
         <label for="imagen" class="form-label">Imagen</label>
         <p class="info">
-          Cargá el logo de tu organización para promocionarla en ReCrea.<br />Revisa
-          toda tu información antes de públicarla.
+          Cargá el logo de tu organización para darte a conocer en reCrea.
         </p>
         <div>
           <div *ngIf="imageSrc" class="mb-2">
@@ -129,6 +120,7 @@
           </div>
           <input
             type="file"
+            class="form-control"
             (change)="onFileSelected($event)"
             accept="image/*"
             formControlName="file"
@@ -144,11 +136,18 @@
           >Imagen requerida</small
         >
       </div>
-  
+
       <div class="section-btn">
-        <button (click)="onSubmit()" type="button" class="btn btn-primary mt-3">
+        <button (click)="onSubmit()" type="button" class="btn btn-lg btn-round bg-gradient-secondary">
           {{ isEditMode ? 'Actualizar' : 'Publicar' }}
         </button>
       </div>
     </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+</section>

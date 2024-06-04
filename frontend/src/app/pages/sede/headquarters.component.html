@@ -2,27 +2,42 @@
   <div class="spinner"></div>
 </div>
 
-<div *ngIf="!loading && headquarters.length === 0" class="container mt-4">
-  <div class="row">
-    <div class="col-md-6">
-      <h2>Agrega tus Sedes</h2>
-      <p>
-        Agrega tus sedes para que los usuarios puedan visualizar en nuestra red,
-        y así poder llegar más a ellos.
-      </p>
-      <button (click)="addingHeadquarters()" class="btn btn-primary my-3">
-        Agregar una Sede
-      </button>
-    </div>
-    <div class="col-md-6">
+<section>
+  <div class="page-header min-vh-100">
+    <div>
       <img
-        src="assets/images/map.jpg"
-        alt="Mapa de ejemplo"
-        class="img-fluid"
-      />
+        class="position-absolute fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0"
+        src="../assets/img/curved-images/curved8.jpg" alt="image">
+    </div>
+    <div *ngIf="!loading && headquarters.length === 0" class="container">
+      <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-8 mb-5">
+        <div class="card-body pt-0">
+          <div class="d-flex row vertical-alignment">
+            <div class="col-md-6 pt-3 text-center mx-auto">
+              <h1>Agregá tus sedes</h1>
+                  <div class="justify-content-center">
+                    <p>
+                      Agregá tus sedes para que los usuarios puedan visualizar en nuestra red, y así llegar más a ellos.
+                    </p>
+                    <button (click)="addingHeadquarters()" class="btn btn-lg btn-round bg-gradient-secondary">
+                      Agregar una Sede
+                    </button>
+                  </div>  
+            </div>
+            <div class="col-md-6 pt-3 text-center mx-auto">
+                <img
+                  src="assets/img/map.png"
+                  alt="Mapa de ejemplo"
+                  class="img-fluid rounded"
+                />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+</section>
+
 
 <div *ngIf="!loading && headquarters.length > 0" class="container mt-4">
   <div class="row">
