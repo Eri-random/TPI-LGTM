@@ -1,162 +1,175 @@
-<div class="container mt-5">
-  <h3>Agregar nueva sede</h3>
-  <form class="my-4" [formGroup]="HeadquartersForm">
-    <div formArrayName="sedes">
-      <div
-        *ngFor="let headquarter of headquarters.controls; let i = index"
-        [formGroupName]="i"
-        class="row g-3 mt-4"
-      >
-        <div class="col-md-6">
-          <label for="nombre{{ i }}" class="form-label required">Nombre</label>
-          <input
-            type="text"
-            class="form-control input-field"
-            [class.error]="
-            headquarter.get('nombre')?.dirty &&
-            headquarter.get('nombre')?.errors
-            "
-            id="nombre{{ i }}"
-            formControlName="nombre"
-            placeholder="Ej: Julieta"
-          />
-          <small
-            *ngIf="
-            headquarter.get('nombre')?.dirty &&
-            headquarter.get('nombre')?.errors
-            "
-            class="text-danger"
-            >El nombre es requerido</small
-          >
-        </div>
-        <div class="col-md-6">
-          <label for="direccion{{ i }}" class="form-label required"
-            >Dirección</label
-          >
-          <input
-            type="text"
-            class="form-control input-field"
-            [class.error]="
-            headquarter.get('direccion')?.dirty &&
-            headquarter.get('direccion')?.errors
-            "
-            id="direccion{{ i }}"
-            formControlName="direccion"
-            placeholder="Ej: Calle 123"
-          />
-          <small
-            *ngIf="
-            headquarter.get('direccion')?.dirty &&
-            headquarter.get('direccion')?.errors
-            "
-            class="text-danger"
-            >La dirección es requerida</small
-          >
-        </div>
-        <div class="col-md-6">
-          <label for="localidad{{ i }}" class="form-label required"
-            >Localidad</label
-          >
-          <input
-            type="text"
-            class="form-control input-field"
-            [class.error]="
-            headquarter.get('localidad')?.dirty &&
-            headquarter.get('localidad')?.errors
-            "
-            id="localidad{{ i }}"
-            formControlName="localidad"
-            placeholder="Ej: Moron"
-          />
-          <small
-            *ngIf="
-            headquarter.get('localidad')?.dirty &&
-            headquarter.get('localidad')?.errors
-            "
-            class="text-danger"
-            >La localidad es requerida</small
-          >
-        </div>
-        <div class="col-md-6">
-          <label for="provincia{{ i }}" class="form-label required"
-            >Provincia</label
-          >
-          <select
-          class="form-control input-field"
-          [class.error]="
-          headquarter.get('provincia')?.dirty &&
-          headquarter.get('provincia')?.errors
-          "
-          id="provincia{{ i }}"
-          formControlName="provincia"
-        >
-          <option value="" selected disabled>Seleccionar Provincia</option>
-          <option *ngFor="let prov of provinces" [ngValue]="prov.nombre">
-            {{ prov.nombre }}
-          </option>
-        </select>
-          <small
-            *ngIf="
-            headquarter.get('provincia')?.dirty &&
-            headquarter.get('provincia')?.errors
-            "
-            class="text-danger"
-            >La provincia es requerida</small
-          >
-        </div>
-        <div class="col-md-6 d-flex align-items-end gap-3">
-          <div class="w-100">
-            <label for="telefono{{ i }}" class="form-label required"
-              >Teléfono</label
-            >
-            <input
-              type="text"
-              class="form-control input-field"
-              [class.error]="
-              headquarter.get('telefono')?.dirty &&
-              headquarter.get('telefono')?.errors
-              "
-              id="telefono{{ i }}"
-              formControlName="telefono"
-              placeholder="Ej: 123456789"
-            />
-            <small
-              *ngIf="
-              headquarter.get('telefono')?.dirty &&
-              headquarter.get('telefono')?.errors
-              "
-              class="text-danger"
-              >El teléfono es requerido</small
-            >
+<section>
+  <div class="page-header min-vh-100">
+    <div>
+      <img
+        class="position-absolute fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0"
+        src="../assets/img/curved-images/curved8.jpg" alt="image">
+    </div>
+    <div class="container">
+      <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-8 mb-5">
+        <div class="card-body pt-0">
+          <div class="d-flex row px-md-4">
+
+              <h1 class="text-center pt-4">Agregá tus sedes</h1>
+
+              <form [formGroup]="HeadquartersForm">
+                <div formArrayName="sedes">
+                  <div
+                    *ngFor="let headquarter of headquarters.controls; let i = index"
+                    [formGroupName]="i"
+                    class="mt-4"
+                  >
+                    <div class="row">
+                    <div class="col-md-6">
+                      <label for="nombre{{ i }}" class="form-label required">Nombre</label>
+                      <input
+                        type="text"
+                        class="form-control input-field"
+                        [class.error]="
+                        headquarter.get('nombre')?.dirty &&
+                        headquarter.get('nombre')?.errors
+                        "
+                        id="nombre{{ i }}"
+                        formControlName="nombre"
+                        placeholder="Nombre"
+                      />
+                      <small
+                        *ngIf="
+                        headquarter.get('nombre')?.dirty &&
+                        headquarter.get('nombre')?.errors
+                        "
+                        class="text-danger"
+                        >El nombre es requerido</small
+                      >
+                    </div>
+                    <div class="col-md-6">
+                      <label for="direccion{{ i }}" class="form-label required"
+                        >Dirección</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control input-field"
+                        [class.error]="
+                        headquarter.get('direccion')?.dirty &&
+                        headquarter.get('direccion')?.errors
+                        "
+                        id="direccion{{ i }}"
+                        formControlName="direccion"
+                        placeholder="Dirección"
+                      />
+                      <small
+                        *ngIf="
+                        headquarter.get('direccion')?.dirty &&
+                        headquarter.get('direccion')?.errors
+                        "
+                        class="text-danger"
+                        >La dirección es requerida</small
+                      >
+                    </div>
+                    <div class="col-md-6">
+                      <label for="localidad{{ i }}" class="form-label required"
+                        >Localidad</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control input-field"
+                        [class.error]="
+                        headquarter.get('localidad')?.dirty &&
+                        headquarter.get('localidad')?.errors
+                        "
+                        id="localidad{{ i }}"
+                        formControlName="localidad"
+                        placeholder="Ej: Moron"
+                      />
+                      <small
+                        *ngIf="
+                        headquarter.get('localidad')?.dirty &&
+                        headquarter.get('localidad')?.errors
+                        "
+                        class="text-danger"
+                        >La localidad es requerida</small
+                      >
+                    </div>
+                    <div class="col-md-6">
+                      <label for="provincia{{ i }}" class="form-label required"
+                        >Provincia</label
+                      >
+                      <select
+                      class="form-control input-field"
+                      [class.error]="
+                      headquarter.get('provincia')?.dirty &&
+                      headquarter.get('provincia')?.errors
+                      "
+                      id="provincia{{ i }}"
+                      formControlName="provincia"
+                    >
+                      <option value="" selected disabled>Seleccionar Provincia</option>
+                      <option *ngFor="let prov of provinces" [ngValue]="prov.nombre">
+                        {{ prov.nombre }}
+                      </option>
+                    </select>
+                      <small
+                        *ngIf="
+                        headquarter.get('provincia')?.dirty &&
+                        headquarter.get('provincia')?.errors
+                        "
+                        class="text-danger"
+                        >La provincia es requerida</small
+                      >
+                    </div>
+                    <div class="col-md-6 d-flex align-items-end gap-3">
+                      <div class="w-100">
+                        <label for="telefono{{ i }}" class="form-label required"
+                          >Teléfono</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control input-field"
+                          [class.error]="
+                          headquarter.get('telefono')?.dirty &&
+                          headquarter.get('telefono')?.errors
+                          "
+                          id="telefono{{ i }}"
+                          formControlName="telefono"
+                          placeholder="Ej: 123456789"
+                        />
+                        <small
+                          *ngIf="
+                          headquarter.get('telefono')?.dirty &&
+                          headquarter.get('telefono')?.errors
+                          "
+                          class="text-danger"
+                          >El teléfono es requerido</small
+                        >
+                      </div>
+                    </div>
+                  </div>
+                    <div class="row py-4 text-center align-items-center">
+                      <div class="col-6">
+                        <button *ngIf="i === headquarters.controls.length - 1" (click)="addingOtherHeadquarters()" type="button" class="btn btn-round btn-xs text-xs bg-gradient-primary">Agregar sede <i class="fas fa-plus-circle"></i></button>
+                      </div>
+                     <div class="col-6">
+                      <button *ngIf="i === headquarters.controls.length - 1 && headquarters.length < 2" (click)="deleteHeadquarters(i)" type="button" class="btn btn-round btn-xs text-xs bg-gradient-secondary disabled">Eliminar sede <i class="fas fa-minus-circle"></i></button>
+                      <button *ngIf="i === headquarters.controls.length - 1 && headquarters.length > 1" (click)="deleteHeadquarters(i)" type="button" class="btn btn-round btn-xs text-xs bg-gradient-secondary">Eliminar sede <i class="fas fa-minus-circle"></i></button>
+                     </div>
+                    </div>
+                  </div>
+                </div>
+            
+                <div class="d-flex justify-content-center mt-4">
+                  <button
+                    (click)="saveHeadquarters()"
+                    type="button"
+                    class="btn btn-lg btn-round bg-gradient-secondary"
+                  >
+                  Guardar cambios
+                  </button>
+                </div>
+              </form>
+
           </div>
-          <i
-            *ngIf="i === headquarters.controls.length - 1"
-            (click)="addingOtherHeadquarters()"
-            class="fas fa-plus-circle"
-            style="font-size: 38px; color: var(--color-primary)"
-            ></i
-          >
-          <i
-            *ngIf="
-              i === headquarters.controls.length - 1 && headquarters.length > 1
-            "
-            (click)="deleteHeadquarters(i)"
-            class="fas fa-minus-circle"
-            style="font-size: 38px; color: var(--color-secondary)"
-            ></i
-          >
         </div>
       </div>
     </div>
-
-    <div class="d-flex justify-content-center mt-4">
-      <button
-        (click)="saveHeadquarters()"
-        type="button"
-        class="btn btn-block btn-primary"
-      >
-        Guardar
-      </button>
-    </div>
-  </form>
-</div>
+  </div>
+</section>
