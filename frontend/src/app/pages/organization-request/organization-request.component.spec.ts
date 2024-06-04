@@ -94,10 +94,12 @@ describe('OrganizationRequestComponent', () => {
       'Sub 1': [false]
     });
 
+    needsServiceMock.getAllNeeds.and.returnValue(of(needsMock));
     organizationServiceMock.getAssignedSubcategories.and.returnValue(of(assignedMock));
     
     component.loadForm();
-    
+    tick(1000); // Simula el tiempo de espera en setTimeout
+
     expect(component.formGroups['Necesidad 1'].get('Sub 1')?.value).toBe(true);
   }));
 
@@ -119,6 +121,7 @@ describe('OrganizationRequestComponent', () => {
     spyOn(component, 'GetSelectedSubcategories').and.returnValue(selectedSubcategories);
 
     component.saveNeeds();
+    tick(); // Asegurarse de que se complete
 
     expect(organizationServiceMock.assignSubcategories).toHaveBeenCalledWith(1, selectedSubcategories);
     expect(toastServiceMock.success).toHaveBeenCalledWith(jasmine.objectContaining({
