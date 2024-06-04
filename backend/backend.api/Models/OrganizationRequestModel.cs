@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace backend.servicios.DTOs
+﻿namespace backend.api.Models
 {
-    public class OrganizationDto
+    public class OrganizationRequestModel
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
@@ -17,6 +11,5 @@ namespace backend.servicios.DTOs
         public string Provincia { get; set; }
         public double Latitud { get; set; }
         public double Longitud { get; set; }
-        public InfoOrganizationDto InfoOrganizacion { get; set; }
     }
 }

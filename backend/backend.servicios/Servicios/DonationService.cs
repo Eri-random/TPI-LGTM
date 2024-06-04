@@ -88,6 +88,7 @@ namespace backend.servicios.Servicios
                         Id = u.Id,
                         Producto = u.Producto,
                         Cantidad = u.Cantidad,
+                        OrganizacionId = u.OrganizacionId,
                         Usuario = new UserDto()
                         {
                             Nombre = u.Usuario.Nombre,

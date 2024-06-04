@@ -1,0 +1,456 @@
+<div *ngIf="loading" class="loading-container">
+  <div class="spinner"></div>
+</div>
+
+<div *ngIf="!loading && role === 'usuario'" class="container mt-5">
+  <h3>Mi cuenta</h3>
+  <div class="section-account">
+    <div class="form">
+      <form class="my-4" [formGroup]="accountForm">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="nombre" class="form-label required">Nombre</label>
+            <input
+              type="text"
+              class="form-control input-field"
+              [class.error]="
+                accountForm.get('nombre')?.touched &&
+                accountForm.get('nombre')?.errors
+              "
+              id="nombre"
+              formControlName="nombre"
+              placeholder="Ej: Julieta"
+            />
+            <small
+              *ngIf="
+                accountForm.get('nombre')?.touched &&
+                accountForm.get('nombre')?.errors
+              "
+              class="text-danger"
+              >El nombre es requerido</small
+            >
+          </div>
+          <div class="col-md-6">
+            <label for="apellido" class="form-label required">Apellido</label>
+            <input
+              type="text"
+              class="form-control input-field"
+              [class.error]="
+                accountForm.get('apellido')?.touched &&
+                accountForm.get('apellido')?.errors
+              "
+              id="apellido"
+              formControlName="apellido"
+              placeholder="Ej: Apellido"
+            />
+            <small
+              *ngIf="
+                accountForm.get('apellido')?.touched &&
+                accountForm.get('apellido')?.errors
+              "
+              class="text-danger"
+              >El apellido es requerido</small
+            >
+          </div>
+          <div class="col-md-6">
+            <label for="email" class="form-label required">Email</label>
+            <input
+              type="text"
+              class="form-control input-field"
+              [class.error]="
+                accountForm.get('email')?.touched &&
+                accountForm.get('email')?.errors
+              "
+              id="email"
+              formControlName="email"
+              placeholder="Ej: test@test.com"
+            />
+            <small
+              *ngIf="
+                accountForm.get('email')?.touched &&
+                accountForm.get('email')?.errors
+              "
+              class="text-danger"
+              >El email es requerido</small
+            >
+          </div>
+          <div class="col-md-6">
+            <label for="telefono" class="form-label required">Teléfono</label>
+            <input
+              type="text"
+              class="form-control input-field"
+              [class.error]="
+                accountForm.get('telefono')?.touched &&
+                accountForm.get('telefono')?.errors
+              "
+              id="telefono"
+              formControlName="telefono"
+              placeholder="Ej: 123456789"
+            />
+            <small
+              *ngIf="
+                accountForm.get('telefono')?.touched &&
+                accountForm.get('telefono')?.errors
+              "
+              class="text-danger"
+              >El teléfono es requerido</small
+            >
+          </div>
+          <div class="col-md-6">
+            <label for="direccion" class="form-label required">Dirección</label>
+            <input
+              type="text"
+              class="form-control input-field"
+              [class.error]="
+                accountForm.get('direccion')?.touched &&
+                accountForm.get('direccion')?.errors
+              "
+              id="direccion"
+              formControlName="direccion"
+              placeholder="Ej: Calle 123"
+            />
+            <small
+              *ngIf="
+                accountForm.get('direccion')?.touched &&
+                accountForm.get('direccion')?.errors
+              "
+              class="text-danger"
+              >La dirección es requerida</small
+            >
+          </div>
+          <div class="col-md-6">
+            <label for="localidad" class="form-label required">Localidad</label>
+            <input
+              type="text"
+              class="form-control input-field"
+              [class.error]="
+                accountForm.get('localidad')?.touched &&
+                accountForm.get('localidad')?.errors
+              "
+              id="localidad"
+              formControlName="localidad"
+              placeholder="Ej: Buenos Aires"
+            />
+            <small
+              *ngIf="
+                accountForm.get('localidad')?.touched &&
+                accountForm.get('localidad')?.errors
+              "
+              class="text-danger"
+              >La localidad es requerida</small
+            >
+          </div>
+          <div class="col-md-6">
+            <label for="provincia" class="form-label required">Provincia</label>
+            <select
+              class="form-control input-field"
+              [class.error]="
+                accountForm.get('provincia')?.dirty &&
+                accountForm.get('provincia')?.errors
+              "
+              id="provincia"
+              formControlName="provincia"
+            >
+              <option value="" selected disabled>Seleccionar Provincia</option>
+              <option *ngFor="let prov of provinces" [ngValue]="prov.nombre">
+                {{ prov.nombre }}
+              </option>
+            </select>
+            <small
+              *ngIf="
+                accountForm.get('provincia')?.touched &&
+                accountForm.get('provincia')?.errors
+              "
+              class="text-danger"
+              >La provincia es requerida</small
+            >
+          </div>
+        </div>
+        <div *ngIf="isEditMode" class="d-flex justify-content-flex-start mt-4">
+          <button
+            type="submit"
+            class="btn btn-block btn-primary"
+            (click)="onSubmit()"
+          >
+            Actualizar
+          </button>
+          <button
+            *ngIf="isEditMode"
+            type="button btn-block btn-primary"
+            (click)="toggleEditMode(true)"
+          >
+            Cancelar
+          </button>
+        </div>
+        <div *ngIf="!isEditMode" class="d-flex justify-content-flex-start mt-4">
+          <button
+            type="button"
+            class="btn btn-block btn-primary"
+            (click)="toggleEditMode()"
+          >
+            Editar
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="data">
+      <div>
+        <h4>Donaciones a Organizaciones</h4>
+        <p *ngIf="donations.length > 0">{{ donations.length }}</p>
+        <p *ngIf="donations.length === 0">No ha realizado donaciones</p>
+      </div>
+      <div>
+        <h4>Tipo de producto más donado</h4>
+        <p>{{ mostDonatedProductType }}</p>
+      </div>
+      <div>
+        <h4>Cantidad del producto más donado</h4>
+        <p>{{ mostDonatedProductQuantity }}</p>
+      </div>
+      <div>
+        <h4>Organización a la que más ha donado</h4>
+        <p>{{ topOrganizationId }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!loading && role === 'organizacion'" class="container mt-5">
+  <h3>Mis Datos</h3>
+
+  <div class="section-account">
+    <div class="form">
+      <form class="my-4" [formGroup]="accountOrgForm">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="nombre" class="form-label required">Nombre</label>
+            <input
+              type="text"
+              class="form-control input-field"
+              [class.error]="
+                accountOrgForm.get('nombre')?.touched &&
+                accountOrgForm.get('nombre')?.errors
+              "
+              id="nombre"
+              formControlName="nombre"
+              placeholder="Ej: Julieta"
+            />
+            <small
+              *ngIf="
+                accountOrgForm.get('nombre')?.touched &&
+                accountOrgForm.get('nombre')?.errors
+              "
+              class="text-danger"
+              >El nombre es requerido</small
+            >
+          </div>
+          <div class="col-md-6">
+            <label for="cuit" class="form-label required">Cuit</label>
+            <input
+              type="text"
+              class="form-control input-field"
+              [class.error]="
+                accountOrgForm.get('cuit')?.touched &&
+                accountOrgForm.get('cuit')?.errors
+              "
+              id="cuit"
+              formControlName="cuit"
+              placeholder="Ej: cuit"
+            />
+            <small
+              *ngIf="
+                accountOrgForm.get('cuit')?.touched &&
+                accountOrgForm.get('cuit')?.errors
+              "
+              class="text-danger"
+              >El cuit es requerido</small
+            >
+          </div>
+          <div class="col-md-6">
+            <label for="telefono" class="form-label required">Teléfono</label>
+            <input
+              type="text"
+              class="form-control input-field"
+              [class.error]="
+                accountOrgForm.get('telefono')?.touched &&
+                accountOrgForm.get('telefono')?.errors
+              "
+              id="telefono"
+              formControlName="telefono"
+              placeholder="Ej: 123456789"
+            />
+            <small
+              *ngIf="
+                accountOrgForm.get('telefono')?.touched &&
+                accountOrgForm.get('telefono')?.errors
+              "
+              class="text-danger"
+              >El teléfono es requerido</small
+            >
+          </div>
+          <div class="col-md-6">
+            <label for="direccion" class="form-label required">Dirección</label>
+            <input
+              type="text"
+              class="form-control input-field"
+              [class.error]="
+                accountOrgForm.get('direccion')?.touched &&
+                accountOrgForm.get('direccion')?.errors
+              "
+              id="direccion"
+              formControlName="direccion"
+              placeholder="Ej: Calle 123"
+            />
+            <small
+              *ngIf="
+                accountOrgForm.get('direccion')?.touched &&
+                accountOrgForm.get('direccion')?.errors
+              "
+              class="text-danger"
+              >La dirección es requerida</small
+            >
+          </div>
+          <div class="col-md-6">
+            <label for="localidad" class="form-label required">Localidad</label>
+            <input
+              type="text"
+              class="form-control input-field"
+              [class.error]="
+                accountOrgForm.get('localidad')?.touched &&
+                accountOrgForm.get('localidad')?.errors
+              "
+              id="localidad"
+              formControlName="localidad"
+              placeholder="Ej: Buenos Aires"
+            />
+            <small
+              *ngIf="
+                accountOrgForm.get('localidad')?.touched &&
+                accountOrgForm.get('localidad')?.errors
+              "
+              class="text-danger"
+              >La localidad es requerida</small
+            >
+          </div>
+          <div class="col-md-6">
+            <label for="provincia" class="form-label required">Provincia</label>
+            <select
+              class="form-control input-field"
+              [class.error]="
+                accountOrgForm.get('provincia')?.dirty &&
+                accountOrgForm.get('provincia')?.errors
+              "
+              id="provincia"
+              formControlName="provincia"
+            >
+              <option value="" selected disabled>Seleccionar Provincia</option>
+              <option *ngFor="let prov of provinces" [ngValue]="prov.nombre">
+                {{ prov.nombre }}
+              </option>
+            </select>
+            <small
+              *ngIf="
+                accountOrgForm.get('provincia')?.touched &&
+                accountOrgForm.get('provincia')?.errors
+              "
+              class="text-danger"
+              >La provincia es requerida</small
+            >
+          </div>
+        </div>
+        <div *ngIf="isEditMode" class="d-flex justify-content-flex-start mt-4">
+          <button
+            type="submit"
+            class="btn btn-block btn-primary"
+            (click)="onSubmit()"
+          >
+            Actualizar
+          </button>
+          <button
+            *ngIf="isEditMode"
+            type="button btn-block btn-primary"
+            (click)="toggleEditMode(true)"
+          >
+            Cancelar
+          </button>
+        </div>
+        <div *ngIf="!isEditMode" class="d-flex justify-content-flex-start mt-4">
+          <button
+            type="button"
+            class="btn btn-block btn-primary"
+            (click)="toggleEditMode()"
+          >
+            Editar
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="data">
+      <div *ngIf="headquarters.length > 0">
+        <div class="headquarters-length">
+          <p>Total de Sedes :</p>
+          <p>{{ headquarters.length }}</p>
+        </div>
+        <div class="headquarters-name" *ngIf="headquarters.length > 0">
+          <!--Se visualiza si tiene sedes-->
+          <p *ngFor="let h of headquarters">
+            {{ h.nombre }}
+          </p>
+        </div>
+
+        <p class="aviso">
+          Puede editarlas en <a routerLink="/sedes">mis sedes</a>
+        </p>
+      </div>
+      <div *ngIf="headquarters.length <= 0">
+        <p>Total de Sedes</p>
+        <p *ngIf="headquarters.length === 0">No tienes sedes registradas</p>
+        <p class="aviso-agregar">
+          Puede agregar sedes <a routerLink="/sedes">aquí</a>
+        </p>
+      </div>
+
+      <div *ngIf="needs.length > 0">
+        <div class="needs-length">
+          <p>Total de Necesidades :</p>
+          <p>{{ totalNeeds }}</p>
+        </div>
+        <div class="needs-name" *ngIf="needs.length > 0">
+          <!--Se visualiza si tiene necesidades-->
+          <!-- <p *ngFor="let need of needs">
+            {{ need.nombre }}
+          </p> -->
+          <div *ngFor="let need of needs">
+            <ul *ngFor="let subcategory of need.subcategoria">
+              <li>{{ subcategory.nombre }}</li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="aviso">
+          Puede editarlas en <a routerLink="/necesidades">mis necesidades</a>
+        </p>
+      </div>
+
+      <div *ngIf="needs.length <= 0">
+        <p>Total de Necesidades</p>
+        <p *ngIf="needs.length === 0">No tienes necesidades registradas</p>
+        <p class="aviso-agregar">
+          Puede agregar necesidades <a routerLink="/necesidades">aquí</a>
+        </p>
+      </div>
+      <!-- <div>
+        <h4>Tipo de producto más donado</h4>
+        <p>{{ mostDonatedProductType }}</p>
+      </div>
+      <div>
+        <h4>Cantidad del producto más donado</h4>
+        <p>{{ mostDonatedProductQuantity }}</p>
+      </div>
+      <div>
+        <h4>Organización a la que más ha donado</h4>
+        <p>{{ topOrganizationId }}</p>
+      </div> -->
+    </div>
+  </div>
+</div>

@@ -9,13 +9,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace backend.servicios.Servicios
 {
-    public class OrganizationService(ApplicationDbContext context, ILogger<OrganizationService> logger) : IOrganizationService
+    public class OrganizationService(ApplicationDbContext context, ILogger<OrganizationService> logger, IMapsService mapsService) : IOrganizationService
     {
         private readonly ApplicationDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
         private readonly ILogger<OrganizationService> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        private readonly IMapsService _mapsService = mapsService ?? throw new ArgumentNullException(nameof(mapsService));
+
         public async Task<IEnumerable<OrganizationDto>> GetAllOrganizationAsync()
         {
             try
@@ -156,14 +159,50 @@ namespace backend.servicios.Servicios
             }
         }
 
-        public async Task<IEnumerable<Organizacion>> GetPaginatedOrganizationsAsync(int page, int pageSize)
+        public async Task<IEnumerable<OrganizationDto>> GetPaginatedOrganizationsAsync(int page, int pageSize, List<int> subcategoriaIds,string name)
         {
-            return await _context.Organizacions
-                 .Include(o => o.InfoOrganizacion)
-                 .Where(o => o.InfoOrganizacion != null) 
-                 .Skip((page - 1) * pageSize)
-                 .Take(pageSize)
-                 .ToListAsync();
+            var query = _context.Organizacions
+             .Include(o => o.InfoOrganizacion)
+             .Where(o => o.InfoOrganizacion != null)
+             .AsQueryable();
+
+            if (subcategoriaIds != null && subcategoriaIds.Any())
+            {
+                query = query.Where(o => o.Subcategoria.Any(s => subcategoriaIds.Contains(s.Id)));
+            }
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                query = query.Where(o => o.Nombre.ToLower().Contains(name.ToLower()));
+            }
+
+            var organizations = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var organizationDtos = organizations.Select(o => new OrganizationDto
+            {
+                Id = o.Id,
+                Nombre = o.Nombre,
+                Cuit = o.Cuit,
+                Direccion = o.Direccion,
+                Localidad = o.Localidad,
+                Provincia = o.Provincia,
+                Telefono = o.Telefono,
+                Latitud = o.Latitud,
+                Longitud = o.Longitud,
+                InfoOrganizacion = o.InfoOrganizacion != null ? new InfoOrganizationDto
+                {
+                    Organizacion = o.InfoOrganizacion.Organizacion,
+                    DescripcionBreve = o.InfoOrganizacion.DescripcionBreve,
+                    DescripcionCompleta = o.InfoOrganizacion.DescripcionCompleta,
+                    Img = o.InfoOrganizacion.Img,
+                    OrganizacionId = o.InfoOrganizacion.OrganizacionId
+                } : null
+            }).ToList();
+
+            return organizationDtos;
         }
         
         public async Task AssignSubcategoriesAsync(int organizationId, List<SubcategoriesDto> subcategoriesDto)
@@ -200,8 +239,6 @@ namespace backend.servicios.Servicios
                 throw new Exception("Error al asignar subcategorías: " + ex.Message);
             }
         }
-
-
 
         public async Task<List<SubcategoriesDto>> GetAssignedSubcategoriesAsync(int organizationId)
         {
@@ -251,5 +288,37 @@ namespace backend.servicios.Servicios
             return groupedSubcategories;
         }
 
+        public async Task UpdateOrganizationAsync(OrganizationDto organizationDto)
+        {
+            if (organizationDto == null)
+                throw new ArgumentNullException(nameof(organizationDto), "La organizacion proporcionado no puede ser nula.");
+
+            var organization = await _context.Organizacions.FirstOrDefaultAsync(o => o.Id == organizationDto.Id);
+
+            if (organization == null)
+                throw new Exception("Organización no encontrada");
+
+            var (lat, lng) = await _mapsService.GetCoordinates(organizationDto.Direccion, organizationDto.Localidad, organizationDto.Provincia);
+
+            try
+            {
+                organization.Nombre = organizationDto.Nombre;
+                organization.Cuit = organizationDto.Cuit;
+                organization.Direccion = organizationDto.Direccion;
+                organization.Localidad = organizationDto.Localidad;
+                organization.Provincia = organizationDto.Provincia;
+                organization.Telefono = organizationDto.Telefono;
+                organization.Latitud = lat;
+                organization.Longitud = lng;
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al actualizar la organizacion");
+                throw;
+            }
+
+        }
     }
 }

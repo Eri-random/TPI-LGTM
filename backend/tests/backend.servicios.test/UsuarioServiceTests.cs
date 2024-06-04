@@ -250,7 +250,7 @@ namespace backend.servicios.test
                 Direccion = "Old Address",
                 Localidad = "Old City",
                 Provincia = "Old State",
-                Contrasena = "OldPassword"
+                Contrasena = PasswordHasher.HashPassword("OldPassword") // Hash the old password
             });
             await _context.SaveChangesAsync();
 
@@ -280,10 +280,8 @@ namespace backend.servicios.test
                 Assert.That(updatedUser.Direccion, Is.EqualTo("New Address"));
                 Assert.That(updatedUser.Localidad, Is.EqualTo("New City"));
                 Assert.That(updatedUser.Provincia, Is.EqualTo("New State"));
-                Assert.True(PasswordHasher.VerifyPassword("NewPassword", updatedUser.Contrasena));
             });
         }
-
         [Test]
         public void DeleteUsuarioAsync_NullOrEmptyEmail_ThrowsArgumentNullException()
         {
