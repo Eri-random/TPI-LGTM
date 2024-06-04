@@ -1,27 +1,21 @@
-.img-fluid{
-    width: 100%;
-    height: 100%;
-}
-
 .section-buttons{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
-    flex-direction: row;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-direction: row;
 }
 
 .dificultad{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    flex-direction: row;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-direction: row;
 }
 
 .easy {
   background-color: var(--color-primary);;
-  
   color: white;
   padding: 0 .5rem;
   border-radius: 2px;
@@ -44,23 +38,7 @@
   border-radius: 2px;
 }
 
-
-swiper-container {
-  width: 100%;
-  height: 100%;
-}
-
-swiper-slide {
-  text-align: center;
-  font-size: 18px;
+.imagen-idea {
   display: flex;
-  justify-content: center;
   align-items: center;
-}
-
-swiper-slide img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
