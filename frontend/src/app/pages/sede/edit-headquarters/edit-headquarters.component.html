@@ -3,90 +3,164 @@
     <div>
       <img
         class="position-absolute fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0"
-        src="../assets/img/curved-images/curved8.jpg" alt="image">
+        src="../assets/img/curved-images/curved8.jpg"
+        alt="image"
+      />
     </div>
     <div class="container">
-      <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-8 mb-5">
+      <div
+        class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-8 mb-5"
+      >
         <div class="card-body pt-0">
           <div class="d-flex row px-md-4">
+            <h1 class="text-center pt-4">Editá tu sede</h1>
 
-              <h1 class="text-center pt-4">Editá tu sede</h1>
-
-              <form class="my-4" [formGroup]="headquartersForm" >
-                <div class="row g-3">
-                  <div class="col-md-6">
-                    <label for="nombre" class="form-label required">Nombre</label>
-                    <input type="text" class="form-control input-field" [class.error]="
-                      headquartersForm.get('nombre')?.touched && headquartersForm.get('nombre')?.errors
-                    " id="nombre" formControlName="nombre" placeholder="Ej: Julieta" />
-                    <small *ngIf="
-                      headquartersForm.get('nombre')?.touched && headquartersForm.get('nombre')?.errors
-                    " class="text-danger">El nombre es requerido</small>
-                  </div>
-                  <div class="col-md-6">
-                    <label for="direccion" class="form-label required">Dirección</label>
-                    <input type="text" class="form-control input-field" [class.error]="
-                      headquartersForm.get('direccion')?.touched &&
-                      headquartersForm.get('direccion')?.errors
-                    " id="direccion" formControlName="direccion" placeholder="Ej: Calle 123" />
-                    <small *ngIf="
-                      headquartersForm.get('direccion')?.touched &&
-                      headquartersForm.get('direccion')?.errors
-                    " class="text-danger">La dirección es requerida</small>
-                  </div>
-                  <div class="col-md-6">
-                    <label for="localidad" class="form-label required">Localidad</label>
-                    <input type="text" class="form-control input-field" [class.error]="
-                      headquartersForm.get('localidad')?.touched &&
-                      headquartersForm.get('localidad')?.errors
-                    " id="localidad" formControlName="localidad" placeholder="Ej: Buenos Aires" />
-                    <small *ngIf="
-                      headquartersForm.get('localidad')?.touched &&
-                      headquartersForm.get('localidad')?.errors
-                    " class="text-danger">La localidad es requerida</small>
-                  </div>
-                  <div class="col-md-6">
-                    <label for="provincia" class="form-label required">Provincia</label>
-                    <select
+            <form class="my-4" [formGroup]="headquartersForm">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="nombre" class="form-label required">Nombre</label>
+                  <input
+                    type="text"
                     class="form-control input-field"
                     [class.error]="
-                    headquartersForm.get('provincia')?.dirty &&
-                    headquartersForm.get('provincia')?.errors
+                      headquartersForm.get('nombre')?.touched &&
+                      headquartersForm.get('nombre')?.errors
+                    "
+                    id="nombre"
+                    formControlName="nombre"
+                    placeholder="Ej: Julieta"
+                  />
+                  <small
+                    *ngIf="
+                      headquartersForm.get('nombre')?.touched &&
+                      headquartersForm.get('nombre')?.errors
+                    "
+                    class="text-danger"
+                    >El nombre es requerido</small
+                  >
+                </div>
+                <div class="col-md-6">
+                  <label for="direccion" class="form-label required"
+                    >Dirección</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control input-field"
+                    [class.error]="
+                      headquartersForm.get('direccion')?.touched &&
+                      headquartersForm.get('direccion')?.errors
+                    "
+                    id="direccion"
+                    formControlName="direccion"
+                    placeholder="Ej: Calle 123"
+                  />
+                  <small
+                    *ngIf="
+                      headquartersForm.get('direccion')?.touched &&
+                      headquartersForm.get('direccion')?.errors
+                    "
+                    class="text-danger"
+                    >La dirección es requerida</small
+                  >
+                </div>
+                <div class="col-md-6">
+                  <label for="provincia" class="form-label required"
+                    >Provincia</label
+                  >
+                  <select
+                    (change)="onProvinceChange()"
+                    class="form-control input-field"
+                    [class.error]="
+                      headquartersForm.get('provincia')?.dirty &&
+                      headquartersForm.get('provincia')?.errors
                     "
                     id="provincia"
                     formControlName="provincia"
                   >
-                    <option value="" selected disabled>Seleccionar Provincia</option>
-                    <option *ngFor="let prov of provinces" [ngValue]="prov.nombre">
+                    <option value="" selected>
+                      Seleccionar Provincia
+                    </option>
+                    <option
+                      *ngFor="let prov of provinces"
+                      [ngValue]="prov.nombre"
+                    >
                       {{ prov.nombre }}
                     </option>
                   </select>
-                    <small *ngIf="
+                  <small
+                    *ngIf="
                       headquartersForm.get('provincia')?.touched &&
                       headquartersForm.get('provincia')?.errors
-                    " class="text-danger">La provincia es requerida</small>
-                  </div>
-                  <div class="col-md-6">
-                    <label for="telefono" class="form-label required">Teléfono</label>
-                    <input type="text" class="form-control input-field" [class.error]="
-                      headquartersForm.get('telefono')?.touched && headquartersForm.get('telefono')?.errors
-                    " id="telefono" formControlName="telefono" placeholder="Ej: 123456789" />
-                    <small *ngIf="
-                      headquartersForm.get('telefono')?.touched && headquartersForm.get('telefono')?.errors
-                    " class="text-danger">El teléfono es requerido</small>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-center mt-4">
-                  <button
-                    (click)="submitForm()"
-                    type="button"
-                    class="btn btn-lg btn-round bg-gradient-secondary"
+                    "
+                    class="text-danger"
+                    >La provincia es requerida</small
                   >
-                  Guardar cambios
-                  </button>
                 </div>
-              </form>
+                <div class="col-md-6">
+                  <label for="localidad" class="form-label required">Localidades</label>
+                  <select
+                    class="form-control input-field"
+                    [class.error]="
+                      headquartersForm.get('localidad')?.dirty &&
+                      headquartersForm.get('localidad')?.errors
+                    "
+                    id="localidad"
+                    required
+                    formControlName="localidad"
+                  >
+                    <option value="" selected>Seleccionar Localidad</option>
+                    <option
+                      *ngFor="let local of localidades"
+                      [value]="local.nombre"
+                    >
+                      {{ local.nombre }}
+                    </option>
+                  </select>
+                  <small
+                    *ngIf="
+                      headquartersForm.get('localidad')?.touched &&
+                      headquartersForm.get('localidad')?.errors
+                    "
+                    class="text-danger"
+                    >La localidad es requerida</small
+                  >
+                </div>
 
+                <div class="col-md-6">
+                  <label for="telefono" class="form-label required"
+                    >Teléfono</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control input-field"
+                    [class.error]="
+                      headquartersForm.get('telefono')?.touched &&
+                      headquartersForm.get('telefono')?.errors
+                    "
+                    id="telefono"
+                    formControlName="telefono"
+                    placeholder="Ej: 123456789"
+                  />
+                  <small
+                    *ngIf="
+                      headquartersForm.get('telefono')?.touched &&
+                      headquartersForm.get('telefono')?.errors
+                    "
+                    class="text-danger"
+                    >El teléfono es requerido</small
+                  >
+                </div>
+              </div>
+              <div class="d-flex justify-content-center mt-4">
+                <button
+                  (click)="submitForm()"
+                  type="button"
+                  class="btn btn-lg btn-round bg-gradient-secondary"
+                >
+                  Guardar cambios
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

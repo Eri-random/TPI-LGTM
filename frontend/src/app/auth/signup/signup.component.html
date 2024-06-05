@@ -122,20 +122,71 @@
                       </div>
                     </div>
                     <div class="row">
+
                       <div class="col-md-6 mb-3">
-                        <label for="provincia" class="form-label required">Provincia</label>
-                        <div class="input-field" [class.error]="registerForm.controls['provincia'].dirty && registerForm.hasError('required','provincia')">
-                          <input id="provincia" formControlName="provincia" type="text" placeholder="Provincia" class="form-control form-control-lg">
-                        </div>
-                        <label *ngIf="registerForm.controls['provincia'].dirty && registerForm.hasError('required','provincia')" class="text-danger">Provincia requerida</label>
+                        <label for="provincia" class="form-label required"
+                          >Provincia</label
+                        >
+                        <select
+                          (change)="onProvinceChange()"
+                          class="form-control input-field"
+                          [class.error]="
+                          registerForm.get('provincia')?.dirty &&
+                          registerForm.get('provincia')?.errors
+                          "
+                          id="provincia"
+                          formControlName="provincia"
+                        >
+                          <option value="" selected>
+                            Seleccionar Provincia
+                          </option>
+                          <option
+                            *ngFor="let prov of provinces"
+                            [ngValue]="prov.nombre"
+                          >
+                            {{ prov.nombre }}
+                          </option>
+                        </select>
+                        <small
+                          *ngIf="
+                          registerForm.get('provincia')?.touched &&
+                          registerForm.get('provincia')?.errors
+                          "
+                          class="text-danger"
+                          >La provincia es requerida</small
+                        >
                       </div>
                       <div class="col-md-6 mb-3">
-                        <label for="localidad" class="form-label required">Localidad</label>
-                        <div class="input-field" [class.error]="registerForm.controls['localidad'].dirty && registerForm.hasError('required','localidad')">
-                          <input id="localidad" formControlName="localidad" type="text" placeholder="Localidad" class="form-control form-control-lg">
-                        </div>
-                        <label *ngIf="registerForm.controls['localidad'].dirty && registerForm.hasError('required','localidad')" class="text-danger">Localidad requerida</label>
+                        <label for="localidad" class="form-label required">Localidades</label>
+                        <select
+                          class="form-control input-field"
+                          [class.error]="
+                          registerForm.get('localidad')?.dirty &&
+                          registerForm.get('localidad')?.errors
+                          "
+                          id="localidad"
+                          required
+                          formControlName="localidad"
+                        >
+                          <option value="" selected>Seleccionar Localidad</option>
+                          <option
+                            *ngFor="let local of localidades"
+                            [value]="local.nombre"
+                          >
+                            {{ local.nombre }}
+                          </option>
+                        </select>
+                        <small
+                          *ngIf="
+                          registerForm.get('localidad')?.touched &&
+                          registerForm.get('localidad')?.errors
+                          "
+                          class="text-danger"
+                          >La localidad es requerida</small
+                        >
                       </div>
+
+                      
                     </div>
                     <div *ngIf="selectedRole == 'organización'" class="form-group mb-3">
                       <label for="cuit" class="form-label required">Cuit</label>
