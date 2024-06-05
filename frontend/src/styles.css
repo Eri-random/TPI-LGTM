@@ -4,7 +4,7 @@ body {font-family: "Fredoka", sans-serif !important; font-weight: 400 !important
 :root{
     --color-primary: #8BC53F;
     --color-secondary: #4281A4;
-    --color-dark-grey: #3D3D3D; 
+    --color-dark-grey: #323232; 
     --color-light-grey: #F8F8F8;
     --bs-btn-focus-shadow-rgb: rgb(139 197 63 / 50%);
 }
@@ -15,6 +15,19 @@ body {font-family: "Fredoka", sans-serif !important; font-weight: 400 !important
 
 .text-secondary{
     color: #4281A4 !important;
+}
+
+a {
+    color: #4281A4;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+a:hover {
+    color: #8BC53F;
+}
+
+.btn {
+    letter-spacing: 0.1rem;
 }
 
 .btn-outline-primary{
@@ -34,6 +47,13 @@ body {font-family: "Fredoka", sans-serif !important; font-weight: 400 !important
     --bs-gradient: none;
 }
 
+.btn-outline-primary:hover:not(.active) {
+    background-color: transparent;
+    opacity: .75;
+    box-shadow: none;
+    color: #8BC53F;
+}
+
 .btn-outline-secondary{
     --bs-btn-color: #4281A4;
     --bs-btn-border-color: #4281A4;
@@ -50,6 +70,13 @@ body {font-family: "Fredoka", sans-serif !important; font-weight: 400 !important
     --bs-btn-disabled-border-color: #4281A4;
     --bs-gradient: none;
 }
+
+.btn-outline-secondary:hover:not(.active) {
+    background-color: transparent;
+    opacity: .75;
+    box-shadow: none;
+    color: #4281A4;
+  }
 
 .text-gradient.text-primary {
     background-image: linear-gradient(310deg, #CBE5A8 0%, #8BC53F 100%);
@@ -91,10 +118,6 @@ svg.text-secondary .color-background {
     font-family: "Fredoka", sans-serif !important;
     font-weight: 400 !important;
     padding: 1.5rem;
-}
-
-.btn {
-    letter-spacing: 0.1rem;
 }
 
 .icon-shape {
@@ -154,6 +177,9 @@ svg.text-secondary .color-background {
 }
 
 .form-control:focus {
+    color: #495057;
+    background-color: #fff;
     border-color: #4281A4;
-    box-shadow: inset 0 1px 1px rgba(164, 194, 219, 0.075), 0 0 8px rgba(66, 129, 164, 0.6);
+    outline: 0;
+    box-shadow: 0 0 0 2px #A4C2DB
 }
