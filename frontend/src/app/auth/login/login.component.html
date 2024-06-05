@@ -27,7 +27,7 @@
                   </div>
                   <small *ngIf="!(loginForm.controls['password'].dirty && loginForm.hasError('required','password')) && error" class="text-danger">{{error}}</small>
                   <div class="text-center">
-                    <button (click)="onSubmit()" type="submit" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">Ingresar</button>
+                    <button (click)="onSubmit()" type="submit" class="btn btn-round btn-lg bg-gradient-primary w-100 mt-4 mb-0">Ingresar</button>
                   </div>
                 </form>
               </div>
