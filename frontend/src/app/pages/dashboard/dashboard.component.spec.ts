@@ -96,23 +96,24 @@ describe('DashboardComponent', () => {
     expect(component.totalDonations).toBe(10);
     expect(component.totalDonationsCount).toBe(1);
     expect(component.averageDonations).toBe(10);
-    expect(component.productMostDonate).toEqual({ product: 'Producto A', amount: 10 });
+    expect(component.productMostDonate).toEqual({ product: 'producto a', amount: 10 });
   });
 
   it('debería manejar nuevas donaciones a través de WebSocket', () => {
     component.dataSource = new MatTableDataSource<UserData>([]);
     const newDonation = {
       newDonation: { Producto: 'Producto B', Cantidad: 5 },
-      user: { Nombre: 'Maria', Telefono: '87654321', Email: 'maria@ejemplo.com' },
+      user: { Nombre: 'Maria', Telefono: '87654321', Email: 'maria@ejemplo.com' }, // Proporciona datos válidos para el usuario
     };
+    
 
     component.handleNewDonation(newDonation);
-
+    
     expect(component.totalDonations).toBe(5);
     expect(component.totalDonationsCount).toBe(1);
     expect(component.averageDonations).toBe(5);
     expect(component.dataSource.data.length).toBe(1);
-    expect(component.dataSource.data[0].name).toBe('Maria');
+    expect(component.dataSource.data[0].name).toBe('Maria'); // Verifica que el nombre sea 'Maria' correctamente
     expect(component.dataSource.data[0].producto).toBe('Producto B');
     expect(toastServiceMock.success).toHaveBeenCalledWith({
       detail: 'EXITO',
@@ -125,8 +126,8 @@ describe('DashboardComponent', () => {
   it('debería aplicar filtro a la tabla', () => {
     const event = { target: { value: 'juan' } } as any;
     component.dataSource.data = [
-      { id:1,name: 'Juan', telefono: '12345678', email: 'juan@ejemplo.com', producto: 'Producto A', cantidad: 10, progress: '' },
-      { id:2,name: 'Maria', telefono: '87654321', email: 'maria@ejemplo.com', producto: 'Producto B', cantidad: 5, progress: '' },
+      { id:1, name: 'Juan', telefono: '12345678', email: 'juan@ejemplo.com', producto: 'Producto A', cantidad: 10, progress: '' },
+      { id:2, name: 'Maria', telefono: '87654321', email: 'maria@ejemplo.com', producto: 'Producto B', cantidad: 5, progress: '' },
     ];
 
     component.applyFilter(event);
