@@ -39,7 +39,7 @@ module.exports = function (config) {
       // available browser launchers: https://www.npmjs.com/search?q=keywords:karma-launcher
       browsers: ['Chrome'],
       customLaunchers: {
-        ChromeHeadlessPuppeteer: {
+        ChromeHeadlessCustom: {
           base: 'ChromeHeadless',
           flags: ['--no-sandbox', '--disable-gpu']
         }
