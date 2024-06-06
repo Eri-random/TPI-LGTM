@@ -37,13 +37,7 @@ module.exports = function (config) {
   
       // start these browsers
       // available browser launchers: https://www.npmjs.com/search?q=keywords:karma-launcher
-      browsers: ['ChromeHeadless'],
-      customLaunchers: {
-        ChromeHeadlessCustom: {
-          base: 'ChromeHeadless',
-          flags: ['--no-sandbox', '--disable-gpu']
-        }
-      },
+      browsers: ['Chrome'],
   
       // Continuous Integration mode
       // if true, Karma captures browsers, runs the tests and exits
@@ -66,12 +60,13 @@ module.exports = function (config) {
       },
   
       // Karma plugins
+      frameworks: ['jasmine', '@angular-devkit/build-angular'],
       plugins: [
         require('karma-jasmine'),
         require('karma-chrome-launcher'),
         require('karma-jasmine-html-reporter'),
         require('karma-coverage-istanbul-reporter'),
         require('@angular-devkit/build-angular/plugins/karma')
-      ]
+      ],
     });
   };
