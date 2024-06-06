@@ -18,12 +18,15 @@ import { EditHeadquartersComponent } from './pages/sede/edit-headquarters/edit-h
 import { MyOrganizationComponent } from './pages/my-organization/my-organization.component';
 import { authGuard } from './guards/auth.guard';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
+import { UpdateAccountComponent } from './pages/update-account/update-account.component';
 
 
 const routes: Routes = [
   {path:'',component:LandingComponent, pathMatch:'full'},
   {path:'login',component:LoginComponent},
   {path:'signup',component:SignupComponent},
+  {path: 'mi-cuenta', component: UpdateAccountComponent, canActivate: [authGuard], data: { expectedRole: 'usuario'}},
+  {path: 'mis-datos', component: UpdateAccountComponent, canActivate: [authGuard], data: { expectedRole: 'organizacion'}},
   {path: 'generar-ideas', component:GenerateIdeasComponent, canActivate: [authGuard], data: { expectedRole: 'usuario' }},
   {path: 'ubicaciones', component:MapOrganizationsComponent},
   {path: 'donar', component:DonationsComponent},

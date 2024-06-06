@@ -18,12 +18,14 @@ namespace backend.servicios.Interfaces
 
         Task<OrganizationDto> GetOrganizationByCuitAsync(string cuit);
 
-        Task<IEnumerable<Organizacion>> GetPaginatedOrganizationsAsync(int page, int pageSize);
+        Task<IEnumerable<OrganizationDto>> GetPaginatedOrganizationsAsync(int page, int pageSize, List<int> subcategoriaIds, string name);
 
         Task AssignSubcategoriesAsync(int organizationId, List<SubcategoriesDto> subcategoriesDto);
 
         Task<List<SubcategoriesDto>> GetAssignedSubcategoriesAsync(int organizationId);
 
         Task<List<NeedDto>> GetAssignedSubcategoriesGroupedAsync(int organizationId);
+
+        Task UpdateOrganizationAsync(OrganizationDto organizationDto);
     }
 }

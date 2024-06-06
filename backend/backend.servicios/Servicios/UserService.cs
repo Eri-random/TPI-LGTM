@@ -3,6 +3,7 @@ using backend.data.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -161,8 +162,6 @@ namespace backend.servicios.Servicios
             if (existingUser == null)
                 throw new KeyNotFoundException("Usuario no encontrado para actualizar.");
 
-            var hashedPassword = PasswordHasher.HashPassword(userDto.Password);
-
             try
             {
                 existingUser.Nombre = userDto.Nombre;
@@ -171,7 +170,12 @@ namespace backend.servicios.Servicios
                 existingUser.Direccion = userDto.Direccion;
                 existingUser.Localidad = userDto.Localidad;
                 existingUser.Provincia = userDto.Provincia;
-                existingUser.Contrasena = hashedPassword;
+                // Solo actualizar la contraseña si se proporciona una nueva
+                if (!string.IsNullOrEmpty(userDto.Password))
+                {
+                    var passwordHasher = new PasswordHasher<Usuario>();
+                    existingUser.Contrasena = passwordHasher.HashPassword(existingUser, userDto.Password);
+                }
 
                 _context.Usuarios.Update(existingUser);
                 await _context.SaveChangesAsync();

@@ -5,6 +5,7 @@ using backend.servicios.Interfaces;
 using backend.servicios.Servicios;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -138,11 +139,23 @@ namespace backend.api.Controllers
         }
 
         [HttpGet("pagination")]
-        public async Task<IActionResult> GetPaginatedOrganizationsAsync([FromQuery] int page = 1, [FromQuery] int pageSize = 8)
+        public async Task<IActionResult> GetPaginatedOrganizationsAsync(
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 8,
+        [FromQuery] string subcategoriaIds = null,
+        [FromQuery] string name = null)
         {
             try
             {
-                var organizations = await _organizationService.GetPaginatedOrganizationsAsync(page, pageSize);
+                List<int> subcategoriaIdList = null;
+                if (!string.IsNullOrEmpty(subcategoriaIds))
+                {
+                    subcategoriaIdList = subcategoriaIds.Split(',')
+                        .Select(int.Parse)
+                        .ToList();
+                }
+
+                var organizations = await _organizationService.GetPaginatedOrganizationsAsync(page, pageSize, subcategoriaIdList, name);
                 var organizationResponse = MapOrganizations(organizations);
                 return Ok(organizationResponse);
             }
@@ -153,7 +166,7 @@ namespace backend.api.Controllers
             }
         }
 
-        private List<OrganizationResponseModel> MapOrganizations(IEnumerable<Organizacion> organizations)
+        private List<OrganizationResponseModel> MapOrganizations(IEnumerable<OrganizationDto> organizations)
         {
             var organizationResponse = new List<OrganizationResponseModel>();
 
@@ -220,7 +233,7 @@ namespace backend.api.Controllers
                 var groupedSubcategories = await _organizationService.GetAssignedSubcategoriesGroupedAsync(organizationId);
                 if (groupedSubcategories == null || !groupedSubcategories.Any())
                 {
-                    return NotFound();
+                    return Ok(new List<NeedDto>());
                 }
                 return Ok(groupedSubcategories);
             }
@@ -228,6 +241,38 @@ namespace backend.api.Controllers
             {
                 // Manejar la excepción (por ejemplo, registrar el error)
                 return StatusCode(500, "Error interno del servidor");
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateOrganization([FromBody] OrganizationRequestModel organizationRequest)
+        {
+            if (organizationRequest == null)
+            {
+                return BadRequest("Organizacion no puede ser nula");
+            }
+
+            try
+            {
+                var organization = new OrganizationDto
+                {
+                    Id = organizationRequest.Id,
+                    Nombre = organizationRequest.Nombre,
+                    Cuit = organizationRequest.Cuit,
+                    Direccion = organizationRequest.Direccion,
+                    Localidad = organizationRequest.Localidad,
+                    Provincia = organizationRequest.Provincia,
+                    Telefono = organizationRequest.Telefono,
+                    Latitud = 0,
+                    Longitud = 0,
+                };
+
+                await _organizationService.UpdateOrganizationAsync(organization);
+                return Ok(new { message = $"Organización {organizationRequest.Nombre} actualizada correctamente" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = $"Error al actualizar la organizacion: {ex.Message}" });
             }
         }
 

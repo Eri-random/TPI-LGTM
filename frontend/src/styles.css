@@ -111,3 +111,13 @@ svg.text-primary .color-background {
 .gm-style .gm-style-iw-c{
     border-radius: 2px;
 }
+
+.vertical-alignment {
+    display: flex;
+    align-items: center;
+}
+
+.mat-mdc-dialog-container .mdc-dialog__surface {
+    border-radius: 1rem !important;
+}
+

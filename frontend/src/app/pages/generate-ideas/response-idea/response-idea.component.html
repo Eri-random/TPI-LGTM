@@ -17,20 +17,32 @@
             </p>
             <p *ngIf="response.dificultad === 'Dificil'" class="dificultad lead mb-3"> Dificultad: <span class="hard">{{ response.dificultad }}</span>
             </p>
-            <swiper-container pagination="true" pagination-type="fraction" navigation="true">
-              <swiper-slide *ngFor="let step of response.steps" class="pb-4">
-                <div class="card mb-3 justify-content-center" style="max-width: 540px">
-                  <div class="row">
-                    <div class="col">
-                      <img src="https://media.istockphoto.com/id/1226328537/es/vector/soporte-de-posici%C3%B3n-de-imagen-con-un-icono-de-c%C3%A1mara-gris.jpg?s=612x612&w=0&k=20&c=8igCt_oe2wE-aP0qExUDfwicSNUCb4Ho9DiKCq0rSaA=" class="img-fluid border-radius-lg" alt="..." />
+            <div class="row mb-3 justify-content-center">
+              <div class="col-lg-11">
+                <div class="row g-3">
+                  <div class="col-md-4 justify-content-center imagen-idea">
+                    <img src="https://media.istockphoto.com/id/1226328537/es/vector/soporte-de-posici%C3%B3n-de-imagen-con-un-icono-de-c%C3%A1mara-gris.jpg?s=612x612&w=0&k=20&c=8igCt_oe2wE-aP0qExUDfwicSNUCb4Ho9DiKCq0rSaA=" class="img-fluid border-radius-lg" alt="..." />
+                  </div>
+                  <div class="col-md-8">
+                    <div class="accordion" id="accordionRental">
+                      <div [attr.id]="'accordion_' + i" *ngFor="let step of response.steps; index as i" class="accordion-item mb-3">
+                        <h5 class="accordion-header" id="headingOne">
+                          <button class="accordion-button border-bottom font-weight-bold collapsed" type="button" data-bs-toggle="collapse" [attr.data-parent]="'#accordion_' + i" [attr.href]="'#collapseOne_' + i"> Paso {{ i + 1 }}
+                            <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
+                            <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
+                          </button>
+                        </h5>
+                        <div [attr.id]="'collapseOne_' + i" class="accordion-collapse collapse">
+                          <div class="accordion-body text-sm opacity-8">
+                            {{ step }}
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div class="card-body">
-                    <p class="card-text">{{ step }}</p>
-                  </div>
                 </div>
-              </swiper-slide>
-            </swiper-container>
+              </div>
+            </div>
             <div class="section-buttons">
               <button class="btn bg-gradient-primary mt-2" (click)="generateNewIdea()">Generar otra idea</button>
               <button class="btn bg-gradient-secondary mt-2" (click)="saveIdea()">Guardar idea</button>

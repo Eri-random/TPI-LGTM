@@ -12,5 +12,6 @@ namespace backend.servicios.Interfaces
         Task SaveDataInfoOrganization(InfoOrganizationDto infoOrganizationDto);
 
         Task UpdateInfoOrganizationAsync(InfoOrganizationDto infoOrganizationDto);
+
     }
 }
