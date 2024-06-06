@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files*/
 html, body { height: 100%!important; }
-body {font-family: "Fredoka", sans-serif !important; font-weight: 400 !important; } 
+body {font-family: "Fredoka", sans-serif !important; font-weight: 400 !important; color: #5A5A5A;} 
 :root{
     --color-primary: #8BC53F;
     --color-secondary: #4281A4;
@@ -24,6 +24,18 @@ a {
 
 a:hover {
     color: #8BC53F;
+}
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+    color: #5A5A5A;
+}
+
+label, .form-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #5A5A5A;
+    margin-left: 0.25rem;
 }
 
 .btn {
