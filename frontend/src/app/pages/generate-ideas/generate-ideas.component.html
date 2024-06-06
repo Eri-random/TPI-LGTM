@@ -47,7 +47,7 @@
             </div>
           </div>
           <form [formGroup]='ideaForm' (ngSubmit)="submitForm()">
-            <div class="row justify-content-center mb-2">
+            <div class="row justify-content-center">
               <div class="col-lg-4 imgUp align-items-center justify-content-center" *ngFor="let preview of imagePreviews; let i = index">
                 <div class="imagePreview shadow border-radius-md" [style.backgroundImage]="'url(' + preview + ')'"></div>
                 <div class="text-center justify-content-center align-items-center">
