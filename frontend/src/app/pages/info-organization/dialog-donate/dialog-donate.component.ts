@@ -34,8 +34,6 @@ export class DialogDonateComponent implements OnInit {
     private userStore: UserStoreService,
     private headquarterService: HeadquartersService,
     private organizationService: OrganizationService,
-    private toast: NgToastService,
-    private router: Router
   ) {}
 
   ngOnInit(): void {
