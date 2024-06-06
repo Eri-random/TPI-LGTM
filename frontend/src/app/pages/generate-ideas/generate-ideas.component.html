@@ -47,25 +47,23 @@
             </div>
           </div>
           <form [formGroup]='ideaForm' (ngSubmit)="submitForm()">
-            <div class="row row-cols-2 row-cols-md-6 justify-content-center mb-2">
-              <div class="col-6 col-md-3 col-lg-2 imgUp align-items-center justify-content-center" *ngFor="let preview of imagePreviews; let i = index">
+            <div class="row justify-content-center mb-2">
+              <div class="col-lg-4 imgUp align-items-center justify-content-center" *ngFor="let preview of imagePreviews; let i = index">
                 <div class="imagePreview shadow border-radius-md" [style.backgroundImage]="'url(' + preview + ')'"></div>
                 <div class="text-center justify-content-center align-items-center">
-                  <label class="btn bg-gradient-primary mt-4" id="selectFile"> Cargar imagen <input type="file" class="uploadFile img" (change)="onFileChange($event, i)">
-                  </label>
-                </div>
+                  <label class="btn btn-round bg-gradient-secondary mt-4" id="selectFile"><i class="fas fa-file-upload"></i> Subir imagen <input type="file" class="uploadFile img" (change)="onFileChange($event, i)"></label>
+
                 <ng-container *ngIf="i > 0">
-                  <i class="fa fa-times del" (click)="removeImage(i)"></i>
+                  <button class="btn btn-round bg-gradient-danger" (click)="removeImage(i)"><i class="fas fa-trash"></i> Eliminar imagen</button>
                 </ng-container>
+                </div>
               </div>
-              <!-- <i *ngIf="imagePreviews.length < 4" class="fa fa-plus-square icon_add d-none d-md-block" (click)="addImage()"></i> -->
-            </div>
-            <small *ngIf="errorImage" class="msj-error d-flex justify-content-center mb-5">{{errorImage}}</small>
-            <!-- <button type="button" *ngIf="imagePreviews.length < 4" class="btn btn-primary py-2 my-4 w-100 d-block d-md-none" (click)="addImage()">
-                    Agregar Imágen
-                </button> -->
-            <div class="row justify-content-center">
-              <div class="col-lg-6">
+              <!-- <ng-container *ngIf="imagePreviews.length < 4">
+                <button class="btn btn-round bg-gradient-primary w-25 h-25" (click)="addImage()"><i class="fas fa-plus"></i> Agregar imagen</button>
+              </ng-container> -->
+              <small *ngIf="errorImage" class="text-danger d-flex justify-content-center mb-5">{{errorImage}}</small>
+
+              <div class="col-lg-6 d-flex justify-content-center align-items-center">
                 <div class="row g-3">
                   <div class="col-md-6">
                     <label for="tipoDeTela" class="form-label required">Tipo de tela</label>
@@ -90,7 +88,7 @@
                   <div class="col-12">
                     <div class="row">
                       <div class="d-flex justify-content-center pt-3">
-                        <button class="btn btn-lg bg-gradient-primary">Generar idea</button>
+                        <button class="btn btn-round btn-lg bg-gradient-primary">Generar idea</button>
                       </div>
                     </div>
                   </div>

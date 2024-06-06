@@ -15,7 +15,7 @@ import { SpinnerService } from 'src/app/services/spinner.service';
 })
 export class GenerateIdeasComponent implements OnInit {
 
-  imagePreviews: string[] = ['https://media.istockphoto.com/id/1226328537/es/vector/soporte-de-posici%C3%B3n-de-imagen-con-un-icono-de-c%C3%A1mara-gris.jpg?s=612x612&w=0&k=20&c=8igCt_oe2wE-aP0qExUDfwicSNUCb4Ho9DiKCq0rSaA='];
+  imagePreviews: string[] = ['/assets/img/placeholder.png'];
   imageFiles: File[] = [];
   ideaForm!: FormGroup;
   isLogged!:boolean;

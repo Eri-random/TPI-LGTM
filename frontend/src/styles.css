@@ -6,6 +6,7 @@ body {font-family: "Fredoka", sans-serif !important; font-weight: 400 !important
     --color-secondary: #4281A4;
     --color-dark-grey: #323232; 
     --color-light-grey: #F8F8F8;
+    --color-danger: #A42A2A;
     --bs-btn-focus-shadow-rgb: rgb(139 197 63 / 50%);
 }
 
@@ -15,6 +16,10 @@ body {font-family: "Fredoka", sans-serif !important; font-weight: 400 !important
 
 .text-secondary{
     color: #4281A4 !important;
+}
+
+.text-danger{
+    color: #A42A2A !important;
 }
 
 a {
@@ -31,7 +36,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
 }
 
 label, .form-label {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
     color: #5A5A5A;
@@ -106,6 +111,14 @@ label, .form-label {
     background-image: linear-gradient(310deg, #A4C2DB 0%, #4281A4 100%);
 } 
 
+.text-gradient.text-danger {
+    background-image: linear-gradient(310deg, #DD7A7A 0%, #A42A2A 100%);
+}
+
+.bg-gradient-danger{
+    background-image: linear-gradient(310deg, #DD7A7A 0%, #A42A2A 100%);
+}
+
 .text-highlight{
     color:#fff;
     background: linear-gradient(310deg, #4281A4 0%, #8BC53F 100%);
@@ -137,10 +150,6 @@ svg.text-secondary .color-background {
     align-items: center;
 }
 
-.mat-mdc-dialog-container .mdc-dialog__surface {
-    border-radius: 1rem;
-}
-
 .page-container {
     padding: 0;
     position: relative;
@@ -157,6 +166,10 @@ svg.text-secondary .color-background {
     border-color: #4281A4;
     outline: 0;
     box-shadow: 0 0 0 2px #A4C2DB
+}
+
+.mat-mdc-dialog-container .mdc-dialog__surface {
+    border-radius: 1rem;
 }
 
 .icon-shape {
