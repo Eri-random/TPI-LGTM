@@ -5,10 +5,9 @@ import { Observable, catchError, switchMap, tap, throwError } from 'rxjs';
 import ValidateForm from 'src/app/helpers/validateForm';
 import { Province, Provinces } from 'src/app/interfaces/provinces.interface';
 import { AuthService } from 'src/app/services/auth.service';
-import { DonationService } from 'src/app/services/donation.service';
+import { DonationsService } from 'src/app/services/donations.service';
 import { HeadquartersService } from 'src/app/services/headquarters.service';
 import { MapService } from 'src/app/services/map.service';
-import { NeedService } from 'src/app/services/need.service';
 import { OrganizationService } from 'src/app/services/organization.service';
 import { UserStoreService } from 'src/app/services/user-store.service';
 
@@ -50,7 +49,7 @@ export class UpdateAccountComponent implements OnInit {
     private toast: NgToastService,
     private organizationService: OrganizationService,
     private headquartersService: HeadquartersService,
-    private donationService: DonationService
+    private donationService: DonationsService
   ) {
     this.accountForm = this.fb.group({
       nombre: [{ value: '', disabled: true }, Validators.required],
@@ -220,12 +219,12 @@ export class UpdateAccountComponent implements OnInit {
 
   loadDonations(): void {
     this.donationService.getAllDonationsByUserId(this.idUser).subscribe({
-      next: (res) => {
+      next: (res:any) => {
         this.donations = res;
         console.log('Donations:', this.donations);
         this.calculateMostDonatedProductType();
       },
-      error: (err) => {
+      error: (err:any) => {
         console.error('Error loading donations:', err);
       },
     });
