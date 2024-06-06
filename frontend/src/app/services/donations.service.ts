@@ -40,4 +40,9 @@ export class DonationsService {
   getDonations(): Observable<Donation[]> {
     return this.donations$;
   }
+
+  postSaveDonation(data: any){
+    const url = `${this.baseUrl}/Donation`;
+    return this.http.post<any>(url, data);
+  }
 }

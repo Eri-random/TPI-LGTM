@@ -7,7 +7,7 @@ import { MyOrganizationComponent } from './my-organization.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { OrganizationService } from 'src/app/services/organization.service';
 import { NgToastService } from 'ng-angular-popup';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { EditorModule } from '@tinymce/tinymce-angular';
 
@@ -40,7 +40,7 @@ describe('MyOrganizationComponent', () => {
         { provide: NgToastService, useValue: toastServiceMock },
         { provide: Router, useValue: routerMock },
       ],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas:[CUSTOM_ELEMENTS_SCHEMA,NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 

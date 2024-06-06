@@ -4,13 +4,13 @@ import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { DialogDonateComponent } from './dialog-donate.component';
-import { DonationService } from 'src/app/services/donation.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserStoreService } from 'src/app/services/user-store.service';
 import { HeadquartersService } from 'src/app/services/headquarters.service';
 import { OrganizationService } from 'src/app/services/organization.service';
 import { NgToastService } from 'ng-angular-popup';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { DonationsService } from 'src/app/services/donations.service';
 
 describe('DialogDonateComponent', () => {
   let component: DialogDonateComponent;
@@ -25,7 +25,7 @@ describe('DialogDonateComponent', () => {
   let mockDialogRef: any;
 
   beforeEach(async () => {
-    mockDonationService = jasmine.createSpyObj('DonationService', ['postSaveDonation']);
+    mockDonationService = jasmine.createSpyObj('DonationsService', ['postSaveDonation']);
     mockAuthService = jasmine.createSpyObj('AuthService', ['getEmailFromToken']);
     mockUserStoreService = jasmine.createSpyObj('UserStoreService', ['getEmailFromStore', 'getUserByEmail']);
     mockHeadquartersService = jasmine.createSpyObj('HeadquartersService', ['getHeadquartersByOrganization', 'postNearestHeadquarter', 'setDataDirection']);
@@ -41,7 +41,7 @@ describe('DialogDonateComponent', () => {
         FormBuilder,
         { provide: MAT_DIALOG_DATA, useValue: { organizacionId: 1 } },
         { provide: MatDialogRef, useValue: mockDialogRef },
-        { provide: DonationService, useValue: mockDonationService },
+        { provide: DonationsService, useValue: mockDonationService },
         { provide: AuthService, useValue: mockAuthService },
         { provide: UserStoreService, useValue: mockUserStoreService },
         { provide: HeadquartersService, useValue: mockHeadquartersService },

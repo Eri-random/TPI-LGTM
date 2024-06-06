@@ -6,10 +6,10 @@ import { NgToastService } from 'ng-angular-popup';
 import { map, switchMap } from 'rxjs';
 import ValidateForm from 'src/app/helpers/validateForm';
 import { AuthService } from 'src/app/services/auth.service';
-import { DonationService } from 'src/app/services/donation.service';
 import { OrganizationService } from 'src/app/services/organization.service';
 import { HeadquartersService } from 'src/app/services/headquarters.service';
 import { UserStoreService } from 'src/app/services/user-store.service';
+import { DonationsService } from 'src/app/services/donations.service';
 
 @Component({
   selector: 'app-dialog-donate',
@@ -28,7 +28,7 @@ export class DialogDonateComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: { organizacionId: number },
     public dialogRef: MatDialogRef<DialogDonateComponent>,
     private formBuilder: FormBuilder,
-    private donateService: DonationService,
+    private donateService: DonationsService,
     private authService: AuthService,
     private userStore: UserStoreService,
     private headquarterService: HeadquartersService,
