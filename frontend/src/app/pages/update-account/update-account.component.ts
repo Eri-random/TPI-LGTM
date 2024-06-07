@@ -43,6 +43,7 @@ export class UpdateAccountComponent implements OnInit {
   totalNeeds: any;
   localidades: any[] = [];
 
+
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -218,6 +219,24 @@ export class UpdateAccountComponent implements OnInit {
     );
   }
 
+  loadNeeds(){
+    this.organizationService.getGroupedSubcategories(this.idOrg)
+    .subscribe(resp=>{
+      this.needs = resp;
+      console.log(this.needs);
+      let total = 0;
+      this.needs.forEach((need:any) => {
+        total += need.subcategoria.length;
+      });
+
+      this.totalNeeds = total;
+
+    },error =>{
+      console.log(error);
+    })
+  }
+
+
   loadUserData(): Observable<any> {
     return this.userStore.getUserByEmail(this.email).pipe(
       switchMap((res: any) => {
@@ -267,7 +286,8 @@ export class UpdateAccountComponent implements OnInit {
       })
     );
   }
-  
+
+
   loadDonations(): void {
     this.donationService.getAllDonationsByUserId(this.idUser).subscribe({
       next: (res) => {
@@ -325,8 +345,6 @@ export class UpdateAccountComponent implements OnInit {
     );
 
     let id = parseInt(this.topOrganizationId); // Parse topOrganizationId to number
-
-    console.log('Top organization:', this.topOrganizationId);
 
     //para obtener el nombre de la organizacion
     this.organizationService.getOrganizationById(id).subscribe({
