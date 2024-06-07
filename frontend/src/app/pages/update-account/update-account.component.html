@@ -28,7 +28,7 @@
             <div class="col-md-6">
               <div class="row">
                 <form class="my-4" [formGroup]="accountForm">
-                  <div class="row">
+                  <div class="row g-3">
                     <div class="col-md-6">
                       <label for="nombre" class="form-label required">Nombre</label>
                       <input
@@ -74,7 +74,7 @@
                       >
                     </div>
                     <div class="col-md-6">
-                      <label for="email" class="form-label required">Email</label>
+                      <label for="email" class="form-label required">Correo electrónico</label>
                       <input
                         type="text"
                         class="form-control input-field"
@@ -299,7 +299,7 @@
                         "
                         id="cuit"
                         formControlName="cuit"
-                        placeholder="CUIT"
+                        placeholder="N° de CUIT"
                       />
                       <small
                         *ngIf="
@@ -447,10 +447,9 @@
                             <div class="accordion-item">
                               <h5 class="accordion-header">
                                 <button class="accordion-button border-bottom font-weight-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                  <p *ngIf="headquarters.length === 1">{{ headquarters.length }} sede (ver lista)</p>
-                                  <p *ngIf="headquarters.length > 1">{{ headquarters.length }} sedes (ver lista)</p>
-                                  <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
-                                  <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
+                                  <p *ngIf="headquarters.length === 1">{{ headquarters.length }} sede</p>
+                                  <p *ngIf="headquarters.length > 1">{{ headquarters.length }} sedes</p>
+                                  <i class="fas fa-info text-sm mt-n2 position-absolute end-0 me-3"></i>
                                 </button>
                               </h5>
                               <div id="collapseOne" class="accordion-collapse collapse">
@@ -484,8 +483,7 @@
                                 <button class="accordion-button border-bottom font-weight-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                   <p *ngIf="needs.length === 1">{{ needs.length }} necesidad</p>
                                   <p *ngIf="needs.length > 1">{{ needs.length }} necesidades</p>
-                                  <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
-                                  <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
+                                  <i class="fas fa-info text-sm mt-n2 position-absolute end-0 me-3"></i>
                                 </button>
                               </h5>
                               <div id="collapseTwo" class="accordion-collapse collapse">

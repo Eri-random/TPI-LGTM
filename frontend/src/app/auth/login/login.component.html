@@ -13,9 +13,9 @@
                   <div class="form-group mb-3">
                     <label for="email" class="form-label required">Correo electrónico</label>
                     <div class="input-field" [class.error]="loginForm.controls['email'].dirty && loginForm.hasError('required','email')">
-                      <input id="email" class="form-control form-control-lg" formControlName="email" type="email" placeholder="ejemplo@ejemplo.com" aria-label="Email" aria-describedby="email-addon">
+                      <input id="email" class="form-control form-control-lg" formControlName="email" type="email" placeholder="correo@correo.com" aria-label="Email" aria-describedby="email-addon">
                     </div>
-                    <label *ngIf="loginForm.controls['email'].dirty && loginForm.hasError('required','email')" class="text-danger">Correo electrónico requerido.</label>
+                    <small *ngIf="loginForm.controls['email'].dirty && loginForm.hasError('required','email')" class="text-danger">Correo electrónico requerido</small>
                   </div>
                   <div class="form-group mb-3">
                     <label for="password" class="form-label required">Contraseña</label>
@@ -23,7 +23,7 @@
                       <input id="password" formControlName="password" class="form-control form-control-lg" [type]="type" placeholder="Contraseña" aria-label="Password" aria-describedby="password-addon">
                       <!-- <span (click)="hideShowPass()" class="fa {{eyeIcon}}"></span> -->
                     </div>
-                    <label *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required','password')" class="text-danger">Contraseña requerida.</label>
+                    <small *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required','password')" class="text-danger">Contraseña requerida</small>
                   </div>
                   <small *ngIf="!(loginForm.controls['password'].dirty && loginForm.hasError('required','password')) && error" class="text-danger">{{error}}</small>
                   <div class="text-center">
@@ -38,13 +38,18 @@
             </div>
           </div>
           <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
-            <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center">
+            <div class="position-relative bg-gradient-secondary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center">
               <img src="../assets/img/shapes/pattern-lines.svg" alt="pattern-lines" class="position-absolute opacity-4 start-0">
               <div class="position-relative">
-                <img class="max-width-500 w-100 position-relative z-index-2" src="../assets/img/illustrations/chat.png">
+                <img class="w-60 position-relative z-index-2" src="../assets/logos/ReCrea-blanco.svg">
               </div>
-              <h4 class="mt-5 text-white font-weight-bolder">"Attention is the new currency"</h4>
-              <p class="text-white">The more effortless the writing looks, the more effort the writer actually put into the process.</p>
+              <div class="d-flex justify-content-center mt-4">
+                <div class="text-white w-50">
+                  Nos apasiona tejer un futuro más sostenible, impulsando proteger el medio ambiente y fomentando la responsabilidad social.
+                  <br /><br />
+                  <span class="text-bold">¡Ingresá y seguí formando parte del cambio!</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

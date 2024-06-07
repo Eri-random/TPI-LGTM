@@ -44,10 +44,15 @@
             <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center">
               <img src="../assets/img/shapes/pattern-lines.svg" alt="pattern-lines" class="position-absolute opacity-4 start-0">
               <div class="position-relative">
-                <img class="max-width-500 w-100 position-relative z-index-2" src="../assets/img/illustrations/chat.png">
+                <img class="w-60 position-relative z-index-2" src="../assets/logos/ReCrea-blanco.svg">
               </div>
-              <h4 class="mt-5 text-white font-weight-bolder">"Attention is the new currency"</h4>
-              <p class="text-white">The more effortless the writing looks, the more effort the writer actually put into the process.</p>
+              <div class="d-flex justify-content-center mt-4">
+                <div class="text-white w-50">
+                  Nos apasiona tejer un futuro más sostenible, impulsando proteger el medio ambiente y fomentando la responsabilidad social.
+                  <br /><br />
+                  <span class="text-bold">¡Registrate y empezá a formar parte del cambio!</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -75,30 +80,30 @@
                       <div class="input-field" [class.error]="registerForm.controls['nombre'].dirty && registerForm.hasError('required','nombre')">
                         <input id="nombre" formControlName="nombre" type="text" placeholder="Nombre" class="form-control form-control-lg">
                       </div>
-                      <label *ngIf="registerForm.controls['nombre'].dirty && registerForm.hasError('required','nombre')" class="text-danger">Nombre requerido</label>
+                      <small *ngIf="registerForm.controls['nombre'].dirty && registerForm.hasError('required','nombre')" class="text-danger">Nombre requerido</small>
                     </div>
                     <div class="col-md-6 mb-3" *ngIf="selectedRole == 'usuario'">
                       <label for="apellido" class="form-label required">Apellido</label>
                       <div class="input-field" [class.error]="registerForm.controls['apellido'].dirty && registerForm.hasError('required','apellido')">
                         <input id="apellido" formControlName="apellido" type="text" placeholder="Apellido" class="form-control form-control-lg">
                       </div>
-                      <label *ngIf="registerForm.controls['apellido'].dirty && registerForm.hasError('required','apellido')" class="text-danger">Apellido requerido</label>
+                      <small *ngIf="registerForm.controls['apellido'].dirty && registerForm.hasError('required','apellido')" class="text-danger">Apellido requerido</small>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-6 mb-3">
                       <label for="telefono" class="form-label">Teléfono</label>
                       <div class="input-field" [class.error]="registerForm.controls['telefono'].dirty && (registerForm.hasError('minlength','telefono') || registerForm.hasError('maxlength','telefono'))">
-                        <input id="telefono" formControlName="telefono" type="text" placeholder="Teléfono" (input)="onInput($event)" class="form-control form-control-lg">
+                        <input id="telefono" formControlName="telefono" type="text" placeholder="1123456789" (input)="onInput($event)" class="form-control form-control-lg">
                       </div>
-                      <label *ngIf="registerForm.controls['telefono'].dirty && (registerForm.hasError('minlength','telefono') || registerForm.hasError('maxlength','telefono'))" class="text-danger">El teléfono debe tener min. 8 dígitos y max. 10 dígitos</label>
+                      <small *ngIf="registerForm.controls['telefono'].dirty && (registerForm.hasError('minlength','telefono') || registerForm.hasError('maxlength','telefono'))" class="text-danger">El teléfono debe tener de 8 a 10 dígitos</small>
                     </div>
                     <div class="col-md-6 mb-3">
                       <label for="direccion" class="form-label required">Dirección</label>
                       <div class="input-field" [class.error]="registerForm.controls['direccion'].dirty && registerForm.hasError('required','direccion')">
-                        <input id="direccion" formControlName="direccion" type="text" placeholder="Dirección" class="form-control form-control-lg">
+                        <input id="direccion" formControlName="direccion" type="text" placeholder="Dirección 123" class="form-control form-control-lg">
                       </div>
-                      <label *ngIf="registerForm.controls['direccion'].dirty && registerForm.hasError('required','direccion')" class="text-danger">Dirección requerida</label>
+                      <small *ngIf="registerForm.controls['direccion'].dirty && registerForm.hasError('required','direccion')" class="text-danger">Dirección requerida</small>
                     </div>
                   </div>
                   <div class="row">
@@ -107,30 +112,30 @@
                       <div class="input-field" [class.error]="registerForm.controls['provincia'].dirty && registerForm.hasError('required','provincia')">
                         <input id="provincia" formControlName="provincia" type="text" placeholder="Provincia" class="form-control form-control-lg">
                       </div>
-                      <label *ngIf="registerForm.controls['provincia'].dirty && registerForm.hasError('required','provincia')" class="text-danger">Provincia requerida</label>
+                      <small *ngIf="registerForm.controls['provincia'].dirty && registerForm.hasError('required','provincia')" class="text-danger">Provincia requerida</small>
                     </div>
                     <div class="col-md-6 mb-3">
                       <label for="localidad" class="form-label required">Localidad</label>
                       <div class="input-field" [class.error]="registerForm.controls['localidad'].dirty && registerForm.hasError('required','localidad')">
                         <input id="localidad" formControlName="localidad" type="text" placeholder="Localidad" class="form-control form-control-lg">
                       </div>
-                      <label *ngIf="registerForm.controls['localidad'].dirty && registerForm.hasError('required','localidad')" class="text-danger">Localidad requerida</label>
+                      <small *ngIf="registerForm.controls['localidad'].dirty && registerForm.hasError('required','localidad')" class="text-danger">Localidad requerida</small>
                     </div>
                   </div>
                   <div *ngIf="selectedRole == 'organización'" class="form-group mb-3">
-                    <label for="cuit" class="form-label required">Cuit</label>
+                    <label for="cuit" class="form-label required">CUIT</label>
                     <div class="input-field" [class.error]="registerForm.controls['cuit'].dirty && registerForm.hasError('required','cuit')">
-                      <input id="cuit" formControlName="cuit" type="text" placeholder="N° de cuit" class="form-control form-control-lg">
+                      <input id="cuit" formControlName="cuit" type="text" placeholder="N° de CUIT" class="form-control form-control-lg">
                     </div>
-                    <label *ngIf="registerForm.controls['cuit'].dirty && registerForm.hasError('required','cuit')" class="text-danger">Cuit requerido</label>
+                    <small *ngIf="registerForm.controls['cuit'].dirty && registerForm.hasError('required','cuit')" class="text-danger">CUIT requerido</small>
                   </div>
                   <div class="row">
                     <div class="col-md-6 mb-3">
                       <label for="email" class="form-label required">Correo electrónico</label>
                       <div class="input-field" [class.error]="registerForm.controls['email'].dirty && registerForm.hasError('required','email')">
-                        <input id="email" formControlName="email" type="email" placeholder="ejemplo@ejemplo.com" class="form-control form-control-lg">
+                        <input id="email" formControlName="email" type="email" placeholder="correo@correo.com" class="form-control form-control-lg">
                       </div>
-                      <label *ngIf="registerForm.controls['email'].dirty && registerForm.hasError('required','email')" class="text-danger">Correo electrónico requerido</label>
+                      <small *ngIf="registerForm.controls['email'].dirty && registerForm.hasError('required','email')" class="text-danger">Correo electrónico requerido</small>
                     </div>
                     <div class="col-md-6 mb-3">
                       <label for="password" class="form-label required">Contraseña</label>
@@ -138,8 +143,8 @@
                         <input id="password" formControlName="password" [type]="type" placeholder="Contraseña" class="form-control form-control-lg">
                         <!-- <span (click)="hideShowPass()" class="fa {{eyeIcon}}"></span> -->
                       </div>
-                      <label *ngIf="registerForm.controls['password'].dirty && registerForm.hasError('required','password')" class="text-danger">Contraseña requerida</label>
-                      <label *ngIf="registerForm.controls['password'].dirty && registerForm.hasError('minlength','password')" class="text-danger">La contraseña debe tener al menos 6 caracteres</label>
+                      <small *ngIf="registerForm.controls['password'].dirty && registerForm.hasError('required','password')" class="text-danger">Contraseña requerida</small>
+                      <small *ngIf="registerForm.controls['password'].dirty && registerForm.hasError('minlength','password')" class="text-danger">La contraseña debe tener al menos 6 caracteres</small>
                     </div>
                   </div>
                   <div class="text-center">
@@ -157,10 +162,15 @@
             <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center">
               <img src="../assets/img/shapes/pattern-lines.svg" alt="pattern-lines" class="position-absolute opacity-4 start-0">
               <div class="position-relative">
-                <img class="max-width-500 w-100 position-relative z-index-2" src="../assets/img/illustrations/chat.png">
+                <img class="w-60 position-relative z-index-2" src="../assets/logos/ReCrea-blanco.svg">
               </div>
-              <h4 class="mt-5 text-white font-weight-bolder">"Attention is the new currency"</h4>
-              <p class="text-white">The more effortless the writing looks, the more effort the writer actually put into the process.</p>
+              <div class="d-flex justify-content-center mt-4">
+                <div class="text-white w-50">
+                  Nos apasiona tejer un futuro más sostenible, impulsando proteger el medio ambiente y fomentando la responsabilidad social.
+                  <br /><br />
+                  <span class="text-bold">¡Registrate y empezá a formar parte del cambio!</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
