@@ -29,6 +29,7 @@ namespace backend.api.Controllers
                 Id = donationRequest.Id,
                 Producto = donationRequest.Producto,
                 Cantidad = donationRequest.Cantidad,
+                Estado = donationRequest.Estado,
                 UsuarioId = donationRequest.UsuarioId,
                 OrganizacionId = donationRequest.OrganizacionId,
                 Cuit = donationRequest.Cuit

@@ -28,6 +28,7 @@ namespace backend.servicios.Servicios
             {
                Producto = donationDto.Producto,
                Cantidad = donationDto.Cantidad,
+               Estado = donationDto.Estado,
                UsuarioId = donationDto.UsuarioId,
                OrganizacionId = donationDto.OrganizacionId
             };
@@ -59,6 +60,7 @@ namespace backend.servicios.Servicios
                         Id = u.Id,
                         Producto = u.Producto,
                         Cantidad = u.Cantidad,
+                        Estado=u.Estado,
                         Usuario = new UserDto()
                         {
                             Nombre = u.Usuario.Nombre,
@@ -88,6 +90,7 @@ namespace backend.servicios.Servicios
                         Id = u.Id,
                         Producto = u.Producto,
                         Cantidad = u.Cantidad,
+                        Estado = u.Estado,
                         OrganizacionId = u.OrganizacionId,
                         Usuario = new UserDto()
                         {
