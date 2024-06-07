@@ -3,37 +3,36 @@
     <div class="page-header min-vh-100">
       <div class="container">
         <div class="row">
-          <div class="col-xl-5 col-lg-5 col-md-8 d-flex flex-column mx-lg-0 mx-auto">
-            <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-8 mb-5 ">
+          <div class="col-xl-5 col-lg-5 col-md-8 d-flex flex-column mx-lg-0 mx-auto mt-6">
+            <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-8 mb-5">
               <div class="pb-0 text-left py-4 px-4">
                 <h4 class="font-weight-bolder">Crear cuenta</h4>
                 <p class="mb-0">Ingresá tus datos para crear la cuenta</p>
               </div>
               <div class="card-body">
-                <div class="row">
-                  <div class="col">
-                    <div class="position-relative m-3 px-3 px-lg-5 border-radius-lg d-flex flex-column justify-content-center">
-                      <div class="card card-background card-background-mask-primary tilt move-on-hover" [class.card-active]="selectedRole === 'usuario'" (click)="seleccionar('usuario')">
-                        <div class="full-background" style="background-image: url(../../../assets/img/banner-b.png)"></div>
-                        <div class="card-body py-6 text-center">
-                          <h1 class="fas fa-user text-white"></h1>
-                          <h3 class="text-white up mb-0">Usuario Personal</h3>
-                        </div>
+
+                <div class="row text-center g-3">
+                  <div class="col-md-6 text-center">
+                    <div class="card card-background card-background-mask-primary tilt move-on-hover" [class.card-active]="selectedRole === 'usuario'" (click)="seleccionar('usuario')">
+                      <div class="full-background" style="background-image: url(../../../assets/img/banner-a.png)"></div>
+                      <div class="card-body py-6 text-center">
+                        <h1 class="fas fa-user text-white"></h1>
+                        <h3 class="text-white up mb-0">Usuario Personal</h3>
                       </div>
                     </div>
                   </div>
-                  <div class="col">
-                    <div class="position-relative m-3 px-3 px-lg-5 border-radius-lg d-flex flex-column justify-content-center">
-                      <div class="card card-background card-background-mask-primary tilt move-on-hover" [class.card-active]="selectedRole === 'organización'" (click)="seleccionar('organización')">
-                        <div class="full-background" style="background-image: url(../../../assets/img/banner-b.png)"></div>
-                        <div class="card-body py-6 text-center">
-                          <h1 class="fas fa-users text-white"></h1>
-                          <h3 class="text-white up mb-0">Organización Benéfica</h3>
-                        </div>
+                  <div class="col-md-6 text-center">
+                    <div class="card card-background card-background-mask-primary tilt move-on-hover" [class.card-active]="selectedRole === 'organización'" (click)="seleccionar('organización')">
+                      <div class="full-background" style="background-image: url(../../../assets/img/banner-b.png)"></div>
+                      <div class="card-body py-6 text-center">
+                        <h1 class="fas fa-users text-white"></h1>
+                        <h3 class="text-white up mb-0">Organización Benéfica</h3>
                       </div>
                     </div>
                   </div>
                 </div>
+
+
                 <div class="text-center justify-content-center align-items-center">
                   <button (click)="enableForm()" type="submit" [disabled]="selectedRole == null" class="btn btn-round btn-lg bg-gradient-secondary mt-3">Siguiente</button>
                 </div>
@@ -66,7 +65,7 @@
     <div class="page-header min-vh-100">
       <div class="container">
         <div class="row">
-          <div class="col-xl-5 col-lg-5 col-md-8 d-flex flex-column mx-lg-0 mx-auto">
+          <div class="col-xl-5 col-lg-5 col-md-8 d-flex flex-column mx-lg-0 mx-auto  mt-6">
             <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-8 mb-5 ">
               <div class="pb-0 text-left py-4 px-4">
                 <h4 class="font-weight-bolder">Crear cuenta</h4>
