@@ -17,25 +17,28 @@
         <div class="card-body pb-4 px-4">
           <div class="row">
             <!-- Filtros al costado -->
-            <div class="col-lg-3 px-3">
+            <div class="col-lg-3 px-3 px-lg-4">
               <div class="search-container mb-4">
                 <h5 class="m-3">Buscar por nombre</h5>
-                <input type="text" class="form-control" [(ngModel)]="searchName" (input)="applyFilter()">
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-search" aria-hidden="true"></i></span>
+                  <input class="form-control" type="text" [(ngModel)]="searchName" (input)="applyFilter()">
+                </div>
               </div>
               <div class="filters-container">
                 <div class="accordion-1">
                   <div class="row">
                     <div class="col mx-auto">
-                      <div class="accordion" id="accordionRental">
+                      <div class="accordion">
                         <div class="accordion-item mb-3">
-                          <h5 class="accordion-header" id="headingOne">
+                          <h5 class="accordion-header">
                             <button class="accordion-button border-bottom font-weight-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                               <h5>Filtrar por necesidad</h5>
                               <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
                               <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
                             </button>
                           </h5>
-                          <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionRental">
+                          <div id="collapseOne" class="accordion-collapse collapse">
                             <div class="accordion-body text-sm opacity-8">
                               <div *ngFor="let need of needs">
                                 <div>
@@ -60,7 +63,7 @@
               </div>
             </div>
             <!-- Lista de tarjetas -->
-            <div class="col-lg-9">
+            <div class="col-lg-9 px-lg-4">
               <div class="row">
                 <div *ngIf="noResultsFound" class="col-12 text-center d-flex align-items-center justify-content-center mt-5">
                   <p>No se encontraron organizaciones que coincidan con los filtros seleccionados.</p>
@@ -101,7 +104,7 @@
           </div>
           <!-- Botón "Ver más" -->
           <div class="d-flex justify-content-center" *ngIf="showSeeMore">
-            <button (click)="loadMore()" class="btn btn-primary">Ver más</button>
+            <button (click)="loadMore()" class="btn btn-round bg-gradient-secondary">Ver más</button>
           </div>
         </div>
       </div>

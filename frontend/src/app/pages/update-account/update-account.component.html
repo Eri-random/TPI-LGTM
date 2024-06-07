@@ -10,18 +10,22 @@
     </div>
     <div class="container">
       <div class="card blur justify-content-center shadow-lg mt-7 mb-5">
-        <div class="row text-center mx-1 mt-4">
+        <div *ngIf="!loading && role === 'usuario'" class="row text-center mx-1 mt-4">
           <h2>Mi <span class="text-gradient text-secondary">cuenta</span></h2>
+        </div>
+        <div *ngIf="!loading && role === 'organizacion'" class="row text-center mx-1 mt-4">
+          <h2>Mis <span class="text-gradient text-secondary">datos</span></h2>
         </div>
         <div class="card-body pb-2">
           <div class="row">
             <div class="col text-center">
-              <p class="lead">En esta sección podés editar tus datos personales y ver información sobre tu actividad en <span class="text-highlight">reCrea</span>.</p>
+              <p *ngIf="!loading && role === 'usuario'" class="lead">En esta sección podés editar tus datos personales y ver información sobre tu actividad en <span class="text-highlight">reCrea</span>.</p>
+              <p *ngIf="!loading && role === 'organizacion'" class="lead">En esta sección podés editar los datos de tu organización y ver información sobre tu actividad en <span class="text-highlight">reCrea</span>.</p>
             </div>
           </div>
 
           <div class="row" *ngIf="!loading && role === 'usuario'">
-            <div class="col-md-6">
+            <div class="col-md-6 px-lg-4">
               <div class="row">
                 <form class="my-4" [formGroup]="accountForm">
                   <div class="row">
@@ -36,7 +40,7 @@
                         "
                         id="nombre"
                         formControlName="nombre"
-                        placeholder="Ej: Julieta"
+                        placeholder="Nombre"
                       />
                       <small
                         *ngIf="
@@ -58,7 +62,7 @@
                         "
                         id="apellido"
                         formControlName="apellido"
-                        placeholder="Ej: Apellido"
+                        placeholder="Apellido"
                       />
                       <small
                         *ngIf="
@@ -80,7 +84,7 @@
                         "
                         id="email"
                         formControlName="email"
-                        placeholder="Ej: test@test.com"
+                        placeholder="correo@correo.com"
                       />
                       <small
                         *ngIf="
@@ -102,7 +106,7 @@
                         "
                         id="telefono"
                         formControlName="telefono"
-                        placeholder="Ej: 123456789"
+                        placeholder="1123456789"
                       />
                       <small
                         *ngIf="
@@ -124,7 +128,7 @@
                         "
                         id="direccion"
                         formControlName="direccion"
-                        placeholder="Ej: Calle 123"
+                        placeholder="Dirección 123"
                       />
                       <small
                         *ngIf="
@@ -146,7 +150,7 @@
                         "
                         id="localidad"
                         formControlName="localidad"
-                        placeholder="Ej: Buenos Aires"
+                        placeholder="Localidad"
                       />
                       <small
                         *ngIf="
@@ -160,7 +164,7 @@
                     <div class="col-md-6">
                       <label for="provincia" class="form-label required">Provincia</label>
                       <select
-                        class="form-control input-field"
+                        class="form-control form-select input-field"
                         [class.error]="
                           accountForm.get('provincia')?.dirty &&
                           accountForm.get('provincia')?.errors
@@ -184,34 +188,27 @@
                     </div>
                   </div>
 
-                  <div class="row text-center">
-                    <div *ngIf="isEditMode" class="mt-4">
-                      <button
-                        type="submit"
-                        class="btn btn-round bg-gradient-primary w-45 me-2"
-                        (click)="onSubmit()"
-                      >
-                        <i class="fas fa-save"></i> Guardar
-                      </button>
-                      <button
-                        *ngIf="isEditMode"
-                        class="btn btn-round bg-gradient-secondary w-45"
-                        (click)="toggleEditMode(true)"
-                      >
-                        Cancelar
-                      </button>
-                    </div>
-                    <div *ngIf="!isEditMode" class="mt-4">
-                      <button
-                        type="button"
-                        class="btn btn-round bg-gradient-primary w-90"
-                        (click)="toggleEditMode()"
-                      >
-                      <i class="fas fa-user-edit"></i> Editar
+                  <div class="row">
+                    <div *ngIf="!isEditMode" class="col-md-12 text-center mt-4">
+                      <button type="button" class="btn btn-round bg-gradient-primary" (click)="toggleEditMode()">
+                        <i class="fas fa-user-edit"></i> Editar
                       </button>
                     </div>
                   </div>
 
+                  <div *ngIf="isEditMode" class="row text-center mt-4">
+                    <div class="col-md-6 text-md-end text-center">
+                      <button type="submit" class="btn btn-round bg-gradient-primary" (click)="onSubmit()">
+                        <i class="fas fa-save"></i> Guardar
+                      </button>
+                    </div>
+                    <div class="col-md-6 text-md-start text-center">
+                      <button class="btn btn-round bg-gradient-secondary" (click)="toggleEditMode(true)">
+                      Cancelar
+                      </button>
+                    </div>
+                  </div>
+                    
                 </form>
               </div>
             </div>
@@ -226,8 +223,8 @@
                       <h5 class="mt-3">Total de donaciones</h5>
                       <div class="text-md">
                         <p *ngIf="donations.length === 0">Todavía no hiciste ninguna donación</p>
-                        <p *ngIf="donations.length > 0 && donations.length < 2">{{ donations.length }} donación</p>
-                        <p *ngIf="donations.length > 0">{{ donations.length }} donaciones</p>
+                        <p *ngIf="donations.length === 1">{{ donations.length }} donación</p>
+                        <p *ngIf="donations.length > 1">{{ donations.length }} donaciones</p>
                       </div>
                       </div>
                     </div>
@@ -246,8 +243,8 @@
                     <h5 class="mt-3">Cantidad máxima donada</h5>
                     <div class="text-md">
                       <p *ngIf="mostDonatedProductQuantity === 0">Todavía no hiciste ninguna donación</p>
-                      <p *ngIf="mostDonatedProductQuantity > 0 && mostDonatedProductQuantity < 2">{{ mostDonatedProductQuantity }} unidad</p>
-                      <p *ngIf="mostDonatedProductQuantity > 0">{{ mostDonatedProductQuantity }} unidades</p>
+                      <p *ngIf="mostDonatedProductQuantity === 1">{{ mostDonatedProductQuantity }} unidad</p>
+                      <p *ngIf="mostDonatedProductQuantity > 1">{{ mostDonatedProductQuantity }} unidades</p>
                     </div>
                     </div>
                     </div>
@@ -265,7 +262,7 @@
           </div>
 
           <div class="row" *ngIf="!loading && role === 'organizacion'">
-            <div class="col-md-6">
+            <div class="col-md-6 px-lg-4">
               <div class="row">
                 <form class="my-4" [formGroup]="accountOrgForm">
                   <div class="row g-3">
@@ -280,7 +277,7 @@
                         "
                         id="nombre"
                         formControlName="nombre"
-                        placeholder="Ej: Julieta"
+                        placeholder="Nombre"
                       />
                       <small
                         *ngIf="
@@ -292,7 +289,7 @@
                       >
                     </div>
                     <div class="col-md-6">
-                      <label for="cuit" class="form-label required">Cuit</label>
+                      <label for="cuit" class="form-label required">CUIT</label>
                       <input
                         type="text"
                         class="form-control input-field"
@@ -302,7 +299,7 @@
                         "
                         id="cuit"
                         formControlName="cuit"
-                        placeholder="Ej: cuit"
+                        placeholder="CUIT"
                       />
                       <small
                         *ngIf="
@@ -310,7 +307,7 @@
                           accountOrgForm.get('cuit')?.errors
                         "
                         class="text-danger"
-                        >El cuit es requerido</small
+                        >El CUIT es requerido</small
                       >
                     </div>
                     <div class="col-md-6">
@@ -324,7 +321,7 @@
                         "
                         id="telefono"
                         formControlName="telefono"
-                        placeholder="Ej: 123456789"
+                        placeholder="1123456789"
                       />
                       <small
                         *ngIf="
@@ -346,7 +343,7 @@
                         "
                         id="direccion"
                         formControlName="direccion"
-                        placeholder="Ej: Calle 123"
+                        placeholder="Dirección 123"
                       />
                       <small
                         *ngIf="
@@ -368,7 +365,7 @@
                         "
                         id="localidad"
                         formControlName="localidad"
-                        placeholder="Ej: Buenos Aires"
+                        placeholder="Localidad"
                       />
                       <small
                         *ngIf="
@@ -382,7 +379,7 @@
                     <div class="col-md-6">
                       <label for="provincia" class="form-label required">Provincia</label>
                       <select
-                        class="form-control input-field"
+                        class="form-control form-select input-field"
                         [class.error]="
                           accountOrgForm.get('provincia')?.dirty &&
                           accountOrgForm.get('provincia')?.errors
@@ -406,33 +403,27 @@
                     </div>
                   </div>
 
-                  <div class="row text-center">
-                    <div *ngIf="isEditMode" class="mt-4">
-                      <button
-                        type="submit"
-                        class="btn btn-round bg-gradient-primary w-45 me-2"
-                        (click)="onSubmit()"
-                      >
-                        <i class="fas fa-save"></i> Guardar
-                      </button>
-                      <button
-                        *ngIf="isEditMode"
-                        class="btn btn-round bg-gradient-secondary w-45"
-                        (click)="toggleEditMode(true)"
-                      >
-                        Cancelar
-                      </button>
-                    </div>
-                    <div *ngIf="!isEditMode" class="mt-4">
-                      <button
-                        type="button"
-                        class="btn btn-round bg-gradient-primary w-90"
-                        (click)="toggleEditMode()"
-                      >
-                      <i class="fas fa-user-edit"></i> Editar
+                  <div class="row">
+                    <div *ngIf="!isEditMode" class="col-md-12 text-center mt-4">
+                      <button type="button" class="btn btn-round bg-gradient-primary" (click)="toggleEditMode()">
+                        <i class="fas fa-edit"></i> Editar
                       </button>
                     </div>
                   </div>
+
+                  <div *ngIf="isEditMode" class="row text-center mt-4">
+                    <div class="col-md-6 text-md-end text-center">
+                      <button type="submit" class="btn btn-round bg-gradient-primary" (click)="onSubmit()">
+                        <i class="fas fa-save"></i> Guardar
+                      </button>
+                    </div>
+                    <div class="col-md-6 text-md-start text-center">
+                      <button class="btn btn-round bg-gradient-secondary" (click)="toggleEditMode(true)">
+                      Cancelar
+                      </button>
+                    </div>
+                  </div>
+
                 </form>
               </div>
             </div>
@@ -456,8 +447,8 @@
                             <div class="accordion-item">
                               <h5 class="accordion-header">
                                 <button class="accordion-button border-bottom font-weight-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                  <p *ngIf="headquarters.length > 0 && headquarters.length < 2">{{ headquarters.length }} sede (ver lista)</p>
-                                  <p *ngIf="headquarters.length > 0">{{ headquarters.length }} sedes (ver lista)</p>
+                                  <p *ngIf="headquarters.length === 1">{{ headquarters.length }} sede (ver lista)</p>
+                                  <p *ngIf="headquarters.length > 1">{{ headquarters.length }} sedes (ver lista)</p>
                                   <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
                                   <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
                                 </button>
@@ -491,8 +482,8 @@
                             <div class="accordion-item">
                               <h5 class="accordion-header">
                                 <button class="accordion-button border-bottom font-weight-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                  <p *ngIf="needs.length > 0 && needs.length < 2">{{ needs.length }} necesidad</p>
-                                  <p *ngIf="needs.length > 0">{{ needs.length }} necesidades</p>
+                                  <p *ngIf="needs.length === 1">{{ needs.length }} necesidad</p>
+                                  <p *ngIf="needs.length > 1">{{ needs.length }} necesidades</p>
                                   <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
                                   <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
                                 </button>
