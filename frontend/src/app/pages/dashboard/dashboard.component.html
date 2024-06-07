@@ -107,12 +107,17 @@
             <mat-label>Filtro</mat-label>
             <input matInput (keyup)="applyFilter($event)" placeholder="Ej. Zoe" #input />
           </mat-form-field>
+
+          <!-- Botón para habilitar checkboxes -->
+          <button (click)="toggleCheckboxes()" class="btn btn-primary mb-3">Editar Estados</button>
+
+          <!-- Tu tabla de donaciones -->
           <div class="card table-responsive">
             <table mat-table [dataSource]="dataSource" matSort class="responsive-table">
               <!-- Name Column -->
               <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header
-                  class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Donandor</th>
+                  class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Donador</th>
                 <td mat-cell *matCellDef="let row" [ngClass]="{ highlight: row.highlight }">
                   <h6 class="mb-0 text-xs">{{ row.name }}</h6>
                 </td>
@@ -152,23 +157,37 @@
               <!-- Estado Column-->
               <ng-container matColumnDef="estado">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header
-                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
-                > Estado </th>
-                <td mat-cell *matCellDef="let row"> 
-                  <button class="btn-estado" [ngClass]="{'yellow-background': row.estado === 'Pendiente', 'green-background': row.estado === 'Recibido'}">{{row.estado}}</button>
+                  class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Estado </th>
+                <td mat-cell *matCellDef="let row">
+                  <button class="btn-estado"
+                    [ngClass]="{'yellow-background': row.estado === 'Pendiente', 'green-background': row.estado === 'Recibido'}">{{row.estado}}</button>
+                </td>
+              </ng-container>
+              <!-- Checkbox Column -->
+              <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                  class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Seleccionar
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  <div class="checkbox-container">
+                    <mat-checkbox [(ngModel)]="row.selected" [disabled]="row.estado === 'Recibido'"
+                      [ngClass]="{'blocked': row.estado === 'Recibido'}"></mat-checkbox>
+                  </div>
                 </td>
               </ng-container>
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
               <tr class="mat-row" *matNoDataRow>
-                <td class="mat-cell" colspan="4"> No hay datos que coincidan con el filtro "{{ input.value }}" </td>
+                <td class="mat-cell" colspan="5"> No hay datos que coincidan con el filtro "{{ input.value }}" </td>
               </tr>
             </table>
+            <!-- Botón para cambiar estados seleccionados -->
+            <button *ngIf="checkboxEnabled" (click)="updateSelectedStates()" class="btn btn-success mt-3">Marcar como
+              Recibido</button>
             <!-- Paginación -->
             <div *ngIf="existDonations" class="pb-3">
               <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
-                aria-label="Select page of periodic elements"
-                ></mat-paginator>
+                aria-label="Select page of periodic elements"></mat-paginator>
             </div>
           </div>
         </div>
