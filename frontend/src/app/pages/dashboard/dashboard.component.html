@@ -149,8 +149,15 @@
                   <h6 class="mb-0 text-xs">{{ row.cantidad }}</h6>
                 </td>
               </ng-container>
-              <!-- Progress Column Estado-->
-              <!-- <ng-container matColumnDef="progress"><th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th><td mat-cell *matCellDef="let row" [ngClass]="{'yellow-background': row.progress === 'Pendiente', 'green-background': row.progress === 'Recibido'}"> {{row.progress}} </td></ng-container> -->
+              <!-- Estado Column-->
+              <ng-container matColumnDef="estado">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                > Estado </th>
+                <td mat-cell *matCellDef="let row"> 
+                  <button class="btn-estado" [ngClass]="{'yellow-background': row.estado === 'Pendiente', 'green-background': row.estado === 'Recibido'}">{{row.estado}}</button>
+                </td>
+              </ng-container>
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
               <tr class="mat-row" *matNoDataRow>

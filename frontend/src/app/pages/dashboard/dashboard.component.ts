@@ -26,7 +26,7 @@ export interface UserData {
   email: string;
   producto: string;
   cantidad: number;
-  progress: string;
+  estado: string;
   highlight?: boolean; // Add an optional highlight property
 }
 
@@ -51,6 +51,7 @@ export class DashboardComponent implements OnInit {
     'email',
     'producto',
     'cantidad',
+    'estado'
   ];
 
   dataSource: MatTableDataSource<UserData> = new MatTableDataSource();
@@ -109,7 +110,7 @@ export class DashboardComponent implements OnInit {
               email: donation.usuario.email,
               producto: donation.producto,
               cantidad: donation.cantidad,
-              progress: '',
+              estado: donation.estado,
             }));
 
             this.existDonations = true;
@@ -208,7 +209,7 @@ export class DashboardComponent implements OnInit {
         email: data.user.Email,
         producto: data.newDonation.Producto,
         cantidad: data.newDonation.Cantidad,
-        progress: '',
+        estado: data.newDonation.Estado,
         highlight: true,
       };
 
