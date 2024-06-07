@@ -201,24 +201,6 @@ export class UpdateAccountComponent implements OnInit {
   }
 
 
-  loadNeeds() {
-    this.organizationService.getGroupedSubcategories(this.idOrg).subscribe(
-      (resp) => {
-        this.needs = resp;
-        console.log(this.needs);
-        let total = 0;
-        this.needs.forEach((need: any) => {
-          total += need.subcategoria.length;
-        });
-
-        this.totalNeeds = total;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
-
   loadNeeds(){
     this.organizationService.getGroupedSubcategories(this.idOrg)
     .subscribe(resp=>{
