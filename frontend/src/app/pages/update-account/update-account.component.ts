@@ -41,6 +41,7 @@ export class UpdateAccountComponent implements OnInit {
   headquarters: any[] = [];
   needs: any;
   totalNeeds: any;
+  localidades: any[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -131,8 +132,6 @@ export class UpdateAccountComponent implements OnInit {
       );
     }
 
-
-
     this.userStore.getEmailFromStore().subscribe((val) => {
       const emailFromToken = this.authService.getEmailFromToken();
       this.email = val || emailFromToken;
@@ -154,27 +153,70 @@ export class UpdateAccountComponent implements OnInit {
         });
       }
     });
-
-
   }
 
-  loadNeeds(){
-    this.organizationService.getGroupedSubcategories(this.idOrg)
-    .subscribe(resp=>{
-      this.needs = resp;
-      console.log(this.needs);
-      let total = 0;
-      this.needs.forEach((need:any) => {
-        total += need.subcategoria.length;
-      });
-
-      this.totalNeeds = total;
-
-    },error =>{
-      console.log(error);
-    })
+  onProvinceChange(): void {
+    let provinceId = 0;
+    if (this.role === 'usuario') {
+      provinceId = this.accountForm.get('provincia')?.value;
+    } else {
+      provinceId = this.accountOrgForm.get('provincia')?.value;
+    }
+    this.loadLocalidades(provinceId).subscribe(
+      () => {
+        console.log('Localidades cargadas:', this.localidades);
+      },
+      (error) => {
+        console.error('Error cargando localidades:', error);
+      }
+    );
   }
 
+  loadLocalidades(provinceId: number): Observable<any> {
+    return new Observable((observer) => {
+      this.mapService.getLocalities(provinceId).subscribe(
+        (response: any) => {
+          const totalLocalidades = response.total;
+          this.mapService
+            .getLocalitiesFilter(provinceId, totalLocalidades)
+            .subscribe(
+              (response: any) => {
+                this.localidades = response.localidades.sort((a: any, b: any) =>
+                  a.nombre.localeCompare(b.nombre)
+                );
+                observer.next();
+                observer.complete();
+              },
+              (error) => {
+                observer.error(error);
+              }
+            );
+        },
+        (error) => {
+          observer.error(error);
+        }
+      );
+    });
+  }
+
+
+  loadNeeds() {
+    this.organizationService.getGroupedSubcategories(this.idOrg).subscribe(
+      (resp) => {
+        this.needs = resp;
+        console.log(this.needs);
+        let total = 0;
+        this.needs.forEach((need: any) => {
+          total += need.subcategoria.length;
+        });
+
+        this.totalNeeds = total;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
 
   loadUserData(): Observable<any> {
     return this.userStore.getUserByEmail(this.email).pipe(
@@ -188,12 +230,16 @@ export class UpdateAccountComponent implements OnInit {
                 telefono: org.telefono,
                 direccion: org.direccion,
                 localidad: org.localidad,
-                provincia: org.provincia, 
+                provincia: org.provincia,
               });
               console.log(this.accountOrgForm.value);
               this.rolId = res.rolId;
               this.idOrg = org.id;
-              return [res];
+              return this.loadLocalidades(org.provincia).pipe(
+                tap(() => {
+                  this.initialAccountOrgFormValues = this.accountOrgForm.getRawValue();
+                })
+              );
             })
           );
         } else {
@@ -208,7 +254,11 @@ export class UpdateAccountComponent implements OnInit {
           });
           this.rolId = res.rolId;
           this.idUser = res.id;
-          return [res];
+          return this.loadLocalidades(res.provincia).pipe(
+            tap(() => {
+              this.initialAccountFormValues = this.accountForm.getRawValue();
+            })
+          );
         }
       }),
       catchError((err) => {
@@ -217,7 +267,7 @@ export class UpdateAccountComponent implements OnInit {
       })
     );
   }
-
+  
   loadDonations(): void {
     this.donationService.getAllDonationsByUserId(this.idUser).subscribe({
       next: (res) => {
@@ -275,6 +325,8 @@ export class UpdateAccountComponent implements OnInit {
     );
 
     let id = parseInt(this.topOrganizationId); // Parse topOrganizationId to number
+
+    console.log('Top organization:', this.topOrganizationId);
 
     //para obtener el nombre de la organizacion
     this.organizationService.getOrganizationById(id).subscribe({

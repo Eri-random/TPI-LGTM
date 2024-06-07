@@ -12,10 +12,10 @@ using System.Threading.Tasks;
 
 namespace backend.servicios.Servicios
 {
-    public class NecesidadService(ApplicationDbContext context, ILogger<NecesidadService> logger) : INeedService
+    public class NeedService(ApplicationDbContext context, ILogger<NeedService> logger) : INeedService
     {
         private readonly ApplicationDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
-        private readonly ILogger<NecesidadService> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        private readonly ILogger<NeedService> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         public async Task<IEnumerable<NeedDto>> GetAllNeedAsync()
         {
             try
