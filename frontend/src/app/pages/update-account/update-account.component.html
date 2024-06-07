@@ -9,7 +9,7 @@
       <img class="position-absolute fixed-top ms-8 w-auto h-100 z-index-0 d-xl-none border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/a-mobile.png">
     </div>
     <div class="container">
-      <div class="card blur justify-content-center shadow-lg mt-7 mb-5">
+      <div class="card blur justify-content-center shadow-lg mt-7 mb-5 px-lg-4 pb-3">
         <div *ngIf="!loading && role === 'usuario'" class="row text-center mx-1 mt-4">
           <h2>Mi <span class="text-gradient text-secondary">cuenta</span></h2>
         </div>
@@ -19,13 +19,13 @@
         <div class="card-body pb-2">
           <div class="row">
             <div class="col text-center">
-              <p *ngIf="!loading && role === 'usuario'" class="lead">En esta sección podés editar tus datos personales y ver información sobre tu actividad en <span class="text-highlight">reCrea</span>.</p>
-              <p *ngIf="!loading && role === 'organizacion'" class="lead">En esta sección podés editar los datos de tu organización y ver información sobre tu actividad en <span class="text-highlight">reCrea</span>.</p>
+              <p *ngIf="!loading && role === 'usuario'" class="lead">En esta sección podés editar tus datos personales y ver información sobre tu actividad en <span class="text-highlight">reCrea</span></p>
+              <p *ngIf="!loading && role === 'organizacion'" class="lead">En esta sección podés editar los datos de tu organización y ver información sobre tu actividad en <span class="text-highlight">reCrea</span></p>
             </div>
           </div>
 
           <div class="row" *ngIf="!loading && role === 'usuario'">
-            <div class="col-md-6 px-lg-4">
+            <div class="col-md-6">
               <div class="row">
                 <form class="my-4" [formGroup]="accountForm">
                   <div class="row">
@@ -219,7 +219,7 @@
                 <div class="row">
                     <div class="col-md-6">
                       <div class="p-3 text-center">
-                      <h1><i class="fas fa-hand-holding-heart text-gradient text-primary"></i></h1>
+                      <h1><i class="fas fa-hand-holding-heart text-gradient text-secondary"></i></h1>
                       <h5 class="mt-3">Total de donaciones</h5>
                       <div class="text-md">
                         <p *ngIf="donations.length === 0">Todavía no hiciste ninguna donación</p>
@@ -230,7 +230,7 @@
                     </div>
                     <div class="col-md-6">
                       <div class="p-3 text-center">
-                      <h1><i class="fas fa-tshirt text-gradient text-primary"></i></h1>
+                      <h1><i class="fas fa-tshirt text-gradient text-secondary"></i></h1>
                       <h5 class="mt-3">Producto más donado</h5>
                       <p class="text-md text-capitalize">{{ mostDonatedProductType }}</p>
                       </div>
@@ -239,8 +239,8 @@
                 <div class="row">
                     <div class="col-md-6">
                     <div class="p-3 text-center">
-                    <h1><i class="fas fa-award text-gradient text-primary"></i></h1>
-                    <h5 class="mt-3">Cantidad máxima donada</h5>
+                    <h1><i class="fas fa-award text-gradient text-secondary"></i></h1>
+                    <h5 class="mt-3">Donación máxima</h5>
                     <div class="text-md">
                       <p *ngIf="mostDonatedProductQuantity === 0">Todavía no hiciste ninguna donación</p>
                       <p *ngIf="mostDonatedProductQuantity === 1">{{ mostDonatedProductQuantity }} unidad</p>
@@ -250,7 +250,7 @@
                     </div>
                     <div class="col-md-6">
                       <div class="p-3 text-center">
-                      <h1><i class="fas fa-users text-gradient text-primary"></i></h1>
+                      <h1><i class="fas fa-users text-gradient text-secondary"></i></h1>
                       <h5 class="mt-3">Organización favorita</h5>
                       <p class="text-md">{{ topOrganizationId }}</p>
                       </div>
@@ -262,7 +262,7 @@
           </div>
 
           <div class="row" *ngIf="!loading && role === 'organizacion'">
-            <div class="col-md-6 px-lg-4">
+            <div class="col-md-6">
               <div class="row">
                 <form class="my-4" [formGroup]="accountOrgForm">
                   <div class="row g-3">
@@ -434,12 +434,12 @@
                 <div class="row">
                     <div class="col-md-6">
                       <div class="p-3 text-center">
-                      <h1><i class="fas fa-users text-gradient text-primary"></i></h1>
+                      <h1><i class="fas fa-users text-gradient text-secondary"></i></h1>
                       <h5 class="mt-3">Mis sedes</h5>
                       <div class="text-md">
                         <div *ngIf="headquarters.length === 0">
                           <p>Todavía no cargaste ninguna sede.</p>
-                          <button type="button" class="btn btn-sm btn-round bg-gradient-secondary w-100 mt-2" routerLink="/sedes">Cargar<br />sedes</button>
+                          <button type="button" class="btn btn-sm btn-round bg-gradient-primary w-100 mt-2" routerLink="/sedes">Cargar<br />sedes</button>
                         </div>
                         
                         <div *ngIf="headquarters.length > 0">
@@ -458,7 +458,7 @@
                                   <ul *ngFor="let h of headquarters" class="list-group">
                                     <li class="list-group-item my-1 font-weight-bold text-center">{{ h.nombre }}</li>
                                   </ul>
-                                  <button type="button" class="btn btn-sm btn-round bg-gradient-secondary w-100 mt-2" routerLink="/sedes">Editar<br />sedes</button>
+                                  <button type="button" class="btn btn-sm btn-round bg-gradient-primary w-100 mt-2" routerLink="/sedes">Editar<br />sedes</button>
                                 </div>
                               </div>
                             </div>
@@ -469,12 +469,12 @@
                     </div>
                     <div class="col-md-6">
                       <div class="p-3 text-center">
-                      <h1><i class="fas fa-hand-holding-heart text-gradient text-primary"></i></h1>
+                      <h1><i class="fas fa-hand-holding-heart text-gradient text-secondary"></i></h1>
                       <h5 class="mt-3">Mis necesidades</h5>
                       <div class="text-md">
                         <div *ngIf="needs.length === 0">
                           <p>Todavía no cargaste ninguna necesidad.</p>
-                          <button type="button" class="btn btn-sm btn-round bg-gradient-secondary w-100 mt-2" routerLink="/necesidades">Cargar<br />necesidades</button>
+                          <button type="button" class="btn btn-sm btn-round bg-gradient-primary w-100 mt-2" routerLink="/necesidades">Cargar<br />necesidades</button>
                         </div>
                         
                         <div *ngIf="needs.length > 0">
@@ -497,7 +497,7 @@
                                       </ul>
                                     </li>
                                   </ul>
-                                  <button type="button" class="btn btn-sm btn-round bg-gradient-secondary w-100 mt-2" routerLink="/necesidades">Editar<br />necesidades</button>
+                                  <button type="button" class="btn btn-sm btn-round bg-gradient-primary w-100 mt-2" routerLink="/necesidades">Editar<br />necesidades</button>
                                 </div>
                               </div>
                             </div>

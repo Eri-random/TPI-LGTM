@@ -1,51 +1,54 @@
 <section>
-  <div class="page-header min-vh-100">
+  <div class="page-container min-vh-100">
     <div>
-      <img class="position-absolute fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/curved-images/curved8.jpg" alt="image">
+      <img class="position-absolute fixed-top ms-auto w-60 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/a.png">
+      <img class="position-absolute fixed-top ms-8 w-auto h-100 z-index-0 d-xl-none border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/a-mobile.png">
     </div>
     <div class="container">
-      <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-8 mb-5 ">
-        <!-- <div class="card blur card-plain"> -->
-        <div class="col-8 text-center mx-auto pb-0">
-          <h3 class="pt-4 text-uppercase">{{ response.idea }}</h3>
+      <div class="card blur justify-content-center shadow-lg mt-7 mb-5 px-lg-4">
+        <div class="row text-center mx-1 mt-4">
+          <h2>Idea generada: <span class="text-gradient text-secondary">{{ response.idea }}</span></h2>
         </div>
-        <div class="card-body">
-          <div class="col text-center justify-content-center">
-            <p *ngIf="response.dificultad === 'Facil'" class="dificultad lead mb-3"> Dificultad: <span class="easy">{{ response.dificultad }}</span>
-            </p>
-            <p *ngIf="response.dificultad === 'Media'" class="dificultad lead mb-3"> Dificultad: <span class="medium">{{ response.dificultad }}</span>
-            </p>
-            <p *ngIf="response.dificultad === 'Dificil'" class="dificultad lead mb-3"> Dificultad: <span class="hard">{{ response.dificultad }}</span>
-            </p>
-            <div class="row mb-3 justify-content-center">
-              <div class="col-lg-11">
-                <div class="row g-3">
-                  <div class="col-md-4 justify-content-center imagen-idea">
-                    <img src="https://media.istockphoto.com/id/1226328537/es/vector/soporte-de-posici%C3%B3n-de-imagen-con-un-icono-de-c%C3%A1mara-gris.jpg?s=612x612&w=0&k=20&c=8igCt_oe2wE-aP0qExUDfwicSNUCb4Ho9DiKCq0rSaA=" class="img-fluid border-radius-lg" alt="..." />
-                  </div>
-                  <div class="col-md-8">
-                    <div class="accordion" id="accordionRental">
-                      <div [attr.id]="'accordion_' + i" *ngFor="let step of response.steps; index as i" class="accordion-item mb-3">
-                        <h5 class="accordion-header" id="headingOne">
-                          <button class="accordion-button border-bottom font-weight-bold collapsed" type="button" data-bs-toggle="collapse" [attr.data-parent]="'#accordion_' + i" [attr.href]="'#collapseOne_' + i"> Paso {{ i + 1 }}
-                            <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
-                            <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
-                          </button>
-                        </h5>
-                        <div [attr.id]="'collapseOne_' + i" class="accordion-collapse collapse">
-                          <div class="accordion-body text-sm opacity-8">
-                            {{ step }}
-                          </div>
-                        </div>
-                      </div>
+        <div class="card-body pb-2">
+          <div class="row">
+            <div class="col text-center">
+              <p *ngIf="response.dificultad === 'Facil'" class="dificultad lead mb-3">Nivel de dificultad: <span class="easy">{{ response.dificultad }}</span>
+              </p>
+              <p *ngIf="response.dificultad === 'Media'" class="dificultad lead mb-3">Nivel de dificultad: <span class="medium">{{ response.dificultad }}</span>
+              </p>
+              <p *ngIf="response.dificultad === 'Dificil'" class="dificultad lead mb-3">Nivel de dificultad: <span class="hard">{{ response.dificultad }}</span>
+              </p>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-lg-4 justify-content-center imagen-idea">
+              <img src="../assets/img/idea-placeholder.png" class="img-fluid border-radius-lg mb-4"/>
+            </div>
+            <div class="col-lg-8">
+              <div class="accordion mb-4" id="accordionSteps">
+                <div class="accordion-item" *ngFor="let step of response.steps; index as i">
+                  <h2 class="accordion-header" [attr.id]="'heading_' + i">
+                    <button class="accordion-button text-uppercase border-bottom text-lg font-weight-bold collapsed" type="button" data-bs-toggle="collapse" [attr.data-parent]="'#accordion_' + i" [attr.href]="'#collapse_' + i">
+                      <i class="fas fa-clipboard-check pe-3"></i>
+                      Ver paso N°{{ i + 1 }}
+                      <i class="collapse-close fa fa-plus text-md pt-1 position-absolute end-0 me-3"></i>
+                    </button>
+                  </h2>
+                  <div [attr.id]="'collapse_' + i" class="accordion-collapse collapse" [attr.aria-labelledby]="'heading_' + i" data-bs-parent="#accordionSteps">
+                    <div class="accordion-body">
+                      {{ step }}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="section-buttons">
-              <button class="btn bg-gradient-primary mt-2" (click)="generateNewIdea()">Generar otra idea</button>
-              <button class="btn bg-gradient-secondary mt-2" (click)="saveIdea()">Guardar idea</button>
+          </div>
+          <div class="row">
+            <div class="col-md-6 text-md-end text-center">
+              <button class="btn btn-round bg-gradient-secondary mt-2" (click)="generateNewIdea()">Generar otra idea</button>
+            </div>
+            <div class="col-md-6 text-md-start text-center">
+              <button class="btn btn-round bg-gradient-primary mt-2" (click)="saveIdea()"><i class="fas fa-save"></i> Guardar idea</button>
             </div>
           </div>
         </div>
