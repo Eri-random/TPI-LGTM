@@ -155,7 +155,7 @@ namespace backend.api.test
         public async Task GetPaginatedOrganizationsAsync_ReturnsInternalServerError_WhenExceptionIsThrown()
         {
             // Arrange
-            _organizationServiceMock.Setup(service => service.GetPaginatedOrganizationsAsync(1, 8)).ThrowsAsync(new Exception());
+            _organizationServiceMock.Setup(service => service.GetPaginatedOrganizationsAsync(1, 8,null,null)).ThrowsAsync(new Exception());
 
             // Act
             var result = await _controller.GetPaginatedOrganizationsAsync(1, 8);
