@@ -2,6 +2,7 @@ using backend.api.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.api.Controllers
@@ -47,6 +48,7 @@ namespace backend.api.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("{email}")]
         public async Task<IActionResult> GetUserByEmail(string email)
         {
