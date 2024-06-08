@@ -57,6 +57,7 @@ export class DashboardComponent implements OnInit {
   ];
 
   dataSource: MatTableDataSource<UserData> = new MatTableDataSource();
+  selectedDonations: number[] = [];
   loading: boolean = true;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -261,14 +262,28 @@ export class DashboardComponent implements OnInit {
   }
 
   updateSelectedStates() {
-    this.dataSource.data.forEach(row => {
-      if (row.selected) {
-        row.estado = 'Recibido';
-        row.selected = false; // Desmarcar el checkbox
-      }
-    });
-    this.checkboxEnabled = false; // Deshabilitar los checkboxes después de actualizar los estados
-    this.displayedColumns = this.displayedColumns.filter(column => column !== 'select'); // Ocultar la columna de selección
+    this.selectedDonations = this.dataSource.data
+      .filter(row => row.selected)
+      .map(row => row.id); // Recolectar IDs de donaciones seleccionadas
+
+    this.donationsService.updateDonationsState(this.selectedDonations, 'Recibido')
+      .subscribe(
+        response => {
+          console.log('Estado actualizado con éxito', response);
+          // Actualizar la interfaz de usuario según sea necesario...
+          this.dataSource.data.forEach(row => {
+            if (row.selected) {
+              row.estado = 'Recibido';
+              row.selected = false; // Desmarcar el checkbox
+            }
+          });
+          this.checkboxEnabled = false; // Deshabilitar los checkboxes después de actualizar los estados
+          this.displayedColumns = this.displayedColumns.filter(column => column !== 'select'); // Ocultar la columna de selección
+        },
+        error => {
+          console.error('Error al actualizar el estado', error);
+        }
+      );
   }
 
   exportAsExcel() {

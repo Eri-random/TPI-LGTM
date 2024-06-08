@@ -40,4 +40,9 @@ export class DonationsService {
   getDonations(): Observable<Donation[]> {
     return this.donations$;
   }
+
+  updateDonationsState(donationIds: number[], state: string) {
+    const url = `${this.baseUrl}/Donation/updateState`;
+    return this.http.put(url, { donationIds, state });
+  }
 }
