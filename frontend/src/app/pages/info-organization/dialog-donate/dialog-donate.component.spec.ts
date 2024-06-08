@@ -102,6 +102,7 @@ describe('DialogDonateComponent', () => {
       cantidad: '10',
       usuarioId: 1,
       organizacionId: 1,
+      estado:'Pendiente',
       cuit: '123456789'
     });
   });
