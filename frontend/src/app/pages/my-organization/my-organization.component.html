@@ -1,151 +1,137 @@
 <section>
-  <div class="page-header min-vh-100">
+  <div class="page-container min-vh-100">
     <div>
-      <img
-        class="position-absolute fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0"
-        src="../assets/img/curved-images/curved8.jpg" alt="image">
+      <img class="position-absolute fixed-top ms-auto w-60 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/a.png">
+      <img class="position-absolute fixed-top ms-8 w-auto h-100 z-index-0 d-xl-none border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/a-mobile.png">
     </div>
     <div class="container">
-      <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-8 mb-5">
-        <div class="card-body pt-0">
-          <div class="d-flex row">
-            <div class="col pt-3 text-center mx-auto">
-              <h1>Información de la Organización</h1>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col justify-content-center">
-                    <p>
-                      Por favor, completá la información para que los usuarios conozcan tu organización y hagan donaciones.<br>
-                      Brindá detalles claros sobre tu misión, proyectos y necesidades para aumentar las donaciones.<br>
-                      ¡Gracias por ser parte de nuestra comunidad!</p>
-                  </div>
-                </div>
-                <form
-      [formGroup]="organizationForm"
-      class="form-organizacion"
-      enctype="multipart/form-data"
-    >
-      <div class="mb-3">
-        <label for="organizacion" class="form-label required">Organización</label>
-        <input id="organizacion" type="text" class="form-control" formControlName="organizacion" maxlength="30" readonly />
-        <small *ngIf="organizationForm.controls['organizacion'].dirty && organizationForm.hasError('required', 'organizacion')" class="text-danger">Nombre de organización requerido</small>
-        <div class="section-detail">
-          <p class="info small">
-            Este es el nombre que aparecerá en la portada de tu organización.
-          </p>
-          <div class="form-text small mt-n2">
-            {{ getCharacterCount('organizacion', 30) }}
-          </div>
+      <div class="card blur justify-content-center shadow-lg mt-7 mb-5 px-lg-4 pb-3">
+        <div class="row text-center mx-1 mt-4">
+          <h2>Mi <span class="text-gradient text-secondary">organización</span></h2>
         </div>
-      </div>
-  
-      <div class="mb-3">
-        <label for="descripcionBreve" class="form-label required">Descripción breve</label>
-        <textarea
-          id="descripcionBreve"
-          class="form-control"
-          formControlName="descripcionBreve"
-          rows="3"
-          maxlength="150"
-        ></textarea>
-        <small
-          *ngIf="
-            organizationForm.controls['descripcionBreve']?.dirty &&
-            organizationForm.hasError('required', 'descripcionBreve')
-          "
-          class="text-danger"
-          >Descripción breve requerida</small
-        >
-  
-        <div class="section-detail">
-          <p class="info small">
-            Una descripción breve de tu organización. Los usuarios pueden ver esta en el directorio de organizaciones (Nuestra red).
-          </p>
-          <div class="form-text small mt-n2">
-            {{ organizationForm.get('descripcionBreve')?.value.length }}/150
-          </div>
-        </div>
-      </div>
-  
-      <div class="mb-3">
-        <label for="descripcionCompleta" class="form-label required">Descripción completa</label>
-        <editor
-          apiKey="ntlo9tszxpfohc7ddllnmtk84am6cbkm3sg6j37b7ow1dc1l"
-          [init]="{
-            height: 300,
-            menubar: false,
-            plugins: [
-              'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-              'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-              'insertdatetime', 'media', 'table', 'help', 'wordcount'
-            ],
-            toolbar: 'undo redo | fontsize |' +
-            'bold italic forecolor | alignleft aligncenter ' +
-            'alignright alignjustify | bullist numlist outdent indent | ' +
-            'removeformat | help',
-          }"
-          id="descripcionCompleta"
-          formControlName="descripcionCompleta"
-          rows="5"
-          maxlength="4000"
-        ></editor>
-        <small
-          *ngIf="
-            organizationForm.controls['descripcionCompleta']?.dirty &&
-            organizationForm.hasError('required', 'descripcionCompleta')
-          "
-          class="text-danger"
-          >Descripción completa requerida</small
-        >
-  
-        <div class="section-detail-complete">
-          <div class="form-text small">
-            {{ organizationForm.get('descripcionCompleta')?.value.length }}/4000
-          </div>
-        </div>
-      </div>
-  
-      <div class="mb-3">
-        <label for="imagen" class="form-label">Imagen</label>
-        <p class="info">
-          Cargá el logo de tu organización para darte a conocer en reCrea.
-        </p>
-        <div>
-          <div *ngIf="imageSrc" class="mb-2">
-            <img
-              [src]="imageSrc"
-              alt="Vista previa de la imagen"
-              [style.width.px]="200"
-            />
-          </div>
-          <input
-            type="file"
-            class="form-control"
-            (change)="onFileSelected($event)"
-            accept="image/*"
-            formControlName="file"
-          />
-        </div>
-        <small
-          *ngIf="
-            organizationForm.controls['file']?.dirty &&
-            organizationForm.hasError('required', 'file')
-            ||  imageSrc == 'https://media.istockphoto.com/id/1226328537/es/vector/soporte-de-posici%C3%B3n-de-imagen-con-un-icono-de-c%C3%A1mara-gris.jpg?s=612x612&w=0&k=20&c=8igCt_oe2wE-aP0qExUDfwicSNUCb4Ho9DiKCq0rSaA='
-          "
-          class="text-danger"
-          >Imagen requerida</small
-        >
-      </div>
-
-      <div class="section-btn">
-        <button (click)="onSubmit()" type="button" class="btn btn-lg btn-round bg-gradient-secondary">
-          {{ isEditMode ? 'Actualizar' : 'Publicar' }}
-        </button>
-      </div>
-    </form>
-              </div>
+        <div class="card-body pb-2">
+          <div class="row">
+            <div class="col text-center">
+              <p class="lead">Brindá detalles claros sobre tu misión, proyectos y necesidades para aumentar las donaciones.</p>
             </div>
           </div>
+
+          <form
+          [formGroup]="organizationForm"
+          class="form-organizacion"
+          enctype="multipart/form-data"
+          >
+            <div class="row g-3">
+              <div class="col-lg-3">
+
+                <div class="mb-3">
+                  <label for="imagen" class="form-label">Imagen</label>
+                  <div *ngIf="imageSrc" class="imgUp text-center">
+                    <img class="object-fit-cover imagePreview shadow border-radius-md backgroundImage" [src]="imageSrc"/>
+                  </div>
+                  <p class="info small pt-1 px-1">
+                    Cargá el logo de tu organización para darte a conocer en reCrea.
+                  </p>
+                  <div class="d-flex justify-content-center text-center">
+                    <label class="btn btn-round bg-gradient-secondary mt-1"><i class="fas fa-file-upload"></i> Subir imagen <input type="file" class="uploadFile img" (change)="onFileSelected($event)" accept="image/*" formControlName="file"></label>
+                  </div>
+                  <small *ngIf="organizationForm.controls['file']?.dirty && organizationForm.hasError('required', 'file') ||  imageSrc == '/assets/img/placeholder.png'" class="text-danger">Imagen requerida</small>
+                </div>
+
+              </div>
+
+              <div class="col-lg-4">
+
+                <div class="mb-3">
+                  <label for="organizacion" class="form-label required">Organización</label>
+                  <input id="organizacion" type="text" class="form-control" formControlName="organizacion" maxlength="30" readonly />
+                  <small *ngIf="organizationForm.controls['organizacion'].dirty && organizationForm.hasError('required', 'organizacion')" class="text-danger">Nombre de organización requerido</small>
+                  <div class="d-flex justify-content-between px-1">
+                    <p class="info small pe-1">
+                      Este es el nombre que aparecerá en la portada de tu organización.
+                    </p>
+                    <p class="info small">
+                      {{ getCharacterCount('organizacion', 30) }}
+                    </p>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="descripcionBreve" class="form-label required">Descripción breve</label>
+                  <textarea
+                    id="descripcionBreve"
+                    class="form-control"
+                    formControlName="descripcionBreve"
+                    rows="5"
+                    maxlength="150"
+                  ></textarea>
+                  <small *ngIf="organizationForm.controls['descripcionBreve']?.dirty && organizationForm.hasError('required', 'descripcionBreve')" class="text-danger">Descripción breve requerida</small>
+                  <div class="d-flex justify-content-between px-1">
+                    <p class="info small pe-1">
+                      Los usuarios pueden ver esta descripción en el directorio (Nuestra red).
+                    </p>
+                    <p class="info small">
+                      {{ organizationForm.get('descripcionBreve')?.value.length }}/150
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="col-lg-5">
+
+                <div class="mb-3">
+                  <label for="descripcionCompleta" class="form-label required">Descripción completa</label>
+                  <editor
+                    apiKey="ntlo9tszxpfohc7ddllnmtk84am6cbkm3sg6j37b7ow1dc1l"
+                    [init]="{
+                      height: 280,
+                      menubar: false,
+                      plugins: [
+                        'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                        'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                        'insertdatetime', 'media', 'table', 'help', 'wordcount'
+                      ],
+                      toolbar: 'undo redo | fontsize |' +
+                      'bold italic forecolor | alignleft aligncenter ' +
+                      'alignright alignjustify | bullist numlist outdent indent | ' +
+                      'removeformat | help',
+                    }"
+                    id="descripcionCompleta"
+                    formControlName="descripcionCompleta"
+                    rows="5"
+                    maxlength="4000"
+                  ></editor>
+                  <small
+                    *ngIf="
+                      organizationForm.controls['descripcionCompleta']?.dirty &&
+                      organizationForm.hasError('required', 'descripcionCompleta')
+                    "
+                    class="text-danger"
+                    >Descripción completa requerida</small
+                  >
+            
+                  <div class="d-flex justify-content-between px-1">
+                    <p class="info small pe-1">
+                      Los usuarios pueden ver esta descripción al hacer click en tu organización.
+                    </p>
+                    <p class="info small">
+                      {{ organizationForm.get('descripcionCompleta')?.value.length }}/40000
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="row">
+                <div class="d-flex justify-content-center pt-3">
+                  <button (click)="onSubmit()" type="button" class="btn btn-round bg-gradient-primary">
+                    {{ isEditMode ? 'Actualizar información' : 'Publicar organización' }}
+                  </button>
+                </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
