@@ -15,6 +15,8 @@ public partial class Donacion
 
     public int OrganizacionId { get; set; }
 
+    public string Estado { get; set; }
+
     public virtual Organizacion Organizacion { get; set; }
 
     public virtual Usuario Usuario { get; set; }

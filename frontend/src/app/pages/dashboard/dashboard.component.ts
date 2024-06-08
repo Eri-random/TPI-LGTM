@@ -26,8 +26,9 @@ export interface UserData {
   email: string;
   producto: string;
   cantidad: number;
-  progress: string;
+  estado: string;
   highlight?: boolean; // Add an optional highlight property
+  selected?:boolean;
 }
 
 @Component({
@@ -44,6 +45,7 @@ export class DashboardComponent implements OnInit {
   productMostDonate: { product: string, amount: number } | null = null;
   averageDonations: number = 0;
   topDonor: { name: string, amount: number } | null = null;
+  checkboxEnabled = false;
 
   displayedColumns: string[] = [
     'name',
@@ -51,9 +53,11 @@ export class DashboardComponent implements OnInit {
     'email',
     'producto',
     'cantidad',
+    'estado',
   ];
 
   dataSource: MatTableDataSource<UserData> = new MatTableDataSource();
+  selectedDonations: number[] = [];
   loading: boolean = true;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -109,7 +113,7 @@ export class DashboardComponent implements OnInit {
               email: donation.usuario.email,
               producto: donation.producto,
               cantidad: donation.cantidad,
-              progress: '',
+              estado: donation.estado,
             }));
 
             this.existDonations = true;
@@ -208,7 +212,7 @@ export class DashboardComponent implements OnInit {
         email: data.user.Email,
         producto: data.newDonation.Producto,
         cantidad: data.newDonation.Cantidad,
-        progress: '',
+        estado: data.newDonation.Estado,
         highlight: true,
       };
 
@@ -246,6 +250,40 @@ export class DashboardComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  toggleCheckboxes() {
+    this.checkboxEnabled = !this.checkboxEnabled;
+    if (this.checkboxEnabled) {
+      this.displayedColumns.push('select');
+    } else {
+      this.displayedColumns = this.displayedColumns.filter(column => column !== 'select');
+    }
+  }
+
+  updateSelectedStates() {
+    this.selectedDonations = this.dataSource.data
+      .filter(row => row.selected)
+      .map(row => row.id); // Recolectar IDs de donaciones seleccionadas
+
+    this.donationsService.updateDonationsState(this.selectedDonations, 'Recibido')
+      .subscribe(
+        response => {
+          console.log('Estado actualizado con éxito', response);
+          // Actualizar la interfaz de usuario según sea necesario...
+          this.dataSource.data.forEach(row => {
+            if (row.selected) {
+              row.estado = 'Recibido';
+              row.selected = false; // Desmarcar el checkbox
+            }
+          });
+          this.checkboxEnabled = false; // Deshabilitar los checkboxes después de actualizar los estados
+          this.displayedColumns = this.displayedColumns.filter(column => column !== 'select'); // Ocultar la columna de selección
+        },
+        error => {
+          console.error('Error al actualizar el estado', error);
+        }
+      );
   }
 
   exportAsExcel() {
