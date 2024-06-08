@@ -191,12 +191,6 @@ svg.text-secondary .color-background {
     padding-bottom: 10px;
 }
 
-.gm-style-iw {
-    width: auto !important;
-    top: 0 !important;
-    left: 0 !important;
-   }
-
 .info-window > h3 {
     color: var(--color-secondary);
     font-size: 1.5rem ;
@@ -207,6 +201,12 @@ svg.text-secondary .color-background {
 .info-window > p {
     color: #5A5A5A;
     text-transform: capitalize;
+}
+
+.gm-style-iw {
+    width: auto !important;
+    top: 0 !important;
+    left: 0 !important;
 }
 
 .gm-style .gm-style-iw-c {

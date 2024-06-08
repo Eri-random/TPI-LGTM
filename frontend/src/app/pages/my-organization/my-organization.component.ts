@@ -17,7 +17,7 @@ export class MyOrganizationComponent {
   organizationForm: FormGroup;
   cuit!: string;
   imageSrc: string | ArrayBuffer | null =
-    '/assets/img/placeholder.png';
+    '/assets/img/logo-placeholder.png';
   selectedFile: File | null = null;
   isEditMode: boolean = false;
 
