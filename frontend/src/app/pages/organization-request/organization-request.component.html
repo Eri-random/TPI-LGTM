@@ -9,9 +9,9 @@
       <img class="position-absolute fixed-top ms-8 w-auto h-100 z-index-0 d-xl-none border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/a-mobile.png">
     </div>
     <div class="container">
-      <div class="card blur justify-content-center shadow-lg mt-7 mb-5">
+      <div class="card blur justify-content-center shadow-lg mt-7 mb-5 px-lg-4 pb-3">
         <div class="row text-center mx-1 mt-4">
-          <h2>¿Qué <span class="text-gradient text-secondary">necesitamos</span>?</h2>
+          <h2>¿Qué <span class="text-gradient text-secondary">necesita mi organización</span>?</h2>
         </div>
         <div class="card-body pb-2">
           <div class="row g-3 d-flex justify-content-center pb-4" *ngFor="let need of needs">
@@ -24,7 +24,7 @@
                     </mat-panel-title>
                   </mat-expansion-panel-header>
                   <section class="d-flex flex-column" [formGroup]="formGroups[need.nombre]">
-                      <mat-checkbox *ngFor="let subcategory of need.subcategoria" formControlName="{{ subcategory.nombre }}">
+                      <mat-checkbox color="primary" *ngFor="let subcategory of need.subcategoria" formControlName="{{ subcategory.nombre }}">
                         {{ subcategory.nombre }}
                       </mat-checkbox>
                   </section>

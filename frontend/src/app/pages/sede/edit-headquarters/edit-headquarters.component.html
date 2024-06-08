@@ -12,7 +12,7 @@
         <div class="card-body pb-2 pt-0">
           <form class="my-4" [formGroup]="headquartersForm" >
             <div class="row g-3">
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <label for="nombre" class="form-label required">Nombre</label>
                 <input type="text" class="form-control input-field" [class.error]="
                   headquartersForm.get('nombre')?.touched && headquartersForm.get('nombre')?.errors
@@ -20,6 +20,15 @@
                 <small *ngIf="
                   headquartersForm.get('nombre')?.touched && headquartersForm.get('nombre')?.errors
                 " class="text-danger">El nombre es requerido</small>
+              </div>
+              <div class="col-md-6">
+                <label for="telefono" class="form-label required">Teléfono</label>
+                <input type="text" class="form-control input-field" [class.error]="
+                  headquartersForm.get('telefono')?.touched && headquartersForm.get('telefono')?.errors
+                " id="telefono" formControlName="telefono" placeholder="Ej: 123456789" />
+                <small *ngIf="
+                  headquartersForm.get('telefono')?.touched && headquartersForm.get('telefono')?.errors
+                " class="text-danger">El teléfono es requerido</small>
               </div>
               <div class="col-md-6">
                 <label for="direccion" class="form-label required">Dirección</label>
@@ -46,7 +55,7 @@
               <div class="col-md-6">
                 <label for="provincia" class="form-label required">Provincia</label>
                 <select
-                class="form-control input-field"
+                class="form-control form-select input-field"
                 [class.error]="
                 headquartersForm.get('provincia')?.dirty &&
                 headquartersForm.get('provincia')?.errors
@@ -64,15 +73,6 @@
                   headquartersForm.get('provincia')?.errors
                 " class="text-danger">La provincia es requerida</small>
               </div>
-              <div class="col-md-6">
-                <label for="telefono" class="form-label required">Teléfono</label>
-                <input type="text" class="form-control input-field" [class.error]="
-                  headquartersForm.get('telefono')?.touched && headquartersForm.get('telefono')?.errors
-                " id="telefono" formControlName="telefono" placeholder="Ej: 123456789" />
-                <small *ngIf="
-                  headquartersForm.get('telefono')?.touched && headquartersForm.get('telefono')?.errors
-                " class="text-danger">El teléfono es requerido</small>
-              </div>
             </div>
             
           </form>
@@ -81,7 +81,7 @@
           <button
             (click)="submitForm()"
             type="button"
-            class="btn btn-lg btn-round bg-gradient-primary"
+            class="btn btn-round bg-gradient-primary"
           >
           Guardar cambios
           </button>

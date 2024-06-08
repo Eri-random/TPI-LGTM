@@ -40,9 +40,9 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
+    cursor: pointer !important;
 }
 .icons img{
     width: 20px;
     height: 20px;
-    cursor: pointer;
 }
