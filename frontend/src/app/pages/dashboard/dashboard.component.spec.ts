@@ -126,8 +126,8 @@ describe('DashboardComponent', () => {
   it('debería aplicar filtro a la tabla', () => {
     const event = { target: { value: 'juan' } } as any;
     component.dataSource.data = [
-      { id:1, name: 'Juan', telefono: '12345678', email: 'juan@ejemplo.com', producto: 'Producto A', cantidad: 10, progress: '' },
-      { id:2, name: 'Maria', telefono: '87654321', email: 'maria@ejemplo.com', producto: 'Producto B', cantidad: 5, progress: '' },
+      { id:1, name: 'Juan', telefono: '12345678', email: 'juan@ejemplo.com', producto: 'Producto A', cantidad: 10, estado: 'Pendiente' },
+      { id:2, name: 'Maria', telefono: '87654321', email: 'maria@ejemplo.com', producto: 'Producto B', cantidad: 5, estado: 'Pendiente' },
     ];
 
     component.applyFilter(event);
