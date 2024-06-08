@@ -74,6 +74,7 @@ export class DialogDonateComponent implements OnInit {
         cantidad: this.donateForm.value.cantidad,
         usuarioId: this.user.id,
         organizacionId: this.data.organizacionId,
+        estado: 'Pendiente',
         cuit: this.cuit,
       })
       .subscribe(
