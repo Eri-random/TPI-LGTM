@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { NgToastService } from 'ng-angular-popup';
@@ -9,6 +9,8 @@ import { OrganizationService } from 'src/app/services/organization.service';
 import { HeadquartersService } from 'src/app/services/headquarters.service';
 import { MapService } from 'src/app/services/map.service';
 import { Provinces, Province } from 'src/app/interfaces/provinces.interface';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('CreateHeadquartersComponent', () => {
   let component: CreateHeadquartersComponent;
@@ -19,6 +21,8 @@ describe('CreateHeadquartersComponent', () => {
   let mockAuthService: jasmine.SpyObj<AuthService>;
   let mockToast: jasmine.SpyObj<NgToastService>;
   let fb: FormBuilder;
+  let httpMock: HttpTestingController;
+
 
   beforeEach(async () => {
     const organizationServiceSpy = jasmine.createSpyObj('OrganizationService', ['getOrgNameFromStore', 'getCuitFromStore', 'getOrganizationByCuit']);
@@ -29,7 +33,7 @@ describe('CreateHeadquartersComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [CreateHeadquartersComponent],
-      imports: [ReactiveFormsModule],
+      imports: [HttpClientTestingModule,ReactiveFormsModule],
       providers: [
         FormBuilder,
         { provide: OrganizationService, useValue: organizationServiceSpy },
@@ -38,7 +42,9 @@ describe('CreateHeadquartersComponent', () => {
         { provide: AuthService, useValue: authServiceSpy },
         { provide: NgToastService, useValue: toastSpy },
         { provide: ActivatedRoute, useValue: { snapshot: { params: {} } } }
-      ]
+      ],
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA,
+        NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(CreateHeadquartersComponent);
@@ -49,6 +55,7 @@ describe('CreateHeadquartersComponent', () => {
     mockAuthService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
     mockToast = TestBed.inject(NgToastService) as jasmine.SpyObj<NgToastService>;
     fb = TestBed.inject(FormBuilder);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   it('debería crear el componente', () => {
@@ -111,25 +118,30 @@ describe('CreateHeadquartersComponent', () => {
         {
           nombre: 'Sede 1',
           direccion: 'Direccion 1',
-          localidad: 'Localidad 1',
           provincia: 'Provincia 1',
-          telefono: '123456789'
+          telefono: '123456789',
+          localidad: 'Localidad 1' // Adding the required localidad field
         }
       ]
     };
     const mockResponse = {};
-
+  
     component.organization = mockOrganization;
+  
+    // Enable the localidad field before setting the value
+    const sedesFormArray = component.HeadquartersForm.get('sedes') as FormArray;
+    const sedeFormGroup = sedesFormArray.at(0) as FormGroup;
+    sedeFormGroup.get('localidad')?.enable();
+    
     component.HeadquartersForm.setValue(mockHeadquartersFormValue);
-
+  
     mockHeadquartersService.postHeadquarters.and.returnValue(of(mockResponse));
-
+  
     component.saveHeadquarters();
-
+  
     expect(mockHeadquartersService.postHeadquarters).toHaveBeenCalledWith([
       {
         ...mockHeadquartersFormValue.sedes[0],
-        telefono: '123456789',
         organizacionId: mockOrganization.id
       }
     ]);
@@ -140,7 +152,7 @@ describe('CreateHeadquartersComponent', () => {
       position: 'topRight',
     });
   });
-
+  
   it('debería mostrar un mensaje de error al fallar el guardado de las sedes', () => {
     const mockOrganization = { id: 1 };
     const mockHeadquartersFormValue = {

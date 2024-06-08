@@ -41,6 +41,16 @@ export class DonationsService {
     return this.donations$;
   }
 
+  postSaveDonation(data: any){
+    const url = `${this.baseUrl}/Donation`;
+    return this.http.post<any>(url, data);
+  }
+
+  getAllDonationsByUserId(userId: number){
+    const url = `${this.baseUrl}/Donation/user/${userId}`;
+    return this.http.get<any>(url);
+  }
+
   updateDonationsState(donationIds: number[], state: string) {
     const url = `${this.baseUrl}/Donation/updateState`;
     return this.http.put(url, { donationIds, state });

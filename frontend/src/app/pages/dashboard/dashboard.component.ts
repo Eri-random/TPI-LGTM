@@ -126,8 +126,8 @@ export class DashboardComponent implements OnInit {
 
             this.totalDonationsCount = donations.length;
             this.averageDonations = this.totalDonations / this.totalDonationsCount;
-            this.calculateProductMostDonated(donations);
-            this.calculateTopDonor(donations);
+            this.calculateProductMostDonated(formattedDonations);
+            this.calculateTopDonor(formattedDonations);
 
             setTimeout(() => {
               this.loading = false;
@@ -142,6 +142,7 @@ export class DashboardComponent implements OnInit {
         },
         (error) => {
           console.error('Error:', error);
+          this.existDonations = false;
         }
       );
   }
@@ -186,10 +187,10 @@ export class DashboardComponent implements OnInit {
     const donorMap = new Map<string, number>();
 
     donations.forEach((donation) => {
-      if (donorMap.has(donation.usuario.nombre)) {
-        donorMap.set(donation.usuario.nombre, donorMap.get(donation.usuario.nombre)! + donation.cantidad);
+      if (donorMap.has(donation.name)) {
+        donorMap.set(donation.name, donorMap.get(donation.name)! + donation.cantidad);
       } else {
-        donorMap.set(donation.usuario.nombre, donation.cantidad);
+        donorMap.set(donation.name, donation.cantidad);
       }
     });
 
@@ -200,6 +201,7 @@ export class DashboardComponent implements OnInit {
   }
 
   handleNewDonation(data: any) {
+    console.log(data)
     if (data && data.newDonation && data.user) {
       this.totalDonations += data.newDonation.Cantidad;
       this.totalDonationsCount += 1;
