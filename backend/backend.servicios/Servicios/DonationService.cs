@@ -26,11 +26,11 @@ namespace backend.servicios.Servicios
 
             var donation = new Donacion
             {
-               Producto = donationDto.Producto,
-               Cantidad = donationDto.Cantidad,
-               Estado = donationDto.Estado,
-               UsuarioId = donationDto.UsuarioId,
-               OrganizacionId = donationDto.OrganizacionId
+                Producto = donationDto.Producto,
+                Cantidad = donationDto.Cantidad,
+                Estado = donationDto.Estado,
+                UsuarioId = donationDto.UsuarioId,
+                OrganizacionId = donationDto.OrganizacionId
             };
 
 
@@ -60,7 +60,7 @@ namespace backend.servicios.Servicios
                         Id = u.Id,
                         Producto = u.Producto,
                         Cantidad = u.Cantidad,
-                        Estado=u.Estado,
+                        Estado = u.Estado,
                         Usuario = new UserDto()
                         {
                             Nombre = u.Usuario.Nombre,
@@ -107,6 +107,34 @@ namespace backend.servicios.Servicios
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al obtener las donaciones del usuario");
+                throw;
+            }
+        }
+
+        public async Task UpdateDonationsStateAsync(List<int> donationIds, string state)
+        {
+            var donations = await _context.Donacions
+                                          .Where(d => donationIds.Contains(d.Id))
+                                          .ToListAsync();
+
+            if (donations == null || !donations.Any())
+            {
+                throw new InvalidOperationException("Las donaciones no existen.");
+            }
+
+            foreach (var donation in donations)
+            {
+                donation.Estado = state;
+            }
+
+            try
+            {
+                _context.UpdateRange(donations);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al actualizar el estado de las donaciones");
                 throw;
             }
         }

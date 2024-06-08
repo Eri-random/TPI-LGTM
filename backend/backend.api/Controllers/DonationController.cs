@@ -87,6 +87,20 @@ namespace backend.api.Controllers
                 return StatusCode(500, $"Error al obtener las donaciones de la organizacion");
             }
         }
+        [HttpPut("updateState")]
+        public async Task<IActionResult> UpdateDonationsState([FromBody] UpdateDonationsStateRequest request)
+        {
+            try
+            {
+                await _donationService.UpdateDonationsStateAsync(request.DonationIds, request.State);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al actualizar el estado de las donaciones");
+                return StatusCode(500, "Internal server error");
+            }
+        }
 
     }
 }
