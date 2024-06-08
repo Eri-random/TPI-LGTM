@@ -11,6 +11,8 @@ namespace backend.api.Models
 
         public int Cantidad { get; set; }
 
+        public string Estado { get; set;}
+
         public int UsuarioId { get; set; }
 
         public int OrganizacionId { get; set; }

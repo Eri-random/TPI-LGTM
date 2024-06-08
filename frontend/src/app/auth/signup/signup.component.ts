@@ -2,9 +2,12 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
+import { Observable } from 'rxjs';
 import ValidateForm from 'src/app/helpers/validateForm';
+import { Province, Provinces } from 'src/app/interfaces/provinces.interface';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
+import { MapService } from 'src/app/services/map.service';
 import { Roles } from 'src/app/utils/roles.enum';
 
 @Component({
@@ -22,9 +25,13 @@ export class SignupComponent {
   visibilityForm:string="d-none";
   visibilityRol:string="d-block";
 
+  provinces: Province[] = [];
+  localidades: any[] = [];
+
   constructor(private fb:FormBuilder,
     private authService:AuthService,
     private router:Router,
+    private mapService:MapService,
     private toast: NgToastService
   ){
 
@@ -60,6 +67,16 @@ export class SignupComponent {
         return null;
       }
     );
+
+    this.mapService.getProvinces().subscribe((data: Provinces) => {
+      this.provinces = data.provincias
+        .filter(
+          (province: Province) =>
+            province.nombre.toLowerCase() !== 'ciudad autónoma de buenos aires' &&
+            province.nombre.toLowerCase() !== 'tierra del fuego, antártida e islas del atlántico sur'
+        )
+        .sort((a: Province, b: Province) => a.nombre.localeCompare(b.nombre));
+    });
   }
 
   hideShowPass(){
@@ -104,6 +121,46 @@ export class SignupComponent {
   enableForm(){
     this.visibilityForm = "d-block"
     this.visibilityRol = "d-none"
+  }
+
+
+  onProvinceChange(): void {
+    const provinceId = this.registerForm.get('provincia')?.value;
+    this.loadLocalidades(provinceId).subscribe(
+      () => {
+        console.log('Localidades cargadas:', this.localidades);
+      },
+      (error) => {
+        console.error('Error cargando localidades:', error);
+      }
+    );
+  }
+
+  loadLocalidades(provinceId: number): Observable<any> {
+    return new Observable((observer) => {
+      this.mapService.getLocalities(provinceId).subscribe(
+        (response: any) => {
+          const totalLocalidades = response.total;
+          this.mapService
+            .getLocalitiesFilter(provinceId, totalLocalidades)
+            .subscribe(
+              (response: any) => {
+                this.localidades = response.localidades.sort((a: any, b: any) =>
+                  a.nombre.localeCompare(b.nombre)
+                );
+                observer.next();
+                observer.complete();
+              },
+              (error) => {
+                observer.error(error);
+              }
+            );
+        },
+        (error) => {
+          observer.error(error);
+        }
+      );
+    });
   }
 
 }

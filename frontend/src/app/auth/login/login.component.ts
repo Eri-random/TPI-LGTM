@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
           detail: 'EXITO',
           summary: 'Login exitoso',
           duration: 5000,
-          position: 'topCenter',
+          position: 'topRight',
         });
         
         tokenPayload.role === 'organizacion' 
