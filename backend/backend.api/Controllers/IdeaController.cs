@@ -1,10 +1,9 @@
 ﻿using backend.api.Models;
+using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
 using backend.servicios.Models;
-using backend.servicios.Servicios;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using backend.servicios.DTOs;
 
 
 namespace backend.api.Controllers
@@ -14,13 +13,12 @@ namespace backend.api.Controllers
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
-    public class IdeaController(IGenerateIdeaApiService groqApiService, ILogger<IdeaController> logger, IIdeaService ideaService) : ControllerBase
+    public class IdeaController(IGenerateIdeaApiService groqApiService, ILogger<IdeaController> logger, IIdeaService ideaService, IImageService imageService) : ControllerBase
     {
         private readonly IGenerateIdeaApiService _groqApiService = groqApiService ?? throw new ArgumentNullException(nameof(groqApiService));
         private readonly ILogger<IdeaController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         private readonly IIdeaService _ideaService = ideaService ?? throw new ArgumentNullException(nameof(ideaService));
-
-
+        private readonly IImageService _imageService = imageService ?? throw new ArgumentNullException(nameof(imageService));
 
         /// <summary>
         /// Generates an idea based on the user message.
