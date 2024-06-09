@@ -1,241 +1,269 @@
-<div class="container section-account {{visibilityRol}}">
-    <section>
-      <div class="page-header min-vh-100">
-        <div class="container">
-          <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-8 mb-5 ">
-            <div class="pb-0 text-left py-4 px-4">
-              <h4 class="font-weight-bolder">Crear cuenta</h4>
-              <p class="mb-0">Elegí el tipo de cuenta a crear</p>
-            </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col text-center justify-content-center">
-                  <div class="position-relative m-3 px-3 px-lg-7 border-radius-lg d-flex flex-column justify-content-center" [class.card-active]="selectedRole === 'usuario'" (click)="seleccionar('usuario')">
-                    <div class="card card-background card-background-mask-primary tilt" data-tilt>
-                      <div class="full-background" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/team-working.jpg')"></div>
-                      <div class="card-body pt-7 text-center">
-                      <div class="icon icon-lg up mb-3 mt-3">
-                         <svg width="50px" height="50px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <title>box-3d-50</title>
-                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                            <g transform="translate(-2319.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                            <g transform="translate(1716.000000, 291.000000)">
-                            <g id="box-3d-50" transform="translate(603.000000, 0.000000)">
-                               <path d="M22.7597136,19.3090182 L38.8987031,11.2395234 C39.3926816,10.9925342 39.592906,10.3918611 39.3459167,9.89788265 C39.249157,9.70436312 39.0922432,9.5474453 38.8987261,9.45068056 L20.2741875,0.1378125 L20.2741875,0.1378125 C19.905375,-0.04725 19.469625,-0.04725 19.0995,0.1378125 L3.1011696,8.13815822 C2.60720568,8.38517662 2.40701679,8.98586148 2.6540352,9.4798254 C2.75080129,9.67332903 2.90771305,9.83023153 3.10122239,9.9269862 L21.8652864,19.3090182 C22.1468139,19.4497819 22.4781861,19.4497819 22.7597136,19.3090182 Z"></path>
-                               <path d="M23.625,22.429159 L23.625,39.8805372 C23.625,40.4328219 24.0727153,40.8805372 24.625,40.8805372 C24.7802551,40.8805372 24.9333778,40.8443874 25.0722402,40.7749511 L41.2741875,32.673375 L41.2741875,32.673375 C41.719125,32.4515625 42,31.9974375 42,31.5 L42,14.241659 C42,13.6893742 41.5522847,13.241659 41,13.241659 C40.8447549,13.241659 40.6916418,13.2778041 40.5527864,13.3472318 L24.1777864,21.5347318 C23.8390024,21.7041238 23.625,22.0503869 23.625,22.429159 Z" opacity="0.7"></path>
-                               <path d="M20.4472136,21.5347318 L1.4472136,12.0347318 C0.953235098,11.7877425 0.352562058,11.9879669 0.105572809,12.4819454 C0.0361450918,12.6208008 6.47121774e-16,12.7739139 0,12.929159 L0,30.1875 L0,30.1875 C0,30.6849375 0.280875,31.1390625 0.7258125,31.3621875 L19.5528096,40.7750766 C20.0467945,41.0220531 20.6474623,40.8218132 20.8944388,40.3278283 C20.963859,40.1889789 21,40.0358742 21,39.8806379 L21,22.429159 C21,22.0503869 20.7859976,21.7041238 20.4472136,21.5347318 Z" opacity="0.7"></path>
-                            </g>
-                            </g>
-                            </g>
-                            </g>
-                            </svg>
-                      </div>
-                      <h2 class="text-white up mb-0">Reducción de residuos</h2>
-                      <a class="btn btn-outline-white mt-5 up btn-round">Usuario Personal</a>
-                      </div>
-                   </div>
-                  </div>
-                </div>
-                <div class="col text-center justify-content-center">
-                  <div class="position-relative m-3 px-3 px-lg-7 border-radius-lg d-flex flex-column justify-content-center" [class.card-active]="selectedRole === 'organización'" (click)="seleccionar('organización')">
-                    <div class="card card-background card-background-mask-primary tilt" data-tilt>
-                      <div class="full-background" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/team-working.jpg')"></div>
-                      <div class="card-body pt-7 text-center">
-                      <div class="icon icon-lg up mb-3 mt-3">
-                         <svg width="50px" height="50px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <title>box-3d-50</title>
-                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                            <g transform="translate(-2319.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                            <g transform="translate(1716.000000, 291.000000)">
-                            <g id="box-3d-50" transform="translate(603.000000, 0.000000)">
-                               <path d="M22.7597136,19.3090182 L38.8987031,11.2395234 C39.3926816,10.9925342 39.592906,10.3918611 39.3459167,9.89788265 C39.249157,9.70436312 39.0922432,9.5474453 38.8987261,9.45068056 L20.2741875,0.1378125 L20.2741875,0.1378125 C19.905375,-0.04725 19.469625,-0.04725 19.0995,0.1378125 L3.1011696,8.13815822 C2.60720568,8.38517662 2.40701679,8.98586148 2.6540352,9.4798254 C2.75080129,9.67332903 2.90771305,9.83023153 3.10122239,9.9269862 L21.8652864,19.3090182 C22.1468139,19.4497819 22.4781861,19.4497819 22.7597136,19.3090182 Z"></path>
-                               <path d="M23.625,22.429159 L23.625,39.8805372 C23.625,40.4328219 24.0727153,40.8805372 24.625,40.8805372 C24.7802551,40.8805372 24.9333778,40.8443874 25.0722402,40.7749511 L41.2741875,32.673375 L41.2741875,32.673375 C41.719125,32.4515625 42,31.9974375 42,31.5 L42,14.241659 C42,13.6893742 41.5522847,13.241659 41,13.241659 C40.8447549,13.241659 40.6916418,13.2778041 40.5527864,13.3472318 L24.1777864,21.5347318 C23.8390024,21.7041238 23.625,22.0503869 23.625,22.429159 Z" opacity="0.7"></path>
-                               <path d="M20.4472136,21.5347318 L1.4472136,12.0347318 C0.953235098,11.7877425 0.352562058,11.9879669 0.105572809,12.4819454 C0.0361450918,12.6208008 6.47121774e-16,12.7739139 0,12.929159 L0,30.1875 L0,30.1875 C0,30.6849375 0.280875,31.1390625 0.7258125,31.3621875 L19.5528096,40.7750766 C20.0467945,41.0220531 20.6474623,40.8218132 20.8944388,40.3278283 C20.963859,40.1889789 21,40.0358742 21,39.8806379 L21,22.429159 C21,22.0503869 20.7859976,21.7041238 20.4472136,21.5347318 Z" opacity="0.7"></path>
-                            </g>
-                            </g>
-                            </g>
-                            </g>
-                            </svg>
-                      </div>
-                      <h2 class="text-white up mb-0">Reducción de residuos</h2>
-                      <a class="btn btn-outline-white mt-5 up btn-round">Organización Benéfica</a>
-                      </div>
-                   </div>
-                  </div>
-                </div>
-                
+<div class="section-account {{visibilityRol}}">
+  <section>
+    <div class="page-header min-vh-100">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-5 col-lg-5 col-md-8 d-flex flex-column mx-lg-0 mx-auto mt-6">
+            <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-8 mb-5">
+              <div class="pb-0 text-left py-4 px-4">
+                <h4 class="font-weight-bolder">Crear cuenta</h4>
+                <p class="mb-0">Ingresá tus datos para crear la cuenta</p>
               </div>
-              <div class="text-center justify-content-center align-items-center">
-              <button (click)="enableForm()" type="submit" [disabled]="selectedRole == null" class="btn btn-lg bg-gradient-primary mt-4 mb-4">Siguiente</button>
-            </div>
+              <div class="card-body">
+
+                <div class="row text-center g-3">
+                  <div class="col-md-6 text-center">
+                    <div class="card card-background card-background-mask-primary tilt move-on-hover"
+                      [class.card-active]="selectedRole === 'usuario'" (click)="seleccionar('usuario')">
+                      <div class="full-background" style="background-image: url(../../../assets/img/banner-a.png)">
+                      </div>
+                      <div class="card-body py-6 text-center">
+                        <h1 class="fas fa-user text-white"></h1>
+                        <h3 class="text-white up mb-0">Usuario Personal</h3>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 text-center">
+                    <div class="card card-background card-background-mask-primary tilt move-on-hover"
+                      [class.card-active]="selectedRole === 'organización'" (click)="seleccionar('organización')">
+                      <div class="full-background" style="background-image: url(../../../assets/img/banner-b.png)">
+                      </div>
+                      <div class="card-body py-6 text-center">
+                        <h1 class="fas fa-users text-white"></h1>
+                        <h3 class="text-white up mb-0">Organización Benéfica</h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="text-center justify-content-center align-items-center">
+                  <button (click)="enableForm()" type="submit" [disabled]="selectedRole == null"
+                    class="btn btn-round btn-lg bg-gradient-secondary mt-3">Siguiente</button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-  </div>
-
-
-  <div class="outer {{visibilityForm}}">
-    <section>
-      <div class="page-header min-vh-100">
-        <div class="container">
-          <div class="row">
-            <div class="col-xl-5 col-lg-5 col-md-8 d-flex flex-column mx-lg-0 mx-auto">
-              <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-8 mb-5 ">
-                <div class="pb-0 text-left py-4 px-4">
-                  <h4 class="font-weight-bolder">Crear cuenta</h4>
-                  <p class="mb-0">Ingresá tus datos para crear la cuenta</p>
-                </div>
-                <div class="card-body">
-                  <form role="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-                    <div class="row" [ngClass]="{'': selectedRole === 'usuario', '': selectedRole === 'usuario'}">
-                      <div class="col-md-6 mb-3" [ngClass]="{'': selectedRole === 'usuario'}">
-                        <label for="nombre" class="form-label required">Nombre</label>
-                        <div class="input-field" [class.error]="registerForm.controls['nombre'].dirty && registerForm.hasError('required','nombre')">
-                          <input id="nombre" formControlName="nombre" type="text" placeholder="Nombre" class="form-control form-control-lg">
-                        </div>
-                        <label *ngIf="registerForm.controls['nombre'].dirty && registerForm.hasError('required','nombre')" class="text-danger">Nombre requerido</label>
-                      </div>
-                      <div class="col-md-6 mb-3" *ngIf="selectedRole == 'usuario'">
-                        <label for="apellido" class="form-label required">Apellido</label>
-                        <div class="input-field" [class.error]="registerForm.controls['apellido'].dirty && registerForm.hasError('required','apellido')">
-                          <input id="apellido" formControlName="apellido" type="text" placeholder="Apellido" class="form-control form-control-lg">
-                        </div>
-                        <label *ngIf="registerForm.controls['apellido'].dirty && registerForm.hasError('required','apellido')" class="text-danger">Apellido requerido</label>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6 mb-3">
-                        <label for="telefono" class="form-label">Teléfono</label>
-                        <div class="input-field" [class.error]="registerForm.controls['telefono'].dirty && (registerForm.hasError('minlength','telefono') || registerForm.hasError('maxlength','telefono'))">
-                          <input id="telefono" formControlName="telefono" type="text" placeholder="Teléfono" (input)="onInput($event)" class="form-control form-control-lg">
-                        </div>
-                        <label *ngIf="registerForm.controls['telefono'].dirty && (registerForm.hasError('minlength','telefono') || registerForm.hasError('maxlength','telefono'))" class="text-danger">El teléfono debe tener min. 8 dígitos y max. 10 dígitos</label>
-                      </div>
-                      <div class="col-md-6 mb-3">
-                        <label for="direccion" class="form-label required">Dirección</label>
-                        <div class="input-field" [class.error]="registerForm.controls['direccion'].dirty && registerForm.hasError('required','direccion')">
-                          <input id="direccion" formControlName="direccion" type="text" placeholder="Dirección" class="form-control form-control-lg">
-                        </div>
-                        <label *ngIf="registerForm.controls['direccion'].dirty && registerForm.hasError('required','direccion')" class="text-danger">Dirección requerida</label>
-                      </div>
-                    </div>
-                    <div class="row">
-
-                      <div class="col-md-6 mb-3">
-                        <label for="provincia" class="form-label required"
-                          >Provincia</label
-                        >
-                        <select
-                          (change)="onProvinceChange()"
-                          class="form-control input-field"
-                          [class.error]="
-                          registerForm.get('provincia')?.dirty &&
-                          registerForm.get('provincia')?.errors
-                          "
-                          id="provincia"
-                          formControlName="provincia"
-                        >
-                          <option value="" selected>
-                            Seleccionar Provincia
-                          </option>
-                          <option
-                            *ngFor="let prov of provinces"
-                            [ngValue]="prov.nombre"
-                          >
-                            {{ prov.nombre }}
-                          </option>
-                        </select>
-                        <small
-                          *ngIf="
-                          registerForm.get('provincia')?.touched &&
-                          registerForm.get('provincia')?.errors
-                          "
-                          class="text-danger"
-                          >La provincia es requerida</small
-                        >
-                      </div>
-                      <div class="col-md-6 mb-3">
-                        <label for="localidad" class="form-label required">Localidades</label>
-                        <select
-                          class="form-control input-field"
-                          [class.error]="
-                          registerForm.get('localidad')?.dirty &&
-                          registerForm.get('localidad')?.errors
-                          "
-                          id="localidad"
-                          required
-                          formControlName="localidad"
-                        >
-                          <option value="" selected>Seleccionar Localidad</option>
-                          <option
-                            *ngFor="let local of localidades"
-                            [value]="local.nombre"
-                          >
-                            {{ local.nombre }}
-                          </option>
-                        </select>
-                        <small
-                          *ngIf="
-                          registerForm.get('localidad')?.touched &&
-                          registerForm.get('localidad')?.errors
-                          "
-                          class="text-danger"
-                          >La localidad es requerida</small
-                        >
-                      </div>
-
-                      
-                    </div>
-                    <div *ngIf="selectedRole == 'organización'" class="form-group mb-3">
-                      <label for="cuit" class="form-label required">Cuit</label>
-                      <div class="input-field" [class.error]="registerForm.controls['cuit'].dirty && registerForm.hasError('required','cuit')">
-                        <input id="cuit" formControlName="cuit" type="text" placeholder="N° de cuit" class="form-control form-control-lg">
-                      </div>
-                      <label *ngIf="registerForm.controls['cuit'].dirty && registerForm.hasError('required','cuit')" class="text-danger">Cuit requerido</label>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6 mb-3">
-                        <label for="email" class="form-label required">Correo electrónico</label>
-                        <div class="input-field" [class.error]="registerForm.controls['email'].dirty && registerForm.hasError('required','email')">
-                          <input id="email" formControlName="email" type="email" placeholder="ejemplo@ejemplo.com" class="form-control form-control-lg">
-                        </div>
-                        <label *ngIf="registerForm.controls['email'].dirty && registerForm.hasError('required','email')" class="text-danger">Correo electrónico requerido</label>
-                      </div>
-                      <div class="col-md-6 mb-3">
-                        <label for="password" class="form-label required">Contraseña</label>
-                        <div class="input-field" [class.error]="registerForm.controls['password'].dirty && registerForm.hasError('required','password')">
-                          <input id="password" formControlName="password" [type]="type" placeholder="Contraseña" class="form-control form-control-lg">
-                          <!-- <span (click)="hideShowPass()" class="fa {{eyeIcon}}"></span> -->
-                        </div>
-                        <label *ngIf="registerForm.controls['password'].dirty && registerForm.hasError('required','password')" class="text-danger">Contraseña requerida</label>
-                        <label *ngIf="registerForm.controls['password'].dirty && registerForm.hasError('minlength','password')" class="text-danger">La contraseña debe tener al menos 6 caracteres</label>
-                      </div>
-                    </div>
-                    <div class="text-center">
-                      <button type="submit" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0"> Crear cuenta </button>
-                    </div>
-                  </form>
-                </div>
-                <div class="card-footer text-center pt-0">
-                  <p class="text-sm"> ¿Ya tenés una cuenta? <a id="forget" class="account" routerLink="/login">Ingresar</a>
-                  </p>
-                </div>
+          <div
+            class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
+            <div
+              class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center">
+              <img src="../assets/img/shapes/pattern-lines.svg" alt="pattern-lines"
+                class="position-absolute opacity-4 start-0">
+              <div class="position-relative">
+                <img class="w-60 position-relative z-index-2" src="../assets/logos/ReCrea-blanco.svg">
               </div>
-            </div>
-            <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
-              <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center">
-                <img src="../assets/img/shapes/pattern-lines.svg" alt="pattern-lines" class="position-absolute opacity-4 start-0">
-                <div class="position-relative">
-                  <img class="max-width-500 w-100 position-relative z-index-2" src="../assets/img/illustrations/chat.png">
+              <div class="d-flex justify-content-center mt-4">
+                <div class="text-white w-50">
+                  Nos apasiona tejer un futuro más sostenible, impulsando proteger el medio ambiente y fomentando la
+                  responsabilidad social.
+                  <br /><br />
+                  <span class="text-bold">¡Registrate y empezá a formar parte del cambio!</span>
                 </div>
-                <h4 class="mt-5 text-white font-weight-bolder">"Attention is the new currency"</h4>
-                <p class="text-white">The more effortless the writing looks, the more effort the writer actually put into the process.</p>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
+</div>
+
+<div class="outer {{visibilityForm}}">
+  <section>
+    <div class="page-header min-vh-100">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-5 col-lg-5 col-md-8 d-flex flex-column mx-lg-0 mx-auto  mt-6">
+            <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-8 mb-5 ">
+              <div class="pb-0 text-left py-4 px-4">
+                <h4 class="font-weight-bolder">Crear cuenta</h4>
+                <p class="mb-0">Ingresá tus datos para crear la cuenta</p>
+              </div>
+              <div class="card-body">
+                <form role="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                  <div class="row" [ngClass]="{'': selectedRole === 'usuario', '': selectedRole === 'usuario'}">
+                    <div class="col-md-6 mb-3" [ngClass]="{'': selectedRole === 'usuario'}">
+                      <label for="nombre" class="form-label required">Nombre</label>
+                      <div class="input-field"
+                        [class.error]="registerForm.controls['nombre'].dirty && registerForm.hasError('required','nombre')">
+                        <input id="nombre" formControlName="nombre" type="text" placeholder="Nombre"
+                          class="form-control form-control-lg">
+                      </div>
+                      <small *ngIf="registerForm.controls['nombre'].dirty && registerForm.hasError('required','nombre')"
+                        class="text-danger">Nombre requerido</small>
+                    </div>
+                    <div class="col-md-6 mb-3" *ngIf="selectedRole == 'usuario'">
+                      <label for="apellido" class="form-label required">Apellido</label>
+                      <div class="input-field"
+                        [class.error]="registerForm.controls['apellido'].dirty && registerForm.hasError('required','apellido')">
+                        <input id="apellido" formControlName="apellido" type="text" placeholder="Apellido"
+                          class="form-control form-control-lg">
+                      </div>
+                      <small
+                        *ngIf="registerForm.controls['apellido'].dirty && registerForm.hasError('required','apellido')"
+                        class="text-danger">Apellido requerido</small>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="telefono" class="form-label">Teléfono</label>
+                      <div class="input-field"
+                        [class.error]="registerForm.controls['telefono'].dirty && (registerForm.hasError('minlength','telefono') || registerForm.hasError('maxlength','telefono'))">
+                        <input id="telefono" formControlName="telefono" type="text" placeholder="1123456789"
+                          (input)="onInput($event)" class="form-control form-control-lg">
+                      </div>
+                      <small
+                        *ngIf="registerForm.controls['telefono'].dirty && (registerForm.hasError('minlength','telefono') || registerForm.hasError('maxlength','telefono'))"
+                        class="text-danger">El teléfono debe tener de 8 a 10 dígitos</small>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label for="direccion" class="form-label required">Dirección</label>
+                      <div class="input-field"
+                        [class.error]="registerForm.controls['direccion'].dirty && registerForm.hasError('required','direccion')">
+                        <input id="direccion" formControlName="direccion" type="text" placeholder="Dirección"
+                          class="form-control form-control-lg">
+                      </div>
+                      <label
+                        *ngIf="registerForm.controls['direccion'].dirty && registerForm.hasError('required','direccion')"
+                        class="text-danger">Dirección requerida</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="provincia" class="form-label required"
+                        >Provincia</label
+                      >
+                      <select
+                        (change)="onProvinceChange()"
+                        class="form-control input-field"
+                        [class.error]="
+                        registerForm.get('provincia')?.dirty &&
+                        registerForm.get('provincia')?.errors
+                        "
+                        id="provincia"
+                        formControlName="provincia"
+                      >
+                        <option value="" selected>
+                          Seleccionar Provincia
+                        </option>
+                        <option
+                          *ngFor="let prov of provinces"
+                          [ngValue]="prov.nombre"
+                        >
+                          {{ prov.nombre }}
+                        </option>
+                      </select>
+                      <small
+                        *ngIf="
+                        registerForm.get('provincia')?.touched &&
+                        registerForm.get('provincia')?.errors
+                        "
+                        class="text-danger"
+                        >La provincia es requerida</small
+                      >
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label for="localidad" class="form-label required">Localidades</label>
+                      <select
+                        class="form-control input-field"
+                        [class.error]="
+                        registerForm.get('localidad')?.dirty &&
+                        registerForm.get('localidad')?.errors
+                        "
+                        id="localidad"
+                        required
+                        formControlName="localidad"
+                      >
+                        <option value="" selected>Seleccionar Localidad</option>
+                        <option
+                          *ngFor="let local of localidades"
+                          [value]="local.nombre"
+                        >
+                          {{ local.nombre }}
+                        </option>
+                      </select>
+                      <small
+                        *ngIf="
+                        registerForm.get('localidad')?.touched &&
+                        registerForm.get('localidad')?.errors
+                        "
+                        class="text-danger"
+                        >La localidad es requerida</small
+                      >
+                    </div>
+                  </div>
+                  <div *ngIf="selectedRole == 'organización'" class="form-group mb-3">
+                    <label for="cuit" class="form-label required">CUIT</label>
+                    <div class="input-field"
+                      [class.error]="registerForm.controls['cuit'].dirty && registerForm.hasError('required','cuit')">
+                      <input id="cuit" formControlName="cuit" type="text" placeholder="N° de CUIT"
+                        class="form-control form-control-lg">
+                    </div>
+                    <small *ngIf="registerForm.controls['cuit'].dirty && registerForm.hasError('required','cuit')"
+                      class="text-danger">CUIT requerido</small>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="email" class="form-label required">Correo electrónico</label>
+                      <div class="input-field"
+                        [class.error]="registerForm.controls['email'].dirty && registerForm.hasError('required','email')">
+                        <input id="email" formControlName="email" type="email" placeholder="correo@correo.com"
+                          class="form-control form-control-lg">
+                      </div>
+                      <small *ngIf="registerForm.controls['email'].dirty && registerForm.hasError('required','email')"
+                        class="text-danger">Correo electrónico requerido</small>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label for="password" class="form-label required">Contraseña</label>
+                      <div class="input-field"
+                        [class.error]="registerForm.controls['password'].dirty && registerForm.hasError('required','password')">
+                        <input id="password" formControlName="password" [type]="type" placeholder="Contraseña"
+                          class="form-control form-control-lg">
+                        <!-- <span (click)="hideShowPass()" class="fa {{eyeIcon}}"></span> -->
+                      </div>
+                      <small
+                        *ngIf="registerForm.controls['password'].dirty && registerForm.hasError('required','password')"
+                        class="text-danger">Contraseña requerida</small>
+                      <small
+                        *ngIf="registerForm.controls['password'].dirty && registerForm.hasError('minlength','password')"
+                        class="text-danger">La contraseña debe tener al menos 6 caracteres</small>
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-round btn-lg bg-gradient-primary w-100 mt-4 mb-0">Crear
+                      cuenta</button>
+                  </div>
+                </form>
+              </div>
+              <div class="card-footer text-center pt-0">
+                <p class="text-sm"> ¿Ya tenés una cuenta? <a id="forget" class="account"
+                    routerLink="/login">Ingresar</a>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
+            <div
+              class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center">
+              <img src="../assets/img/shapes/pattern-lines.svg" alt="pattern-lines"
+                class="position-absolute opacity-4 start-0">
+              <div class="position-relative">
+                <img class="w-60 position-relative z-index-2" src="../assets/logos/ReCrea-blanco.svg">
+              </div>
+              <div class="d-flex justify-content-center mt-4">
+                <div class="text-white w-50">
+                  Nos apasiona tejer un futuro más sostenible, impulsando proteger el medio ambiente y fomentando la
+                  responsabilidad social.
+                  <br /><br />
+                  <span class="text-bold">¡Registrate y empezá a formar parte del cambio!</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>

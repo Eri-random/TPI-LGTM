@@ -1,11 +1,13 @@
 /* You can add global styles to this file, and also import other style files*/
 html, body { height: 100%!important; }
-body {font-family: "Fredoka", sans-serif !important; font-weight: 400 !important; } 
+body {font-family: "Fredoka", sans-serif !important; font-weight: 400 !important; color: #5A5A5A;} 
 :root{
     --color-primary: #8BC53F;
     --color-secondary: #4281A4;
-    --color-dark-grey: #3D3D3D; 
+    --color-dark-grey: #323232; 
     --color-light-grey: #F8F8F8;
+    --color-danger: #A42A2A;
+    --bs-btn-focus-shadow-rgb: rgb(139 197 63 / 50%);
 }
 
 .text-primary{
@@ -16,7 +18,60 @@ body {font-family: "Fredoka", sans-serif !important; font-weight: 400 !important
     color: #4281A4 !important;
 }
 
+.text-danger{
+    color: #A42A2A !important;
+}
+
+a {
+    color: #4281A4;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+a:hover {
+    color: #8BC53F;
+}
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+    color: #5A5A5A;
+}
+
+label, .form-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #5A5A5A;
+    margin-left: 0.25rem;
+}
+
+.btn {
+    letter-spacing: 0.1rem;
+}
+
 .btn-outline-primary{
+    --bs-btn-color: #8BC53F;
+    --bs-btn-border-color: #8BC53F;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #8BC53F;
+    --bs-btn-hover-border-color: #8BC53F;
+    --bs-btn-focus-shadow-rgb: 203, 12, 159;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #8BC53F;
+    --bs-btn-active-border-color: #8BC53F;
+    --bs-btn-active-shadow: none;
+    --bs-btn-disabled-color: #8BC53F;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: #8BC53F;
+    --bs-gradient: none;
+}
+
+.btn-outline-primary:hover:not(.active) {
+    background-color: transparent;
+    opacity: .75;
+    box-shadow: none;
+    color: #8BC53F;
+}
+
+.btn-outline-secondary{
     --bs-btn-color: #4281A4;
     --bs-btn-border-color: #4281A4;
     --bs-btn-hover-color: #fff;
@@ -33,36 +88,56 @@ body {font-family: "Fredoka", sans-serif !important; font-weight: 400 !important
     --bs-gradient: none;
 }
 
+.btn-outline-secondary:hover:not(.active) {
+    background-color: transparent;
+    opacity: .75;
+    box-shadow: none;
+    color: #4281A4;
+  }
+
+.text-gradient.text-primary {
+    background-image: linear-gradient(310deg, #CBE5A8 0%, #8BC53F 100%);
+}
+
 .bg-gradient-primary{
-    background-image: linear-gradient(310deg, #cfeea7 0%, #8BC53F 100%);
+    background-image: linear-gradient(310deg, #CBE5A8 0%, #8BC53F 100%);
+}
+
+.text-gradient.text-secondary {
+    /* background-image: linear-gradient(310deg, #A4C2DB 0%, #4281A4 100%); */
+    background-color: #4281A4;
 }
 
 .bg-gradient-secondary{
     background-image: linear-gradient(310deg, #A4C2DB 0%, #4281A4 100%);
 } 
 
-.text-gradient.text-primary {
-    background-image: linear-gradient(310deg, #A4C2DB 0%, #4281A4 100%);
+.text-gradient.text-danger {
+    background-image: linear-gradient(310deg, #DD7A7A 0%, #A42A2A 100%);
 }
 
-.text-gradient.text-secondary {
-    background-image: linear-gradient(310deg, #cfeea7 0%, #8BC53F 100%);
+.bg-gradient-danger{
+    background-image: linear-gradient(310deg, #DD7A7A 0%, #A42A2A 100%);
 }
 
 .text-highlight{
-    color:#fff;
-    background: linear-gradient(310deg, #8BC53F 0%, #4281A4 100%);
+    color: white;
+    background: linear-gradient(310deg, #4281A4 0%, #8BC53F 100%);
     border-radius: 1rem;
     padding-inline: 10px;
+}
+
+svg.text-primary .color-background {
+    fill: #8BC53F;
+}
+
+svg.text-secondary .color-background {
+    fill: #4281A4;
 }
 
 .card.card-background.card-background-mask-primary:after {
     background-image: linear-gradient(310deg, #8BC53F 0%, #4281A4 100%);
     opacity: .85;
-}
-
-svg.text-primary .color-background {
-    fill: #4281A4;
 }
 
 .card .card-body {
@@ -71,45 +146,12 @@ svg.text-primary .color-background {
     padding: 1.5rem;
 }
 
-.btn {
-    letter-spacing: 0.1rem;
+.accordion-button {
+    color: #5A5A5A;
 }
 
-.icon-shape {
-    width: 48px;
-    height: 48px;
-    background-position: 50%;
-    border-radius: .75rem;
-}
-
-.info-window{
-    padding: .5rem .5rem .5rem 0rem;
-}
-
-.info-window > h3{
-    color: var(--color-secondary);
-    font-size: 20px;
-    text-transform: uppercase;
-    font-weight: 600;
-}
-
-.info-window > p{
-    color: var(--color-dark-grey);
-    font-size: 14px;
-    text-transform: capitalize;
-    font-weight: 400;
-    margin-bottom: .5rem;
-}
-
-.gm-ui-hover-effect{
-    top: -3px !important;
-    right: -3px !important;
-    color: var(--color-dark-grey);
-    height: 30px !important;
-}
-
-.gm-style .gm-style-iw-c{
-    border-radius: 2px;
+.accordion-button:not(.collapsed) {
+    color: #8BC53F;
 }
 
 .vertical-alignment {
@@ -117,7 +159,64 @@ svg.text-primary .color-background {
     align-items: center;
 }
 
-.mat-mdc-dialog-container .mdc-dialog__surface {
-    border-radius: 1rem !important;
+.page-container {
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    background-size: cover;
+    background-position: 50%;
 }
 
+.form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #4281A4;
+    outline: 0;
+    box-shadow: 0 0 0 2px #A4C2DB
+}
+
+.mat-mdc-dialog-container .mdc-dialog__surface {
+    border-radius: 1rem;
+}
+
+.icon-shape {
+    width: 40px;
+    height: 40px;
+    border-radius: .75rem;
+}
+
+.info-window {
+    padding-inline: 15px;
+    padding-bottom: 10px;
+}
+
+.info-window > h3 {
+    color: var(--color-secondary);
+    font-size: 1.5rem ;
+    font-weight: 600 ;
+    text-transform: capitalize;
+}
+
+.info-window > p {
+    color: #5A5A5A;
+    text-transform: capitalize;
+}
+
+.gm-style-iw {
+    width: auto !important;
+    top: 0 !important;
+    left: 0 !important;
+}
+
+.gm-style .gm-style-iw-c {
+    font-family: "Fredoka", sans-serif;
+    font-weight: 400;
+    border-radius: 1rem;
+    box-shadow: 0 8px 26px -4px rgba(20, 20, 20, 0.15), 0 8px 9px -5px rgba(20, 20, 20, 0.06);
+}
+
+.active-link {
+    color: #8BC53F !important;
+}
