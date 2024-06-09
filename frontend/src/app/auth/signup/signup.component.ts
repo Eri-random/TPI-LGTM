@@ -43,7 +43,7 @@ export class SignupComponent {
       apellido:[null],
       telefono:[null,[Validators.minLength(8), Validators.maxLength(10)]],
       direccion:['',Validators.required],
-      localidad:['',Validators.required],
+      localidad: [{ value: '', disabled: true }, Validators.required],
       provincia:['',Validators.required],
       cuit:[null],
       email: ['',[Validators.required,Validators.email]],
@@ -126,9 +126,23 @@ export class SignupComponent {
 
   onProvinceChange(): void {
     const provinceId = this.registerForm.get('provincia')?.value;
+    console.log(provinceId)
     this.loadLocalidades(provinceId).subscribe(
       () => {
+        console.log(this.localidades)
         console.log('Localidades cargadas:', this.localidades);
+
+        if (provinceId == '06') { // Asumiendo que '06' es el ID de la provincia de Buenos Aires
+          this.localidades = this.localidades.filter((localidad: any) => localidad.nombre.toLowerCase() !== 'ciudad de buenos aires');
+        }
+
+        // Ordenar alfabéticamente las localidades
+        this.localidades = this.localidades.sort((a: any, b: any) => a.nombre.localeCompare(b.nombre));
+
+        const localidadControl = this.registerForm.get('localidad');
+        localidadControl?.enable();
+        localidadControl?.reset();
+
       },
       (error) => {
         console.error('Error cargando localidades:', error);

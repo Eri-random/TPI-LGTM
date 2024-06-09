@@ -103,6 +103,7 @@ export class UpdateAccountComponent implements OnInit {
     .subscribe(val =>{
       const roleFromToken = this.authService.getRoleFromToken();
       this.role = val || roleFromToken;
+      console.log(this.role)
     });
 
     if(this.role == 'organizacion'){
@@ -391,7 +392,7 @@ export class UpdateAccountComponent implements OnInit {
           detail: 'INFO',
           summary: 'No hay datos para actualizar',
           duration: 3000,
-          position: 'bottomRight',
+          position: 'topRight',
         });
         this.toggleEditMode(true);
         return;
@@ -432,9 +433,9 @@ export class UpdateAccountComponent implements OnInit {
             this.toggleEditMode();
             this.toast.success({
               detail: 'EXITO',
-              summary: `Usuario ${userData.nombre} actualizado correctamente`,
+              summary: `${res.message}`,
               duration: 3000,
-              position: 'bottomRight',
+              position: 'topRight',
             });
           }
         },
