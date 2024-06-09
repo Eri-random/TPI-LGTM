@@ -142,7 +142,6 @@ export class SignupComponent {
         const localidadControl = this.registerForm.get('localidad');
         localidadControl?.enable();
         localidadControl?.reset();
-
       },
       (error) => {
         console.error('Error cargando localidades:', error);
