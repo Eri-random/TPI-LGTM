@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { OrganizationService } from 'src/app/services/organization.service';
 import { HeadquartersService } from 'src/app/services/headquarters.service';
 import { SedeComponent } from './headquarters.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('SedeComponent', () => {
   let component: SedeComponent;
@@ -39,7 +39,10 @@ describe('SedeComponent', () => {
         { provide: NgToastService, useValue: toastSpy },
         { provide: AuthService, useValue: authServiceSpy }
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas:[
+        CUSTOM_ELEMENTS_SCHEMA,
+        NO_ERRORS_SCHEMA
+    ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(SedeComponent);
@@ -51,6 +54,7 @@ describe('SedeComponent', () => {
     mockToast = TestBed.inject(NgToastService) as jasmine.SpyObj<NgToastService>;
     mockAuthService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
     mockDialogRef = dialogRefSpy;
+    mockHeadquartersService.deleteHeadquarters.and.returnValue(of({}));
   });
 
   it('debería crear el componente', () => {

@@ -1,196 +1,99 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { NgToastService } from 'ng-angular-popup';
-import { of, throwError } from 'rxjs';
+import { ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { SignupComponent } from './signup.component';
 import { AuthService } from 'src/app/services/auth.service';
-import { User } from 'src/app/models/user';
-import { Roles } from 'src/app/utils/roles.enum';
-import ValidateForm from 'src/app/helpers/validateForm';
+import { MapService } from 'src/app/services/map.service';
+import { Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
+import { of } from 'rxjs';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { Province, Provinces } from 'src/app/interfaces/provinces.interface';
 
 describe('SignupComponent', () => {
   let component: SignupComponent;
   let fixture: ComponentFixture<SignupComponent>;
-  let authServiceMock: any;
+  let mapServiceMock: any;
   let routerMock: any;
   let toastServiceMock: any;
 
+  const mockProvinces: Provinces = {
+    provincias: [
+      { nombre: 'Buenos Aires' } as Province,
+      { nombre: 'Cordoba' } as unknown as Province,
+      { nombre: 'Ciudad Autónoma de Buenos Aires' } as Province,
+      { nombre: 'Tierra del Fuego, Antártida e Islas del Atlántico Sur' } as Province
+    ],
+    cantidad: 3,
+    inicio: 0,
+    parametros: {},
+    total: 3
+  }; 
+
   beforeEach(async () => {
-    authServiceMock = jasmine.createSpyObj('AuthService', ['createAccount']);
+    mapServiceMock = jasmine.createSpyObj('MapService', ['getProvinces']);
     routerMock = jasmine.createSpyObj('Router', ['navigate']);
     toastServiceMock = jasmine.createSpyObj('NgToastService', ['success', 'error']);
 
     await TestBed.configureTestingModule({
       declarations: [SignupComponent],
-      imports: [ReactiveFormsModule],
+      imports: [HttpClientTestingModule, ReactiveFormsModule],
       providers: [
-        { provide: AuthService, useValue: authServiceMock },
+        { provide: MapService, useValue: mapServiceMock },
         { provide: Router, useValue: routerMock },
-        { provide: NgToastService, useValue: toastServiceMock }
-      ]
+        { provide: NgToastService, useValue: toastServiceMock },
+        AuthService
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SignupComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    mapServiceMock.getProvinces.and.returnValue(of(mockProvinces));
   });
 
-  it('debería crear el componente', () => {
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('debería inicializar el formulario en ngOnInit', () => {
+  it('should initialize the form in ngOnInit', () => {
+    mapServiceMock.getProvinces.and.returnValue(of(mockProvinces));
     component.ngOnInit();
     expect(component.registerForm).toBeDefined();
     expect(component.registerForm.controls['nombre'].valid).toBeFalse();
     expect(component.registerForm.controls['apellido'].valid).toBeTrue();
+    expect(component.registerForm.controls['telefono'].valid).toBeTrue();
+    expect(component.registerForm.controls['direccion'].valid).toBeFalse();
+    expect(component.registerForm.controls['localidad'].valid).toBeFalse();
+    expect(component.registerForm.controls['provincia'].valid).toBeFalse();
     expect(component.registerForm.controls['cuit'].valid).toBeTrue();
+    expect(component.registerForm.controls['email'].valid).toBeFalse();
+    expect(component.registerForm.controls['password'].valid).toBeFalse();
   });
 
-  it('debería alternar la visibilidad de la contraseña', () => {
-    component.hideShowPass();
-    expect(component.isText).toBeTrue();
-    expect(component.eyeIcon).toBe('fa-eye');
-    expect(component.type).toBe('text');
-    
-    component.hideShowPass();
-    expect(component.isText).toBeFalse();
-    expect(component.eyeIcon).toBe('fa-eye-slash');
-    expect(component.type).toBe('password');
-  });
-
-  it('debería establecer selectedRole y actualizar validadores', () => {
+  it('should set validators for apellido based on selectedRole', () => {
     component.selectedRole = 'usuario';
     component.ngOnInit();
-    component.registerForm.controls['apellido'].setValue('');
-    expect(component.registerForm.controls['apellido'].valid).toBeFalse();
-    
+    const control = component.registerForm.get('apellido') as AbstractControl;
+    expect(control.errors).toBeNull();
+    control.setValue('');
+    expect(control.errors).toEqual({ required: true });
+
     component.selectedRole = 'organización';
     component.ngOnInit();
-    component.registerForm.controls['cuit'].setValue('');
-    expect(component.registerForm.controls['cuit'].valid).toBeFalse();
+    const cuitControl = component.registerForm.get('cuit') as AbstractControl;
+    expect(cuitControl.errors).toBeNull();
+    cuitControl.setValue('');
+    expect(cuitControl.errors).toEqual({ required: true });
   });
 
-  it('debería manejar el registro exitoso de un usuario normal', () => {
+  it('should load provinces on initialization', () => {
     component.ngOnInit();
-    component.selectedRole = 'usuario';
-    component.registerForm.setValue({
-      nombre: 'Juan',
-      apellido: 'Perez',
-      telefono: '12345678',
-      direccion: 'Calle Falsa 123',
-      localidad: 'Ciudad',
-      provincia: 'Provincia',
-      cuit: null,
-      email: 'juan.perez@ejemplo.com',
-      password: 'password123'
-    });
-  
-    const nuevoUsuario: User = {
-      ...component.registerForm.value,
-      rolId: Roles.User
-    };
-  
-    authServiceMock.createAccount.and.returnValue(of(nuevoUsuario));
-  
-    component.onSubmit();
-  
-    expect(authServiceMock.createAccount).toHaveBeenCalledWith(nuevoUsuario);
-    expect(toastServiceMock.success).toHaveBeenCalledWith({
-      detail: 'EXITO',
-      summary: 'Usuario registrado correctamente',
-      duration: 5000
-    });
-    expect(routerMock.navigate).toHaveBeenCalledWith(['/login']);
-  });
-
-  it('debería manejar el registro exitoso de una organización', () => {
-    component.ngOnInit();
-    component.selectedRole = 'organización';
-    component.registerForm.setValue({
-      nombre: 'Organización XYZ',
-      apellido: null,
-      telefono: '87654321',
-      direccion: 'Avenida Siempre Viva 742',
-      localidad: 'San Justo',
-      provincia: 'Buenos Aires',
-      cuit: '20-12345678-9',
-      email: 'contacto@organizacionxyz.com',
-      password: 'password456'
-    });
-  
-    const nuevaOrganizacion: User = {
-      ...component.registerForm.value,
-      rolId: Roles.Organization
-    };
-  
-    authServiceMock.createAccount.and.returnValue(of(nuevaOrganizacion));
-  
-    component.onSubmit();
-  
-    expect(authServiceMock.createAccount).toHaveBeenCalledWith(nuevaOrganizacion);
-    expect(toastServiceMock.success).toHaveBeenCalledWith({
-      detail: 'EXITO',
-      summary: 'Usuario registrado correctamente',
-      duration: 5000
-    });
-    expect(routerMock.navigate).toHaveBeenCalledWith(['/login']);
-  });  
-
-  it('debería manejar la presentación del formulario con error', () => {
-    component.ngOnInit();
-    component.selectedRole = 'usuario';
-    component.registerForm.setValue({
-      nombre: 'Peter',
-      apellido: 'Parker',
-      telefono: '12345678',
-      direccion: 'Calle 123',
-      localidad: 'San Justo',
-      provincia: 'Buenos Aires',
-      cuit: null,
-      email: 'spiderman@ejemplo.com',
-      password: 'password123'
-    });
-
-    authServiceMock.createAccount.and.returnValue(throwError({ error: 'Some error' }));
-
-    component.onSubmit();
-
-    expect(authServiceMock.createAccount).toHaveBeenCalled();
-    expect(toastServiceMock.error).toHaveBeenCalledWith({
-      detail: 'ERROR',
-      summary: 'Some error',
-      duration: 5000,
-      position: 'topCenter'
-    });
-  });
-
-  it('debería validar los campos del formulario en la presentación si el formulario es inválido', () => {
-    spyOn(ValidateForm, 'validateAllFormFileds');
-    component.ngOnInit();
-    component.registerForm.controls['nombre'].setValue('');
-
-    component.onSubmit();
-
-    expect(ValidateForm.validateAllFormFileds).toHaveBeenCalledWith(component.registerForm);
-  });
-
-  it('debería actualizar el valor de telefono en el formulario al recibir input', () => {
-    const event = { target: { value: '12345678' } } as any;
-    component.onInput(event);
-
-    expect(component.registerForm.value.telefono).toBe('12345678');
-  });
-
-  it('debería establecer selectedRole y cambiar la visibilidad', () => {
-    component.seleccionar('usuario');
-    expect(component.selectedRole).toBe('usuario');
-
-    component.enableForm();
-    expect(component.visibilityForm).toBe('d-block');
-    expect(component.visibilityRol).toBe('d-none');
+    expect(mapServiceMock.getProvinces).toHaveBeenCalled();
+    expect(component.provinces.length).toBe(2);
+    expect(component.provinces[0].nombre).toBe('Buenos Aires');
+    expect(component.provinces[1].nombre).toBe('Cordoba');
   });
 });

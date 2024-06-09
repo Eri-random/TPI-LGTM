@@ -1,0 +1,8 @@
+a {
+    color: #323232;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+a:hover {
+    color: #8BC53F;
+}

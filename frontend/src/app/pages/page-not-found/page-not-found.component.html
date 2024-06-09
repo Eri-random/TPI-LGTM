@@ -1,28 +1,28 @@
 <section>
-	<div class="page-header min-vh-100">
-	  <div>
-		<img class="position-absolute fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/curved-images/curved8.jpg" alt="image">
-	  </div>
-	  <div class="container align-items-center ">
-		<div class="card d-flex blur justify-content-center shadow px-xs-0 px-sm-5 my-sm-0 my-sm-6 mt-7 mb-5">
-		  <!-- <div class="card blur card-plain"> -->
-		  <div class="col-8 text-center mx-auto pt-3">
-			<h1 class="pt-3">
-				<span class="text-highlight">Error 404</span>
-				<br/>Página no encontrada
-			</h1>
-		  </div>
-		  <div class="row p-4 text-center">
-			<p>
-				Lo sentimos, no se pudo encontrar la página que solicitaste.<br/>
-				Por favor, verificá que la URL sea correcta.
-			</p>
-		  </div>
-		  <div class="d-flex justify-content-center">
-			<button (click)="goBack()" class="btn btn-lg btn-round bg-gradient-secondary">Volver</button>
-		  </div>
-		</div>
-	  </div>
+<div class="page-container min-vh-100">
+	<div>
+	<img class="position-absolute fixed-top ms-auto w-60 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/a.png">
+	<img class="position-absolute fixed-top ms-8 w-auto h-100 z-index-0 d-xl-none border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/a-mobile.png">
 	</div>
-  </section>
-  
+	<div class="container">
+	<div class="card blur justify-content-center shadow-lg mt-7 mb-5">
+		<div class="row text-center mx-1 mt-4">
+		<h2><span class="text-highlight">Error 404</span><br/>Página no encontrada</h2>
+		</div>
+		<div class="card-body pb-2">
+		<div class="row">
+			<div class="col text-center mb-3">
+			<p class="lead">
+				Lo sentimos, no se pudo encontrar la página que solicitaste.<br />
+				Por favor, verificá que la URL sea correcta e intentalo de nuevo.
+			</p>
+			</div>
+			<div class="d-flex justify-content-center">
+				<button (click)="goBack()" class="btn btn-lg btn-round bg-gradient-secondary">Volver</button>
+			</div>
+		</div>
+		</div>
+	</div>
+	</div>
+</div>
+</section>
