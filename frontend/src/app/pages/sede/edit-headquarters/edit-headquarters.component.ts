@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import ValidateForm from 'src/app/helpers/validateForm';
@@ -8,6 +8,7 @@ import { OrganizationService } from 'src/app/services/organization.service';
 import { HeadquartersService } from 'src/app/services/headquarters.service';
 import { Province, Provinces } from 'src/app/interfaces/provinces.interface';
 import { MapService } from 'src/app/services/map.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-edit-headquarters',
@@ -21,6 +22,7 @@ export class EditHeadquartersComponent implements OnInit {
   orgName: any;
   organization: any;
   cuit: any;
+  localidades: any[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -65,7 +67,19 @@ export class EditHeadquartersComponent implements OnInit {
 
     this.headquartersService.getHeadquarterById(this.headquartersId).subscribe(
       (sede) => {
-        this.headquartersForm.patchValue(sede);
+        // Primero cargar las localidades de la provincia seleccionada
+        this.loadLocalidades(sede.provincia).subscribe(() => {
+          // Luego asignar los valores al formulario
+          this.headquartersForm.patchValue({
+            nombre: sede.nombre,
+            direccion: sede.direccion,
+            localidad: sede.localidad,
+            provincia: sede.provincia,
+            telefono: sede.telefono,
+          });
+          console.log(this.headquartersForm.value);
+
+        });
       },
       (error) => {
         console.error('Error:', error);
@@ -82,6 +96,69 @@ export class EditHeadquartersComponent implements OnInit {
           .sort((a:Province, b:Province) => a.nombre.localeCompare(b.nombre));
         }
       );
+  }
+
+  loadLocalidades(provinceId: number) {
+    return new Observable((observer) => {
+      this.mapService.getLocalities(provinceId).subscribe(
+        (response: any) => {
+          const totalLocalidades = response.total;
+          this.mapService.getLocalitiesFilter(provinceId, totalLocalidades).subscribe(
+            (response: any) => {
+              let localidades = response.localidades;
+              this.localidades = localidades.sort((a: any, b: any) =>
+                a.nombre.localeCompare(b.nombre)
+              );
+              observer.next();
+              observer.complete();
+            },
+            (error) => {
+              observer.error(error);
+            }
+          );
+        },
+        (error) => {
+          observer.error(error);
+        }
+      );
+    });
+  }
+
+  onProvinceChange(): void {
+    const provinceId = this.headquartersForm.get('provincia')?.value;
+
+    // Primera solicitud para obtener el total de localidades
+    this.mapService.getLocalities(provinceId).subscribe(
+      (response: any) => {
+        const totalLocalidades = response.total;
+
+        // Segunda solicitud para obtener todas las localidades utilizando el total en el parámetro max
+        this.mapService.getLocalitiesFilter(provinceId, totalLocalidades).subscribe(
+          (response: any) => {
+            let localidades = response.localidades;
+
+            // Filtrar "Ciudad de Buenos Aires" si la provincia seleccionada es Buenos Aires
+            if (provinceId == '06') { // Asumiendo que '06' es el ID de la provincia de Buenos Aires
+              localidades = localidades.filter(
+                (localidad: any) =>
+                  localidad.nombre.toLowerCase() !== 'ciudad de buenos aires'
+              );
+            }
+
+            // Ordenar alfabéticamente las localidades
+            this.localidades = localidades.sort((a: any, b: any) =>
+              a.nombre.localeCompare(b.nombre)
+            );
+          },
+          (error) => {
+            console.error(error);
+          }
+        );
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 
   submitForm() {

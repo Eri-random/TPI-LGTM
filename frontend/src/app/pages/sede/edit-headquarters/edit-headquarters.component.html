@@ -31,6 +31,68 @@
                 " class="text-danger">El teléfono es requerido</small>
               </div>
               <div class="col-md-6">
+                <label for="provincia" class="form-label required"
+                  >Provincia</label
+                >
+                <select
+                  (change)="onProvinceChange()"
+                  class="form-control input-field"
+                  [class.error]="
+                    headquartersForm.get('provincia')?.dirty &&
+                    headquartersForm.get('provincia')?.errors
+                  "
+                  id="provincia"
+                  formControlName="provincia"
+                >
+                  <option value="" selected>
+                    Seleccionar Provincia
+                  </option>
+                  <option
+                    *ngFor="let prov of provinces"
+                    [ngValue]="prov.nombre"
+                  >
+                    {{ prov.nombre }}
+                  </option>
+                </select>
+                <small
+                  *ngIf="
+                    headquartersForm.get('provincia')?.touched &&
+                    headquartersForm.get('provincia')?.errors
+                  "
+                  class="text-danger"
+                  >La provincia es requerida</small
+                >
+              </div>
+              <div class="col-md-6">
+                <label for="localidad" class="form-label required">Localidades</label>
+                <select
+                  class="form-control input-field"
+                  [class.error]="
+                    headquartersForm.get('localidad')?.dirty &&
+                    headquartersForm.get('localidad')?.errors
+                  "
+                  id="localidad"
+                  required
+                  formControlName="localidad"
+                >
+                  <option value="" selected>Seleccionar Localidad</option>
+                  <option
+                    *ngFor="let local of localidades"
+                    [value]="local.nombre"
+                  >
+                    {{ local.nombre }}
+                  </option>
+                </select>
+                <small
+                  *ngIf="
+                    headquartersForm.get('localidad')?.touched &&
+                    headquartersForm.get('localidad')?.errors
+                  "
+                  class="text-danger"
+                  >La localidad es requerida</small
+                >
+              </div>
+              <div class="col-md-6">
                 <label for="direccion" class="form-label required">Dirección</label>
                 <input type="text" class="form-control input-field" [class.error]="
                   headquartersForm.get('direccion')?.touched &&
@@ -40,38 +102,6 @@
                   headquartersForm.get('direccion')?.touched &&
                   headquartersForm.get('direccion')?.errors
                 " class="text-danger">La dirección es requerida</small>
-              </div>
-              <div class="col-md-6">
-                <label for="localidad" class="form-label required">Localidad</label>
-                <input type="text" class="form-control input-field" [class.error]="
-                  headquartersForm.get('localidad')?.touched &&
-                  headquartersForm.get('localidad')?.errors
-                " id="localidad" formControlName="localidad" placeholder="Ej: Buenos Aires" />
-                <small *ngIf="
-                  headquartersForm.get('localidad')?.touched &&
-                  headquartersForm.get('localidad')?.errors
-                " class="text-danger">La localidad es requerida</small>
-              </div>
-              <div class="col-md-6">
-                <label for="provincia" class="form-label required">Provincia</label>
-                <select
-                class="form-control form-select input-field"
-                [class.error]="
-                headquartersForm.get('provincia')?.dirty &&
-                headquartersForm.get('provincia')?.errors
-                "
-                id="provincia"
-                formControlName="provincia"
-              >
-                <option value="" selected disabled>Seleccionar Provincia</option>
-                <option *ngFor="let prov of provinces" [ngValue]="prov.nombre">
-                  {{ prov.nombre }}
-                </option>
-              </select>
-                <small *ngIf="
-                  headquartersForm.get('provincia')?.touched &&
-                  headquartersForm.get('provincia')?.errors
-                " class="text-danger">La provincia es requerida</small>
               </div>
             </div>
             

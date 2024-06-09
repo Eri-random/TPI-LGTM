@@ -3,11 +3,13 @@ import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { DonationsComponent } from './donations.component';
 import { OrganizationService } from 'src/app/services/organization.service';
+import { NeedService } from 'src/app/services/need.service';
 
 describe('DonationsComponent', () => {
   let component: DonationsComponent;
   let fixture: ComponentFixture<DonationsComponent>;
   let organizationServiceMock: any;
+  let needsServiceMock: any;
   let routerMock: any;
 
   beforeEach(async () => {
@@ -15,18 +17,23 @@ describe('DonationsComponent', () => {
       getPaginatedOrganizations: jasmine.createSpy('getPaginatedOrganizations').and.returnValue(of([]))
     };
 
+    needsServiceMock = {
+      getAllNeeds: jasmine.createSpy('getAllNeeds').and.returnValue(of([]))
+    }
+
     routerMock = {
       navigate: jasmine.createSpy('navigate')
     };
 
     await TestBed.configureTestingModule({
-      declarations: [ DonationsComponent ],
+      declarations: [DonationsComponent],
       providers: [
         { provide: OrganizationService, useValue: organizationServiceMock },
+        { provide: NeedService, useValue: needsServiceMock },
         { provide: Router, useValue: routerMock }
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -43,7 +50,7 @@ describe('DonationsComponent', () => {
     expect(component.organizations).toEqual([]);
     expect(component.page).toBe(1);
     expect(component.pageSize).toBe(8);
-    expect(component.showSeeMore).toBe(true);
+    expect(component.showSeeMore).toBe(false);
   });
 
   it('debería llamar a uploadOrganizations en init', () => {
@@ -51,23 +58,23 @@ describe('DonationsComponent', () => {
     component.ngOnInit();
     expect(component.uploadOrganizations).toHaveBeenCalled();
   });
-  
+
   it('debería ocultar el botón "Ver más" si se cargan menos organizaciones', () => {
     // Simula que se devuelven menos de pageSize organizaciones
     const fewerOrganizationsMock = [
       { id: 1, name: 'Org 1' },
       { id: 2, name: 'Org 2' }
     ];
-    
+
     organizationServiceMock.getPaginatedOrganizations.and.returnValue(of(fewerOrganizationsMock));
-    
+
     component.organizations = []; // Nos aseguramos de que esté vacío antes de cargar
     component.uploadOrganizations();
-    
+
     expect(component.organizations).toEqual(fewerOrganizationsMock);
     expect(component.showSeeMore).toBe(false); // Se espera que sea false cuando hay menos de pageSize organizaciones
   });
-  
+
 
   it('debería cargar más organizaciones cuando se llama loadMore', () => {
     spyOn(component, 'uploadOrganizations');

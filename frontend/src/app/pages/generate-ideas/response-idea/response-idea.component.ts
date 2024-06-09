@@ -65,6 +65,14 @@ export class ResponseIdeaComponent {
             this.router.navigate(['/mis-ideas']);
           }, 3000);
         },
+        error: (error:any) => {
+          this.toast.error({
+            detail: 'ERROR',
+            summary: error.error,
+            duration: 3000,
+            position:'topCenter',
+          });
+        }
       });
   }
 }
