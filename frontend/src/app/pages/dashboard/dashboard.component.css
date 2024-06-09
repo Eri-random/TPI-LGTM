@@ -209,3 +209,9 @@ ng-container {
   background-color: gray!important;
   opacity: 0.2!important;
 }
+
+.link{
+  color: #5A5A5A;
+  font-size: 1rem;
+  font-family: "Fredoka", sans-serif ;
+}
