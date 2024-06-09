@@ -28,7 +28,7 @@ export interface UserData {
   cantidad: number;
   estado: string;
   highlight?: boolean; // Add an optional highlight property
-  selected?:boolean;
+  selected?: boolean;
 }
 
 @Component({
@@ -59,6 +59,7 @@ export class DashboardComponent implements OnInit {
   dataSource: MatTableDataSource<UserData> = new MatTableDataSource();
   selectedDonations: number[] = [];
   loading: boolean = true;
+  encodeURIComponent = encodeURIComponent;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -147,7 +148,7 @@ export class DashboardComponent implements OnInit {
       );
   }
 
-  ngAfterViewInit(): void {  
+  ngAfterViewInit(): void {
     // Observador para esperar hasta que los elementos estén disponibles
     const observer = new MutationObserver(() => {
       if (this.paginator && this.sort) {
@@ -157,7 +158,7 @@ export class DashboardComponent implements OnInit {
         observer.disconnect(); // Detener el observador una vez que se han asignado los elementos
       }
     });
-  
+
     observer.observe(this.viewContainerRef.element.nativeElement, {
       childList: true, // Observar cambios en los hijos del contenedor
       subtree: true // Observar cambios en todo el árbol del contenedor
@@ -403,6 +404,33 @@ export class DashboardComponent implements OnInit {
     worksheet['!cols'] = [
       { wch: 20 }, { wch: 20 }, { wch: 30 }, { wch: 20 }, { wch: 15 }
     ];
+  }
+
+  getWhatsAppLink(row: any): string {
+    const orgName = this.orgName; // Asegúrate de tener orgName definido en tu componente
+    const message = `Hola ${row.name},
+  
+  Soy de la organización ${orgName}. Queremos agradecerte por tu generosa donación de ${row.producto} (cantidad: ${row.cantidad}).
+  
+  Nos gustaría coordinar la entrega del producto. ¿Podrías indicarnos tu disponibilidad o algún detalle adicional para organizar la entrega?
+  
+  ¡Gracias por tu apoyo!`;
+
+    return `https://wa.me/${row.telefono}?text=${encodeURIComponent(message)}`;
+  }
+
+  getEmailLink(row: any): string {
+    const orgName = this.orgName; // Asegúrate de tener orgName definido en tu componente
+    const subject = `Coordinación de entrega de donación a ${orgName}`;
+    const body = `Hola ${row.name},
+  
+  Soy de la organización ${orgName}. Queremos agradecerte por tu generosa donación de ${row.producto} (cantidad: ${row.cantidad}).
+  
+  Nos gustaría coordinar la entrega del producto. ¿Podrías indicarnos tu disponibilidad o algún detalle adicional para organizar la entrega?
+  
+  ¡Gracias por tu apoyo!`;
+  
+    return `mailto:${row.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }
 }
 
