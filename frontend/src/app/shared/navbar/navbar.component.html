@@ -16,32 +16,32 @@
             <div class="collapse navbar-collapse pt-3 pb-3 py-lg-0 w-100 my-sm-0 mb-3" id="navigation">
               <ul *ngIf="!isLoggedIn || (isLoggedIn && role == 'usuario')" class="navbar-nav navbar-nav-hover w-100 gap-2">
                 <li class="nav-item dropdown dropdown-hover">
-                  <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/generar-ideas">Generar ideas</a>
+                  <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/generar-ideas" routerLinkActive="active-link">Generar ideas</a>
                 </li>
                 <li class="nav-item dropdown dropdown-hover">
-                  <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/donar">Donar</a>
+                  <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/donar" routerLinkActive="active-link">Donar</a>
                 </li>
                 <li class="nav-item dropdown dropdown-hover">
-                  <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/ubicaciones">Nuestra red</a>
+                  <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/ubicaciones" routerLinkActive="active-link">Nuestra red</a>
                 </li>
               </ul>
               <ul *ngIf="role == 'organizacion' && isLoggedIn" class="navbar-nav navbar-nav-hover w-100">
                 <li class="nav-item dropdown dropdown-hover">
-                  <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/dashboard">Dashboard</a>
+                  <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/dashboard" routerLinkActive="active-link">Dashboard</a>
                 </li>
                 <li class="nav-item dropdown dropdown-hover">
-                  <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/mi-organizacion">Mi organización</a>
+                  <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/mi-organizacion" routerLinkActive="active-link">Mi organización</a>
                 </li>
                 <li class="nav-item dropdown dropdown-hover">
-                  <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/necesidades">Necesidades</a>
+                  <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/necesidades" routerLinkActive="active-link">Necesidades</a>
                 </li>
                 <li class="nav-item dropdown dropdown-hover">
-                  <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/sedes">Mis sedes</a>
+                  <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center font-weight-bold" routerLink="/sedes" routerLinkActive="active-link">Mis sedes</a>
                 </li>
               </ul>
               <ul class="navbar-nav navbar-nav-hover">
                 <li *ngIf="!isLoggedIn" class="nav-item ms-lg-auto">
-                  <a class="btn btn-round btn-sm btn-outline-secondary mb-0 me-1 mt-2 mt-md-0 d-inline-flex align-items-center gap-2" routerLink="/login">
+                  <a class="btn btn-round btn-sm btn-outline-secondary mb-0 me-1 mt-2 mt-md-0 d-inline-flex align-items-center gap-2" routerLink="/login" routerLinkActive="active-link">
                     <span class="fa fa-user"></span> Ingresar </a>
                 </li>
                 <li *ngIf="isLoggedIn" class="nav-item dropdown">
@@ -50,16 +50,16 @@
                   </a>
                   <ul class="dropdown-menu" style="overflow: hidden;">
                     <li *ngIf="role == 'usuario'">
-                      <a class="dropdown-item" href="/mi-cuenta">Mi Cuenta</a>
+                      <a class="dropdown-item" href="/mi-cuenta" routerLinkActive="active-link">Mi Cuenta</a>
                     </li>
                     <li *ngIf="role == 'organizacion'">
-                      <a class="dropdown-item" routerLink="/mis-datos">Mis Datos</a>
+                      <a class="dropdown-item" routerLink="/mis-datos" routerLinkActive="active-link">Mis Datos</a>
                     </li>
                     <li *ngIf="role == 'usuario'">
-                      <a class="dropdown-item" routerLink="/mis-ideas">Mis Ideas</a>
+                      <a class="dropdown-item" routerLink="/mis-ideas" routerLinkActive="active-link">Mis Ideas</a>
                     </li>
                     <li *ngIf="role == 'organizacion'">
-                      <a class="dropdown-item" routerLink="/mi-organizacion">Mi Organización</a>
+                      <a class="dropdown-item" routerLink="/mi-organizacion" routerLinkActive="active-link">Mi Organización</a>
                     </li>
                     <li (click)="logout()">
                       <a class="dropdown-item">Salir</a>

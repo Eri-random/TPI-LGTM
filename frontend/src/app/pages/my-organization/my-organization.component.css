@@ -45,3 +45,8 @@
 #selectFile {
   margin-left: 0 !important;
 }
+
+.section-organization{
+  display: flex;
+  justify-content: center;
+}
