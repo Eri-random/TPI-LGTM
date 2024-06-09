@@ -77,7 +77,7 @@ export class GenerateIdeasComponent implements OnInit {
 
   addImage() {
     if (this.imagePreviews.length < 4) {
-      this.imagePreviews.push('https://media.istockphoto.com/id/1226328537/es/vector/soporte-de-posici%C3%B3n-de-imagen-con-un-icono-de-c%C3%A1mara-gris.jpg?s=612x612&w=0&k=20&c=8igCt_oe2wE-aP0qExUDfwicSNUCb4Ho9DiKCq0rSaA=');
+      this.imagePreviews.push('/assets/img/placeholder.png');
     } 
   }
 

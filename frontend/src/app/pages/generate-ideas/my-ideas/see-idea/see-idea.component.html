@@ -28,9 +28,9 @@
               <div class="accordion mb-4" id="accordionSteps">
                 <div class="accordion-item" *ngFor="let step of idea.pasos; index as i">
                   <h2 class="accordion-header" [attr.id]="'heading_' + i">
-                    <button class="accordion-button text-uppercase border-bottom text-lg font-weight-bold collapsed" type="button" data-bs-toggle="collapse" [attr.data-parent]="'#accordion_' + i" [attr.href]="'#collapse_' + i">
+                    <button class="accordion-button border-bottom text-lg font-weight-bold collapsed" type="button" data-bs-toggle="collapse" [attr.data-parent]="'#accordion_' + i" [attr.href]="'#collapse_' + i">
                       <i class="fas fa-clipboard-check pe-3"></i>
-                      Ver paso N°{{ i + 1 }}
+                      Paso N°{{ i + 1 }}
                       <i class="collapse-close fa fa-plus text-md pt-1 position-absolute end-0 me-3"></i>
                     </button>
                   </h2>
