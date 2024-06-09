@@ -27,6 +27,9 @@ namespace backend.api.Controllers
         /// </summary>
         /// <param name="request">The request model containing the user message.</param>
         /// <returns>A response containing the generated idea.</returns>
+
+        [ProducesResponseType(typeof(GenerateIdeaResponseModel),StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost("generate")]
         public async Task<IActionResult> GenerateIdea([FromBody] GenerateIdeaRequestModel request)
         {
@@ -55,12 +58,12 @@ namespace backend.api.Controllers
                 _logger.LogInformation("Total time: {totalTime}", chatResponse?.Usage?.TotalTime);
 
                 var ideaResponse = JsonConvert.DeserializeObject<GenerateIdeaResponseModel>(idea);
-                return Ok(ideaResponse);
+                return StatusCode(StatusCodes.Status201Created,ideaResponse);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error when generating idea");
-                return StatusCode(500, $"Error when generating idea");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error when generating idea");
             }
         }
 
