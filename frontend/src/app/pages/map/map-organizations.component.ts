@@ -317,7 +317,7 @@ export class MapOrganizationsComponent implements OnInit {
         detail: 'Error',
         summary:
           'La organización seleccionada no se encuentra en esta provincia.',
-        position: 'topRight',
+        position: 'bottomRight',
         duration: 5000,
       });
       return;

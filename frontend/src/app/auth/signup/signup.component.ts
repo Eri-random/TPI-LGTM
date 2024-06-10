@@ -104,11 +104,11 @@ export class SignupComponent {
     .subscribe({
       next:()=>{
       this.registerForm.reset();
-      this.toast.success({detail:"EXITO",summary:'Usuario registrado correctamente',duration:5000});
+      this.toast.success({detail:"EXITO",summary:'Usuario registrado correctamente',duration:5000, position: 'bottomRight'});
       this.router.navigate(['/login'])
       },
       error:(error)=>{
-      this.toast.error({detail:"ERROR",summary:error.error,duration:5000,position:'topCenter'});
+      this.toast.error({detail:"ERROR",summary:error.error,duration:5000,position:'bottomRight'});
       }
     })
 
