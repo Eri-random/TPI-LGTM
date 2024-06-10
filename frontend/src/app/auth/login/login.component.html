@@ -15,7 +15,7 @@
                     <div class="input-field" [class.error]="loginForm.controls['email'].dirty && loginForm.hasError('required','email')">
                       <input id="email" class="form-control form-control-lg" formControlName="email" type="email" placeholder="correo@correo.com" aria-label="Email" aria-describedby="email-addon">
                     </div>
-                    <small *ngIf="loginForm.controls['email'].dirty && loginForm.hasError('required','email')" class="text-danger">Correo electrónico requerido</small>
+                    <small *ngIf="loginForm.controls['email'].dirty && loginForm.hasError('required','email')" class="text-danger">El correo electrónico es requerido</small>
                   </div>
                   <div class="form-group mb-3">
                     <label for="password" class="form-label required">Contraseña</label>
@@ -23,7 +23,7 @@
                       <input id="password" formControlName="password" class="form-control form-control-lg" [type]="type" placeholder="Contraseña" aria-label="Password" aria-describedby="password-addon">
                       <!-- <span (click)="hideShowPass()" class="fa {{eyeIcon}}"></span> -->
                     </div>
-                    <small *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required','password')" class="text-danger">Contraseña requerida</small>
+                    <small *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required','password')" class="text-danger">La contraseña es requerida</small>
                   </div>
                   <small *ngIf="!(loginForm.controls['password'].dirty && loginForm.hasError('required','password')) && error" class="text-danger">{{error}}</small>
                   <div class="text-center">
