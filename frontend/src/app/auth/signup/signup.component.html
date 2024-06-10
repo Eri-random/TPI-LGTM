@@ -137,7 +137,7 @@
                       >
                       <select
                         (change)="onProvinceChange()"
-                        class="form-control input-field"
+                        class="form-control form-select input-field"
                         [class.error]="
                         registerForm.get('provincia')?.dirty &&
                         registerForm.get('provincia')?.errors
@@ -146,7 +146,7 @@
                         formControlName="provincia"
                       >
                         <option value="" selected>
-                          Seleccionar Provincia
+                          Seleccionar provincia
                         </option>
                         <option
                           *ngFor="let prov of provinces"
@@ -165,9 +165,9 @@
                       >
                     </div>
                     <div class="col-md-6 mb-3">
-                      <label for="localidad" class="form-label required">Localidades</label>
+                      <label for="localidad" class="form-label required">Localidad</label>
                       <select
-                        class="form-control input-field"
+                        class="form-control form-select input-field"
                         [class.error]="
                         registerForm.get('localidad')?.dirty &&
                         registerForm.get('localidad')?.errors
@@ -176,7 +176,7 @@
                         required
                         formControlName="localidad"
                       >
-                        <option value="" selected>Seleccionar Localidad</option>
+                        <option value="" selected>Seleccionar localidad</option>
                         <option
                           *ngFor="let local of localidades"
                           [value]="local.nombre"
