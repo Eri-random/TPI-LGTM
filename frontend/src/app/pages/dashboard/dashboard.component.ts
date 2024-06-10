@@ -408,11 +408,11 @@ export class DashboardComponent implements OnInit {
 
   getWhatsAppLink(row: any): string {
     const orgName = this.orgName; // Asegúrate de tener orgName definido en tu componente
-    const message = `Hola ${row.name},
+    const message = `¡Hola ${row.name}! 
   
-  Soy de la organización ${orgName}. Queremos agradecerte por tu generosa donación de ${row.producto} (cantidad: ${row.cantidad}).
+  Somos de la organización ${orgName}. Queremos agradecerte por tu generosa donación de ${row.producto} (cantidad: ${row.cantidad}).
   
-  Nos gustaría coordinar la entrega del producto. ¿Podrías indicarnos tu disponibilidad o algún detalle adicional para organizar la entrega?
+  Nos gustaría coordinar la entrega del producto. ¿Podrías indicarnos tu disponibilidad o algún detalle adicional para organizarnos?
   
   ¡Gracias por tu apoyo!`;
 
@@ -422,11 +422,11 @@ export class DashboardComponent implements OnInit {
   getEmailLink(row: any): string {
     const orgName = this.orgName; // Asegúrate de tener orgName definido en tu componente
     const subject = `Coordinación de entrega de donación a ${orgName}`;
-    const body = `Hola ${row.name},
+    const body = `¡Hola ${row.name}! 
   
-  Soy de la organización ${orgName}. Queremos agradecerte por tu generosa donación de ${row.producto} (cantidad: ${row.cantidad}).
+  Somos de la organización ${orgName}. Queremos agradecerte por tu generosa donación de ${row.producto} (cantidad: ${row.cantidad}).
   
-  Nos gustaría coordinar la entrega del producto. ¿Podrías indicarnos tu disponibilidad o algún detalle adicional para organizar la entrega?
+  Nos gustaría coordinar la entrega del producto. ¿Podrías indicarnos tu disponibilidad o algún detalle adicional para organizarnos?
   
   ¡Gracias por tu apoyo!`;
   

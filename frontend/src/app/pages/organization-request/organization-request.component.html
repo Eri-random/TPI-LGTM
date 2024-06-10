@@ -14,13 +14,19 @@
           <h2>¿Qué <span class="text-gradient text-secondary">necesita mi organización</span>?</h2>
         </div>
         <div class="card-body pb-2">
+          <div class="row">
+            <div class="col text-center">
+              <p class="lead">Indicá dentro de las categorías cuáles son las necesidades de tu organización.</p>
+            </div>
+          </div>
+
           <div class="row g-3 d-flex justify-content-center pb-4" *ngFor="let need of needs">
-            <div class="col-12 col-md-6">
+            <div class="col-lg-6">
               <mat-accordion multi>
                 <mat-expansion-panel>
                   <mat-expansion-panel-header>
                     <mat-panel-title>
-                      {{ need.nombre }}
+                      <img [src]="need.icono" alt="{{need.nombre}}" class="pe-3"> {{ need.nombre }}
                     </mat-panel-title>
                   </mat-expansion-panel-header>
                   <section class="d-flex flex-column" [formGroup]="formGroups[need.nombre]">

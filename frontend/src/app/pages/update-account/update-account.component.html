@@ -201,7 +201,7 @@
                         <h1><i class="fas fa-tshirt text-gradient text-secondary"></i></h1>
                         <h5 class="mt-3">Producto más donado</h5>
                           <p *ngIf="donations.length === 0">Todavía no hiciste ninguna donación</p>
-                          <p *ngIf="donations.length > 1">{{ mostDonatedProductType }}</p>
+                          <p *ngIf="donations.length > 1" class="text-capitalize">{{ mostDonatedProductType }}</p>
                       </div>
                     </div>
                   </div>
