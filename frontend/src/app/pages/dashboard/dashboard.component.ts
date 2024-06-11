@@ -26,8 +26,9 @@ export interface UserData {
   email: string;
   producto: string;
   cantidad: number;
-  progress: string;
+  estado: string;
   highlight?: boolean; // Add an optional highlight property
+  selected?: boolean;
 }
 
 @Component({
@@ -41,9 +42,10 @@ export class DashboardComponent implements OnInit {
   existDonations!: boolean;
   totalDonations: number = 0;
   totalDonationsCount: number = 0;
-  productMostDonate: { product: string, amount: number } | null = null;
+  productMostDonate: { product: string; amount: number } | null = null;
   averageDonations: number = 0;
-  topDonor: { name: string, amount: number } | null = null;
+  topDonor: { name: string; amount: number } | null = null;
+  checkboxEnabled = false;
 
   displayedColumns: string[] = [
     'name',
@@ -51,10 +53,13 @@ export class DashboardComponent implements OnInit {
     'email',
     'producto',
     'cantidad',
+    'estado',
   ];
 
   dataSource: MatTableDataSource<UserData> = new MatTableDataSource();
+  selectedDonations: number[] = [];
   loading: boolean = true;
+  encodeURIComponent = encodeURIComponent;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -68,7 +73,7 @@ export class DashboardComponent implements OnInit {
     private webSocketService: WebsocketService,
     private viewContainerRef: ViewContainerRef,
     private toast: NgToastService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.organizationService.getOrgNameFromStore().subscribe((val) => {
@@ -84,13 +89,16 @@ export class DashboardComponent implements OnInit {
     this.loadDonations();
 
     this.webSocketService.messages.subscribe((message) => {
-      if (message.type === 'actualizarDonaciones' && message.data.newDonation.Cuit === this.cuit) {
+      if (
+        message.type === 'actualizarDonaciones' &&
+        message.data.newDonation.Cuit === this.cuit
+      ) {
         this.handleNewDonation(message.data);
       }
     });
   }
 
-  loadDonations() {
+   loadDonations() {
     this.organizationService
       .getOrganizationByCuit(this.cuit)
       .pipe(
@@ -109,7 +117,7 @@ export class DashboardComponent implements OnInit {
               email: donation.usuario.email,
               producto: donation.producto,
               cantidad: donation.cantidad,
-              progress: '',
+              estado: donation.estado,
             }));
 
             this.existDonations = true;
@@ -121,7 +129,8 @@ export class DashboardComponent implements OnInit {
             );
 
             this.totalDonationsCount = donations.length;
-            this.averageDonations = this.totalDonations / this.totalDonationsCount;
+            this.averageDonations =
+              this.totalDonations / this.totalDonationsCount;
             this.calculateProductMostDonated(donations);
             this.calculateTopDonor(donations);
 
@@ -142,7 +151,7 @@ export class DashboardComponent implements OnInit {
       );
   }
 
-  ngAfterViewInit(): void {  
+  ngAfterViewInit(): void {
     // Observador para esperar hasta que los elementos estén disponibles
     const observer = new MutationObserver(() => {
       if (this.paginator && this.sort) {
@@ -152,13 +161,12 @@ export class DashboardComponent implements OnInit {
         observer.disconnect(); // Detener el observador una vez que se han asignado los elementos
       }
     });
-  
+
     observer.observe(this.viewContainerRef.element.nativeElement, {
       childList: true, // Observar cambios en los hijos del contenedor
-      subtree: true // Observar cambios en todo el árbol del contenedor
+      subtree: true, // Observar cambios en todo el árbol del contenedor
     });
   }
-
 
   calculateProductMostDonated(donations: any[]) {
     const productoMap = new Map<string, number>();
@@ -166,36 +174,48 @@ export class DashboardComponent implements OnInit {
     donations.forEach((donation) => {
       const normalizedProduct = normalizeProductName(donation.producto);
       if (productoMap.has(normalizedProduct)) {
-        productoMap.set(normalizedProduct, productoMap.get(normalizedProduct)! + donation.cantidad);
+        productoMap.set(
+          normalizedProduct,
+          productoMap.get(normalizedProduct)! + donation.cantidad
+        );
       } else {
         productoMap.set(normalizedProduct, donation.cantidad);
       }
     });
 
-    const sortedProductos = Array.from(productoMap, ([product, amount]) => ({ product, amount }))
-      .sort((a, b) => b.amount - a.amount);
+    const sortedProductos = Array.from(productoMap, ([product, amount]) => ({
+      product,
+      amount,
+    })).sort((a, b) => b.amount - a.amount);
 
-    this.productMostDonate = sortedProductos.length > 0 ? sortedProductos[0] : null;
+    this.productMostDonate =
+      sortedProductos.length > 0 ? sortedProductos[0] : null;
   }
 
   calculateTopDonor(donations: any[]) {
     const donorMap = new Map<string, number>();
 
     donations.forEach((donation) => {
-      if (donorMap.has(donation.usuario.nombre)) {
-        donorMap.set(donation.usuario.nombre, donorMap.get(donation.usuario.nombre)! + donation.cantidad);
+      if (donorMap.has(donation.name)) {
+        donorMap.set(
+          donation.name,
+          donorMap.get(donation.name)! + donation.cantidad
+        );
       } else {
-        donorMap.set(donation.usuario.nombre, donation.cantidad);
+        donorMap.set(donation.name, donation.cantidad);
       }
     });
 
-    const sortedDonors = Array.from(donorMap, ([name, amount]) => ({ name, amount }))
-      .sort((a, b) => b.amount - a.amount);
+    const sortedDonors = Array.from(donorMap, ([name, amount]) => ({
+      name,
+      amount,
+    })).sort((a, b) => b.amount - a.amount);
 
     this.topDonor = sortedDonors.length > 0 ? sortedDonors[0] : null;
   }
 
   handleNewDonation(data: any) {
+    console.log(data)
     if (data && data.newDonation && data.user) {
       this.totalDonations += data.newDonation.Cantidad;
       this.totalDonationsCount += 1;
@@ -208,7 +228,7 @@ export class DashboardComponent implements OnInit {
         email: data.user.Email,
         producto: data.newDonation.Producto,
         cantidad: data.newDonation.Cantidad,
-        progress: '',
+        estado: data.newDonation.Estado,
         highlight: true,
       };
 
@@ -248,30 +268,104 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  toggleCheckboxes() {
+    this.checkboxEnabled = !this.checkboxEnabled;
+    if (this.checkboxEnabled) {
+      this.displayedColumns.push('select');
+    } else {
+      this.displayedColumns = this.displayedColumns.filter(
+        (column) => column !== 'select'
+      );
+    }
+  }
+
+  updateSelectedStates() {
+    this.selectedDonations = this.dataSource.data
+      .filter((row) => row.selected)
+      .map((row) => row.id); // Recolectar IDs de donaciones seleccionadas
+
+    this.donationsService
+      .updateDonationsState(this.selectedDonations, 'Recibido')
+      .subscribe(
+        (response) => {
+          console.log('Estado actualizado con éxito', response);
+          // Actualizar la interfaz de usuario según sea necesario...
+          this.dataSource.data.forEach((row) => {
+            if (row.selected) {
+              row.estado = 'Recibido';
+              row.selected = false; // Desmarcar el checkbox
+            }
+          });
+          this.checkboxEnabled = false; // Deshabilitar los checkboxes después de actualizar los estados
+          this.displayedColumns = this.displayedColumns.filter(
+            (column) => column !== 'select'
+          ); // Ocultar la columna de selección
+        },
+        (error) => {
+          console.error('Error al actualizar el estado', error);
+        }
+      );
+  }
+
+  calculateStateCounts(donations: any[]) {
+    const stateCounts = { pending: 0, received: 0 };
+
+    donations.forEach((donation) => {
+      if (donation.estado === 'Pendiente') {
+        stateCounts.pending++;
+      } else if (donation.estado === 'Recibido') {
+        stateCounts.received++;
+      }
+    });
+
+    return stateCounts;
+  }
+
+  calculateUserCountsByState(donations: any[]) {
+    const userStateCounts = {
+      pending: new Set<string>(),
+      received: new Set<string>(),
+    };
+
+    donations.forEach((donation) => {
+      if (donation.estado === 'Pendiente') {
+        userStateCounts.pending.add(donation.email);
+      } else if (donation.estado === 'Recibido') {
+        userStateCounts.received.add(donation.email);
+      }
+    });
+
+    return {
+      pending: userStateCounts.pending.size,
+      received: userStateCounts.received.size,
+    };
+  }
+
   exportAsExcel() {
-    const dataToExport = this.dataSource.data.map(donation => ({
+    const dataToExport = this.dataSource.data.map((donation) => ({
       Nombre: donation.name,
       Teléfono: donation.telefono,
       Email: donation.email,
       Producto: donation.producto,
-      Cantidad: donation.cantidad
+      Cantidad: donation.cantidad,
+      Estado: donation.estado,
     }));
 
-    // Add a blank row
     dataToExport.push({
       Nombre: '',
       Teléfono: '',
       Email: '',
-      Producto: ''
+      Producto: '',
+      Estado: '',
     } as any);
 
-    // Add totals, averages, and most donated product at the end of the data
     dataToExport.push({
       Nombre: 'Total',
       Teléfono: '',
       Email: '',
       Producto: '',
-      Cantidad: this.totalDonations
+      Cantidad: this.totalDonations,
+      Estado: '',
     });
 
     let amountFixed = parseFloat(this.averageDonations.toFixed(2));
@@ -281,7 +375,8 @@ export class DashboardComponent implements OnInit {
       Teléfono: '',
       Email: '',
       Producto: '',
-      Cantidad: amountFixed
+      Cantidad: amountFixed,
+      Estado: '',
     });
 
     if (this.productMostDonate) {
@@ -290,7 +385,8 @@ export class DashboardComponent implements OnInit {
         Teléfono: '',
         Email: '',
         Producto: this.productMostDonate.product,
-        Cantidad: this.productMostDonate.amount
+        Cantidad: this.productMostDonate.amount,
+        Estado: '',
       });
     }
 
@@ -300,23 +396,59 @@ export class DashboardComponent implements OnInit {
         Teléfono: '',
         Email: '',
         Producto: this.topDonor.name,
-        Cantidad: this.topDonor.amount
+        Cantidad: this.topDonor.amount,
+        Estado: '',
       });
     }
 
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(dataToExport);
-    this.applyExcelStyles(worksheet);
-    const workbook: XLSX.WorkBook = { Sheets: { 'Donaciones': worksheet }, SheetNames: ['Donaciones'] };
-    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const stateCounts = this.calculateStateCounts(this.dataSource.data);
+
+    const stateData = [
+      { Estado: 'Pendiente', Cantidad: stateCounts.pending },
+      { Estado: 'Recibido', Cantidad: stateCounts.received },
+    ];
+
+    const worksheet1: XLSX.WorkSheet = XLSX.utils.json_to_sheet(dataToExport);
+    const worksheet2: XLSX.WorkSheet = XLSX.utils.json_to_sheet(stateData);
+
+    this.applyExcelStyles(worksheet1);
+    this.applyExcelStyles(worksheet2);
+
+    const workbook: XLSX.WorkBook = {
+      Sheets: {
+        Donaciones: worksheet1,
+        Estados: worksheet2,
+      },
+      SheetNames: ['Donaciones', 'Estados'],
+    };
+
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array',
+    });
     this.saveAsExcelFile(excelBuffer, 'donaciones');
   }
 
   private saveAsExcelFile(buffer: any, fileName: string): void {
-    const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    const EXCEL_TYPE =
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
     const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
     const currentDate = new Date();
-    const formattedDate = `${currentDate.getFullYear()}${(currentDate.getMonth() + 1).toString().padStart(2, '0')}${currentDate.getDate().toString().padStart(2, '0')}`;
-    const formattedTime = `${currentDate.getHours().toString().padStart(2, '0')}${currentDate.getMinutes().toString().padStart(2, '0')}${currentDate.getSeconds().toString().padStart(2, '0')}`;
+    const formattedDate = `${currentDate.getFullYear()}${(
+      currentDate.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, '0')}${currentDate.getDate().toString().padStart(2, '0')}`;
+    const formattedTime = `${currentDate
+      .getHours()
+      .toString()
+      .padStart(2, '0')}${currentDate
+      .getMinutes()
+      .toString()
+      .padStart(2, '0')}${currentDate
+      .getSeconds()
+      .toString()
+      .padStart(2, '0')}`;
     saveAs(data, `${fileName}_export_${formattedDate}_${formattedTime}.xlsx`);
   }
 
@@ -329,9 +461,9 @@ export class DashboardComponent implements OnInit {
       if (!worksheet[address]) continue;
       if (!worksheet[address].s) worksheet[address].s = {};
       worksheet[address].s = {
-        font: { bold: true, color: { rgb: "FFFFFF" } },
-        fill: { fgColor: { rgb: "4CAF50" } }, // Green background
-        alignment: { horizontal: "center" }
+        font: { bold: true, color: { rgb: 'FFFFFF' } },
+        fill: { fgColor: { rgb: '4CAF50' } }, // Green background
+        alignment: { horizontal: 'center' },
       };
     }
 
@@ -342,9 +474,9 @@ export class DashboardComponent implements OnInit {
         if (!worksheet[address]) continue;
         if (!worksheet[address].s) worksheet[address].s = {};
         worksheet[address].s = {
-          font: { bold: true, color: { rgb: "FFFFFF" } },
-          fill: { fgColor: { rgb: "4CAF50" } }, // Green background
-          alignment: { horizontal: "center" }
+          font: { bold: true, color: { rgb: 'FFFFFF' } },
+          fill: { fgColor: { rgb: '4CAF50' } }, // Green background
+          alignment: { horizontal: 'center' },
         };
       }
     }
@@ -355,14 +487,46 @@ export class DashboardComponent implements OnInit {
         const address = XLSX.utils.encode_cell({ r: R, c: C });
         if (!worksheet[address]) continue;
         if (!worksheet[address].s) worksheet[address].s = {};
-        worksheet[address].s.alignment = { horizontal: "center" };
+        worksheet[address].s.alignment = { horizontal: 'center' };
       }
     }
 
     // Set column widths
     worksheet['!cols'] = [
-      { wch: 20 }, { wch: 20 }, { wch: 30 }, { wch: 20 }, { wch: 15 }
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 30 },
+      { wch: 20 },
+      { wch: 15 },
     ];
+  }
+
+  getWhatsAppLink(row: any): string {
+    const orgName = this.orgName; // Asegúrate de tener orgName definido en tu componente
+    const message = `¡Hola ${row.name}! 
+  
+  Somos de la organización ${orgName}. Queremos agradecerte por tu generosa donación de ${row.producto} (cantidad: ${row.cantidad}).
+  
+  Nos gustaría coordinar la entrega del producto. ¿Podrías indicarnos tu disponibilidad o algún detalle adicional para organizarnos?
+  
+  ¡Gracias por tu apoyo!`;
+
+    return `https://wa.me/${row.telefono}?text=${encodeURIComponent(message)}`;
+  }
+
+  getEmailLink(row: any): string {
+    const orgName = this.orgName; // Asegúrate de tener orgName definido en tu componente
+    const subject = `Coordinación de entrega de donación a ${orgName}`;
+    const body = `¡Hola ${row.name}! 
+  
+  Somos de la organización ${orgName}. Queremos agradecerte por tu generosa donación de ${row.producto} (cantidad: ${row.cantidad}).
+  
+  Nos gustaría coordinar la entrega del producto. ¿Podrías indicarnos tu disponibilidad o algún detalle adicional para organizarnos?
+
+  
+  ¡Gracias por tu apoyo!`;
+  
+    return `mailto:${row.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }
 }
 

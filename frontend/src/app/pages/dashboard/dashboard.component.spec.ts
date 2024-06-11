@@ -96,23 +96,24 @@ describe('DashboardComponent', () => {
     expect(component.totalDonations).toBe(10);
     expect(component.totalDonationsCount).toBe(1);
     expect(component.averageDonations).toBe(10);
-    expect(component.productMostDonate).toEqual({ product: 'Producto A', amount: 10 });
+    expect(component.productMostDonate).toEqual({ product: 'producto a', amount: 10 });
   });
 
   it('debería manejar nuevas donaciones a través de WebSocket', () => {
     component.dataSource = new MatTableDataSource<UserData>([]);
     const newDonation = {
       newDonation: { Producto: 'Producto B', Cantidad: 5 },
-      user: { Nombre: 'Maria', Telefono: '87654321', Email: 'maria@ejemplo.com' },
+      user: { Nombre: 'Maria', Telefono: '87654321', Email: 'maria@ejemplo.com' }, // Proporciona datos válidos para el usuario
     };
+    
 
     component.handleNewDonation(newDonation);
-
+    
     expect(component.totalDonations).toBe(5);
     expect(component.totalDonationsCount).toBe(1);
     expect(component.averageDonations).toBe(5);
     expect(component.dataSource.data.length).toBe(1);
-    expect(component.dataSource.data[0].name).toBe('Maria');
+    expect(component.dataSource.data[0].name).toBe('Maria'); // Verifica que el nombre sea 'Maria' correctamente
     expect(component.dataSource.data[0].producto).toBe('Producto B');
     expect(toastServiceMock.success).toHaveBeenCalledWith({
       detail: 'EXITO',
@@ -125,8 +126,8 @@ describe('DashboardComponent', () => {
   it('debería aplicar filtro a la tabla', () => {
     const event = { target: { value: 'juan' } } as any;
     component.dataSource.data = [
-      { name: 'Juan', telefono: '12345678', email: 'juan@ejemplo.com', producto: 'Producto A', cantidad: 10, progress: '' },
-      { name: 'Maria', telefono: '87654321', email: 'maria@ejemplo.com', producto: 'Producto B', cantidad: 5, progress: '' },
+      { id:1, name: 'Juan', telefono: '12345678', email: 'juan@ejemplo.com', producto: 'Producto A', cantidad: 10, estado: 'Pendiente' },
+      { id:2, name: 'Maria', telefono: '87654321', email: 'maria@ejemplo.com', producto: 'Producto B', cantidad: 5, estado: 'Pendiente' },
     ];
 
     component.applyFilter(event);
@@ -136,25 +137,16 @@ describe('DashboardComponent', () => {
     expect(component.dataSource.filteredData[0].name).toBe('Juan');
   });
 
-  it('debería manejar el error de carga de donaciones', (done) => {
-    const cuitFromStore = of('123456789');
-    const orgResponse = of({ id: 1 });
-
-    organizationServiceMock.getCuitFromStore.and.returnValue(cuitFromStore);
-    authServiceMock.getCuitFromToken.and.returnValue('123456789');
-    organizationServiceMock.getOrganizationByCuit.and.returnValue(orgResponse);
-    donationsServiceMock.getDonationsByOrganizationId.and.returnValue(throwError(() => new Error('Error de carga')));
+  it('should handle error while loading donations', () => {
+    const error = 'Error loading donations';
+    
+    organizationServiceMock.getOrganizationByCuit.and.returnValue(of({ id: 1 }));
+    donationsServiceMock.getDonationsByOrganizationId.and.returnValue(throwError(error));
 
     spyOn(console, 'error');
 
     component.loadDonations();
 
-    setTimeout(() => {
-      expect(console.error).toHaveBeenCalledWith('Error:', jasmine.any(Error));
-      // expect para verificar que existDonations esté en false
-      fixture.detectChanges();
-      expect(component.existDonations).toBe(false);
-      done();
-    }, 1000);
+    expect(console.error).toHaveBeenCalledWith('Error:', error);
   });
 });

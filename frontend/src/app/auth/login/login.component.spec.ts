@@ -49,6 +49,7 @@ describe('LoginComponent', () => {
   });
 
   it('debería inicializar el formulario en ngOnInit', () => {
+    
     component.ngOnInit();
     expect(component.loginForm).toBeDefined();
     expect(component.loginForm.controls['email'].valid).toBeFalse();
@@ -98,7 +99,7 @@ describe('LoginComponent', () => {
       detail: 'EXITO',
       summary: 'Login exitoso',
       duration: 5000,
-      position: 'topCenter'
+      position: 'topRight'
     });
     expect(routerMock.navigate).toHaveBeenCalledWith(['/']);
   });
@@ -138,7 +139,7 @@ describe('LoginComponent', () => {
       detail: 'EXITO',
       summary: 'Login exitoso',
       duration: 5000,
-      position: 'topCenter'
+      position: 'topRight'
     });
     expect(routerMock.navigate).toHaveBeenCalledWith(['/dashboard']);
   });

@@ -215,4 +215,7 @@ ALTER TABLE IF EXISTS public.subcategoria
     ON DELETE NO ACTION
     NOT VALID;
 
+ALTER TABLE public.donacion
+ADD COLUMN estado text COLLATE pg_catalog."default";
+
 END;

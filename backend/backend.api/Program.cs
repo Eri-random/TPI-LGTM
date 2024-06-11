@@ -49,7 +49,7 @@ builder.Services.AddHttpClient<IMapsService, MapsService>();
 builder.Services.AddScoped<IOrganizationInfoService, InfoOrganizationService>();
 builder.Services.AddScoped<IIdeaService, IdeaService>();
 builder.Services.AddScoped<IHeadquartersService, headquartersService>();
-builder.Services.AddScoped<INeedService, NecesidadService>();
+builder.Services.AddScoped<INeedService, NeedService>();
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UserRequestModel>());
 
 var groqApiConfig = builder.Configuration.GetSection("GroqApiConfig").Get<GroqApiConfig>();
