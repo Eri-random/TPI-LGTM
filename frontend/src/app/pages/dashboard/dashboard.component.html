@@ -13,90 +13,93 @@
         src="../assets/img/a-mobile.png">
     </div>
     <div class="container">
-      <div class="card blur justify-content-center shadow-lg mt-7 mb-5">
+      <div class="card blur justify-content-center shadow-lg mt-7 mb-5 px-lg-4 pb-3">
 
         <div *ngIf="existDonations" class="row text-center mx-1 mt-4">
           <h2>Organización <span class="text-gradient text-secondary">{{ orgName }}</span></h2>
         </div>
 
         <div *ngIf="!existDonations" class="row text-center mx-1 mt-4">
-          <h2>Aún no has recibido donaciones</h2>
+          <h2>Todavía no recibiste <span class="text-gradient text-secondary">donaciones</span></h2>
           <div class="card-body pb-2">
             <div class="row">
               <div class="col text-center">
-                <img
-                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEGElEQVR4nO1aPYwTRxQehOJ7zxwxB6EAGhpQJDrSJoEiLSVpAqSLQBRU0IEje55NulCeFECiNF3udL55e5IpIKFAFIAQEhI1IEACiR8pwKG3t3ue9XnXs3/mgvwk63w7M2/et/P2m2/eWqmJfYHW4MoeYmwQ4yNivHFhQU3F9ZU2bfCfoG9DxqrPaee9mZr24BgZ9LTBj8S4HH60gbNx44jhnN3X789wixhP0cL09rEEP3tLfaUNHtIMVzXjOyuYl9rgJTJ40gdl8G3Lq+wdHC/XpC3oI30vydg+IHzn+zZ4SOYqHECju2kfGTyvDTy2gv+gGa9rU/2t3lPTYd8guGVt8Nrystpg+5HVC8ZeDK/Vewo042HNMEcG/7NW6QUxzDY9+D5X8Lpb3SHLrQ3cjqSCwftk8Pd2d2r3sHH1xa+3EsMT6dtiOLrqT9JwJe2exaXQH4w7s8y5NoiYu0MMz9PcnZaBX8Og673pb2xwAqjoLFi1tql+J4EOydc5AZYlX7XBpcDPX5JKcek2yjodtbHpTf2kDV4hxtd9QsE3xNiRNt+nIBxgkRua8Xh7vjajcpj9YCcRQBprz9dmJDaJMcp6eF2RgTsreQj/Fsnp4ksz3LQe3pt5/bdjgAgG1TTwY3jHSpsox4rPxlB+uHfJX8Hgd7ZyeCltDsdOxPhKqLjpTR2Uj3yXa657hu5W92sDf4YkEYx5rxkNGTgSqIMIlauWt3mbZng6SJlJFjcRGVhsLsIv9b9VdXCMXJM2Ccbv22fFJ+Kr6WcHnNYMd6OrCPfIwBm9hLv8eBmOBun6VGKPTGI3Cl3G8XzcRHJd2t3Wse+LGB8MS0Ht31i4IIwaidPlpoc7r1Bm2TtvVsonFyr3VeyAFkqT1y5W76jKIOVLvrsQQDMNMYlyXbPMjhO5WOhfdmzN2HTZWxrBMSHc5ZPUdSKQojbJyIozHMhK5fWOqrhPVLDMlnwOZUuEMtMcE3jl/5GTlfmwJ6lfV4FILkDsiUSxFimzh0n7LMcEGgUk7gxRlMwOKVP0HDH8nHV1aRSQMiTKmuOvpY+yPm+UBIS68IMvtSWIxcq3qqSCxGChIS59MwNZlRsly/giSj+UDKTcg5UzZToYjfJV5lF3rEAGZfba3F6R2SLdlYOtUnmgUscOJLQ+p8MZ/ywQfVjvJkl2W2aHgD47EFVAgW5dAclTMl2XQGyr92pb4vcMOBf2W/dAhp4XGB+SwZ79WuF/BSTJJkCG2GRFVAE2Sa1Cd/ayFaujtbzKXqm4pPYlu3JRijgrkPZ8bYY8PGHVeMOjcC+do4IUcRogHdeXOlksbxXFBUim12x5rMjKR2EvPvNallpU6a+i85hrdZAYLxddEC/N0lRRxvZzjbxmK2JfFa+HH9BMTI3PPgEoMqDqKVb2uwAAAABJRU5ErkJggg==" />
-                <p class="lead mt-3">¡No te desanimes! Completa toda la información sobre tu organización para que tu
-                  perfil sea visible para los usuarios. Asegúrate de que toda tu información esté actualizada y describe
-                  claramente tus necesidades.</p>
+                <h1>
+                  <i class="fas fa-hand-holding-heart text-gradient text-secondary"></i>
+                </h1>
+                <p class="lead mt-3">¡No te desanimes! Completá toda la información sobre tu organización y sedes para que sea visible a los usuarios. <br />
+                  Asegurate que toda tu información esté actualizada y cargá tus necesidades. <br />
+                  ¡En poco tiempo vas a comenzar a recibir donaciones!</p>
               </div>
             </div>
             <div class="text-center justify-content-center align-items-center">
-              <button routerLink="/mi-organizacion" class="btn btn-round btn-lg bg-gradient-primary mt-4 mb-4">Mi
-                Organización</button>
+              <button routerLink="/mi-organizacion" class="btn btn-round bg-gradient-primary mt-4 mb-4">Mi organización</button>
             </div>
           </div>
         </div>
 
-        <div *ngIf="existDonations" class="card-body contenedor ">
-          <div class="row tablero gap-3">
-            <div class="col-sm-2 col-md-2 col-xl-3">
-              <div class="card subcaja text-left d-flex flex-row h-100">
+        <div *ngIf="existDonations" class="card-body">
+          <div class="row dashboard gap-3">
+            <div class="col-md-3">
+              <div class="card subcontainer text-left d-flex flex-row h-100">
                 <div class="d-flex align-items-center">
-                  <img
-                    src="data:image/png;base64,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" />
+                  <h1>
+                    <i class="fas fa-hand-holding-heart text-gradient text-secondary"></i>
+                  </h1>
                 </div>
-                <div class="d-flex flex-column datos ps-3">
-                  <div class="titulo">Total Donaciones</div>
+                <div class="d-flex flex-column data ps-3">
+                  <div class="title">Total de donaciones</div>
                   <div *ngIf="totalDonations > 0; else noData">
-                    <div class="numero">
+                    <div class="number">
                       {{ totalDonations | number : "1.0-0" }}
                     </div>
                   </div>
                   <ng-template #noData>
-                    <div class="numero">No hay datos disponibles</div>
+                    <div class="number">No hay datos disponibles</div>
                   </ng-template>
                 </div>
               </div>
             </div>
-            <div class="col-sm-2 col-md-2 col-xl-3">
-              <div class="card subcaja text-left d-flex flex-row h-100">
+            <div class="col-md-3">
+              <div class="card subcontainer text-left d-flex flex-row h-100">
                 <div class="d-flex align-items-center">
-                  <img
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAACXBIWXMAAAsTAAALEwEAmpwYAAAElUlEQVR4nO1b32sdRRSeSv2BYltRrL+q1RdBEAXRQunNTG5TyUMx1TLnXHMrvolCfRIq+CIqYsW/oFBpwacKog/SWpLcM2sam2q0Wiu1pSpVKmhFq/VB0ofI2TmT3iS7e5Pmbm662Q8G7t09M+d8c745M7u5UarN2Dy2+fruCNdrghc14V7j8FtN8Lcm+MY4fKX6qX1g08FtN3Djz3zNEB5jG2+Le7kvj8FjqUWFiVevMo3aOk243TjYw4EbhxeNw4k2tYt+TNgT+2jU1rHPjnDdONx/H2dkRpAE48bhUU2wWxO+EK53R/i4cfieJjipHfwbN4KTfE3uxXbch/vyGDLWtPHxGPteULKVyN6rCc9MBulwjAOtRvYxTc9e12xrHF5gm/WHnrgxbbyeAbtSyPzTfL13f++1XQ4e1WSfZx9Nk3JGE65VC4Huof57jIOfJJs/C+Gv0+w14REfJGxJHdNZEDKH02xkuUz65Bg4FpUneobt3YbwRyEwsnFgy83GwTn+3uXsg0l9uADJpHy/Ybj/pun3ZYxfJHPbk8ewD4sCfo/tCT+TGH6oRLgmD65KU/0u7eB0yETvaH2Fv47vyoy/lNSPZRmvR8mOdmi5LzefWU+Wbexxe03SGMbBDiG4Ox5ztL5COxj1EwmnOba2kq0O2jsNwSnJwhFec5cmAp+RYD7I7B9IJ7ejbJPWXzv4KLaLoD5l3RN+LhN5qudQ7Y62kK1E9dulmnIWv9DUtypJbtrB8axxOHt++8LDUsgusDT5WlpmA4yDE3GlH4KHpvruWxWKGS8ZjnVeZDXZ24IzTfhl0hrka5Klv1RO4OrNPpqVNcU/wVeSkBPVwdrqy3LSM2BXasLvguS4WCTZPTL23NVh/1U5IRxm2FfSfV/4/JJhpSVNTEsYB2+FjV7T07ek2bEcRVL/qZzAY7OPLOlzjGHr0gRvzt0JwcGYcAP7suxkdllO51ROCFtfmsom7RrYJ7EcmLMTTbBL5Pxyth2uDXuiyglh72910OBYJZZdc3fSgK0iVZdld6lKp5+25gseO6lKJ9g5r0rYOmcnPfE+B+PcsoqAiRClWHyscgKPHRN2FuYbbyY0YeQd4VNpNsbB6yKj11ROMA7faOVjtopUs1oTDj/hB/YkGz5h+bN07UmVE3jCs05zHBvHKAVrx2U7qg7WVsubiJYP63k+roXC2DIGh+c3jWy7dV7OqvEzLowkPow3NTWhlqm8MKGWZZIlGOcY+dlZ5Q0TCBfET0uUhHNCmeFOwZRrOB+Uku4UzJUmaevfNb1tCH6dzWnmSmya4Kwm2Bm/QOAPnQ5oAYnvZMJn+Qv/tU4VFJrshpDpxVP9coYJPEvCBYVZwhmG+BUoL2xVUHQ5rEjR+o0Jv7PEtiW9PD54LAGymvTyybQXdS2bNF4l4YLAlBkWlJIuCEwpaUEp6YLAlJIWlJIuCEwpaUEp6YLAlJIWlJIuvKTJ/0S37b8u7yAqEa6JOTk8P+OmcfhhPBsE+4tA2pOFAz6JuG+GQfeQvd8Q/Fm4l3cO/0hNoEjg/dn+GG0xN//vf7hvOtn/AVSuhKPnU5zpAAAAAElFTkSuQmCC" />
+                  <h1>
+                    <i class="fas fa-box-open text-gradient text-secondary"></i>
+                  </h1>
                 </div>
-                <div class="d-flex flex-column datos ps-3">
-                  <div class="titulo">Promedio de Donaciones</div>
-                  <div *ngIf="averageDonations > 0; else noDataPromedio">
-                    <div class="numero">
-                      {{ averageDonations | number : "1.0-2" }}
+                <div class="d-flex flex-column data ps-3">
+                  <div class="title">Promedio de donaciones</div>
+                  <div *ngIf="averageDonations > 0; else noDataAvg">
+                    <div class="number">
+                      {{ averageDonations | number : "1.0-2" }} u.
                     </div>
                   </div>
-                  <ng-template #noDataPromedio>
-                    <div class="numero">No hay datos disponibles</div>
+                  <ng-template #noDataAvg>
+                    <div class="number">No hay datos disponibles</div>
                   </ng-template>
                 </div>
               </div>
               <div class="divider m-0 d-md-none d-sm-block"></div>
             </div>
-            <div class="col-sm-2 col-md-2 col-xl-3">
-              <div class="card subcaja text-left d-flex flex-row h-100">
+            <div class="col-md-3">
+              <div class="card subcontainer text-left d-flex flex-row h-100">
                 <div class="d-flex align-items-center">
-                  <img
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAF20lEQVR4nO1ba2hcRRSexAeoqPhWUEFQ8VH84w9Fmp3ZPMRHlSjcc26aaBG0Sm191BcqJbX1if+s/hDxj1XQSEFLm1LT5Mxu0tDUWFutL/CBv3wUrFrQ2mpXzr2bvXM3yebeu3M3m2Y/mF/NPXPm2zNzznxzKkQDDTTQQAO1Qes29xw15EhJcJckXK40PuEPWCbJ6ZGEqm2g8wxxtKAl132eJOc+pbFPEf6qNBYijp/4GyaKbYg5hUJvc1bj7YqgX2r8N8aipxyS4D+pYVNWw01sW9QtCqKJw1gRfFlhQfsl4ZjS8JbSsE4SvOgPfE1pXK8IdyqNB6b/Hr6SBJ2i3tCad6+SBNun+vWUxgHe79lB90omaUZjBdGU0Xi50rhSathWtBG2q3GkNe9cUZPFVURBNCkNjyuNh0NOEvymNKyR1H2+qBItOecipeEF36Y5B/6lND4YidQ0cMOO7lMk4eayEP1bEjxz3citJ9ueb+Hw4tOUhpd5jrIo27BofNGJotbpTBJ+EnYEc5Kci9OeW1LXZUrDx2Vzj7FPonaLh2/K9vlap885Jo6dtjxeqgi/lwTfZXTXJXG+vXp86XF+NITOhs+vH3VOF2mHvSLYZez1Q1mNi5PYUhqfMkh8MokNSc495vnDkZDG9gvSnIZN5uLVkHuzSAhJuNpwfHVSO1ntgFlvSMJVIg0o/7QvhX3SX942Ab4tuDtIl+4DIo08r/gXD/bb2mpt2iSAoYbca7hIinsWRQx9HDFPexuT2CYgNUgub0N53k6qmxsEFHqbzdqeixxbpucEAVm+1RnlLafBeUWA0rDFCP81Nm3XggDerlxCJxcztJ9fvTu5hYtNLQkoCjH8w+1LVCbLkgFvDNh3MG0C4B0jepfFNqBYxgocXD7XCOBFG1fnjfENUKDheWLGHCOAL1hGBOyL6ZxzrqG+/G5bdGD1V2rcbaTXPRmNN1oXawwRpX3YuTDyt2rIkQEBsMOmX3zzq6D59VqeqyTTZXNua+QPVc5ZYji23qJD7RUEU96rRzLa7bA2n4YPSrZzzpI4jq4wHHvFlkOK4CNj32/m1MqDJXRjvk+DB5PJQxI+xmJKtHXgm8F87sNJw/R5YQl8GAUOBXVFSw4vqBgZk1Rh+DbaOvAl47unZ58Awj9rSQBrFsF8TtesbwFJMGjcLfp54f7ijZKb8LPgwWSqgasia4jeYw3ewSNWJlMpHYIsoc34Cw9hm5htZHOQMQ6rMZu2WU2aNrTT0vMSPWPr9AohjoTidjjAB6Mk2Goz/VmBJPjFqNQWiPkGSfieQcAKMd+gcnCvQcCgmG9o9c+BwxOCCKcrMd8gw6+/Vb8FVItrR50TJOGjleuE0HiW3zQST5jR7m0GAfttiqJJwGkyTsVYTK0/Jp+x0NssCb+olygodpYV4o4qJ3W6jJrgYNynbKvwfhBwK9wW37BOgPCVlbxRw+clyWNFncHZ6xxf3jhhhwDhFUULzMdRSfCcqDOErr7hh9zqCWAoDY8YN7Yj3MQo6gRZDXeyT6b4YZ0A4W0F3GiynNFwi6iD57twgwRs8LvXbBMghOD2E6lx3CTBu2vPErgxIhTuBLvaB5xT+d9SIYDRsb3nbKnxa3M7sGpUy4OR+xMmNUl5QkrXmRN/kxoBEyRMceIORxUrqz2Q/XZbUyLD3eyT+XepElDaDgQfljlykDPERBjaBLfAsW1J+E8Z8X0dW3tOKv/71Anw4B82K8vTDosoXIfHeo2ZBmzDS3GGoDpBNhc/04k1JZ8IDokahWVuch3OnVtA3NPrXUoiKEt8lhSbrx9ShKNmejMWr7ljdAafXvWzA6wTNUGBFVhwpYa9019M4A9uiZeEb3sOBre214v/qWJneS9w2fd7eI6oEp39jrHo9Xpnsaky3EWeZHAoE/R7j6ez1RlejaiS1bhUErwrNfwcfeHwg9LwPsvziVtc6hEL885ZGY0t3rtDzr1/4hbHJHHLK8vxR9WCG2iggQZEneN/w/HOGtiFXI8AAAAASUVORK5CYII=" />
+                  <h1>
+                    <i class="fas fa-award text-gradient text-secondary"></i>
+                  </h1>
                 </div>
-                <div class="d-flex flex-column datos ps-3">
-                  <div class="titulo">Producto Más Donado</div>
+                <div class="d-flex flex-column data ps-3">
+                  <div class="title">Producto más donado</div>
                   <div *ngIf="
                               productMostDonate && productMostDonate.amount > 0;
-                              else noDataProducto
+                              else noDataProduct
                             ">
-                    <div class="numero">
-                      {{ productMostDonate.product }}: {{ productMostDonate.amount }}
+                    <div class="number">
+                      <span class="text-capitalize">{{ productMostDonate.product }}</span>: {{ productMostDonate.amount }} u.
                     </div>
                   </div>
-                  <ng-template #noDataProducto>
-                    <div class="numero">No hay datos disponibles</div>
+                  <ng-template #noDataProduct>
+                    <div class="number">No hay datos disponibles</div>
                   </ng-template>
                 </div>
               </div>
@@ -114,74 +117,69 @@
             <input matInput (keyup)="applyFilter($event)" placeholder="Podés escribir nombre, producto, correo, etc."
               #input />
           </mat-form-field>
-          
-          <!-- Botón para habilitar checkboxes -->
-          <button (click)="toggleCheckboxes()" class="btn btn-primary mb-3">Editar Estados</button>
-
-          <!-- Tu tabla de donaciones -->
           <div class="card table-responsive">
             <table mat-table [dataSource]="dataSource" matSort class="responsive-table">
               <!-- Name Column -->
               <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header
-                  class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Donador</th>
+                  class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Donador</th>
                 <td mat-cell *matCellDef="let row" [ngClass]="{ highlight: row.highlight }">
-                  <h6 class="mb-0 text-xs">{{ row.name }}</h6>
+                  <h6 class="mb-0">{{ row.name }}</h6>
                 </td>
               </ng-container>
               <!-- Telefono Column -->
               <ng-container matColumnDef="telefono">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header
-                  class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Teléfono</th>
+                  class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Teléfono</th>
                 <td mat-cell *matCellDef="let row" [ngClass]="{ highlight: row.highlight }">
-                  <a class="text-xs link" target="_blank" [href]="getWhatsAppLink(row)">
-                    {{ row.telefono }}
+                  <a class="link" target="_blank" [href]="getWhatsAppLink(row)">
+                    {{ row.telefono }} <i class="far fa-comment-dots"></i>
                   </a>
                 </td>
               </ng-container>
               <!-- Email Column -->
               <ng-container matColumnDef="email">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header
-                  class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Correo</th>
+                  class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Correo electrónico</th>
                 <td mat-cell *matCellDef="let row" [ngClass]="{ highlight: row.highlight }">
-                  <a class="text-xs link" [href]="getEmailLink(row)">
-                    {{ row.email }}
+                  <a class="link" [href]="getEmailLink(row)">
+                    {{ row.email }} <i class="far fa-comment-dots"></i>
                   </a>
                 </td>
               </ng-container>
               <!-- Producto Column -->
               <ng-container matColumnDef="producto">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header
-                  class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Producto</th>
+                  class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Producto</th>
                 <td mat-cell *matCellDef="let row" [ngClass]="{ highlight: row.highlight }">
-                  <h6 class="mb-0 text-xs">{{ row.producto }}</h6>
+                  <h6 class="mb-0">{{ row.producto }}</h6>
                 </td>
               </ng-container>
               <!-- Cantidad Column -->
               <ng-container matColumnDef="cantidad">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header
-                  class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cantidad</th>
+                  class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Cantidad</th>
                 <td mat-cell *matCellDef="let row" [ngClass]="{ highlight: row.highlight }" class="text-center">
-                  <h6 class="mb-0 text-xs">{{ row.cantidad }}</h6>
+                  <h6 class="mb-0">{{ row.cantidad }}</h6>
                 </td>
               </ng-container>
               <!-- Estado Column-->
               <ng-container matColumnDef="estado">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header
-                  class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Estado </th>
+                  class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7"> Estado </th>
                 <td mat-cell *matCellDef="let row">
-                  <button class="btn-estado"
+                  <button class="btn-status text-bold"
                     [ngClass]="{'yellow-background': row.estado === 'Pendiente', 'green-background': row.estado === 'Recibido'}">{{row.estado}}</button>
                 </td>
               </ng-container>
               <!-- Checkbox Column -->
               <ng-container matColumnDef="select">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header
-                  class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> Seleccionar
+                  class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7"> Seleccionar
                 </th>
                 <td mat-cell *matCellDef="let row">
                   <div class="checkbox-container">
-                    <mat-checkbox [(ngModel)]="row.selected" [disabled]="row.estado === 'Recibido'"
+                    <mat-checkbox color="primary" [(ngModel)]="row.selected" [disabled]="row.estado === 'Recibido'"
                       [ngClass]="{'blocked': row.estado === 'Recibido'}"></mat-checkbox>
                   </div>
                 </td>
@@ -192,17 +190,28 @@
                 <td class="mat-cell" colspan="5"> No hay datos que coincidan con el filtro "{{ input.value }}" </td>
               </tr>
             </table>
+
             <!-- Botón para cambiar estados seleccionados -->
             <button *ngIf="checkboxEnabled" (click)="updateSelectedStates()" class="btn btn-success mt-3">Marcar como
-              Recibido</button>
+              recibido</button>
+              
             <!-- Paginación -->
-            <div *ngIf="existDonations" class="pb-3">
-              <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
-                aria-label="Select page of periodic elements"></mat-paginator>
+            <div *ngIf="existDonations" class="pb-2">
+              <mat-paginator [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
             </div>
+
           </div>
-          <div class="text-center">
-            <button (click)="exportAsExcel()" type="submit" class="btn btn-round bg-gradient-primary mt-4"><i class="fas fa-file-excel"></i> Descargar Excel</button>
+
+          <p class="small mt-3">Podés contactarte con los donadores haciendo click en el teléfono o en el correo electrónico.</p>
+
+
+          <div class="row text-center mt-4">
+            <div class="col-md-6 text-md-end text-center">
+              <button (click)="exportAsExcel()" type="submit" class="btn btn-round bg-gradient-primary"><i class="fas fa-file-excel"></i> Descargar Excel</button>
+            </div>
+            <div class="col-md-6 text-md-start text-center">
+              <button (click)="toggleCheckboxes()" class="btn btn-round bg-gradient-secondary">Editar estados</button>
+            </div>
           </div>
         </div>
 

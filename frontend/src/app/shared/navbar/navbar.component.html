@@ -4,7 +4,7 @@
         <nav class="navbar navbar-expand-lg  blur blur-rounded top-0 z-index-fixed shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
           <div class="container-fluid px-0">
             <a class="navbar-brand font-weight-bolder ms-sm-3" href="#">
-              <img src="assets/logos/ReCrea.svg">
+              <img src="assets/logos/reCrea-navbar.svg">
             </a>
             <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon mt-2">
@@ -50,16 +50,16 @@
                   </a>
                   <ul class="dropdown-menu" style="overflow: hidden;">
                     <li *ngIf="role == 'usuario'">
-                      <a class="dropdown-item" href="/mi-cuenta" routerLinkActive="active-link">Mi Cuenta</a>
+                      <a class="dropdown-item" href="/mi-cuenta" routerLinkActive="active-link">Mi cuenta</a>
                     </li>
                     <li *ngIf="role == 'organizacion'">
-                      <a class="dropdown-item" routerLink="/mis-datos" routerLinkActive="active-link">Mis Datos</a>
+                      <a class="dropdown-item" routerLink="/mis-datos" routerLinkActive="active-link">Mis datos</a>
                     </li>
                     <li *ngIf="role == 'usuario'">
-                      <a class="dropdown-item" routerLink="/mis-ideas" routerLinkActive="active-link">Mis Ideas</a>
+                      <a class="dropdown-item" routerLink="/mis-ideas" routerLinkActive="active-link">Mis ideas</a>
                     </li>
                     <li *ngIf="role == 'organizacion'">
-                      <a class="dropdown-item" routerLink="/mi-organizacion" routerLinkActive="active-link">Mi Organización</a>
+                      <a class="dropdown-item" routerLink="/mi-organizacion" routerLinkActive="active-link">Mi organización</a>
                     </li>
                     <li (click)="logout()">
                       <a class="dropdown-item">Salir</a>
@@ -67,20 +67,6 @@
                   </ul>
                 </li>
               </ul>
-              <!-- <li class="nav-item ms-lg-auto">
-              <a class="nav-link nav-link-icon me-2" href="https://github.com/creativetimofficial/soft-ui-design-system" target="_blank">
-                <i class="fa fa-github me-1"></i>
-                <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Star us on Github">Github</p>
-              </a>
-            </li>
-            <li class="nav-item my-auto ms-3 ms-lg-0">
-              <a href="https://www.creative-tim.com/builder?ref=navbar-soft-design-system" class="btn btn-sm btn-outline-primary btn-round mb-0 me-1 mt-2 mt-md-0">Online Builder</a>
-            </li>
-            <li class="nav-item my-auto ms-3 ms-lg-0">
-              
-              <a href="https://www.creative-tim.com/product/soft-ui-design-system-pro" class="btn btn-sm  bg-gradient-primary  btn-round mb-0 me-1 mt-2 mt-md-0">Upgrade to Pro</a>
-              
-            </li> -->
             </div>
           </div>
         </nav>

@@ -7,7 +7,7 @@
     <div class="container">
       <div class="card blur justify-content-center shadow-lg mt-7 mb-5 px-lg-4 pb-3">
         <div class="row text-center mx-1 mt-4">
-          <h2>Editá tu <span class="text-gradient text-secondary">sede</span></h2>
+          <h2>Editá <span class="text-gradient text-secondary">tu sede</span></h2>
         </div>
         <div class="card-body pb-2 pt-0">
           <form class="my-4" [formGroup]="headquartersForm" >
@@ -16,7 +16,7 @@
                 <label for="nombre" class="form-label required">Nombre</label>
                 <input type="text" class="form-control input-field" [class.error]="
                   headquartersForm.get('nombre')?.touched && headquartersForm.get('nombre')?.errors
-                " id="nombre" formControlName="nombre" placeholder="Ej: Julieta" />
+                " id="nombre" formControlName="nombre" placeholder="Nombre" />
                 <small *ngIf="
                   headquartersForm.get('nombre')?.touched && headquartersForm.get('nombre')?.errors
                 " class="text-danger">El nombre es requerido</small>
@@ -25,10 +25,21 @@
                 <label for="telefono" class="form-label required">Teléfono</label>
                 <input type="text" class="form-control input-field" [class.error]="
                   headquartersForm.get('telefono')?.touched && headquartersForm.get('telefono')?.errors
-                " id="telefono" formControlName="telefono" placeholder="Ej: 123456789" />
+                " id="telefono" formControlName="telefono" placeholder="1123456789" />
                 <small *ngIf="
                   headquartersForm.get('telefono')?.touched && headquartersForm.get('telefono')?.errors
                 " class="text-danger">El teléfono es requerido</small>
+              </div>
+              <div class="col-md-6">
+                <label for="direccion" class="form-label required">Dirección</label>
+                <input type="text" class="form-control input-field" [class.error]="
+                  headquartersForm.get('direccion')?.touched &&
+                  headquartersForm.get('direccion')?.errors
+                " id="direccion" formControlName="direccion" placeholder="Dirección 123" />
+                <small *ngIf="
+                  headquartersForm.get('direccion')?.touched &&
+                  headquartersForm.get('direccion')?.errors
+                " class="text-danger">La dirección es requerida</small>
               </div>
               <div class="col-md-6">
                 <label for="provincia" class="form-label required"
@@ -36,7 +47,7 @@
                 >
                 <select
                   (change)="onProvinceChange()"
-                  class="form-control input-field"
+                  class="form-control form-select input-field"
                   [class.error]="
                     headquartersForm.get('provincia')?.dirty &&
                     headquartersForm.get('provincia')?.errors
@@ -44,8 +55,8 @@
                   id="provincia"
                   formControlName="provincia"
                 >
-                  <option value="" selected>
-                    Seleccionar Provincia
+                  <option value="" selected disabled>
+                    Seleccionar provincia
                   </option>
                   <option
                     *ngFor="let prov of provinces"
@@ -64,9 +75,9 @@
                 >
               </div>
               <div class="col-md-6">
-                <label for="localidad" class="form-label required">Localidades</label>
+                <label for="localidad" class="form-label required">Localidad</label>
                 <select
-                  class="form-control input-field"
+                  class="form-control form-select input-field"
                   [class.error]="
                     headquartersForm.get('localidad')?.dirty &&
                     headquartersForm.get('localidad')?.errors
@@ -75,7 +86,7 @@
                   required
                   formControlName="localidad"
                 >
-                  <option value="" selected>Seleccionar Localidad</option>
+                  <option value="" selected disabled>Seleccionar localidad</option>
                   <option
                     *ngFor="let local of localidades"
                     [value]="local.nombre"
@@ -91,17 +102,6 @@
                   class="text-danger"
                   >La localidad es requerida</small
                 >
-              </div>
-              <div class="col-md-6">
-                <label for="direccion" class="form-label required">Dirección</label>
-                <input type="text" class="form-control input-field" [class.error]="
-                  headquartersForm.get('direccion')?.touched &&
-                  headquartersForm.get('direccion')?.errors
-                " id="direccion" formControlName="direccion" placeholder="Ej: Calle 123" />
-                <small *ngIf="
-                  headquartersForm.get('direccion')?.touched &&
-                  headquartersForm.get('direccion')?.errors
-                " class="text-danger">La dirección es requerida</small>
               </div>
             </div>
             

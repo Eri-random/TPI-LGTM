@@ -6,7 +6,7 @@
             <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-8 mb-5 ">
               <div class="pb-0 text-left py-4 px-4">
                 <h4 class="font-weight-bolder">Ingresar</h4>
-                <p class="mb-0">Ingresá tu correo y contraseña para ingresar</p>
+                <p class="mb-0">Ingresá tu correo y contraseña para iniciar sesión</p>
               </div>
               <div class="card-body">
                 <form role="form" [formGroup]="loginForm">
@@ -15,15 +15,15 @@
                     <div class="input-field" [class.error]="loginForm.controls['email'].dirty && loginForm.hasError('required','email')">
                       <input id="email" class="form-control form-control-lg" formControlName="email" type="email" placeholder="correo@correo.com" aria-label="Email" aria-describedby="email-addon">
                     </div>
-                    <small *ngIf="loginForm.controls['email'].dirty && loginForm.hasError('required','email')" class="text-danger">Correo electrónico requerido</small>
+                    <small *ngIf="loginForm.controls['email'].dirty && loginForm.hasError('required','email')" class="text-danger">El correo electrónico es requerido</small>
                   </div>
                   <div class="form-group mb-3">
                     <label for="password" class="form-label required">Contraseña</label>
                     <div class="input-field" [class.error]="loginForm.controls['password'].dirty && loginForm.hasError('required','password')">
                       <input id="password" formControlName="password" class="form-control form-control-lg" [type]="type" placeholder="Contraseña" aria-label="Password" aria-describedby="password-addon">
-                      <!-- <span (click)="hideShowPass()" class="fa {{eyeIcon}}"></span> -->
+                      <!-- <span class="input-group-text" (click)="hideShowPass()" class="fa {{eyeIcon}}"></span> -->
                     </div>
-                    <small *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required','password')" class="text-danger">Contraseña requerida</small>
+                    <small *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required','password')" class="text-danger">La contraseña es requerida</small>
                   </div>
                   <small *ngIf="!(loginForm.controls['password'].dirty && loginForm.hasError('required','password')) && error" class="text-danger">{{error}}</small>
                   <div class="text-center">
@@ -41,7 +41,7 @@
             <div class="position-relative bg-gradient-secondary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center">
               <img src="../assets/img/shapes/pattern-lines.svg" alt="pattern-lines" class="position-absolute opacity-4 start-0">
               <div class="position-relative">
-                <img class="w-60 position-relative z-index-2" src="../assets/logos/ReCrea-blanco.svg">
+                <img class="w-60 position-relative z-index-2" src="../assets/logos/reCrea-white.svg">
               </div>
               <div class="d-flex justify-content-center mt-4">
                 <div class="text-white w-50">
