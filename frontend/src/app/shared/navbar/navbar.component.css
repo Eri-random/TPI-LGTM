@@ -10,3 +10,12 @@
 .blur.blur-rounded {
     border-radius: 1rem;
 }
+
+.navbar .nav-link {
+    color: #323232;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+.navbar .nav-link:hover {
+    color: #8BC53F;
+}

@@ -15,5 +15,6 @@ namespace backend.servicios.Interfaces
 
         Task<IEnumerable<DonationDto>> GetDonationsByOrganizationIdAsync(int organizacionId);
 
+        Task UpdateDonationsStateAsync(List<int> donationIds, string state);
     }
 }

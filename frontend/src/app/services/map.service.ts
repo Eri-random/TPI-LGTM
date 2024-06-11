@@ -26,6 +26,16 @@ export class MapService {
     return this.http.get<Provinces>(url);
   }
 
+  getLocalities(provinceId: number) {
+    const url = `https://apis.datos.gob.ar/georef/api/localidades?provincia=${provinceId}&campos=id`;
+    return this.http.get(url);
+  }
+
+  getLocalitiesFilter(provinceId: number,total: string){
+    const url = `https://apis.datos.gob.ar/georef/api/localidades?provincia=${provinceId}&campos=id,nombre&max=${total}`;
+    return this.http.get(url);
+  }
+
   async getPolygonosProvinces() {
     const response = await fetch('assets/ProvinciasArgentina.geojson');
     return await response.json();

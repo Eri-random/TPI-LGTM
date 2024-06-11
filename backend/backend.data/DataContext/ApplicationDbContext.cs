@@ -45,6 +45,7 @@ namespace backend.data.DataContext
 
                 entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.Cantidad).HasColumnName("cantidad");
+                entity.Property(e => e.Estado).HasColumnName("estado");
                 entity.Property(e => e.OrganizacionId).HasColumnName("organizacion_id");
                 entity.Property(e => e.Producto)
                     .IsRequired()

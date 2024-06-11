@@ -27,7 +27,12 @@ export class ResponseIdeaComponent {
 
   ngOnInit(): void {
     this.response = this.responseIdeaService.getGeneratedIdea();
-    this.email = this.authService.getEmailFromToken();
+    
+    this.userStore.getEmailFromStore()
+    .subscribe(val =>{
+      const emailFromToken = this.authService.getEmailFromToken();
+      this.email = val || emailFromToken;
+    });
         
     this.userStore.getUserByEmail(this.email).subscribe(resp =>{
       this.userId = resp.id;
@@ -58,13 +63,21 @@ export class ResponseIdeaComponent {
             detail: 'EXITO',
             summary: 'Idea guardada exitosamente',
             duration: 3000,
-            position: 'topCenter',
+            position: 'topRight',
           });
 
           setTimeout(() => {
             this.router.navigate(['/mis-ideas']);
           }, 3000);
         },
+        error: (error:any) => {
+          this.toast.error({
+            detail: 'ERROR',
+            summary: error.error,
+            duration: 3000,
+            position:'topRight',
+          });
+        }
       });
   }
 }

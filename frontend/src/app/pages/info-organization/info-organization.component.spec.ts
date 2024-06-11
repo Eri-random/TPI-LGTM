@@ -5,19 +5,23 @@ import { ActivatedRoute } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { InfoOrganizationComponent } from './info-organization.component';
 import { OrganizationService } from 'src/app/services/organization.service';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { DialogDonateComponent } from './dialog-donate/dialog-donate.component';
 
 describe('InfoOrganizationComponent', () => {
   let component: InfoOrganizationComponent;
   let fixture: ComponentFixture<InfoOrganizationComponent>;
-  let mockOrganizationService: any;
+  let organizationServiceMock: any;
+
   let mockSanitizer: any;
   let mockDialog: any;
   let mockActivatedRoute: any;
 
   beforeEach(async () => {
-    mockOrganizationService = jasmine.createSpyObj('OrganizationService', ['getOrganizationById']);
+    organizationServiceMock = {
+      getOrganizationById: jasmine.createSpy('getOrganizationById').and.returnValue(of({ id: 1 })),
+      getGroupedSubcategories: jasmine.createSpy('getGroupedSubcategories').and.returnValue(of([])),
+    };
     mockSanitizer = jasmine.createSpyObj('DomSanitizer', ['bypassSecurityTrustHtml']);
     mockDialog = jasmine.createSpyObj('MatDialog', ['open']);
     mockActivatedRoute = {
@@ -27,12 +31,13 @@ describe('InfoOrganizationComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [InfoOrganizationComponent],
       providers: [
-        { provide: OrganizationService, useValue: mockOrganizationService },
+        { provide: OrganizationService, useValue: organizationServiceMock },
         { provide: DomSanitizer, useValue: mockSanitizer },
         { provide: MatDialog, useValue: mockDialog },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA,
+        NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 
@@ -54,13 +59,13 @@ describe('InfoOrganizationComponent', () => {
       }
     };
 
-    mockOrganizationService.getOrganizationById.and.returnValue(of(mockData));
+    organizationServiceMock.getOrganizationById.and.returnValue(of(mockData));
     mockSanitizer.bypassSecurityTrustHtml.and.returnValue('safeHtmlContent');
 
     component.ngOnInit();
 
     expect(mockActivatedRoute.params.subscribe).toBeTruthy();
-    expect(mockOrganizationService.getOrganizationById).toHaveBeenCalledWith(1);
+    expect(organizationServiceMock.getOrganizationById).toHaveBeenCalledWith(1);
     expect(component.safeContent).toBe('safeHtmlContent');
     expect(component.organization).toEqual(mockData);
   });
@@ -68,12 +73,12 @@ describe('InfoOrganizationComponent', () => {
   it('debería manejar errores al cargar datos de la organización', () => {
     const errorResponse = new Error('Error al cargar la organización');
 
-    mockOrganizationService.getOrganizationById.and.returnValue(throwError(() => errorResponse));
+    organizationServiceMock.getOrganizationById.and.returnValue(throwError(() => errorResponse));
     spyOn(console, 'error');
 
     component.ngOnInit();
 
-    expect(mockOrganizationService.getOrganizationById).toHaveBeenCalledWith(1);
+    expect(organizationServiceMock.getOrganizationById).toHaveBeenCalledWith(1);
     expect(console.error).toHaveBeenCalledWith(errorResponse);
   });
 
@@ -96,7 +101,7 @@ describe('InfoOrganizationComponent', () => {
 
     expect(mockDialog.open).toHaveBeenCalledWith(DialogDonateComponent, {
       width: 'auto',
-      height: '80%',
+      height: '75%',
       data: { organizacionId: 1 }
     });
   });

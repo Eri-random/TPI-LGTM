@@ -19,6 +19,8 @@ namespace backend.servicios.DTOs
 
         public int OrganizacionId { get; set; }
 
+        public string Estado { get; set; }
+
         public string ?Cuit { get; set; }
 
         public virtual OrganizationDto Organizacion { get; set; }
