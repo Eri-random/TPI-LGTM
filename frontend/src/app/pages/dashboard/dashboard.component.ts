@@ -234,7 +234,7 @@ export class DashboardComponent implements OnInit {
         detail: 'EXITO',
         summary: 'Nueva donación recibida',
         duration: 5000,
-        position: 'bottomRight',
+        position: 'topRight',
       });
 
       setTimeout(() => {

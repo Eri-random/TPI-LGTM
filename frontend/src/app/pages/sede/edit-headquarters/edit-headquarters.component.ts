@@ -178,7 +178,7 @@ export class EditHeadquartersComponent implements OnInit {
         detail: 'EXITO',
         summary: `${this.headquartersForm.value.nombre} actualizada correctamente`,
         duration: 3000,
-        position: 'bottomRight',
+        position: 'topRight',
       });
 
       // this.router.navigate(['/sedes']);
@@ -187,7 +187,7 @@ export class EditHeadquartersComponent implements OnInit {
         detail: 'ERROR',
         summary: 'No se pudo actualizar la sede',
         duration: 3000,
-        position: 'bottomRight',
+        position: 'topRight',
       });
     });
   }

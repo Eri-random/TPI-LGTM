@@ -63,14 +63,14 @@ export class MyIdeasComponent implements OnInit {
           detail: 'EXITO',
           summary: 'Idea eliminada exitosamente',
           duration: 5000,
-          position: 'bottomRight',
+          position:'topRight',
         });
       },
       error: ({ error }) => {
         this.toast.error({
           detail: 'Error al eliminar la idea',
           duration: 5000,
-          position: 'bottomRight',
+          position: 'topRight',
         });
       },
     });

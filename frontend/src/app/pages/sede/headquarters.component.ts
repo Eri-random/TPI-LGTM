@@ -96,14 +96,14 @@ export class SedeComponent implements OnInit {
         detail: 'EXITO',
         summary: 'Sede eliminada correctamente',
         duration: 3000,
-        position: 'bottomRight',
+        position: 'topRight',
       });
     }, error =>{
       this.toast.error({
         detail: 'ERROR',
         summary: 'Error al eliminar la sede',
         duration: 3000,
-        position: 'bottomRight',
+        position: 'topRight',
       });
     });
   }

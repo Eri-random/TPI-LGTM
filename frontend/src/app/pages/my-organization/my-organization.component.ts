@@ -151,7 +151,7 @@ export class MyOrganizationComponent {
         detail:
           'Ocurrió un error al intentar guardar la información. Intente nuevamente.',
         duration: 5000,
-        position: 'bottomRight',
+        position: 'topRight',
       });
     } else {
       console.error('Error:', error.message);
@@ -159,7 +159,7 @@ export class MyOrganizationComponent {
         detail:
           'Ocurrió un error al intentar guardar la información. Intente nuevamente.',
         duration: 5000,
-        position: 'bottomRight',
+        position: 'topRight',
       });
     }
   }
@@ -168,7 +168,7 @@ export class MyOrganizationComponent {
     this.toast.success({
       detail: 'La información se guardó correctamente.',
       duration: 5000,
-      position: 'bottomRight',
+      position: 'topRight',
     });
   }
 }

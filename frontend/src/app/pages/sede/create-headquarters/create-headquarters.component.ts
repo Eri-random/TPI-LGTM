@@ -157,14 +157,14 @@ export class CreateHeadquartersComponent implements OnInit {
             detail: 'EXITO',
             summary: 'Sedes guardadas con éxito',
             duration: 3000,
-            position: 'bottomRight',
+            position: 'topRight',
           });
         } else {
           this.toast.success({
             detail: 'EXITO',
             summary: 'Sede guardada con éxito',
             duration: 3000,
-            position: 'bottomRight',
+            position: 'topRight',
           });
         }
 
@@ -177,7 +177,7 @@ export class CreateHeadquartersComponent implements OnInit {
           detail: 'ERROR',
           summary: 'Ocurrió un error al procesar la solicitud!',
           duration: 3000,
-          position: 'bottomRight',
+          position: 'topRight',
         });
       }
     );

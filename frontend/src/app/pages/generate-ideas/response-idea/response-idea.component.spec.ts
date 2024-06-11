@@ -94,7 +94,7 @@ describe('ResponseIdeaComponent', () => {
       detail: 'EXITO',
       summary: 'Idea guardada exitosamente',
       duration: 3000,
-      position: 'topCenter',
+      position: 'topRight',
     });
 
     tick(3000);
@@ -112,7 +112,7 @@ describe('ResponseIdeaComponent', () => {
       detail: 'ERROR',
       summary: 'Error al guardar la idea',
       duration: 3000,
-      position: 'topCenter',
+      position: 'topRight',
     });
     expect(routerMock.navigate).not.toHaveBeenCalledWith(['/mis-ideas']);
   }));
