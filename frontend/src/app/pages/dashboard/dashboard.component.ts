@@ -59,6 +59,7 @@ export class DashboardComponent implements OnInit {
   dataSource: MatTableDataSource<UserData> = new MatTableDataSource();
   selectedDonations: number[] = [];
   loading: boolean = true;
+  encodeURIComponent = encodeURIComponent;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -97,7 +98,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  loadDonations() {
+   loadDonations() {
     this.organizationService
       .getOrganizationByCuit(this.cuit)
       .pipe(
@@ -214,6 +215,7 @@ export class DashboardComponent implements OnInit {
   }
 
   handleNewDonation(data: any) {
+    console.log(data)
     if (data && data.newDonation && data.user) {
       this.totalDonations += data.newDonation.Cantidad;
       this.totalDonationsCount += 1;
@@ -497,6 +499,34 @@ export class DashboardComponent implements OnInit {
       { wch: 20 },
       { wch: 15 },
     ];
+  }
+
+  getWhatsAppLink(row: any): string {
+    const orgName = this.orgName; // Asegúrate de tener orgName definido en tu componente
+    const message = `¡Hola ${row.name}! 
+  
+  Somos de la organización ${orgName}. Queremos agradecerte por tu generosa donación de ${row.producto} (cantidad: ${row.cantidad}).
+  
+  Nos gustaría coordinar la entrega del producto. ¿Podrías indicarnos tu disponibilidad o algún detalle adicional para organizarnos?
+  
+  ¡Gracias por tu apoyo!`;
+
+    return `https://wa.me/${row.telefono}?text=${encodeURIComponent(message)}`;
+  }
+
+  getEmailLink(row: any): string {
+    const orgName = this.orgName; // Asegúrate de tener orgName definido en tu componente
+    const subject = `Coordinación de entrega de donación a ${orgName}`;
+    const body = `¡Hola ${row.name}! 
+  
+  Somos de la organización ${orgName}. Queremos agradecerte por tu generosa donación de ${row.producto} (cantidad: ${row.cantidad}).
+  
+  Nos gustaría coordinar la entrega del producto. ¿Podrías indicarnos tu disponibilidad o algún detalle adicional para organizarnos?
+
+  
+  ¡Gracias por tu apoyo!`;
+  
+    return `mailto:${row.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }
 }
 

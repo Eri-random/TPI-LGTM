@@ -105,7 +105,7 @@ export class SeeIdeaComponent implements OnInit, AfterViewInit {
 
     doc.setFontSize(12);
     doc.setTextColor(80, 80, 80);
-    doc.text('Dificultad: ' + this.idea.dificultad, 28, 56, {
+    doc.text('Nivel de dificultad: ' + this.idea.dificultad, 28, 56, {
       align: 'center',
     });
 
@@ -128,4 +128,5 @@ export class SeeIdeaComponent implements OnInit, AfterViewInit {
 
     doc.save('idea-' + this.idea.titulo + '.pdf');
   }
+  
 }

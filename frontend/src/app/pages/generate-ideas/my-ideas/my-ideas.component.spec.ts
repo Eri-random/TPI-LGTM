@@ -101,7 +101,7 @@ describe('MyIdeasComponent', () => {
     expect(mockToast.error).toHaveBeenCalledWith({
       detail: 'Error al eliminar la idea',
       duration: 5000,
-      position: 'topCenter'
+      position: 'topRight'
     });
   });
 });

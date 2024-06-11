@@ -1,32 +1,3 @@
-.page-header {
-    position: relative;
-    min-height: 100vh;
-    background-size: cover;
-    background-position: center center;
-  }
-  
-  .card-body {
-    padding: 1rem;
-  }
-  
-  .filters-container {
-    position: sticky;
-    top: 150px; /* Ajusta la distancia desde la parte superior según sea necesario */
-  }
-  
-  .card {
-    overflow: hidden;
-  }
-  
-  .card-img-top {
-    height: 200px;
-    object-fit: cover;
-  }
-  
-  .blur {
-    backdrop-filter: blur(10px);
-    background-color: rgba(255, 255, 255, 0.3);
-  }
 .loading-container {
   display: flex;
   justify-content: center;
@@ -62,4 +33,12 @@
   100% {
     transform: rotate(360deg);
   }
+}
+
+.accordion-button {
+  color: #5A5A5A;
+}
+
+.accordion-button:not(.collapsed) {
+  color: #5A5A5A;
 }
