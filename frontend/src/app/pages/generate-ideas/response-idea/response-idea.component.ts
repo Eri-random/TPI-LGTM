@@ -4,6 +4,7 @@ import { NgToastService } from 'ng-angular-popup';
 import { switchMap, tap } from 'rxjs';
 import { Idea } from 'src/app/models/idea';
 import { AuthService } from 'src/app/services/auth.service';
+import { GenerateIdeaService } from 'src/app/services/generate-idea.service';
 import { ResponseIdeaService } from 'src/app/services/response-idea.service';
 import { UserStoreService } from 'src/app/services/user-store.service';
 
@@ -16,13 +17,15 @@ export class ResponseIdeaComponent {
   email: string = '';
   userId: number = 0;
   response: any;
+  img!: string;
 
   constructor(
     private responseIdeaService: ResponseIdeaService,
     private router: Router,
     private toast: NgToastService,
     private authService: AuthService,
-    private userStore: UserStoreService
+    private userStore: UserStoreService,
+    private ideaService: GenerateIdeaService
   ) {}
 
   ngOnInit(): void {
@@ -37,7 +40,6 @@ export class ResponseIdeaComponent {
     this.userStore.getUserByEmail(this.email).subscribe(resp =>{
       this.userId = resp.id;
     })
-          
   }
 
   generateNewIdea() {
