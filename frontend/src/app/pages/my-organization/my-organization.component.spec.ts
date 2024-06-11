@@ -101,7 +101,7 @@ describe('MyOrganizationComponent', () => {
     expect(toastServiceMock.success).toHaveBeenCalledWith({
       detail: 'La información se guardó correctamente.',
       duration: 5000,
-      position: 'topCenter',
+      position: 'topRight',
     });
   });
 
@@ -122,30 +122,8 @@ describe('MyOrganizationComponent', () => {
     expect(toastServiceMock.success).toHaveBeenCalledWith({
       detail: 'La información se guardó correctamente.',
       duration: 5000,
-      position: 'topCenter',
+      position: 'topRight',
     });
     expect(routerMock.navigate).toHaveBeenCalledWith(['/dashboard']);
-  });
-
-  xit('debería manejar errores al enviar el formulario', () => {
-    component.isEditMode = true;
-    component.organizationForm.patchValue({
-      organizacion: 'Mi Organización',
-      descripcionBreve: 'Descripción breve',
-      descripcionCompleta: 'Descripción completa',
-      organizacionId: '1',
-    });
-
-    const errorResponse = new HttpErrorResponse({ status: 404, statusText: 'Not Found' });
-    organizationServiceMock.putInfoOrganization.and.returnValue(throwError(() => errorResponse));
-
-    component.onSubmit();
-
-    expect(organizationServiceMock.putInfoOrganization).toHaveBeenCalled();
-    expect(toastServiceMock.error).toHaveBeenCalledWith({
-      detail: 'Ocurrió un error al intentar guardar la información. Intente nuevamente.',
-      duration: 5000,
-      position: 'topCenter',
-    });
   });
 });

@@ -7,7 +7,7 @@
             <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-8 mb-5">
               <div class="pb-0 text-left py-4 px-4">
                 <h4 class="font-weight-bolder">Crear cuenta</h4>
-                <p class="mb-0">Ingresá tus datos para crear la cuenta</p>
+                <p class="mb-0">Ingresá tus datos para registrarte</p>
               </div>
               <div class="card-body">
 
@@ -51,7 +51,7 @@
               <img src="../assets/img/shapes/pattern-lines.svg" alt="pattern-lines"
                 class="position-absolute opacity-4 start-0">
               <div class="position-relative">
-                <img class="w-60 position-relative z-index-2" src="../assets/logos/ReCrea-blanco.svg">
+                <img class="w-60 position-relative z-index-2" src="../assets/logos/reCrea-white.svg">
               </div>
               <div class="d-flex justify-content-center mt-4">
                 <div class="text-white w-50">
@@ -78,7 +78,7 @@
             <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-8 mb-5 ">
               <div class="pb-0 text-left py-4 px-4">
                 <h4 class="font-weight-bolder">Crear cuenta</h4>
-                <p class="mb-0">Ingresá tus datos para crear la cuenta</p>
+                <p class="mb-0">Ingresá tus datos para registrarte</p>
               </div>
               <div class="card-body">
                 <form role="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
@@ -91,7 +91,7 @@
                           class="form-control form-control-lg">
                       </div>
                       <small *ngIf="registerForm.controls['nombre'].dirty && registerForm.hasError('required','nombre')"
-                        class="text-danger">Nombre requerido</small>
+                        class="text-danger">El nombre es requerido</small>
                     </div>
                     <div class="col-md-6 mb-3" *ngIf="selectedRole == 'usuario'">
                       <label for="apellido" class="form-label required">Apellido</label>
@@ -102,7 +102,7 @@
                       </div>
                       <small
                         *ngIf="registerForm.controls['apellido'].dirty && registerForm.hasError('required','apellido')"
-                        class="text-danger">Apellido requerido</small>
+                        class="text-danger">El apellido es requerido</small>
                     </div>
                   </div>
                   <div class="row">
@@ -122,12 +122,12 @@
                       <label for="direccion" class="form-label required">Dirección</label>
                       <div class="input-field"
                         [class.error]="registerForm.controls['direccion'].dirty && registerForm.hasError('required','direccion')">
-                        <input id="direccion" formControlName="direccion" type="text" placeholder="Dirección"
+                        <input id="direccion" formControlName="direccion" type="text" placeholder="Dirección 123"
                           class="form-control form-control-lg">
                       </div>
-                      <label
+                      <small
                         *ngIf="registerForm.controls['direccion'].dirty && registerForm.hasError('required','direccion')"
-                        class="text-danger">Dirección requerida</label>
+                        class="text-danger">La dirección es requerida</small>
                     </div>
                   </div>
                   <div class="row">
@@ -137,7 +137,7 @@
                       >
                       <select
                         (change)="onProvinceChange()"
-                        class="form-control input-field"
+                        class="form-control form-select input-field"
                         [class.error]="
                         registerForm.get('provincia')?.dirty &&
                         registerForm.get('provincia')?.errors
@@ -145,8 +145,8 @@
                         id="provincia"
                         formControlName="provincia"
                       >
-                        <option value="" selected>
-                          Seleccionar Provincia
+                        <option value="" selected disabled>
+                          Seleccionar provincia
                         </option>
                         <option
                           *ngFor="let prov of provinces"
@@ -165,9 +165,9 @@
                       >
                     </div>
                     <div class="col-md-6 mb-3">
-                      <label for="localidad" class="form-label required">Localidades</label>
+                      <label for="localidad" class="form-label required">Localidad</label>
                       <select
-                        class="form-control input-field"
+                        class="form-control form-select input-field"
                         [class.error]="
                         registerForm.get('localidad')?.dirty &&
                         registerForm.get('localidad')?.errors
@@ -176,7 +176,7 @@
                         required
                         formControlName="localidad"
                       >
-                        <option value="" selected>Seleccionar Localidad</option>
+                        <option value="" selected disabled>Seleccionar localidad</option>
                         <option
                           *ngFor="let local of localidades"
                           [value]="local.nombre"
@@ -202,7 +202,7 @@
                         class="form-control form-control-lg">
                     </div>
                     <small *ngIf="registerForm.controls['cuit'].dirty && registerForm.hasError('required','cuit')"
-                      class="text-danger">CUIT requerido</small>
+                      class="text-danger">El CUIT es requerido</small>
                   </div>
                   <div class="row">
                     <div class="col-md-6 mb-3">
@@ -213,7 +213,7 @@
                           class="form-control form-control-lg">
                       </div>
                       <small *ngIf="registerForm.controls['email'].dirty && registerForm.hasError('required','email')"
-                        class="text-danger">Correo electrónico requerido</small>
+                        class="text-danger">El correo electrónico es requerido</small>
                     </div>
                     <div class="col-md-6 mb-3">
                       <label for="password" class="form-label required">Contraseña</label>
@@ -225,7 +225,7 @@
                       </div>
                       <small
                         *ngIf="registerForm.controls['password'].dirty && registerForm.hasError('required','password')"
-                        class="text-danger">Contraseña requerida</small>
+                        class="text-danger">La contraseña es requerida</small>
                       <small
                         *ngIf="registerForm.controls['password'].dirty && registerForm.hasError('minlength','password')"
                         class="text-danger">La contraseña debe tener al menos 6 caracteres</small>
@@ -251,7 +251,7 @@
               <img src="../assets/img/shapes/pattern-lines.svg" alt="pattern-lines"
                 class="position-absolute opacity-4 start-0">
               <div class="position-relative">
-                <img class="w-60 position-relative z-index-2" src="../assets/logos/ReCrea-blanco.svg">
+                <img class="w-60 position-relative z-index-2" src="../assets/logos/reCrea-white.svg">
               </div>
               <div class="d-flex justify-content-center mt-4">
                 <div class="text-white w-50">

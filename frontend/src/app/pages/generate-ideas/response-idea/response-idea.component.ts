@@ -58,7 +58,7 @@ export class ResponseIdeaComponent {
             detail: 'EXITO',
             summary: 'Idea guardada exitosamente',
             duration: 3000,
-            position: 'topCenter',
+            position: 'topRight',
           });
 
           setTimeout(() => {
@@ -70,7 +70,7 @@ export class ResponseIdeaComponent {
             detail: 'ERROR',
             summary: error.error,
             duration: 3000,
-            position:'topCenter',
+            position:'topRight',
           });
         }
       });

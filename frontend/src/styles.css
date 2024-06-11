@@ -104,7 +104,7 @@ label, .form-label {
 }
 
 .text-gradient.text-secondary {
-    /* background-image: linear-gradient(310deg, #A4C2DB 0%, #4281A4 100%); */
+    background-image: linear-gradient(310deg, #A4C2DB 0%, #4281A4 100%);
     background-color: #4281A4;
 }
 

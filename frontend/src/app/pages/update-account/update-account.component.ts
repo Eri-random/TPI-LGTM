@@ -392,7 +392,7 @@ export class UpdateAccountComponent implements OnInit {
           detail: 'INFO',
           summary: 'No hay datos para actualizar',
           duration: 3000,
-          position: 'topRight',
+          position: 'bottomRight',
         });
         this.toggleEditMode(true);
         return;
@@ -414,7 +414,7 @@ export class UpdateAccountComponent implements OnInit {
           detail: 'INFO',
           summary: 'No hay datos para actualizar',
           duration: 3000,
-          position: 'topRight',
+          position: 'bottomRight',
         });
         this.toggleEditMode(true);
         return;
@@ -435,7 +435,7 @@ export class UpdateAccountComponent implements OnInit {
               detail: 'EXITO',
               summary: `${res.message}`,
               duration: 3000,
-              position: 'topRight',
+              position: 'bottomRight',
             });
           }
         },
@@ -453,7 +453,7 @@ export class UpdateAccountComponent implements OnInit {
               detail: 'EXITO',
               summary: `${res.message}`,
               duration: 3000,
-              position: 'topRight',
+              position: 'bottomRight',
             });
           }
         },
