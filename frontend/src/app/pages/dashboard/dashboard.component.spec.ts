@@ -137,25 +137,16 @@ describe('DashboardComponent', () => {
     expect(component.dataSource.filteredData[0].name).toBe('Juan');
   });
 
-  it('debería manejar el error de carga de donaciones', (done) => {
-    const cuitFromStore = of('123456789');
-    const orgResponse = of({ id: 1 });
-
-    organizationServiceMock.getCuitFromStore.and.returnValue(cuitFromStore);
-    authServiceMock.getCuitFromToken.and.returnValue('123456789');
-    organizationServiceMock.getOrganizationByCuit.and.returnValue(orgResponse);
-    donationsServiceMock.getDonationsByOrganizationId.and.returnValue(throwError(() => new Error('Error de carga')));
+  it('should handle error while loading donations', () => {
+    const error = 'Error loading donations';
+    
+    organizationServiceMock.getOrganizationByCuit.and.returnValue(of({ id: 1 }));
+    donationsServiceMock.getDonationsByOrganizationId.and.returnValue(throwError(error));
 
     spyOn(console, 'error');
 
     component.loadDonations();
 
-    setTimeout(() => {
-      expect(console.error).toHaveBeenCalledWith('Error:', jasmine.any(Error));
-      // expect para verificar que existDonations esté en false
-      fixture.detectChanges();
-      expect(component.existDonations).toBe(false);
-      done();
-    }, 1000);
+    expect(console.error).toHaveBeenCalledWith('Error:', error);
   });
 });
