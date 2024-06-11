@@ -27,7 +27,12 @@ export class ResponseIdeaComponent {
 
   ngOnInit(): void {
     this.response = this.responseIdeaService.getGeneratedIdea();
-    this.email = this.authService.getEmailFromToken();
+    
+    this.userStore.getEmailFromStore()
+    .subscribe(val =>{
+      const emailFromToken = this.authService.getEmailFromToken();
+      this.email = val || emailFromToken;
+    });
         
     this.userStore.getUserByEmail(this.email).subscribe(resp =>{
       this.userId = resp.id;

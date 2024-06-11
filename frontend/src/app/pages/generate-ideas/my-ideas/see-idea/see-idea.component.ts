@@ -26,7 +26,7 @@ export class SeeIdeaComponent implements OnInit, AfterViewInit {
     private responseIdeaService: ResponseIdeaService
   ) {}
   ngAfterViewInit(): void {
-    this.loadImage('assets/logos/recrea.jpg')
+    this.loadImage('assets/logos/reCrea-pdf.jpg')
       .then((base64) => {
         this.logoBase64 = base64;
       })
