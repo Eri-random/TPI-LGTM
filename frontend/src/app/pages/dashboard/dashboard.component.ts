@@ -427,6 +427,7 @@ export class DashboardComponent implements OnInit {
   Somos de la organización ${orgName}. Queremos agradecerte por tu generosa donación de ${row.producto} (cantidad: ${row.cantidad}).
   
   Nos gustaría coordinar la entrega del producto. ¿Podrías indicarnos tu disponibilidad o algún detalle adicional para organizarnos?
+
   
   ¡Gracias por tu apoyo!`;
   
