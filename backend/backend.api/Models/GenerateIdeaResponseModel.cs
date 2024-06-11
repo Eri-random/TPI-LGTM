@@ -19,5 +19,7 @@ namespace backend.api.Models
         /// </summary>
         [JsonProperty("pasos")]
         public string[] Steps { get; set; }
+
+        public string ImageUrl { get; set; }
     }
 }

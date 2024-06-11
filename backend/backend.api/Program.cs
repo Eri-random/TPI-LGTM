@@ -57,7 +57,7 @@ builder.Services.AddSingleton(groqApiConfig);
 builder.Services.AddSingleton<IGenerateIdeaApiService, GroqApiService>();
 builder.Services.AddHttpClient();
 
-var openAiApiConfig = builder.Configuration.GetSection("GroqApiConfig").Get<OpenAiApiConfig>();
+var openAiApiConfig = builder.Configuration.GetSection("OpenAiApiConfig").Get<OpenAiApiConfig>();
 builder.Services.AddSingleton(openAiApiConfig);
 builder.Services.AddSingleton<IImageService, OpenAIImageService>();
 
