@@ -53,6 +53,13 @@ namespace backend.api.Controllers
                 _logger.LogInformation("Total time: {totalTime}", chatResponse?.Usage?.TotalTime);
 
                 var ideaResponse = JsonConvert.DeserializeObject<GenerateIdeaResponseModel>(idea);
+
+                var imageGenerationRequest = new OpenAIImageRequest(ideaResponse.Idea);
+                var image = await _imageService.GenerateImageAsync(imageGenerationRequest);
+
+                if (image != null)
+                    ideaResponse.ImageUrl = image.Data[0].Url;
+
                 return Ok(ideaResponse);
             }
             catch (Exception ex)
