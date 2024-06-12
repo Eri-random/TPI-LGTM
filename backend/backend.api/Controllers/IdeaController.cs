@@ -56,20 +56,30 @@ namespace backend.api.Controllers
 
                 // Generar imagen para la idea principal
                 var imageGenerationRequest = new OpenAIImageRequest(ideaResponse.Idea);
-                var image = await _imageService.GenerateImageAsync(imageGenerationRequest);
-
-                if (image != null)
-                    ideaResponse.ImageUrl = image.Data[0].Url;
+                var mainImageTask = _imageService.GenerateImageAsync(imageGenerationRequest);
 
                 // Generar imágenes para cada paso
+                var stepImageTasks = new Task<OpenAIImageResponse>[ideaResponse.Steps.Length];
+
                 for (int i = 0; i < ideaResponse.Steps.Length; i++)
                 {
                     var stepImageRequest = new OpenAIImageRequest(ideaResponse.Steps[i]);
-                    var stepImage = await _imageService.GenerateImageAsync(stepImageRequest);
+                    stepImageTasks[i] = _imageService.GenerateImageAsync(stepImageRequest);
+                }
 
-                    if (stepImage != null && stepImage.Data != null && stepImage.Data.Count > 0)
+                var mainImage = await mainImageTask;
+                var stepImages = await Task.WhenAll(stepImageTasks);
+
+                if (mainImage != null && mainImage.Data != null && mainImage.Data.Count > 0)
+                {
+                    ideaResponse.ImageUrl = mainImage.Data[0].Url;
+                }
+
+                for (int i = 0; i < ideaResponse.Steps.Length; i++)
+                {
+                    if (stepImages[i] != null && stepImages[i].Data != null && stepImages[i].Data.Count > 0)
                     {
-                        ideaResponse.Steps[i] += $"ImageURL: {stepImage.Data[0].Url}";
+                        ideaResponse.Steps[i] += $"ImageURL: {stepImages[i].Data[0].Url}";
                     }
                 }
 
