@@ -31,3 +31,25 @@
   display: flex;
   align-items: center;
 }
+
+.accordion-body{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.step-image{
+  width: 40%;
+  height: 50%;
+  border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+  .accordion-body{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .step-image {
+    width: 100%;
+  }
+}

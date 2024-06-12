@@ -167,7 +167,7 @@
               <ng-container matColumnDef="estado">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header
                   class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7"> Estado </th>
-                <td mat-cell *matCellDef="let row">
+                <td mat-cell *matCellDef="let row" [ngClass]="{ highlight: row.highlight }">
                   <button class="btn-status text-bold"
                     [ngClass]="{'yellow-background': row.estado === 'Pendiente', 'green-background': row.estado === 'Recibido'}">{{row.estado}}</button>
                 </td>

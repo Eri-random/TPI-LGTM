@@ -3,6 +3,7 @@ export interface Idea {
     usuarioId: number;
     dificultad: string;
     pasos:     Paso[];
+    imageUrl: string;
 }
 
 export interface Paso {

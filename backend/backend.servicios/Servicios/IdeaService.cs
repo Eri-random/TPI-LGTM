@@ -25,8 +25,10 @@ namespace backend.servicios.Servicios
                 Pasos = ideaDto.Pasos.Select(paso => new Paso
                 {
                     PasoNum = paso.PasoNum,
-                    Descripcion = paso.Descripcion
-                }).ToList()
+                    Descripcion = paso.Descripcion,
+                    ImagenUrl = paso.ImagenUrl
+                }).ToList(),
+                ImageUrl = ideaDto.ImageUrl
             };
 
             try
@@ -61,7 +63,9 @@ namespace backend.servicios.Servicios
                             PasoNum = p.PasoNum,
                             Descripcion = p.Descripcion,
                             IdeaId = p.IdeaId
-                        }).ToList()
+                        }).ToList(),
+                       ImageUrl = i.ImageUrl
+
                     }).ToListAsync();
 
                 return ideas;
@@ -95,8 +99,10 @@ namespace backend.servicios.Servicios
                     Pasos = idea.Pasos.Select(p => new StepDto
                     {
                         PasoNum = p.PasoNum,
-                        Descripcion = p.Descripcion
-                    }).ToList()
+                        Descripcion = p.Descripcion,
+                        ImagenUrl = p.ImagenUrl
+                    }).ToList(),
+                    ImageUrl = idea.ImageUrl
                 };
 
             }

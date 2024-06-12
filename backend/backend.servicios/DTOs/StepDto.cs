@@ -15,6 +15,7 @@ namespace backend.servicios.DTOs
 
         public string Descripcion { get; set; }
 
+        public string ImagenUrl { get; set; }
         public int IdeaId { get; set; }
 
     }

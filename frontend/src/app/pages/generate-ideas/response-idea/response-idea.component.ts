@@ -4,9 +4,14 @@ import { NgToastService } from 'ng-angular-popup';
 import { switchMap, tap } from 'rxjs';
 import { Idea } from 'src/app/models/idea';
 import { AuthService } from 'src/app/services/auth.service';
+import { GenerateIdeaService } from 'src/app/services/generate-idea.service';
 import { ResponseIdeaService } from 'src/app/services/response-idea.service';
 import { UserStoreService } from 'src/app/services/user-store.service';
 
+interface Step {
+  text: string;
+  imageUrl?: string;
+}
 @Component({
   selector: 'app-response-idea',
   templateUrl: './response-idea.component.html',
@@ -16,18 +21,23 @@ export class ResponseIdeaComponent {
   email: string = '';
   userId: number = 0;
   response: any;
+  img!: string;
+  formattedSteps: Step[] = [];
 
   constructor(
     private responseIdeaService: ResponseIdeaService,
     private router: Router,
     private toast: NgToastService,
     private authService: AuthService,
-    private userStore: UserStoreService
+    private userStore: UserStoreService,
+    private ideaService: GenerateIdeaService
   ) {}
 
   ngOnInit(): void {
     this.response = this.responseIdeaService.getGeneratedIdea();
-    
+    console.log(this.response);
+    this.formatSteps();
+
     this.userStore.getEmailFromStore()
     .subscribe(val =>{
       const emailFromToken = this.authService.getEmailFromToken();
@@ -37,7 +47,26 @@ export class ResponseIdeaComponent {
     this.userStore.getUserByEmail(this.email).subscribe(resp =>{
       this.userId = resp.id;
     })
-          
+  }
+
+  formatSteps() {
+    if (this.response && this.response.steps) {
+      this.formattedSteps = this.response.steps.map((step: string) => {
+        const regex = /(.*)(ImageURL:\s*(https?:\/\/[^\s]+))/;
+        const matches = step.match(regex);
+        if (matches) {
+          return {
+            text: matches[1].trim(),
+            imageUrl: matches[3]
+          };
+        } else {
+          return {
+            text: step,
+            imageUrl: null
+          };
+        }
+      });
+    }
   }
 
   generateNewIdea() {
@@ -46,7 +75,16 @@ export class ResponseIdeaComponent {
   }
 
   saveIdea() {
-    console.log(this.userId);
+    this.response.steps = this.response.steps.map((step: string) => {
+      const regex = /(.*)(ImageURL:\s*(https?:\/\/[^\s]+))/;
+      const matches = step.match(regex);
+      if (matches) {
+        return matches[1].trim();
+      } else {
+        return step;
+      }
+    });
+
     this.responseIdeaService
       .postSaveIdea({
         titulo: this.response.idea,
@@ -54,8 +92,10 @@ export class ResponseIdeaComponent {
         dificultad: this.response.dificultad,
         pasos:  this.response.steps.map((paso: any, index: number) => ({
           pasoNum: index + 1,
-          descripcion: paso
-        }))
+          descripcion: paso,
+          imagenUrl: this.formattedSteps[index].imageUrl
+        })),
+        imageUrl:this.response.imageUrl
       })
       .subscribe({
         next: (res) => {

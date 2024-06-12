@@ -13,5 +13,7 @@ public partial class Paso
 
     public int IdeaId { get; set; }
 
+    public string ImagenUrl { get; set; }
+
     public virtual Idea Idea { get; set; }
 }

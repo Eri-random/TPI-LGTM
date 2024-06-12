@@ -1,73 +1,151 @@
 <section>
   <div class="page-container min-vh-100">
     <div>
-      <img class="position-absolute fixed-top ms-auto w-60 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/a.png">
-      <img class="position-absolute fixed-top ms-8 w-auto h-100 z-index-0 d-xl-none border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/a-mobile.png">
+      <img
+        class="position-absolute fixed-top ms-auto w-60 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0"
+        src="../assets/img/a.png"
+      />
+      <img
+        class="position-absolute fixed-top ms-8 w-auto h-100 z-index-0 d-xl-none border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0"
+        src="../assets/img/a-mobile.png"
+      />
     </div>
     <div class="container">
       <div class="card blur justify-content-center shadow-lg mt-7 mb-5 px-lg-4">
         <div class="row text-center mx-1 mt-4">
-          <h2>Idea guardada: <span class="text-gradient text-secondary">{{ idea.titulo }}</span></h2>
+          <h2>
+            Idea guardada:
+            <span class="text-gradient text-secondary">{{ idea.titulo }}</span>
+          </h2>
         </div>
         <div class="card-body pb-2">
           <div class="row">
             <div class="col text-center">
-              <p *ngIf="idea.dificultad === 'Facil'" class="dificultad lead mb-3">Nivel de dificultad: <span class="easy">{{ idea.dificultad }}</span>
+              <p
+                *ngIf="idea.dificultad === 'Facil'"
+                class="dificultad lead mb-3"
+              >
+                Nivel de dificultad:
+                <span class="easy">{{ idea.dificultad }}</span>
               </p>
-              <p *ngIf="idea.dificultad === 'Media'" class="dificultad lead mb-3">Nivel de dificultad: <span class="medium">{{ idea.dificultad }}</span>
+              <p
+                *ngIf="idea.dificultad === 'Media'"
+                class="dificultad lead mb-3"
+              >
+                Nivel de dificultad:
+                <span class="medium">{{ idea.dificultad }}</span>
               </p>
-              <p *ngIf="idea.dificultad === 'Dificil'" class="dificultad lead mb-3">Nivel de dificultad: <span class="hard">{{ idea.dificultad }}</span>
+              <p
+                *ngIf="idea.dificultad === 'Dificil'"
+                class="dificultad lead mb-3"
+              >
+                Nivel de dificultad:
+                <span class="hard">{{ idea.dificultad }}</span>
               </p>
             </div>
           </div>
           <div class="row justify-content-center">
             <div class="col-lg-4 justify-content-center imagen-idea">
-              <img src="../assets/img/idea-placeholder.png" class="img-fluid border-radius-lg mb-4"/>
+              <img
+                [src]="idea.imageUrl"
+                class="img-fluid border-radius-lg mb-4"
+              />
             </div>
             <div class="col-lg-8">
               <div class="accordion mb-4" id="accordionSteps">
-                <div class="accordion-item" *ngFor="let step of idea.pasos; index as i">
-
+                <div
+                  class="accordion-item"
+                  *ngFor="let step of idea.pasos; index as i"
+                >
                   <div *ngIf="i === 0">
                     <h2 class="accordion-header" [attr.id]="'heading_' + i">
-                      <button class="accordion-button border-bottom text-lg font-weight-bold" type="button" data-bs-toggle="collapse" [attr.data-parent]="'#accordion_' + i" [attr.href]="'#collapse_' + i">
+                      <button
+                        class="accordion-button border-bottom text-lg font-weight-bold"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        [attr.data-parent]="'#accordion_' + i"
+                        [attr.href]="'#collapse_' + i"
+                      >
                         <i class="fas fa-clipboard-check pe-3"></i>
                         Paso N°{{ i + 1 }}
-                        <i class="collapse-close fa fa-plus text-md pt-1 position-absolute end-0 me-3"></i>
+                        <i
+                          class="collapse-close fa fa-plus text-md pt-1 position-absolute end-0 me-3"
+                        ></i>
                       </button>
                     </h2>
-                    <div [attr.id]="'collapse_' + i" class="accordion-collapse collapse show" [attr.aria-labelledby]="'heading_' + i" data-bs-parent="#accordionSteps">
+                    <div
+                      [attr.id]="'collapse_' + i"
+                      class="accordion-collapse collapse show"
+                      [attr.aria-labelledby]="'heading_' + i"
+                      data-bs-parent="#accordionSteps"
+                    >
                       <div class="accordion-body">
-                        {{ step.descripcion }}
+                        <p class="p-description">{{ step.descripcion }}</p>
+                        <div class="image-div" *ngIf="step.imagenUrl != null">
+                          <img
+                            [src]="step.imagenUrl"
+                            alt="Step image"
+                            class="img-fluid step-image"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   <div *ngIf="i !== 0">
                     <h2 class="accordion-header" [attr.id]="'heading_' + i">
-                      <button class="accordion-button border-bottom text-lg font-weight-bold collapsed" type="button" data-bs-toggle="collapse" [attr.data-parent]="'#accordion_' + i" [attr.href]="'#collapse_' + i">
+                      <button
+                        class="accordion-button border-bottom text-lg font-weight-bold collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        [attr.data-parent]="'#accordion_' + i"
+                        [attr.href]="'#collapse_' + i"
+                      >
                         <i class="fas fa-clipboard-check pe-3"></i>
                         Paso N°{{ i + 1 }}
-                        <i class="collapse-close fa fa-plus text-md pt-1 position-absolute end-0 me-3"></i>
+                        <i
+                          class="collapse-close fa fa-plus text-md pt-1 position-absolute end-0 me-3"
+                        ></i>
                       </button>
                     </h2>
-                    <div [attr.id]="'collapse_' + i" class="accordion-collapse collapse" [attr.aria-labelledby]="'heading_' + i" data-bs-parent="#accordionSteps">
+                    <div
+                      [attr.id]="'collapse_' + i"
+                      class="accordion-collapse collapse"
+                      [attr.aria-labelledby]="'heading_' + i"
+                      data-bs-parent="#accordionSteps"
+                    >
                       <div class="accordion-body">
-                        {{ step.descripcion }}
+                        <p class="p-description">{{ step.descripcion }}</p>
+                        <div class="image-div" *ngIf="step.imagenUrl != null">
+                          <img
+                            [src]="step.imagenUrl"
+                            alt="Step image"
+                            class="img-fluid step-image"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-md-6 text-md-end text-center">
-              <button class="btn btn-round bg-gradient-secondary mt-2" routerLink="/mis-ideas">Volvera mis ideas</button>
+              <button
+                class="btn btn-round bg-gradient-secondary mt-2"
+                routerLink="/mis-ideas"
+              >
+                Volvera mis ideas
+              </button>
             </div>
             <div class="col-md-6 text-md-start text-center">
-              <button class="btn btn-round bg-gradient-primary mt-2" (click)="downloadPDF()"><i class="fas fa-file-pdf"></i> Descargar PDF</button>
+              <button
+                class="btn btn-round bg-gradient-primary mt-2"
+                (click)="downloadPDF()"
+              >
+                <i class="fas fa-file-pdf"></i> Descargar PDF
+              </button>
             </div>
           </div>
         </div>
