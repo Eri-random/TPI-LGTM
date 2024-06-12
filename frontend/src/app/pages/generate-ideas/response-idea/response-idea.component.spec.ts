@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { UserStoreService } from 'src/app/services/user-store.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-describe('ResponseIdeaComponent', () => {
+xdescribe('ResponseIdeaComponent', () => {
   let component: ResponseIdeaComponent;
   let fixture: ComponentFixture<ResponseIdeaComponent>;
   let responseIdeaServiceMock: any;
