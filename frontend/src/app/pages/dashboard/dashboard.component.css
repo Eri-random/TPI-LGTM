@@ -159,7 +159,7 @@ th {
 }
 
 .highlight {
-  background-color: var(--color-primary);
+  background-color: rgba(139, 197, 63, 0.6);
   transition: background-color 1s;
 }
 
