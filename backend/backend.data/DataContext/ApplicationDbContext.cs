@@ -71,7 +71,7 @@ namespace backend.data.DataContext
 
                 entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.Dificultad).HasColumnName("dificultad");
-                entity.Property(e => e.ImageUrl).HasColumnName("imageUrl");
+                entity.Property(e => e.ImageUrl).HasColumnName("image_url");
                 entity.Property(e => e.Titulo)
                     .IsRequired()
                     .HasColumnName("titulo");
