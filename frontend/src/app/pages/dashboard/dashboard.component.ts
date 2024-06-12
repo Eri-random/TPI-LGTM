@@ -284,6 +284,7 @@ export class DashboardComponent implements OnInit {
       .filter((row) => row.selected)
       .map((row) => row.id); // Recolectar IDs de donaciones seleccionadas
 
+    
     this.donationsService
       .updateDonationsState(this.selectedDonations, 'Recibido')
       .subscribe(
@@ -390,16 +391,16 @@ export class DashboardComponent implements OnInit {
       });
     }
 
-    if (this.topDonor) {
-      dataToExport.push({
-        Nombre: 'Mayor donante',
-        Teléfono: '',
-        Email: '',
-        Producto: this.topDonor.name,
-        Cantidad: this.topDonor.amount,
-        Estado: '',
-      });
-    }
+    // if (this.topDonor) {
+    //   dataToExport.push({
+    //     Nombre: 'Mayor donante',
+    //     Teléfono: '',
+    //     Email: '',
+    //     Producto: this.topDonor.name,
+    //     Cantidad: this.topDonor.amount,
+    //     Estado: '',
+    //   });
+    // }
 
     const stateCounts = this.calculateStateCounts(this.dataSource.data);
 
