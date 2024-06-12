@@ -113,7 +113,7 @@ th {
 
 .data {
   flex: 1;
-  align-items: flex-start;
+  /* align-items: flex-start; */
 }
 
 .number {
