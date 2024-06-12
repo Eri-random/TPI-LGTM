@@ -25,7 +25,8 @@ namespace backend.servicios.Servicios
                 Pasos = ideaDto.Pasos.Select(paso => new Paso
                 {
                     PasoNum = paso.PasoNum,
-                    Descripcion = paso.Descripcion
+                    Descripcion = paso.Descripcion,
+                    ImagenUrl = paso.ImagenUrl
                 }).ToList(),
                 ImageUrl = ideaDto.ImageUrl
             };
@@ -98,7 +99,8 @@ namespace backend.servicios.Servicios
                     Pasos = idea.Pasos.Select(p => new StepDto
                     {
                         PasoNum = p.PasoNum,
-                        Descripcion = p.Descripcion
+                        Descripcion = p.Descripcion,
+                        ImagenUrl = p.ImagenUrl
                     }).ToList(),
                     ImageUrl = idea.ImageUrl
                 };

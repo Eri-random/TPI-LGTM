@@ -72,6 +72,9 @@ export class SeeIdeaComponent implements OnInit, AfterViewInit {
       );
     });
   }
+
+  
+
   downloadPDF() {
     if (!this.logoBase64) {
       console.error('Logo not loaded yet');
@@ -129,5 +132,4 @@ export class SeeIdeaComponent implements OnInit, AfterViewInit {
 
     doc.save('idea-' + this.idea.titulo + '.pdf');
   }
-  
 }

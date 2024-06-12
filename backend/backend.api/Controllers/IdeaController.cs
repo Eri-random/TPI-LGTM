@@ -54,11 +54,24 @@ namespace backend.api.Controllers
 
                 var ideaResponse = JsonConvert.DeserializeObject<GenerateIdeaResponseModel>(idea);
 
+                // Generar imagen para la idea principal
                 var imageGenerationRequest = new OpenAIImageRequest(ideaResponse.Idea);
                 var image = await _imageService.GenerateImageAsync(imageGenerationRequest);
 
                 if (image != null)
                     ideaResponse.ImageUrl = image.Data[0].Url;
+
+                // Generar imágenes para cada paso
+                for (int i = 0; i < ideaResponse.Steps.Length; i++)
+                {
+                    var stepImageRequest = new OpenAIImageRequest(ideaResponse.Steps[i]);
+                    var stepImage = await _imageService.GenerateImageAsync(stepImageRequest);
+
+                    if (stepImage != null && stepImage.Data != null && stepImage.Data.Count > 0)
+                    {
+                        ideaResponse.Steps[i] += $"ImageURL: {stepImage.Data[0].Url}";
+                    }
+                }
 
                 return Ok(ideaResponse);
             }
@@ -89,7 +102,8 @@ namespace backend.api.Controllers
                     Pasos = idea.Pasos.Select(paso => new StepDto
                     {
                         PasoNum = paso.PasoNum,
-                        Descripcion = paso.Descripcion
+                        Descripcion = paso.Descripcion,
+                        ImagenUrl = paso.ImagenUrl
                     }).ToList(),
                     ImageUrl = idea.ImageUrl
                 };
