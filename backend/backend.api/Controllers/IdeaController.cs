@@ -90,7 +90,8 @@ namespace backend.api.Controllers
                     {
                         PasoNum = paso.PasoNum,
                         Descripcion = paso.Descripcion
-                    }).ToList()
+                    }).ToList(),
+                    ImageUrl = idea.ImageUrl
                 };
 
 

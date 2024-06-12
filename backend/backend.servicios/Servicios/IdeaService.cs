@@ -26,7 +26,8 @@ namespace backend.servicios.Servicios
                 {
                     PasoNum = paso.PasoNum,
                     Descripcion = paso.Descripcion
-                }).ToList()
+                }).ToList(),
+                ImageUrl = ideaDto.ImageUrl
             };
 
             try
@@ -61,7 +62,9 @@ namespace backend.servicios.Servicios
                             PasoNum = p.PasoNum,
                             Descripcion = p.Descripcion,
                             IdeaId = p.IdeaId
-                        }).ToList()
+                        }).ToList(),
+                       ImageUrl = i.ImageUrl
+
                     }).ToListAsync();
 
                 return ideas;
@@ -96,7 +99,8 @@ namespace backend.servicios.Servicios
                     {
                         PasoNum = p.PasoNum,
                         Descripcion = p.Descripcion
-                    }).ToList()
+                    }).ToList(),
+                    ImageUrl = idea.ImageUrl
                 };
 
             }

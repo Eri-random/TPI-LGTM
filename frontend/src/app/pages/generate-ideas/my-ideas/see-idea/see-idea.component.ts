@@ -17,6 +17,7 @@ export class SeeIdeaComponent implements OnInit, AfterViewInit {
     usuarioId?: number;
     pasos?: any;
     dificultad?: string;
+    imageUrl?: string;
   } = {};
 
   logoBase64!: string;

@@ -56,8 +56,9 @@ export class ResponseIdeaComponent {
         dificultad: this.response.dificultad,
         pasos:  this.response.steps.map((paso: any, index: number) => ({
           pasoNum: index + 1,
-          descripcion: paso
-        }))
+          descripcion: paso 
+        })),
+        imageUrl:this.response.imageUrl
       })
       .subscribe({
         next: (res) => {

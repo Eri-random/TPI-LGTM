@@ -10,5 +10,6 @@ namespace backend.api.Models
         public int UsuarioId { get; set; }
         public string Dificultad { get; set; }
         public virtual ICollection<StepDto> Pasos { get; set; } = new List<StepDto>();
+        public string ImageUrl { get; set; }
     }
 }
