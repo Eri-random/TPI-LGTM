@@ -50,9 +50,24 @@ namespace backend.servicios.test
                     Content = new StringContent(responseContent)
                 });
 
-            var httpClient = new HttpClient(mockHttpMessageHandler.Object);
+            var httpMessageHandler = new Mock<HttpMessageHandler>();
+            httpMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = System.Net.HttpStatusCode.OK,
+                    Content = new StringContent("response content")
+                });
 
-            var mapsService = new MapsService(httpClient, configurationMock.Object);
+            var httpClient = new HttpClient(httpMessageHandler.Object);
+
+            var httpClientFactory = new Mock<IHttpClientFactory>();
+            httpClientFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
+
+            var mapsService = new MapsService(httpClientFactory.Object, configurationMock.Object);
 
             // Act
             var (lat, lng) = await mapsService.GetCoordinates("1600 Amphitheatre Parkway", "Mountain View", "CA");
@@ -84,9 +99,24 @@ namespace backend.servicios.test
                     Content = new StringContent(responseContent)
                 });
 
-            var httpClient = new HttpClient(mockHttpMessageHandler.Object);
+            var httpMessageHandler = new Mock<HttpMessageHandler>();
+            httpMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = System.Net.HttpStatusCode.OK,
+                    Content = new StringContent("response content")
+                });
 
-            var mapsService = new MapsService(httpClient, configurationMock.Object);
+            var httpClient = new HttpClient(httpMessageHandler.Object);
+
+            var httpClientFactory = new Mock<IHttpClientFactory>();
+            httpClientFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
+
+            var mapsService = new MapsService(httpClientFactory.Object, configurationMock.Object);
 
             // Act & Assert
 

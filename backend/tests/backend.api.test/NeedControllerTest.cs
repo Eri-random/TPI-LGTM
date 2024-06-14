@@ -35,7 +35,7 @@ namespace backend.api.test
                 new NeedDto { Id = 1, Nombre = "Nombre 1", Icono = "Icono 1", Subcategoria = new List<SubcategoriesDto> { new SubcategoriesDto { Id = 1, Nombre = "Nombre 1", NecesidadId = 1 } } },
                 new NeedDto { Id = 2, Nombre = "Nombre 2", Icono = "Icono 2", Subcategoria = new List<SubcategoriesDto> { new SubcategoriesDto { Id = 2, Nombre = "Nombre 2", NecesidadId = 2 } } }
             };
-            _needServiceMock.Setup(service => service.GetAllNeedAsync()).ReturnsAsync(needsList);
+            _needServiceMock.Setup(service => service.GetAllNeedsAsync()).ReturnsAsync(needsList);
 
             // Act
             var result = await _controller.GetAllNeeds();
@@ -53,7 +53,7 @@ namespace backend.api.test
         public async Task GetAllNeeds_ReturnsInternalServerError_WhenExceptionIsThrown()
         {
             // Arrange
-            _needServiceMock.Setup(service => service.GetAllNeedAsync()).ThrowsAsync(new Exception());
+            _needServiceMock.Setup(service => service.GetAllNeedsAsync()).ThrowsAsync(new Exception());
 
             // Act
             var result = await _controller.GetAllNeeds();
@@ -68,7 +68,7 @@ namespace backend.api.test
         public async Task GetAllNeeds_ReturnsEmptyList_WhenNoNeedsFound()
         {
             // Arrange
-            _needServiceMock.Setup(service => service.GetAllNeedAsync()).ReturnsAsync(new List<NeedDto>());
+            _needServiceMock.Setup(service => service.GetAllNeedsAsync()).ReturnsAsync(new List<NeedDto>());
 
             // Act
             var result = await _controller.GetAllNeeds();

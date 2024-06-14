@@ -55,7 +55,7 @@ namespace backend.servicios.test
                 OrganizacionId = 1
             };
 
-            await _infoOrganizacionService.SaveInfoOrganizationData(infoOrganizacionDto);
+            await _infoOrganizacionService.SaveInfoOrganizationDataAsync(infoOrganizacionDto);
 
             var organizacionCreate = await _context.InfoOrganizacions.FirstOrDefaultAsync(u => u.Organizacion == "Organizacion");
 
@@ -68,7 +68,7 @@ namespace backend.servicios.test
         public void SaveDataInfoOrganizacionc_NullInfoOrganizacionDto_ArgumentNullException()
         {
             // Act & Assert
-            var ex = Assert.ThrowsAsync<ArgumentNullException>(() => _infoOrganizacionService.SaveInfoOrganizationData(null));
+            var ex = Assert.ThrowsAsync<ArgumentNullException>(() => _infoOrganizacionService.SaveInfoOrganizationDataAsync(null));
             Assert.Multiple(() =>
             {
                 Assert.That(ex.ParamName, Is.EqualTo("infoOrganizationDto"));

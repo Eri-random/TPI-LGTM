@@ -9,7 +9,7 @@ namespace backend.servicios.Interfaces
 {
     public interface IOrganizationInfoService
     {
-        Task SaveInfoOrganizationData(InfoOrganizationDto infoOrganizationDto);
+        Task SaveInfoOrganizationDataAsync(InfoOrganizationDto infoOrganizationDto);
 
         Task UpdateInfoOrganizationAsync(InfoOrganizationDto infoOrganizationDto);
 

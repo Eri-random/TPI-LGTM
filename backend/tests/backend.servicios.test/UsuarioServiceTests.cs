@@ -1,5 +1,7 @@
 ﻿using backend.data.DataContext;
 using backend.data.Models;
+using backend.repositories.implementations;
+using backend.repositories.interfaces;
 using backend.servicios.DTOs;
 using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
@@ -17,6 +19,7 @@ namespace backend.servicios.test
         private Mock<IMapsService> _mapsMock;
 
         private ApplicationDbContext _context;
+        private IRepository<Usuario> _repository;
         private UserService _usuarioService;
 
 
@@ -43,14 +46,15 @@ namespace backend.servicios.test
             );
 
             _context.SaveChanges();
-            _usuarioService = new UserService(_context, _loggerMock.Object, _mapsMock.Object);
+            _repository = new Repository<Usuario>(_context);
+            _usuarioService = new UserService(_repository, _loggerMock.Object, _mapsMock.Object);
         }
 
         [Test]
         public void Constructor_WithAllDependencies_ShouldNotThrowException()
         {
             // Act & Assert
-            Assert.DoesNotThrow(() => new UserService(_context, _loggerMock.Object, _mapsMock.Object));
+            Assert.DoesNotThrow(() => new UserService(_repository, _loggerMock.Object, _mapsMock.Object));
         }
 
         [Test]
@@ -65,7 +69,7 @@ namespace backend.servicios.test
         public void Constructor_WithNullLogger_ShouldThrowArgumentNullException()
         {
             // Act & Assert
-            var ex = Assert.Throws<ArgumentNullException>(() => new UserService(_context, null, _mapsMock.Object));
+            var ex = Assert.Throws<ArgumentNullException>(() => new UserService(_repository, null, _mapsMock.Object));
             Assert.That(ex.ParamName, Is.EqualTo("logger"));
         }
 

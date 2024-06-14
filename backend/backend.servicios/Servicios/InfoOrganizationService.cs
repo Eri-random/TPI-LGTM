@@ -11,7 +11,7 @@ namespace backend.servicios.Servicios
         private readonly IRepository<InfoOrganizacion> _organizacionRepository = repository ?? throw new ArgumentNullException(nameof(repository));
         private readonly ILogger<OrganizationService> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-        public async Task SaveInfoOrganizationData(InfoOrganizationDto infoOrganizationDto)
+        public async Task SaveInfoOrganizationDataAsync(InfoOrganizationDto infoOrganizationDto)
         {
             if (infoOrganizationDto == null)
                 throw new ArgumentNullException(nameof(infoOrganizationDto), "La informacion de la organizacion proporcionada no puede ser nula.");
