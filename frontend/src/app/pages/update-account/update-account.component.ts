@@ -348,6 +348,7 @@ export class UpdateAccountComponent implements OnInit {
         this.accountForm.enable(); // Enable form controls for user
       } else if (this.role === 'organizacion') {
         this.accountOrgForm.enable(); // Enable form controls for organization
+        this.accountOrgForm.get('cuit')?.disable();
       }
     } else {
       if (cancel) {
@@ -423,6 +424,7 @@ export class UpdateAccountComponent implements OnInit {
       orgData = {
         ...this.accountOrgForm.value,
         id: this.idOrg,
+        cuit: this.cuit,
       };
     }
 

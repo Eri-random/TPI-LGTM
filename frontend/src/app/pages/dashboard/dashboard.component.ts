@@ -100,7 +100,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-   loadDonations() {
+  loadDonations() {
     this.organizationService
       .getOrganizationByCuit(this.cuit)
       .pipe(
@@ -122,19 +122,21 @@ export class DashboardComponent implements OnInit {
               estado: donation.estado,
             }));
 
-            this.existDonations = true;
-            this.dataSource.data = formattedDonations;
-            // this.cdr.detectChanges();
-            this.totalDonations = donations.reduce(
-              (total: any, donation: any) => total + donation.cantidad,
-              0
-            );
+            this.existDonations = formattedDonations.length > 0; // Actualiza existDonations aquí
 
-            this.totalDonationsCount = donations.length;
-            this.averageDonations =
-              this.totalDonations / this.totalDonationsCount;
-            this.calculateProductMostDonated(donations);
-            this.calculateTopDonor(donations);
+            if (this.existDonations) {
+              this.dataSource.data = formattedDonations;
+              this.totalDonations = donations.reduce(
+                (total: any, donation: any) => total + donation.cantidad,
+                0
+              );
+
+              this.totalDonationsCount = donations.length;
+              this.averageDonations =
+                this.totalDonations / this.totalDonationsCount;
+              this.calculateProductMostDonated(donations);
+              this.calculateTopDonor(donations);
+            }
 
             setTimeout(() => {
               this.loading = false;
@@ -217,7 +219,7 @@ export class DashboardComponent implements OnInit {
   }
 
   handleNewDonation(data: any) {
-    console.log(data)
+    console.log(data);
     if (data && data.newDonation && data.user) {
       this.totalDonations += data.newDonation.Cantidad;
       this.totalDonationsCount += 1;
@@ -236,6 +238,8 @@ export class DashboardComponent implements OnInit {
 
       let newData = [newDonation, ...this.dataSource.data];
       this.dataSource.data = newData;
+
+      this.existDonations = newData.length > 0;
 
       this.calculateProductMostDonated(newData);
       this.calculateTopDonor(newData);
@@ -286,7 +290,6 @@ export class DashboardComponent implements OnInit {
       .filter((row) => row.selected)
       .map((row) => row.id); // Recolectar IDs de donaciones seleccionadas
 
-    
     this.donationsService
       .updateDonationsState(this.selectedDonations, 'Recibido')
       .subscribe(
@@ -528,8 +531,10 @@ export class DashboardComponent implements OnInit {
 
   
   ¡Gracias por tu apoyo!`;
-  
-    return `mailto:${row.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    return `mailto:${row.email}?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}`;
   }
 }
 
