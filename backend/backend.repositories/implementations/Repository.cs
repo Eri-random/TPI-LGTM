@@ -1,6 +1,7 @@
 ﻿using backend.data.DataContext;
 using backend.repositories.interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace backend.repositories.implementations
 {
@@ -15,9 +16,14 @@ namespace backend.repositories.implementations
             _dbSet = _context.Set<T>();
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public async Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, object>>[] includeProperties)
         {
-            return await _dbSet.ToListAsync();
+            IQueryable<T> query = _dbSet;
+            foreach (var includeProperty in includeProperties)
+            {
+                query = query.Include(includeProperty);
+            }
+            return await query.ToListAsync();
         }
 
         public async Task<T> GetByIdAsync(int id)

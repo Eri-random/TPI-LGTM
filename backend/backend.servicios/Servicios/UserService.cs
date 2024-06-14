@@ -4,7 +4,6 @@ using backend.servicios.DTOs;
 using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace backend.servicios.Servicios
@@ -19,7 +18,7 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var users = await _userRepository.GetAllAsync();
+                var users = await _userRepository.GetAllAsync(x => x.Rol);
                 return users
                     .Select(u => new UserDto
                     {
@@ -49,13 +48,11 @@ namespace backend.servicios.Servicios
 
             try
             {
-                var users = await _userRepository.GetAllAsync();
-                var user = users.FirstOrDefault(x => x.Email == email);
+                var users = await _userRepository.GetAllAsync(x => x.Rol);
+                var user = users.FirstOrDefault(x => x.Email.Equals(email));
 
                 if (user == null)
-                {
                     return null;
-                }
 
                 return new UserDto
                 {
@@ -150,7 +147,8 @@ namespace backend.servicios.Servicios
             if (userDto == null)
                 throw new ArgumentNullException(nameof(userDto), "El usuario proporcionado no puede ser nulo.");
 
-            var existingUser = await _userRepository.GetByIdAsync(userDto.Id);
+            var users = await _userRepository.GetAllAsync(x => x.Rol);
+            var existingUser = users.FirstOrDefault(x => x.Email.Equals(userDto.Email));
 
             if (existingUser == null)
                 throw new KeyNotFoundException("Usuario no encontrado para actualizar.");

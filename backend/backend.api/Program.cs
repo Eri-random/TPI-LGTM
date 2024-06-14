@@ -47,7 +47,6 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMapsService, MapsService>();
 builder.Services.AddScoped<IOrganizationService, OrganizationService>();
 builder.Services.AddScoped<IDonationService,DonationService>();
-builder.Services.AddHttpClient<IMapsService, MapsService>();
 builder.Services.AddScoped<IOrganizationInfoService, InfoOrganizationService>();
 builder.Services.AddScoped<IIdeaService, IdeaService>();
 builder.Services.AddScoped<IHeadquartersService, HeadquartersService>();
