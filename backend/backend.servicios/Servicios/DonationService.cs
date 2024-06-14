@@ -123,12 +123,12 @@ namespace backend.servicios.Servicios
 
         public async Task<int> GetIdDonationAsync(DonationDto newDonation)
         {
-            var donation = await _context.Donacions
-                .FirstOrDefaultAsync(d => d.Producto == newDonation.Producto
-                               && d.Cantidad == newDonation.Cantidad
-                               && d.UsuarioId == newDonation.UsuarioId
-                               && d.OrganizacionId == newDonation.OrganizacionId
-                               && d.Estado == newDonation.Estado);
+            var donations = await _donacionRepository.GetAllAsync();
+            var donation = donations.FirstOrDefault(d => d.Producto.Equals(newDonation.Producto)
+                && d.Cantidad == newDonation.Cantidad
+                && d.UsuarioId == newDonation.UsuarioId
+                && d.OrganizacionId == newDonation.OrganizacionId
+                && d.Estado.Equals(newDonation.Estado));
 
             return donation?.Id ?? 0;
         }
