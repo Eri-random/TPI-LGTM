@@ -97,7 +97,7 @@ namespace backend.api.test
             _organizacionService.Setup(x => x.GetOrganizationByIdAsync(infoOrganizacionRequest.OrganizacionId))
                 .ReturnsAsync(organizacion);
 
-            _organizacionInfoService.Setup(x => x.SaveDataInfoOrganization(It.IsAny<InfoOrganizationDto>()))
+            _organizacionInfoService.Setup(x => x.SaveInfoOrganizationData(It.IsAny<InfoOrganizationDto>()))
                 .Returns(Task.CompletedTask);
 
             // Act

@@ -1,15 +1,15 @@
-﻿using backend.data.DataContext;
-using backend.data.Models;
+﻿using backend.data.Models;
+using backend.repositories.interfaces;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace backend.servicios.Servicios
 {
-    public class IdeaService(ApplicationDbContext context, ILogger<IdeaService> logger) : IIdeaService
+    public class IdeaService(IRepository<Idea> ideaRepository, IRepository<Paso> pasoRepository, ILogger<IdeaService> logger) : IIdeaService
     {
-        private readonly ApplicationDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
+        private readonly IRepository<Idea> _ideaRepository = ideaRepository ?? throw new ArgumentNullException(nameof(ideaRepository));
+        private readonly IRepository<Paso> _pasoRepository = pasoRepository ?? throw new ArgumentNullException(nameof(pasoRepository));
         private readonly ILogger<IdeaService> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
         public async Task SaveIdeaAsync(IdeaDto ideaDto)
@@ -33,9 +33,7 @@ namespace backend.servicios.Servicios
 
             try
             {
-                _context.Add(idea);
-                await _context.SaveChangesAsync();
-
+                await _ideaRepository.AddAsync(idea);
             }
             catch (Exception ex)
             {
@@ -48,28 +46,24 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var ideas = await _context.Ideas
-                    .Include(i => i.Pasos)
-                    .Where(i => i.UsuarioId == userId)
-                    .Select(i => new IdeaDto
+                var ideas = await _ideaRepository.GetAllAsync();
+                return ideas.Where(x => x.UsuarioId == userId)
+                    .Select(y => new IdeaDto
                     {
-                        Id = i.Id,
-                        Titulo = i.Titulo,
-                        UsuarioId = i.UsuarioId,
-                        Dificultad = i.Dificultad,
-                        Pasos = i.Pasos.Select(p => new StepDto
+                        Id = y.Id,
+                        Titulo = y.Titulo,
+                        UsuarioId = y.UsuarioId,
+                        Dificultad = y.Dificultad,
+                        Pasos = y.Pasos.Select(p => new StepDto
                         {
                             Id = p.Id,
                             PasoNum = p.PasoNum,
                             Descripcion = p.Descripcion,
                             IdeaId = p.IdeaId
                         }).ToList(),
-                       ImageUrl = i.ImageUrl
+                       ImageUrl = y.ImageUrl
 
-                    }).ToListAsync();
-
-                return ideas;
-
+                    });
             }
             catch (Exception ex)
             {
@@ -82,14 +76,11 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var idea = await _context.Ideas
-                    .Include(i => i.Pasos)
-                    .FirstOrDefaultAsync(i => i.Id == ideaId);
+                var ideas = await _ideaRepository.GetAllAsync();
+                var idea = ideas.FirstOrDefault(x => x.Id == ideaId);
 
                 if (idea == null)
-                {
                     return null;
-                }
 
                 return new IdeaDto
                 {
@@ -117,17 +108,14 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var idea = await _context.Ideas
-                    .Include(i => i.Pasos)
-                    .FirstOrDefaultAsync(i => i.Id == ideaId);
+                var ideas = await _ideaRepository.GetAllAsync();
+                var idea = ideas.FirstOrDefault(i => i.Id == ideaId);
 
                 if (idea == null)
                     throw new InvalidOperationException("La idea no existe.");
 
-                _context.Pasos.RemoveRange(idea.Pasos);
-                _context.Ideas.Remove(idea);
-
-                await _context.SaveChangesAsync();
+                await _pasoRepository.DeleteRangeAsync(idea.Pasos);
+                await _ideaRepository.DeleteAsync(idea.Id);
             }
             catch (Exception ex)
             {

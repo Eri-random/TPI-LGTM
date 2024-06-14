@@ -58,5 +58,11 @@ namespace backend.repositories.implementations
             await _dbSet.AddRangeAsync(entity);
             await _context.SaveChangesAsync();
         }
+
+        public async Task DeleteRangeAsync(IEnumerable<T> entities)
+        {
+            _dbSet.RemoveRange(entities);
+            await _context.SaveChangesAsync();
+        }
     }
 }

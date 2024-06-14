@@ -64,7 +64,7 @@ namespace backend.api.Controllers
 
             try
             {
-                await _organizationInfoService.SaveDataInfoOrganization(infoOrganization);
+                await _organizationInfoService.SaveInfoOrganizationData(infoOrganization);
                 return CreatedAtAction(nameof(Details), new { id = infoOrganizationRequest.OrganizacionId }, infoOrganization);
             }
             catch(InvalidOperationException ex)
