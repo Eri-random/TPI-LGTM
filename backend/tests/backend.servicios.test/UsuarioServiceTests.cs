@@ -62,7 +62,7 @@ namespace backend.servicios.test
         {
             // Act & Assert
             var ex = Assert.Throws<ArgumentNullException>(() => new UserService(null, _loggerMock.Object, _mapsMock.Object));
-            Assert.That(ex.ParamName, Is.EqualTo("context"));
+            Assert.That(ex.ParamName, Is.EqualTo("repository"));
         }
 
         [Test]
@@ -245,6 +245,7 @@ namespace backend.servicios.test
         {
             // Arrange
             var testEmail = "existing@example.com";
+            
             _context.Usuarios.Add(new Usuario
             {
                 Email = testEmail,
@@ -254,7 +255,8 @@ namespace backend.servicios.test
                 Direccion = "Old Address",
                 Localidad = "Old City",
                 Provincia = "Old State",
-                Contrasena = PasswordHasher.HashPassword("OldPassword") // Hash the old password
+                Contrasena = PasswordHasher.HashPassword("OldPassword"), // Hash the old password
+                RolId = 1
             });
             await _context.SaveChangesAsync();
 

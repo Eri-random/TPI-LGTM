@@ -1,23 +1,14 @@
-﻿using backend.data.DataContext;
-using backend.data.Models;
-using backend.servicios.DTOs;
-using backend.servicios.Helpers;
-using backend.servicios.Interfaces;
-using backend.servicios.Servicios;
-using Microsoft.EntityFrameworkCore;
+﻿using backend.servicios.Servicios;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Moq;
-using Newtonsoft.Json;
-using System.Net;
 using Moq.Protected;
+using System.Net;
 
 namespace backend.servicios.test
 {
     [TestFixture]
     public class MapsServiceTest
     {
-
         [Test]
         public async Task GetCoordinates_Returns_CorrectCoordinates()
         {
@@ -50,19 +41,7 @@ namespace backend.servicios.test
                     Content = new StringContent(responseContent)
                 });
 
-            var httpMessageHandler = new Mock<HttpMessageHandler>();
-            httpMessageHandler.Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.IsAny<HttpRequestMessage>(),
-                    ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage
-                {
-                    StatusCode = System.Net.HttpStatusCode.OK,
-                    Content = new StringContent("response content")
-                });
-
-            var httpClient = new HttpClient(httpMessageHandler.Object);
+            var httpClient = new HttpClient(mockHttpMessageHandler.Object);
 
             var httpClientFactory = new Mock<IHttpClientFactory>();
             httpClientFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
@@ -99,19 +78,7 @@ namespace backend.servicios.test
                     Content = new StringContent(responseContent)
                 });
 
-            var httpMessageHandler = new Mock<HttpMessageHandler>();
-            httpMessageHandler.Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.IsAny<HttpRequestMessage>(),
-                    ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage
-                {
-                    StatusCode = System.Net.HttpStatusCode.OK,
-                    Content = new StringContent("response content")
-                });
-
-            var httpClient = new HttpClient(httpMessageHandler.Object);
+            var httpClient = new HttpClient(mockHttpMessageHandler.Object);
 
             var httpClientFactory = new Mock<IHttpClientFactory>();
             httpClientFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
