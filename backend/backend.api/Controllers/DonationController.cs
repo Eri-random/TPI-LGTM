@@ -39,7 +39,7 @@ namespace backend.api.Controllers
             {
                 await _donationService.SaveDonationAsync(newDonation);
 
-                newDonation.Id = await _donationService.GetIdDonationAsync(newDonation);
+                newDonation.Id = await _donationService.GetDonationIdAsync(newDonation);
 
                 var user = await _userService.GetUserByIdAsync(donationRequest.UsuarioId);
 

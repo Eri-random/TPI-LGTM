@@ -15,7 +15,7 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var necesidades = await _necesidadRepository.GetAllAsync();
+                var necesidades = await _necesidadRepository.GetAllAsync(x => x.Subcategoria);
 
                 return necesidades
                     .Select(u => new NeedDto

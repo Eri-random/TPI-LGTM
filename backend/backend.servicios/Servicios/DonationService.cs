@@ -40,7 +40,7 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var donaciones = await _donacionRepository.GetAllAsync();
+                var donaciones = await _donacionRepository.GetAllAsync(x => x.Usuario);
 
                 return donaciones.Where(x => x.OrganizacionId == organizacionId)
                     .OrderByDescending(x => x.Id)
@@ -56,7 +56,7 @@ namespace backend.servicios.Servicios
                             Telefono = u.Usuario.Telefono,
                             Email = u.Usuario.Email
                         }
-                    }).ToList();
+                    });
             }
             catch (Exception ex)
             {
@@ -69,7 +69,7 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var donaciones = await _donacionRepository.GetAllAsync();
+                var donaciones = await _donacionRepository.GetAllAsync(x => x.Usuario);
 
                 return donaciones.Where(u => u.UsuarioId == usuarioId)
                     .Select(u => new DonationDto
@@ -86,7 +86,7 @@ namespace backend.servicios.Servicios
                             Email = u.Usuario.Email
                         }
 
-                    }).ToList();
+                    });
             }
             catch (Exception ex)
             {
@@ -121,7 +121,7 @@ namespace backend.servicios.Servicios
             }
         }
 
-        public async Task<int> GetIdDonationAsync(DonationDto newDonation)
+        public async Task<int> GetDonationIdAsync(DonationDto newDonation)
         {
             var donations = await _donacionRepository.GetAllAsync();
             var donation = donations.FirstOrDefault(d => d.Producto.Equals(newDonation.Producto)

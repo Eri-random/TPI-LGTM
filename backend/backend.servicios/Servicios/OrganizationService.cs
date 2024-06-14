@@ -18,7 +18,7 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var organizacion = await _organizacionRepository.GetAllAsync();
+                var organizacion = await _organizacionRepository.GetAllAsync(x => x.InfoOrganizacion);
                 return organizacion
                     .Select(u => new OrganizationDto
                     {
@@ -79,7 +79,7 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var organizacion = await _organizacionRepository.GetByIdAsync(id);
+                var organizacion = await _organizacionRepository.GetByIdAsync(id, x => x.InfoOrganizacion);
 
                 if (organizacion == null)
                 {
@@ -118,7 +118,7 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var organizations = await _organizacionRepository.GetAllAsync();
+                var organizations = await _organizacionRepository.GetAllAsync(x => x.InfoOrganizacion);
                 var organization = organizations.FirstOrDefault(x => x.Cuit == cuit);
 
                 if (organization == null)
@@ -152,7 +152,7 @@ namespace backend.servicios.Servicios
 
         public async Task<IEnumerable<OrganizationDto>> GetPaginatedOrganizationsAsync(int page, int pageSize, List<int> subcategoriaIds,string name)
         {
-            var organizations = await _organizacionRepository.GetAllAsync();
+            var organizations = await _organizacionRepository.GetAllAsync(x => x.InfoOrganizacion);
             var query = organizations
              .Where(o => o.InfoOrganizacion != null)
              .AsQueryable();
@@ -196,7 +196,7 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var organization = await _organizacionRepository.GetByIdAsync(organizationId);
+                var organization = await _organizacionRepository.GetByIdAsync(organizationId, x => x.Subcategoria);
 
                 if (organization == null)
                     throw new Exception("Organización no encontrada");
@@ -224,7 +224,7 @@ namespace backend.servicios.Servicios
 
         public async Task<List<SubcategoriesDto>> GetAssignedSubcategoriesAsync(int organizationId)
         {
-            var subCats = await _subCatRepository.GetAllAsync();
+            var subCats = await _subCatRepository.GetAllAsync(x => x.Organizacions);
             var subcategories = subCats
                .Where(s => s.Organizacions.Any(o => o.Id == organizationId))
                .Select(s => new SubcategoriesDto
@@ -240,7 +240,7 @@ namespace backend.servicios.Servicios
 
         public async Task<List<NeedDto>> GetAssignedSubcategoriesGroupedAsync(int organizationId)
         {
-            var subCats = await _subCatRepository.GetAllAsync();
+            var subCats = await _subCatRepository.GetAllAsync(x => x.Organizacions);
             var subcategories = subCats
                 .Where(s => s.Organizacions.Any(o => o.Id == organizationId))
                 .Select(s => new SubcategoriesDto

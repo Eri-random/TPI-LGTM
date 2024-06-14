@@ -46,7 +46,8 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var ideas = await _ideaRepository.GetAllAsync();
+                var ideas = await _ideaRepository.GetAllAsync(x => x.Pasos);
+
                 return ideas.Where(x => x.UsuarioId == userId)
                     .Select(y => new IdeaDto
                     {
@@ -76,7 +77,7 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var ideas = await _ideaRepository.GetAllAsync();
+                var ideas = await _ideaRepository.GetAllAsync(x => x.Pasos);
                 var idea = ideas.FirstOrDefault(x => x.Id == ideaId);
 
                 if (idea == null)
@@ -108,7 +109,7 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var ideas = await _ideaRepository.GetAllAsync();
+                var ideas = await _ideaRepository.GetAllAsync(x => x.Pasos);
                 var idea = ideas.FirstOrDefault(i => i.Id == ideaId);
 
                 if (idea == null)
