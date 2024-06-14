@@ -34,7 +34,7 @@
                 <div class="text-center">
                   <img  *ngIf="item.imageUrl != null; else placeholder" [src]="item.imageUrl" alt="Imagen" class="card-img-top">
                   <ng-template #placeholder>
-                    <img src="../assets/img/idea-placeholder-2.png" alt="Placeholder" class="card-img-top" >
+                    <img src="../assets/img/idea-noimage.png" alt="Placeholder" class="card-img-top" >
                   </ng-template>
                 </div>
                 <div class="position-relative" style="height: 50px;overflow: hidden;margin-top: -50px;z-index:2;position: relative;">

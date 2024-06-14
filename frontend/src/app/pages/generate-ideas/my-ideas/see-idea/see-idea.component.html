@@ -25,7 +25,7 @@
                 <div class="card-body text-center bg-white shadow border-radius-lg p-3">
                   <img  *ngIf="idea.imageUrl != null; else placeholder" [src]="idea.imageUrl" alt="Imagen" class="img-fluid border-radius-lg mb-3">
                   <ng-template #placeholder>
-                    <img src="../assets/img/idea-placeholder-2.png" alt="Placeholder" class="img-fluid border-radius-lg mb-3" >
+                    <img src="../assets/img/idea-noimage.png" alt="Placeholder" class="img-fluid border-radius-lg mb-3" >
                   </ng-template>
                   <h5 class="mt-2 mb-2 text-uppercase">{{ idea.titulo }}</h5>
                   <hr class="horizontal dark my-3">   
