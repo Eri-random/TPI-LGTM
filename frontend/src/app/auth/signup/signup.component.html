@@ -244,9 +244,9 @@
 
                   <div class="row">
                     <div class="col-md-6 mb-3">
-                      <label for="nombreOrg" class="form-label required">Nombre de la Organización</label>
+                      <label for="nombreOrg" class="form-label required">Nombre de Organización</label>
                       <div class="input-field" [class.error]="registerFormOrganizaction.controls['nombreOrg'].dirty && registerFormOrganizaction.hasError('required','nombreOrg')">
-                        <input id="nombreOrg" formControlName="nombreOrg" type="text" placeholder="Nombre de la Organización" class="form-control form-control-lg">
+                        <input id="nombreOrg" formControlName="nombreOrg" type="text" placeholder="Nombre de Organización" class="form-control form-control-lg">
                       </div>
                       <small *ngIf="registerFormOrganizaction.controls['nombreOrg'].dirty && registerFormOrganizaction.hasError('required','nombreOrg')" class="text-danger">El nombre es requerido</small>
                     </div>
