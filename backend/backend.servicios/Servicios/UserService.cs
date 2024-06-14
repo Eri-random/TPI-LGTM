@@ -48,7 +48,7 @@ namespace backend.servicios.Servicios
 
             try
             {
-                var users = await _userRepository.GetAllAsync(x => x.Rol);
+                var users = await _userRepository.GetAllAsync(x => x.Rol, x => x.Organizacion);
                 var user = users.FirstOrDefault(x => x.Email.Equals(email));
 
                 if (user == null)
@@ -203,7 +203,7 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var user = await _userRepository.GetByIdAsync(id);
+                var user = await _userRepository.GetByIdAsync(id, x => x.Rol, x => x.Organizacion);
 
                 if (user == null)
                     return null;
