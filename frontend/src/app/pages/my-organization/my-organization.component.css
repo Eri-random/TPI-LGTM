@@ -2,51 +2,64 @@
   .form-organizacion::-webkit-scrollbar {
     width: 8px;
   }
-  
+
   /* Track */
   .form-organizacion::-webkit-scrollbar-track {
     background: #f1f1f1;
   }
-  
+
   /* Handle */
   .form-organizacion::-webkit-scrollbar-thumb {
     background: #888;
   }
-  
+
   /* Handle on hover */
   .form-organizacion::-webkit-scrollbar-thumb:hover {
     background: #555;
   }
-  
 
-@media (min-width: 320px) and (max-width: 768px) {
-    .section-form{
-        width: 90%;
+  .opacity-class {
+    background-color: #DFE1E2;
+    opacity: 1;
+    cursor: no-drop;
+  }
+
+  .opacity-class:focus {
+    background-color: #DFE1E2;
+    opacity: 1;
+    border: 1px solid #d2d6da;
+    box-shadow: none;
+    outline: none;
+  }
+
+  @media (min-width: 320px) and (max-width: 768px) {
+    .section-form {
+      width: 90%;
     }
-}
+  }
 
-.uploadFile{
-  display: none;
-}
+  .uploadFile {
+    display: none;
+  }
 
-.imagePreview {
-  position: relative;
-  width: 100%;
-  height: auto;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
+  .imagePreview {
+    position: relative;
+    width: 100%;
+    height: auto;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
 
-.imgUp {
-  position: relative;
-}
+  .imgUp {
+    position: relative;
+  }
 
-#selectFile {
-  margin-left: 0 !important;
-}
+  #selectFile {
+    margin-left: 0 !important;
+  }
 
-.section-organization{
-  display: flex;
-  justify-content: center;
-}
+  .section-organization {
+    display: flex;
+    justify-content: center;
+  }
