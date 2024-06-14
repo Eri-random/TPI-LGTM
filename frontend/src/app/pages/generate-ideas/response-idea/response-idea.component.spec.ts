@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { UserStoreService } from 'src/app/services/user-store.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-xdescribe('ResponseIdeaComponent', () => {
+describe('ResponseIdeaComponent', () => {
   let component: ResponseIdeaComponent;
   let fixture: ComponentFixture<ResponseIdeaComponent>;
   let responseIdeaServiceMock: any;
@@ -32,7 +32,8 @@ xdescribe('ResponseIdeaComponent', () => {
     };
 
     userStoreMock = {
-      getUserByEmail: jasmine.createSpy('getUserByEmail').and.returnValue(of({ id: 1 }))
+      getUserByEmail: jasmine.createSpy('getUserByEmail').and.returnValue(of({ id: 1 })),
+      getEmailFromStore: jasmine.createSpy('getEmailFromStore').and.returnValue(of())
     };
 
     toastServiceMock = {
@@ -68,7 +69,15 @@ xdescribe('ResponseIdeaComponent', () => {
   });
 
   it('debería inicializarse correctamente', fakeAsync(() => {
+    userStoreMock.getEmailFromStore.and.returnValue(of('test@example.com'));
+  
+    userStoreMock.getUserByEmail.and.returnValue(of({ id: 1 }));
+  
     component.ngOnInit();
+    
+    // Simulate the passage of time for asynchronous operations
+    tick();
+  
     expect(responseIdeaServiceMock.getGeneratedIdea).toHaveBeenCalled();
     expect(authServiceMock.getEmailFromToken).toHaveBeenCalled();
     expect(userStoreMock.getUserByEmail).toHaveBeenCalledWith('test@example.com');

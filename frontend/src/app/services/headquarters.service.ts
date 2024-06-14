@@ -52,4 +52,7 @@ export class HeadquartersService {
     return this.dataDirection$.asObservable();
   }
 
+  public clearDataDirection(): void {
+    this.dataDirection$.next(null);
+  }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
+import { HeadquartersService } from 'src/app/services/headquarters.service';
 import { UserStoreService } from 'src/app/services/user-store.service';
 
 @Component({
@@ -14,7 +15,8 @@ export class NavbarComponent implements OnInit{
   isLoggedIn:boolean=false;
 
   constructor(private userStore:UserStoreService,
-    private authService:AuthService
+    private authService:AuthService,
+    private headquarterService: HeadquartersService,
   ){
   }
 
@@ -40,5 +42,9 @@ export class NavbarComponent implements OnInit{
   logout(){
     this.authService.singOut();
     this.authService.setIsLoggedIn(false);
+  }
+
+  clearDataDirection() {
+    this.headquarterService.clearDataDirection();
   }
 }
