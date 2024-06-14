@@ -71,6 +71,7 @@ namespace backend.data.DataContext
 
                 entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.Dificultad).HasColumnName("dificultad");
+                entity.Property(e => e.ImageUrl).HasColumnName("imageUrl");
                 entity.Property(e => e.Titulo)
                     .IsRequired()
                     .HasColumnName("titulo");
@@ -88,9 +89,7 @@ namespace backend.data.DataContext
 
                 entity.ToTable("info_organizacion");
 
-                entity.HasIndex(e => e.OrganizacionId, "organizacion_id");
-
-                entity.HasIndex(e => e.OrganizacionId, "organizacion_info").IsUnique();
+                entity.HasIndex(e => e.OrganizacionId, "organizacion_id").IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.DescripcionBreve)
@@ -137,9 +136,7 @@ namespace backend.data.DataContext
 
                 entity.ToTable("organizacion");
 
-                entity.HasIndex(e => e.UsuarioId, "usuario_id").IsUnique();
-
-                entity.HasIndex(e => e.UsuarioId, "usuario_id_key");
+                entity.HasIndex(e => e.UsuarioId, "usuario_id_key").IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.Cuit)
@@ -200,6 +197,9 @@ namespace backend.data.DataContext
                     .IsRequired()
                     .HasColumnName("descripcion");
                 entity.Property(e => e.IdeaId).HasColumnName("idea_id");
+                entity.Property(e => e.ImagenUrl)
+                    .IsRequired()
+                    .HasColumnName("imagenUrl");
                 entity.Property(e => e.PasoNum).HasColumnName("paso_num");
 
                 entity.HasOne(d => d.Idea).WithMany(p => p.Pasos)
@@ -213,6 +213,8 @@ namespace backend.data.DataContext
                 entity.HasKey(e => e.RolId).HasName("rol_pkey");
 
                 entity.ToTable("rol");
+
+                entity.HasIndex(e => e.Nombre, "rol_nombre_key").IsUnique();
 
                 entity.Property(e => e.RolId).HasColumnName("rol_id");
                 entity.Property(e => e.Nombre)
@@ -278,6 +280,8 @@ namespace backend.data.DataContext
                 entity.ToTable("usuario");
 
                 entity.HasIndex(e => e.RolId, "IX_usuario_rol_id");
+
+                entity.HasIndex(e => e.Email, "usuario_email_key").IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.Apellido)

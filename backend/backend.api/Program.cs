@@ -65,12 +65,16 @@ builder.Services.AddScoped<IOrganizationInfoService, InfoOrganizationService>();
 builder.Services.AddScoped<IIdeaService, IdeaService>();
 builder.Services.AddScoped<IHeadquartersService, headquartersService>();
 builder.Services.AddScoped<INeedService, NeedService>();
-builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UserRequestModel>());
+//builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UserRequestModel>());
 
 var groqApiConfig = builder.Configuration.GetSection("GroqApiConfig").Get<GroqApiConfig>();
 builder.Services.AddSingleton(groqApiConfig);
 builder.Services.AddSingleton<IGenerateIdeaApiService, GroqApiService>();
 builder.Services.AddHttpClient();
+
+var openAiApiConfig = builder.Configuration.GetSection("OpenAiApiConfig").Get<OpenAiApiConfig>();
+builder.Services.AddSingleton(openAiApiConfig);
+builder.Services.AddSingleton<IImageService, OpenAIImageService>();
 
 builder.Services.AddPredictionEnginePool<FabricModelInput, FabricModelOutput>()
     .FromFile(modelName: "ClasificacionImagen.MLModels.FabricMLModel", filePath: "MLModel/FabricMLModel.mlnet", watchForChanges: true);

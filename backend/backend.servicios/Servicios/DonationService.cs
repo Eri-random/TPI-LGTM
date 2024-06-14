@@ -138,5 +138,17 @@ namespace backend.servicios.Servicios
                 throw;
             }
         }
+
+        public async Task<int> GetIdDonationAsync(DonationDto newDonation)
+        {
+            var donation = await _context.Donacions
+                .FirstOrDefaultAsync(d => d.Producto == newDonation.Producto
+                               && d.Cantidad == newDonation.Cantidad
+                               && d.UsuarioId == newDonation.UsuarioId
+                               && d.OrganizacionId == newDonation.OrganizacionId
+                               && d.Estado == newDonation.Estado);
+
+            return donation?.Id ?? 0;
+        }
     }
 }

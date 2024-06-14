@@ -100,7 +100,7 @@ export class OrganizationRequestComponent implements OnInit {
           detail: 'EXITO',
           summary: response.message,
           duration: 5000,
-          position:'topRight',
+          position:'bottomRight',
         });
       },
       error: (error:any) => {
@@ -108,7 +108,7 @@ export class OrganizationRequestComponent implements OnInit {
           detail: 'EXITO',
           summary: error.error,
           duration: 5000,
-          position:'topRight',
+          position:'bottomRight',
         });
       }
     });

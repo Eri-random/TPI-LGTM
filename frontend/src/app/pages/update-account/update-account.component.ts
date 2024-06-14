@@ -103,6 +103,7 @@ export class UpdateAccountComponent implements OnInit {
     .subscribe(val =>{
       const roleFromToken = this.authService.getRoleFromToken();
       this.role = val || roleFromToken;
+      console.log(this.role)
     });
 
     if(this.role == 'organizacion'){
@@ -347,6 +348,7 @@ export class UpdateAccountComponent implements OnInit {
         this.accountForm.enable(); // Enable form controls for user
       } else if (this.role === 'organizacion') {
         this.accountOrgForm.enable(); // Enable form controls for organization
+        this.accountOrgForm.get('cuit')?.disable();
       }
     } else {
       if (cancel) {
@@ -391,7 +393,7 @@ export class UpdateAccountComponent implements OnInit {
           detail: 'INFO',
           summary: 'No hay datos para actualizar',
           duration: 3000,
-          position: 'topRight',
+          position: 'bottomRight',
         });
         this.toggleEditMode(true);
         return;
@@ -413,7 +415,7 @@ export class UpdateAccountComponent implements OnInit {
           detail: 'INFO',
           summary: 'No hay datos para actualizar',
           duration: 3000,
-          position: 'topRight',
+          position: 'bottomRight',
         });
         this.toggleEditMode(true);
         return;
@@ -422,6 +424,7 @@ export class UpdateAccountComponent implements OnInit {
       orgData = {
         ...this.accountOrgForm.value,
         id: this.idOrg,
+        cuit: this.cuit,
       };
     }
 
@@ -432,9 +435,9 @@ export class UpdateAccountComponent implements OnInit {
             this.toggleEditMode();
             this.toast.success({
               detail: 'EXITO',
-              summary: `Usuario ${userData.nombre} actualizado correctamente`,
+              summary: `${res.message}`,
               duration: 3000,
-              position: 'topRight',
+              position: 'bottomRight',
             });
           }
         },
@@ -452,7 +455,7 @@ export class UpdateAccountComponent implements OnInit {
               detail: 'EXITO',
               summary: `${res.message}`,
               duration: 3000,
-              position: 'topRight',
+              position: 'bottomRight',
             });
           }
         },

@@ -1,10 +1,9 @@
 ﻿using backend.api.Models;
+using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
 using backend.servicios.Models;
-using backend.servicios.Servicios;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using backend.servicios.DTOs;
 
 
 namespace backend.api.Controllers
@@ -14,13 +13,12 @@ namespace backend.api.Controllers
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
-    public class IdeaController(IGenerateIdeaApiService groqApiService, ILogger<IdeaController> logger, IIdeaService ideaService) : ControllerBase
+    public class IdeaController(IGenerateIdeaApiService groqApiService, ILogger<IdeaController> logger, IIdeaService ideaService, IImageService imageService) : ControllerBase
     {
         private readonly IGenerateIdeaApiService _groqApiService = groqApiService ?? throw new ArgumentNullException(nameof(groqApiService));
         private readonly ILogger<IdeaController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         private readonly IIdeaService _ideaService = ideaService ?? throw new ArgumentNullException(nameof(ideaService));
-
-
+        private readonly IImageService _imageService = imageService ?? throw new ArgumentNullException(nameof(imageService));
 
         /// <summary>
         /// Generates an idea based on the user message.
@@ -58,6 +56,36 @@ namespace backend.api.Controllers
                 _logger.LogInformation("Total time: {totalTime}", chatResponse?.Usage?.TotalTime);
 
                 var ideaResponse = JsonConvert.DeserializeObject<GenerateIdeaResponseModel>(idea);
+
+                // Generar imagen para la idea principal
+                var imageGenerationRequest = new OpenAIImageRequest(ideaResponse.Idea);
+                var mainImageTask = _imageService.GenerateImageAsync(imageGenerationRequest);
+
+                // Generar imágenes para cada paso
+                var stepImageTasks = new Task<OpenAIImageResponse>[ideaResponse.Steps.Length];
+
+                for (int i = 0; i < ideaResponse.Steps.Length; i++)
+                {
+                    var stepImageRequest = new OpenAIImageRequest(ideaResponse.Steps[i]);
+                    stepImageTasks[i] = _imageService.GenerateImageAsync(stepImageRequest);
+                }
+
+                var mainImage = await mainImageTask;
+                var stepImages = await Task.WhenAll(stepImageTasks);
+
+                if (mainImage != null && mainImage.Data != null && mainImage.Data.Count > 0)
+                {
+                    ideaResponse.ImageUrl = mainImage.Data[0].Url;
+                }
+
+                for (int i = 0; i < ideaResponse.Steps.Length; i++)
+                {
+                    if (stepImages[i] != null && stepImages[i].Data != null && stepImages[i].Data.Count > 0)
+                    {
+                        ideaResponse.Steps[i] += $"ImageURL: {stepImages[i].Data[0].Url}";
+                    }
+                }
+
                 return StatusCode(StatusCodes.Status201Created,ideaResponse);
             }
             catch (Exception ex)
@@ -87,8 +115,10 @@ namespace backend.api.Controllers
                     Pasos = idea.Pasos.Select(paso => new StepDto
                     {
                         PasoNum = paso.PasoNum,
-                        Descripcion = paso.Descripcion
-                    }).ToList()
+                        Descripcion = paso.Descripcion,
+                        ImagenUrl = paso.ImagenUrl
+                    }).ToList(),
+                    ImageUrl = idea.ImageUrl
                 };
 
 

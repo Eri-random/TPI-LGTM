@@ -64,54 +64,6 @@ describe('EditHeadquartersComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  xit('debería inicializar y cargar datos de la organización, sede y provincias', fakeAsync(() => {
-    const mockOrgName = 'Org Prueba';
-    const mockCuit = '123456789';
-    const mockOrganization = { id: 1 };
-    const mockHeadquarter = {
-      nombre: 'Sede 1',
-      direccion: 'Direccion 1',
-      localidad: 'Localidad 1',
-      provincia: 'Provincia 1',
-      telefono: '123456789'
-    };
-    const mockProvinces: Provinces = {
-      provincias: [
-        { nombre: 'Buenos Aires' } as Province,
-        { nombre: 'Neuquen' } as Province,
-        { nombre: 'Chaco' } as Province
-      ],
-      cantidad: 3,
-      inicio: 0,
-      parametros: {},
-      total: 3
-    };
-
-    mockOrganizationService.getOrgNameFromStore.and.returnValue(of(mockOrgName));
-    mockAuthService.getOrgNameFromToken.and.returnValue(mockOrgName);
-    mockOrganizationService.getCuitFromStore.and.returnValue(of(mockCuit));
-    mockAuthService.getCuitFromToken.and.returnValue(mockCuit);
-    mockOrganizationService.getOrganizationByCuit.and.returnValue(of(mockOrganization));
-    mockHeadquartersService.getHeadquarterById.and.returnValue(of(mockHeadquarter));
-    mockMapService.getProvinces.and.returnValue(of(mockProvinces));
-
-    component.ngOnInit();
-
-    expect(mockOrganizationService.getOrgNameFromStore).toHaveBeenCalled();
-    expect(mockAuthService.getOrgNameFromToken).toHaveBeenCalled();
-    expect(mockOrganizationService.getCuitFromStore).toHaveBeenCalled();
-    expect(mockAuthService.getCuitFromToken).toHaveBeenCalled();
-    expect(mockOrganizationService.getOrganizationByCuit).toHaveBeenCalledWith(mockCuit);
-    expect(mockHeadquartersService.getHeadquarterById).toHaveBeenCalledWith(1);
-    expect(mockMapService.getProvinces).toHaveBeenCalled();
-
-    expect(component.orgName).toBe(mockOrgName);
-    expect(component.cuit).toBe(mockCuit);
-    expect(component.organization).toEqual(mockOrganization);
-    expect(component.headquartersForm.value).toEqual(mockHeadquarter);
-    expect(component.provinces.length).toBe(3); // Asegura que se carguen las provincias
-  }));
-
   it('debería actualizar la sede correctamente', () => {
     const mockOrganization = { id: 1 };
     const mockHeadquartersFormValue = {

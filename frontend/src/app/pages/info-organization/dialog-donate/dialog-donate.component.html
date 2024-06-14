@@ -58,7 +58,7 @@
                     required
                     formControlName="cantidad"
                   />
-                  <small *ngIf="fm['cantidad'].dirty && fm['cantidad'].errors" class="text-danger">La cantidad es requerido</small>
+                  <small *ngIf="fm['cantidad'].dirty && fm['cantidad'].errors" class="text-danger">La cantidad es requerida</small>
                 </div>
               </div>
             </div>
@@ -86,7 +86,7 @@
               <br>
               La sede más cercana a tu domicilio
             </p>
-            <div class="text-center"><a [routerLink]="['/ubicaciones']" (click)="close()" class="ver-mapa btn btn-round bg-gradient-secondary align-items-center"><i class="fas fa-map-marked-alt"></i> Ver ubicación</a></div>
+            <div class="text-center"><a [routerLink]="['/ubicaciones']" class="ver-mapa btn btn-round bg-gradient-secondary align-items-center"><i class="fas fa-map-marked-alt"></i> Ver ubicación</a></div>
           </div>
         </div>
       </ng-template>

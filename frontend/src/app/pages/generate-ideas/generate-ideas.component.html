@@ -1,66 +1,70 @@
 <section *ngIf="!isLogged">
-    <div class="page-header min-vh-100">
-      <div class="container">
-        <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-8 mb-5 ">
-          
-            <div class="col-8 text-center mx-auto">
-                <h1 class="pt-3">¡Reciclar telas nunca fue <span class="text-gradient text-secondary">tan fácil</span>!</h1>   
-              </div>
-          
-          <div class="card-body">
-            <div class="row">
-              <div class="col text-center justify-content-center">
-                <p class="lead mt-3">Para poder acceder a la herramienta de generación de ideas, tenés que iniciar sesión primero.</p>
-              </div>
-            </div>
-            <div class="text-center justify-content-center align-items-center">
-            <button routerLink="/login" class="btn btn-lg bg-gradient-primary mt-4 mb-4">Ingresar</button>
-          </div>
-          </div>
+  <div class="page-container min-vh-100">
+    <div>
+      <img class="position-absolute fixed-top ms-auto w-60 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/a.png">
+      <img class="position-absolute fixed-top ms-8 w-auto h-100 z-index-0 d-xl-none border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/a-mobile.png">
+    </div>
+    <div class="container">
+      <div class="card blur justify-content-center shadow-lg mt-7 mb-5">
+        <div class="row text-center mx-1 mt-4">
+          <h2>¡Reciclar telas nunca fue <span class="text-gradient text-secondary">tan fácil</span>!</h2>
         </div>
+        <div class="card-body pb-2">
+          <div class="row">
+            <div class="col text-center mb-3">
+            <p class="lead">
+              Para poder acceder a la herramienta de generación de ideas, tenés que iniciar sesión primero.
+            </p>
+            </div>
+            <div class="d-flex justify-content-center">
+              <button routerLink="/login" class="btn btn-lg btn-round bg-gradient-primary">Ingresar</button>
+            </div>
+          </div>
+          </div>
       </div>
     </div>
-</section> 
+  </div>
+</section>
+
 
 <!-- <section *ngIf="isLogged"> -->
 
 <section *ngIf="isLogged">
-  <div class="page-header min-vh-100">
+  <div class="page-container">
     <div>
-      <img class="position-absolute fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/curved-images/curved8.jpg" alt="image">
+      <img class="position-absolute fixed-top ms-auto w-60 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/a.png">
+      <img class="position-absolute fixed-top ms-8 w-auto h-100 z-index-0 d-xl-none border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/a-mobile.png">
     </div>
     <div class="container">
-      <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-7 mb-5 ">
-        <!-- <div class="card blur card-plain"> -->
-        <div class="col-8 text-center mx-auto pt-3 pb-0">
-          <h1 class="pt-3">Transformá Retazos de Tela con <span class="text-gradient text-secondary">IA</span>! </h1>
+      <div class="card blur justify-content-center shadow-lg mt-7 mb-5">
+        <div class="row text-center mx-1 mt-4">
+          <h2>Transformá retazos de tela ¡con <span class="text-gradient text-secondary">IA</span>!</h2>
         </div>
         <div class="card-body">
           <div class="row">
-            <div class="col text-center justify-content-center">
+            <div class="col text-center">
               <p class="lead mb-5">¿No sabés qué tela es? Subí una foto y te ayudamos a identificarla.</p>
             </div>
           </div>
           <form [formGroup]='ideaForm' (ngSubmit)="submitForm()">
-            <div class="row row-cols-2 row-cols-md-6 justify-content-center mb-2">
-              <div class="col-6 col-md-3 col-lg-2 imgUp align-items-center justify-content-center" *ngFor="let preview of imagePreviews; let i = index">
-                <div class="imagePreview shadow border-radius-md" [style.backgroundImage]="'url(' + preview + ')'"></div>
-                <div class="text-center justify-content-center align-items-center">
-                  <label class="btn bg-gradient-primary mt-4" id="selectFile"> Cargar imagen <input type="file" class="uploadFile img" (change)="onFileChange($event, i)">
-                  </label>
-                </div>
-                <ng-container *ngIf="i > 0">
-                  <i class="fa fa-times del" (click)="removeImage(i)"></i>
-                </ng-container>
-              </div>
-              <!-- <i *ngIf="imagePreviews.length < 4" class="fa fa-plus-square icon_add d-none d-md-block" (click)="addImage()"></i> -->
-            </div>
-            <small *ngIf="errorImage" class="msj-error d-flex justify-content-center mb-5">{{errorImage}}</small>
-            <!-- <button type="button" *ngIf="imagePreviews.length < 4" class="btn btn-primary py-2 my-4 w-100 d-block d-md-none" (click)="addImage()">
-                    Agregar Imágen
-                </button> -->
             <div class="row justify-content-center">
-              <div class="col-lg-6">
+              <div class="col-lg-4 imgUp align-items-center justify-content-center px-lg-4" *ngFor="let preview of imagePreviews; let i = index">
+                <div class="imagePreview shadow border-radius-md" [style.backgroundImage]="'url(' + preview + ')'"></div>
+                <small *ngIf="errorImage" class="text-danger d-flex justify-content-center mt-2">{{errorImage}}</small>
+                <div class="text-center justify-content-center align-items-center">
+                  <label class="btn btn-round bg-gradient-secondary mt-4" id="selectFile"><i class="fas fa-file-upload"></i> Subir imagen <input type="file" class="uploadFile img" (change)="onFileChange($event, i)"></label>
+
+                <ng-container *ngIf="i > 0">
+                  <button class="btn btn-round bg-gradient-danger" (click)="removeImage(i)"><i class="fas fa-trash"></i> Eliminar imagen</button>
+                </ng-container>
+                </div>
+              </div>
+              <!-- <ng-container *ngIf="imagePreviews.length < 4">
+                <button class="btn btn-round bg-gradient-primary w-25 h-25" (click)="addImage()"><i class="fas fa-plus"></i> Agregar imagen</button>
+              </ng-container> -->
+              
+
+              <div class="col-lg-8 d-flex justify-content-center align-items-center px-lg-4">
                 <div class="row g-3">
                   <div class="col-md-6">
                     <label for="tipoDeTela" class="form-label required">Tipo de tela</label>
@@ -85,9 +89,10 @@
                   <div class="col-12">
                     <div class="row">
                       <div class="d-flex justify-content-center pt-3">
-                        <button class="btn btn-lg bg-gradient-primary">Generar idea</button>
+                        <button class="btn btn-round btn-lg bg-gradient-primary">Generar idea</button>
                       </div>
                     </div>
+                    
                   </div>
                 </div>
               </div>

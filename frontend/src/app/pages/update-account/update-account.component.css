@@ -1,27 +1,3 @@
-.container {
-  padding-top: 6rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.section-account {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 30px;
-}
-
-.form {
-  width: 56%;
-}
-
-.data {
-  margin-top: 2rem;
-  width: 36%;
-}
-
 .loading-container {
   display: flex;
   justify-content: center;
@@ -59,41 +35,6 @@
   }
 }
 
-
-.headquarters-length{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-}
-.headquarters-length > p{
-  margin: 0rem;
-  padding: 0rem;
-  font-size: 24px;
-}
-
-.headquarters-name > p{
-  margin: 0rem;
-  padding: 0rem;
-  font-size: 18px;
-}
-
-.aviso {
-  background-color: #fffaea; /* Amarillo de aviso */
-  color: #6c757d; /* Gris oscuro para el texto */
-  padding: 4px 8px;
-  border-top: 4px solid #ffc107; /* Borde amarillo */
-  border-radius: 5px;
-  font-weight: bold;
-  width: max-content;
-}
-
-.aviso-agregar {
-  background-color: #e0f7fa; /* Azul claro de aviso */
-  color: #3498db; /* Azul oscuro para el texto */
-  padding: 4px 8px;
-  border-top: 4px solid #00bcd4; /* Borde azul */
-  border-radius: 5px;
-  font-weight: bold;
-  width: max-content;
+li {
+  text-align: left;
 }

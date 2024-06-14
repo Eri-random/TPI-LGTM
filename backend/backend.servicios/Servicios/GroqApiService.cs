@@ -69,7 +69,7 @@ namespace backend.servicios.Servicios
                     }
                 },
                 model = _config.LlmModel,
-                temperature = 0.8,
+                temperature = 0.6,
                 max_tokens = 5000,
                 top_p = 1,
                 stream = false,

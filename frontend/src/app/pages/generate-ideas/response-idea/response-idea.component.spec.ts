@@ -32,7 +32,8 @@ describe('ResponseIdeaComponent', () => {
     };
 
     userStoreMock = {
-      getUserByEmail: jasmine.createSpy('getUserByEmail').and.returnValue(of({ id: 1 }))
+      getUserByEmail: jasmine.createSpy('getUserByEmail').and.returnValue(of({ id: 1 })),
+      getEmailFromStore: jasmine.createSpy('getEmailFromStore').and.returnValue(of())
     };
 
     toastServiceMock = {
@@ -68,7 +69,15 @@ describe('ResponseIdeaComponent', () => {
   });
 
   it('debería inicializarse correctamente', fakeAsync(() => {
+    userStoreMock.getEmailFromStore.and.returnValue(of('test@example.com'));
+  
+    userStoreMock.getUserByEmail.and.returnValue(of({ id: 1 }));
+  
     component.ngOnInit();
+    
+    // Simulate the passage of time for asynchronous operations
+    tick();
+  
     expect(responseIdeaServiceMock.getGeneratedIdea).toHaveBeenCalled();
     expect(authServiceMock.getEmailFromToken).toHaveBeenCalled();
     expect(userStoreMock.getUserByEmail).toHaveBeenCalledWith('test@example.com');
@@ -94,7 +103,7 @@ describe('ResponseIdeaComponent', () => {
       detail: 'EXITO',
       summary: 'Idea guardada exitosamente',
       duration: 3000,
-      position: 'topCenter',
+      position: 'topRight',
     });
 
     tick(3000);
@@ -112,7 +121,7 @@ describe('ResponseIdeaComponent', () => {
       detail: 'ERROR',
       summary: 'Error al guardar la idea',
       duration: 3000,
-      position: 'topCenter',
+      position: 'topRight',
     });
     expect(routerMock.navigate).not.toHaveBeenCalledWith(['/mis-ideas']);
   }));

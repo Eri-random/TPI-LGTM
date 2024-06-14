@@ -17,8 +17,7 @@ export class MyOrganizationComponent {
   organizationForm: FormGroup;
   cuit!: string;
   imageSrc: string | ArrayBuffer | null =
-    'https://media.istockphoto.com/id/1226328537/es/vector/soporte-de-posici%C3%B3n-de-imagen-con-un-icono-de-c%C3%A1mara-gris.jpg?s=612x612&w=0&k=20&c=8igCt_oe2wE-aP0qExUDfwicSNUCb4Ho9DiKCq0rSaA=';
-
+    '/assets/img/logo-placeholder.png';
   selectedFile: File | null = null;
   isEditMode: boolean = false;
 
@@ -76,7 +75,7 @@ export class MyOrganizationComponent {
       }
       reader.readAsDataURL(file);
     }else{
-      this.imageSrc = "https://media.istockphoto.com/id/1226328537/es/vector/soporte-de-posici%C3%B3n-de-imagen-con-un-icono-de-c%C3%A1mara-gris.jpg?s=612x612&w=0&k=20&c=8igCt_oe2wE-aP0qExUDfwicSNUCb4Ho9DiKCq0rSaA="
+      this.imageSrc = '/assets/img/placeholder.png'
     }
   }
 
@@ -91,7 +90,7 @@ export class MyOrganizationComponent {
       return;
     }
 
-    if( this.imageSrc == 'https://media.istockphoto.com/id/1226328537/es/vector/soporte-de-posici%C3%B3n-de-imagen-con-un-icono-de-c%C3%A1mara-gris.jpg?s=612x612&w=0&k=20&c=8igCt_oe2wE-aP0qExUDfwicSNUCb4Ho9DiKCq0rSaA='){
+    if( this.imageSrc == '/assets/img/placeholder.png'){
       return;
     }
 
@@ -152,7 +151,7 @@ export class MyOrganizationComponent {
         detail:
           'Ocurrió un error al intentar guardar la información. Intente nuevamente.',
         duration: 5000,
-        position: 'topCenter',
+        position: 'topRight',
       });
     } else {
       console.error('Error:', error.message);
@@ -160,7 +159,7 @@ export class MyOrganizationComponent {
         detail:
           'Ocurrió un error al intentar guardar la información. Intente nuevamente.',
         duration: 5000,
-        position: 'topCenter',
+        position: 'topRight',
       });
     }
   }
@@ -169,7 +168,7 @@ export class MyOrganizationComponent {
     this.toast.success({
       detail: 'La información se guardó correctamente.',
       duration: 5000,
-      position: 'topCenter',
+      position: 'topRight',
     });
   }
 }
