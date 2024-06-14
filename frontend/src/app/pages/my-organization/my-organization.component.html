@@ -44,7 +44,7 @@
 
                 <div class="mb-3">
                   <label for="organizacion" class="form-label required">Organización</label>
-                  <input id="organizacion" type="text" class="form-control" formControlName="organizacion" maxlength="30" readonly />
+                  <input id="organizacion" type="text" class="form-control opacity-class" formControlName="organizacion" maxlength="30" readonly />
                   <small *ngIf="organizationForm.controls['organizacion'].dirty && organizationForm.hasError('required', 'organizacion')" class="text-danger">Nombre de organización requerido</small>
                   <div class="d-flex justify-content-between px-1">
                     <p class="info small pe-1">

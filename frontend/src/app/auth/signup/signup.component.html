@@ -69,194 +69,242 @@
   </section>
 </div>
 
-<div class="outer {{visibilityForm}}">
+<!-- Formulario Usuario Personal -->
+<div class="outer {{visibilityForm}}" *ngIf="selectedRole === 'usuario'">
   <section>
     <div class="page-header min-vh-100">
       <div class="container">
         <div class="row">
-          <div class="col-xl-5 col-lg-5 col-md-8 d-flex flex-column mx-lg-0 mx-auto  mt-6">
-            <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-8 mb-5 ">
+          <div class="col-xl-5 col-lg-5 col-md-8 d-flex flex-column mx-lg-0 mx-auto mt-6">
+            <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-8 mb-5">
               <div class="pb-0 text-left py-4 px-4">
                 <h4 class="font-weight-bolder">Crear cuenta</h4>
                 <p class="mb-0">Ingresá tus datos para registrarte</p>
               </div>
               <div class="card-body">
                 <form role="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-                  <div class="row" [ngClass]="{'': selectedRole === 'usuario', '': selectedRole === 'usuario'}">
-                    <div class="col-md-6 mb-3" [ngClass]="{'': selectedRole === 'usuario'}">
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
                       <label for="nombre" class="form-label required">Nombre</label>
-                      <div class="input-field"
-                        [class.error]="registerForm.controls['nombre'].dirty && registerForm.hasError('required','nombre')">
-                        <input id="nombre" formControlName="nombre" type="text" placeholder="Nombre"
-                          class="form-control form-control-lg">
+                      <div class="input-field" [class.error]="registerForm.controls['nombre'].dirty && registerForm.hasError('required','nombre')">
+                        <input id="nombre" formControlName="nombre" type="text" placeholder="Nombre" class="form-control form-control-lg">
                       </div>
-                      <small *ngIf="registerForm.controls['nombre'].dirty && registerForm.hasError('required','nombre')"
-                        class="text-danger">El nombre es requerido</small>
+                      <small *ngIf="registerForm.controls['nombre'].dirty && registerForm.hasError('required','nombre')" class="text-danger">El nombre es requerido</small>
                     </div>
-                    <div class="col-md-6 mb-3" *ngIf="selectedRole == 'usuario'">
+                    <div class="col-md-6 mb-3">
                       <label for="apellido" class="form-label required">Apellido</label>
-                      <div class="input-field"
-                        [class.error]="registerForm.controls['apellido'].dirty && registerForm.hasError('required','apellido')">
-                        <input id="apellido" formControlName="apellido" type="text" placeholder="Apellido"
-                          class="form-control form-control-lg">
+                      <div class="input-field" [class.error]="registerForm.controls['apellido'].dirty && registerForm.hasError('required','apellido')">
+                        <input id="apellido" formControlName="apellido" type="text" placeholder="Apellido" class="form-control form-control-lg">
                       </div>
-                      <small
-                        *ngIf="registerForm.controls['apellido'].dirty && registerForm.hasError('required','apellido')"
-                        class="text-danger">El apellido es requerido</small>
+                      <small *ngIf="registerForm.controls['apellido'].dirty && registerForm.hasError('required','apellido')" class="text-danger">El apellido es requerido</small>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-6 mb-3">
                       <label for="telefono" class="form-label">Teléfono</label>
-                      <div class="input-field"
-                        [class.error]="registerForm.controls['telefono'].dirty && (registerForm.hasError('minlength','telefono') || registerForm.hasError('maxlength','telefono'))">
-                        <input id="telefono" formControlName="telefono" type="text" placeholder="1123456789"
-                          (input)="onInput($event)" class="form-control form-control-lg">
+                      <div class="input-field" [class.error]="registerForm.controls['telefono'].dirty && (registerForm.hasError('minlength','telefono') || registerForm.hasError('maxlength','telefono'))">
+                        <input id="telefono" formControlName="telefono" type="text" placeholder="1123456789" (input)="onInput($event)" class="form-control form-control-lg">
                       </div>
-                      <small
-                        *ngIf="registerForm.controls['telefono'].dirty && (registerForm.hasError('minlength','telefono') || registerForm.hasError('maxlength','telefono'))"
-                        class="text-danger">El teléfono debe tener de 8 a 10 dígitos</small>
-
+                      <small *ngIf="registerForm.controls['telefono'].dirty && (registerForm.hasError('minlength','telefono') || registerForm.hasError('maxlength','telefono'))" class="text-danger">El teléfono debe tener de 8 a 10 dígitos</small>
                     </div>
                     <div class="col-md-6 mb-3">
                       <label for="direccion" class="form-label required">Dirección</label>
-                      <div class="input-field"
-                        [class.error]="registerForm.controls['direccion'].dirty && registerForm.hasError('required','direccion')">
-                        <input id="direccion" formControlName="direccion" type="text" placeholder="Dirección 123"
-                          class="form-control form-control-lg">
+                      <div class="input-field" [class.error]="registerForm.controls['direccion'].dirty && registerForm.hasError('required','direccion')">
+                        <input id="direccion" formControlName="direccion" type="text" placeholder="Dirección 123" class="form-control form-control-lg">
                       </div>
-                      <small
-                        *ngIf="registerForm.controls['direccion'].dirty && registerForm.hasError('required','direccion')"
-                        class="text-danger">La dirección es requerida</small>
+                      <small *ngIf="registerForm.controls['direccion'].dirty && registerForm.hasError('required','direccion')" class="text-danger">La dirección es requerida</small>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-6 mb-3">
-                      <label for="provincia" class="form-label required"
-                        >Provincia</label
-                      >
-                      <select
-                        (change)="onProvinceChange()"
-                        class="form-control form-select input-field"
-                        [class.error]="
-                        registerForm.get('provincia')?.dirty &&
-                        registerForm.get('provincia')?.errors
-                        "
-                        id="provincia"
-                        formControlName="provincia"
-                      >
-                        <option value="" selected disabled>
-                          Seleccionar provincia
-                        </option>
-                        <option
-                          *ngFor="let prov of provinces"
-                          [ngValue]="prov.nombre"
-                        >
-                          {{ prov.nombre }}
-                        </option>
+                      <label for="provincia" class="form-label required">Provincia</label>
+                      <select (change)="onProvinceChange()" class="form-control form-select input-field" [class.error]="registerForm.get('provincia')?.dirty && registerForm.get('provincia')?.errors" id="provincia" formControlName="provincia">
+                        <option value="" selected disabled>Seleccionar provincia</option>
+                        <option *ngFor="let prov of provinces" [ngValue]="prov.nombre">{{ prov.nombre }}</option>
                       </select>
-                      <small
-                        *ngIf="
-                        registerForm.get('provincia')?.touched &&
-                        registerForm.get('provincia')?.errors
-                        "
-                        class="text-danger"
-                        >La provincia es requerida</small
-                      >
+                      <small *ngIf="registerForm.get('provincia')?.touched && registerForm.get('provincia')?.errors" class="text-danger">La provincia es requerida</small>
                     </div>
                     <div class="col-md-6 mb-3">
                       <label for="localidad" class="form-label required">Localidad</label>
-                      <select
-                        class="form-control form-select input-field"
-                        [class.error]="
-                        registerForm.get('localidad')?.dirty &&
-                        registerForm.get('localidad')?.errors
-                        "
-                        id="localidad"
-                        required
-                        formControlName="localidad"
-                      >
+                      <select class="form-control form-select input-field" [class.error]="registerForm.get('localidad')?.dirty && registerForm.get('localidad')?.errors" id="localidad" required formControlName="localidad">
                         <option value="" selected disabled>Seleccionar localidad</option>
-                        <option
-                          *ngFor="let local of localidades"
-                          [value]="local.nombre"
-                        >
-                          {{ local.nombre }}
-                        </option>
+                        <option *ngFor="let local of localidades" [value]="local.nombre">{{ local.nombre }}</option>
                       </select>
-                      <small
-                        *ngIf="
-                        registerForm.get('localidad')?.touched &&
-                        registerForm.get('localidad')?.errors
-                        "
-                        class="text-danger"
-                        >La localidad es requerida</small
-                      >
+                      <small *ngIf="registerForm.get('localidad')?.touched && registerForm.get('localidad')?.errors" class="text-danger">La localidad es requerida</small>
                     </div>
-                  </div>
-                  <div *ngIf="selectedRole == 'organización'" class="form-group mb-3">
-                    <label for="cuit" class="form-label required">CUIT</label>
-                    <div class="input-field"
-                      [class.error]="registerForm.controls['cuit'].dirty && registerForm.hasError('required','cuit')">
-                      <input id="cuit" formControlName="cuit" type="text" placeholder="N° de CUIT"
-                        class="form-control form-control-lg">
-                    </div>
-                    <small *ngIf="registerForm.controls['cuit'].dirty && registerForm.hasError('required','cuit')"
-                      class="text-danger">El CUIT es requerido</small>
                   </div>
                   <div class="row">
                     <div class="col-md-6 mb-3">
                       <label for="email" class="form-label required">Correo electrónico</label>
-                      <div class="input-field"
-                        [class.error]="registerForm.controls['email'].dirty && registerForm.hasError('required','email')">
-                        <input id="email" formControlName="email" type="email" placeholder="correo@correo.com"
-                          class="form-control form-control-lg">
+                      <div class="input-field" [class.error]="registerForm.controls['email'].dirty && registerForm.hasError('required','email')">
+                        <input id="email" formControlName="email" type="email" placeholder="correo@correo.com" class="form-control form-control-lg">
                       </div>
-                      <small *ngIf="registerForm.controls['email'].dirty && registerForm.hasError('required','email')"
-                        class="text-danger">El correo electrónico es requerido</small>
+                      <small *ngIf="registerForm.controls['email'].dirty && registerForm.hasError('required','email')" class="text-danger">El correo electrónico es requerido</small>
                     </div>
                     <div class="col-md-6 mb-3">
                       <label for="password" class="form-label required">Contraseña</label>
-                      <div class="input-field"
-                        [class.error]="registerForm.controls['password'].dirty && registerForm.hasError('required','password')">
-                        <input id="password" formControlName="password" [type]="type" placeholder="Contraseña"
-                          class="form-control form-control-lg">
-                        <!-- <span (click)="hideShowPass()" class="fa {{eyeIcon}}"></span> -->
+                      <div class="input-field" [class.error]="registerForm.controls['password'].dirty && registerForm.hasError('required','password')">
+                        <input id="password" formControlName="password" [type]="type" placeholder="Contraseña" class="form-control form-control-lg">
                       </div>
-                      <small
-                        *ngIf="registerForm.controls['password'].dirty && registerForm.hasError('required','password')"
-                        class="text-danger">La contraseña es requerida</small>
-                      <small
-                        *ngIf="registerForm.controls['password'].dirty && registerForm.hasError('minlength','password')"
-                        class="text-danger">La contraseña debe tener al menos 6 caracteres</small>
+                      <small *ngIf="registerForm.controls['password'].dirty && registerForm.hasError('required','password')" class="text-danger">La contraseña es requerida</small>
+                      <small *ngIf="registerForm.controls['password'].dirty && registerForm.hasError('minlength','password')" class="text-danger">La contraseña debe tener al menos 6 caracteres</small>
                     </div>
                   </div>
                   <div class="text-center">
-                    <button type="submit" class="btn btn-round btn-lg bg-gradient-primary w-100 mt-4 mb-0">Crear
-                      cuenta</button>
+                    <button type="submit" class="btn btn-round btn-lg bg-gradient-primary w-100 mt-4 mb-0">Crear cuenta</button>
                   </div>
                 </form>
               </div>
               <div class="card-footer text-center pt-0">
-                <p class="text-sm"> ¿Ya tenés una cuenta? <a id="forget" class="account"
-                    routerLink="/login">Ingresar</a>
-                </p>
+                <p class="text-sm">¿Ya tenés una cuenta? <a id="forget" class="account" routerLink="/login">Ingresar</a></p>
               </div>
             </div>
           </div>
-          <div
-            class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
-            <div
-              class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center">
-              <img src="../assets/img/shapes/pattern-lines.svg" alt="pattern-lines"
-                class="position-absolute opacity-4 start-0">
+          <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
+            <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center">
+              <img src="../assets/img/shapes/pattern-lines.svg" alt="pattern-lines" class="position-absolute opacity-4 start-0">
               <div class="position-relative">
                 <img class="w-60 position-relative z-index-2" src="../assets/logos/reCrea-white.svg">
               </div>
               <div class="d-flex justify-content-center mt-4">
                 <div class="text-white w-50">
-                  Nos apasiona tejer un futuro más sostenible, impulsando proteger el medio ambiente y fomentando la
-                  responsabilidad social.
+                  Nos apasiona tejer un futuro más sostenible, impulsando proteger el medio ambiente y fomentando la responsabilidad social.
+                  <br /><br />
+                  <span class="text-bold">¡Registrate y empezá a formar parte del cambio!</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+<!-- Formulario Organización Benéfica -->
+<div class="outer {{visibilityForm}}" *ngIf="selectedRole === 'organización'">
+  <section>
+    <div class="page-header min-vh-100">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-5 col-lg-5 col-md-8 d-flex flex-column mx-lg-0 mx-auto mt-6">
+            <div class="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-8 mb-5">
+              <div class="pb-0 text-left py-4 px-4">
+                <h4 class="font-weight-bolder">Crear cuenta</h4>
+                <p class="mb-0">Ingresá tus datos para registrarte</p>
+              </div>
+              <div class="card-body">
+                <form role="form" [formGroup]="registerFormOrganizaction" (ngSubmit)="onSubmit()">
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="nombre" class="form-label required">Nombre</label>
+                      <div class="input-field" [class.error]="registerFormOrganizaction.controls['nombre'].dirty && registerFormOrganizaction.hasError('required','nombre')">
+                        <input id="nombre" formControlName="nombre" type="text" placeholder="Nombre" class="form-control form-control-lg">
+                      </div>
+                      <small *ngIf="registerFormOrganizaction.controls['nombre'].dirty && registerFormOrganizaction.hasError('required','nombre')" class="text-danger">El nombre es requerido</small>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label for="telefono" class="form-label">Teléfono</label>
+                      <div class="input-field" [class.error]="registerFormOrganizaction.controls['telefono'].dirty && (registerFormOrganizaction.hasError('minlength','telefono') || registerFormOrganizaction.hasError('maxlength','telefono'))">
+                        <input id="telefono" formControlName="telefono" type="text" placeholder="1123456789" (input)="onInput($event)" class="form-control form-control-lg">
+                      </div>
+                      <small *ngIf="registerFormOrganizaction.controls['telefono'].dirty && (registerFormOrganizaction.hasError('minlength','telefono') || registerFormOrganizaction.hasError('maxlength','telefono'))" class="text-danger">El teléfono debe tener de 8 a 10 dígitos</small>
+                    </div>
+                    <!-- <div class="col-md-6 mb-3">
+                      <label for="apellido" class="form-label required">Apellido</label>
+                      <div class="input-field" [class.error]="registerFormOrganizaction.controls['apellido'].dirty && registerFormOrganizaction.hasError('required','apellido')">
+                        <input id="apellido" formControlName="apellido" type="text" placeholder="Apellido" class="form-control form-control-lg">
+                      </div>
+                      <small *ngIf="registerFormOrganizaction.controls['apellido'].dirty && registerFormOrganizaction.hasError('required','apellido')" class="text-danger">El apellido es requerido</small>
+                    </div> -->
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="email" class="form-label required">Correo electrónico</label>
+                      <div class="input-field" [class.error]="registerFormOrganizaction.controls['email'].dirty && registerFormOrganizaction.hasError('required','email')">
+                        <input id="email" formControlName="email" type="email" placeholder="correo@correo.com" class="form-control form-control-lg">
+                      </div>
+                      <small *ngIf="registerFormOrganizaction.controls['email'].dirty && registerFormOrganizaction.hasError('required','email')" class="text-danger">El correo electrónico es requerido</small>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label for="password" class="form-label required">Contraseña</label>
+                      <div class="input-field" [class.error]="registerFormOrganizaction.controls['password'].dirty && registerFormOrganizaction.hasError('required','password')">
+                        <input id="password" formControlName="password" [type]="type" placeholder="Contraseña" class="form-control form-control-lg">
+                      </div>
+                      <small *ngIf="registerFormOrganizaction.controls['password'].dirty && registerFormOrganizaction.hasError('required','password')" class="text-danger">La contraseña es requerida</small>
+                      <small *ngIf="registerFormOrganizaction.controls['password'].dirty && registerFormOrganizaction.hasError('minlength','password')" class="text-danger">La contraseña debe tener al menos 6 caracteres</small>
+                    </div>
+                  </div>
+
+                  <div>
+                    <p>Datos de la Organizacion</p>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="nombreOrg" class="form-label required">Nombre de Organización</label>
+                      <div class="input-field" [class.error]="registerFormOrganizaction.controls['nombreOrg'].dirty && registerFormOrganizaction.hasError('required','nombreOrg')">
+                        <input id="nombreOrg" formControlName="nombreOrg" type="text" placeholder="Nombre de Organización" class="form-control form-control-lg">
+                      </div>
+                      <small *ngIf="registerFormOrganizaction.controls['nombreOrg'].dirty && registerFormOrganizaction.hasError('required','nombreOrg')" class="text-danger">El nombre es requerido</small>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label for="cuit" class="form-label required">Cuit</label>
+                      <div class="input-field" [class.error]="registerFormOrganizaction.controls['cuit'].dirty && registerFormOrganizaction.hasError('required','cuit')">
+                        <input id="cuit" formControlName="cuit" type="text" placeholder="Cuit" class="form-control form-control-lg">
+                      </div>
+                      <small *ngIf="registerFormOrganizaction.controls['cuit'].dirty && registerFormOrganizaction.hasError('required','cuit')" class="text-danger">El cuit es requerido</small>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="provincia" class="form-label required">Provincia</label>
+                      <select (change)="onProvinceChange()" class="form-control form-select input-field" [class.error]="registerFormOrganizaction.get('provincia')?.dirty && registerFormOrganizaction.get('provincia')?.errors" id="provincia" formControlName="provincia">
+                        <option value="" selected disabled>Seleccionar provincia</option>
+                        <option *ngFor="let prov of provinces" [ngValue]="prov.nombre">{{ prov.nombre }}</option>
+                      </select>
+                      <small *ngIf="registerFormOrganizaction.get('provincia')?.touched && registerFormOrganizaction.get('provincia')?.errors" class="text-danger">La provincia es requerida</small>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label for="localidad" class="form-label required">Localidad</label>
+                      <select class="form-control form-select input-field" [class.error]="registerFormOrganizaction.get('localidad')?.dirty && registerFormOrganizaction.get('localidad')?.errors" id="localidad" required formControlName="localidad">
+                        <option value="" selected disabled>Seleccionar localidad</option>
+                        <option *ngFor="let local of localidades" [value]="local.nombre">{{ local.nombre }}</option>
+                      </select>
+                      <small *ngIf="registerFormOrganizaction.get('localidad')?.touched && registerFormOrganizaction.get('localidad')?.errors" class="text-danger">La localidad es requerida</small>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="direccion" class="form-label required">Dirección</label>
+                      <div class="input-field" [class.error]="registerFormOrganizaction.controls['direccion'].dirty && registerFormOrganizaction.hasError('required','direccion')">
+                        <input id="direccion" formControlName="direccion" type="text" placeholder="Dirección 123" class="form-control form-control-lg">
+                      </div>
+                      <small *ngIf="registerFormOrganizaction.controls['direccion'].dirty && registerFormOrganizaction.hasError('required','direccion')" class="text-danger">La dirección es requerida</small>
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-round btn-lg bg-gradient-primary w-100 mt-4 mb-0">Crear cuenta</button>
+                  </div>
+                </form>
+              </div>
+              <div class="card-footer text-center pt-0">
+                <p class="text-sm">¿Ya tenés una cuenta? <a id="forget" class="account" routerLink="/login">Ingresar</a></p>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
+            <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center">
+              <img src="../assets/img/shapes/pattern-lines.svg" alt="pattern-lines" class="position-absolute opacity-4 start-0">
+              <div class="position-relative">
+                <img class="w-60 position-relative z-index-2" src="../assets/logos/reCrea-white.svg">
+              </div>
+              <div class="d-flex justify-content-center mt-4">
+                <div class="text-white w-50">
+                  Nos apasiona tejer un futuro más sostenible, impulsando proteger el medio ambiente y fomentando la responsabilidad social.
                   <br /><br />
                   <span class="text-bold">¡Registrate y empezá a formar parte del cambio!</span>
                 </div>
