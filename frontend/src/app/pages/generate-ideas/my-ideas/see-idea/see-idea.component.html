@@ -1,80 +1,148 @@
 <section>
   <div class="page-container min-vh-100">
     <div>
-      <img class="position-absolute fixed-top ms-auto w-60 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/a.png">
-      <img class="position-absolute fixed-top ms-8 w-auto h-100 z-index-0 d-xl-none border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/a-mobile.png">
+      <img
+        class="position-absolute fixed-top ms-auto w-60 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0"
+        src="../assets/img/a.png"
+      />
+      <img
+        class="position-absolute fixed-top ms-8 w-auto h-100 z-index-0 d-xl-none border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0"
+        src="../assets/img/a-mobile.png"
+      />
     </div>
     <div class="container">
       <div class="card blur justify-content-center shadow-lg mt-7 mb-5 px-lg-4">
-        <div class="card-body pb-2">
+        <div class="row text-center mx-1 mt-4">
+          <h2>
+            Mi
+            <span class="text-gradient text-secondary"> idea</span>
+          </h2>
+        </div>
+        <div class="card-body pb-2">        
           <div class="row justify-content-center">
-
-
-
-
-            
-            
-
-            <div class="col-lg-8">
-              <div class="accordion mb-4" id="accordionSteps">
-                <div class="accordion-item" *ngFor="let step of idea.pasos; index as i">
-
-                  <div *ngIf="i === 0">
-                    <h2 class="accordion-header" [attr.id]="'heading_' + i">
-                      <button class="accordion-button border-bottom text-lg font-weight-bold" type="button" data-bs-toggle="collapse" [attr.data-parent]="'#accordion_' + i" [attr.href]="'#collapse_' + i">
-                        <i class="fas fa-clipboard-check pe-3"></i>
-                        Paso N°{{ i + 1 }}
-                        <i class="collapse-close fa fa-plus text-md pt-1 position-absolute end-0 me-3"></i>
-                      </button>
-                    </h2>
-                    <div [attr.id]="'collapse_' + i" class="accordion-collapse collapse show" [attr.aria-labelledby]="'heading_' + i" data-bs-parent="#accordionSteps">
-                      <div class="accordion-body">
-                        {{ step.descripcion }}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div *ngIf="i !== 0">
-                    <h2 class="accordion-header" [attr.id]="'heading_' + i">
-                      <button class="accordion-button border-bottom text-lg font-weight-bold collapsed" type="button" data-bs-toggle="collapse" [attr.data-parent]="'#accordion_' + i" [attr.href]="'#collapse_' + i">
-                        <i class="fas fa-clipboard-check pe-3"></i>
-                        Paso N°{{ i + 1 }}
-                        <i class="collapse-close fa fa-plus text-md pt-1 position-absolute end-0 me-3"></i>
-                      </button>
-                    </h2>
-                    <div [attr.id]="'collapse_' + i" class="accordion-collapse collapse" [attr.aria-labelledby]="'heading_' + i" data-bs-parent="#accordionSteps">
-                      <div class="accordion-body">
-                        {{ step.descripcion }}
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
             <div class="col-lg-4 justify-content-center imagen-idea mb-4">
               <div class="card card-profile card-plain">
                 <div class="card-body text-center bg-white shadow border-radius-lg p-3">
-                  <img class="w-100 border-radius-md mb-1" src="../assets/img/idea-placeholder.png">
-                  <small ><em class="text-xxs text-uppercase">Idea guardada</em></small>
-                  <h5 class="mt-1 mb-1 text-uppercase">{{ idea.titulo }}</h5>
-                  <hr class="horizontal dark my-2">
-                  <p *ngIf="idea.dificultad === 'Facil'" class="font-weight-bolder text-uppercase mb-0">Dificultad: <span class="text-gradient easy">{{ idea.dificultad }}</span>
-                  </p>
-                  <p *ngIf="idea.dificultad === 'Media'" class="font-weight-bolder text-uppercase mb-0">Dificultad: <span class="text-gradient medium">{{ idea.dificultad }}</span>
-                  </p>
-                  <p *ngIf="idea.dificultad === 'Dificil'" class="font-weight-bolder text-uppercase mb-0">Dificultad: <span class="text-gradient hard">{{ idea.dificultad }}</span>
-                  </p>
+                  <img  *ngIf="idea.imageUrl != null; else placeholder" [src]="idea.imageUrl" alt="Imagen" class="img-fluid border-radius-lg mb-3">
+                  <ng-template #placeholder>
+                    <img src="../assets/img/idea-placeholder-2.png" alt="Placeholder" class="img-fluid border-radius-lg mb-3" >
+                  </ng-template>
+                  <h5 class="mt-2 mb-2 text-uppercase">{{ idea.titulo }}</h5>
+                  <hr class="horizontal dark my-3">   
+                    <p
+                      *ngIf="idea.dificultad === 'Fácil'"
+                      class="font-weight-bolder text-uppercase mb-0"
+                    >
+                      Dificultad:
+                      <span class="text-gradient easy">{{ idea.dificultad }}</span>
+                    </p>
+                    <p
+                      *ngIf="idea.dificultad === 'Media'"
+                      class="font-weight-bolder text-uppercase mb-0"
+                    >
+                      Dificultad:
+                      <span class="text-gradient medium">{{ idea.dificultad }}</span>
+                    </p>
+                    <p
+                      *ngIf="idea.dificultad === 'Difícil'"
+                      class="font-weight-bolder text-uppercase mb-0"
+                    >
+                      Dificultad:
+                      <span class="text-gradient hard">{{ idea.dificultad }}</span>
+                    </p>
+                    <button
+                      class="btn btn-round bg-gradient-primary mt-4 mb-0"
+                      (click)="downloadPDF()"
+                    >
+                      <i class="fas fa-file-pdf"></i> Descargar PDF
+                  </button>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6 text-md-end text-center">
-              <button class="btn btn-round bg-gradient-secondary mt-2" routerLink="/mis-ideas">Volvera mis ideas</button>
-            </div>
-            <div class="col-md-6 text-md-start text-center">
-              <button class="btn btn-round bg-gradient-primary mt-2" (click)="downloadPDF()"><i class="fas fa-file-pdf"></i> Descargar PDF</button>
+            <div class="col-lg-8">
+              <div class="accordion mb-4" id="accordionSteps">
+                <div
+                  class="accordion-item"
+                  *ngFor="let step of idea.pasos; index as i"
+                >
+                  <div *ngIf="i === 0">
+                    <h2 class="accordion-header" [attr.id]="'heading_' + i">
+                      <button
+                        class="accordion-button border-bottom text-lg font-weight-bold"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        [attr.data-parent]="'#accordion_' + i"
+                        [attr.href]="'#collapse_' + i"
+                      >
+                        <i class="fas fa-clipboard-check pe-3"></i>
+                        Paso N°{{ i + 1 }}
+                        <i
+                          class="collapse-close fa fa-plus text-md pt-1 position-absolute end-0 me-3"
+                        ></i>
+                      </button>
+                    </h2>
+                    <div
+                      [attr.id]="'collapse_' + i"
+                      class="accordion-collapse collapse show"
+                      [attr.aria-labelledby]="'heading_' + i"
+                      data-bs-parent="#accordionSteps"
+                    >
+                      <div class="accordion-body vertical-alignment">
+                        <p class="p-description">{{ step.descripcion }}</p>
+                        <div class="image-div" *ngIf="step.imagenUrl != null">
+                          <img
+                            [src]="step.imagenUrl"
+                            alt="Step image"
+                            class="img-fluid step-image"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="i !== 0">
+                    <h2 class="accordion-header" [attr.id]="'heading_' + i">
+                      <button
+                        class="accordion-button border-bottom text-lg font-weight-bold collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        [attr.data-parent]="'#accordion_' + i"
+                        [attr.href]="'#collapse_' + i"
+                      >
+                        <i class="fas fa-clipboard-check pe-3"></i>
+                        Paso N°{{ i + 1 }}
+                        <i
+                          class="collapse-close fa fa-plus text-md pt-1 position-absolute end-0 me-3"
+                        ></i>
+                      </button>
+                    </h2>
+                    <div
+                      [attr.id]="'collapse_' + i"
+                      class="accordion-collapse collapse"
+                      [attr.aria-labelledby]="'heading_' + i"
+                      data-bs-parent="#accordionSteps"
+                    >
+                      <div class="accordion-body vertical-alignment">
+                        <p class="p-description">{{ step.descripcion }}</p>
+                        <div class="image-div" *ngIf="step.imagenUrl != null">
+                          <img
+                            [src]="step.imagenUrl"
+                            alt="Step image"
+                            class="img-fluid step-image"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center">
+                <button
+                  class="btn btn-round bg-gradient-secondary mt-2"
+                  routerLink="/mis-ideas"
+                >
+                  Volvera mis ideas
+                </button>
+              </div>
             </div>
           </div>
         </div>
