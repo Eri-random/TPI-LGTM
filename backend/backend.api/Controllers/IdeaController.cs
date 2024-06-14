@@ -95,7 +95,8 @@ namespace backend.api.Controllers
             }
         }
 
-
+        [ProducesResponseType(typeof(IdeaResponseModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost("save")]
         public async Task<IActionResult> SaveIdea([FromBody] IdeaResponseModel idea)
         {
@@ -132,6 +133,8 @@ namespace backend.api.Controllers
             }
         }
 
+        [ProducesResponseType(typeof(IdeaResponseModel),StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet("user/{usuarioId}")]
         public async Task<IActionResult> GetIdeasByUsuarioId(int usuarioId)
         {
@@ -147,6 +150,8 @@ namespace backend.api.Controllers
             }
         }
 
+        [ProducesResponseType(typeof(IdeaResponseModel),StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet("see-detail/{ideaId}")]
         public async Task<IActionResult> GetIdeaById(int ideaId)
         {
@@ -168,6 +173,8 @@ namespace backend.api.Controllers
             }
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpDelete("delete/{ideaId}")]
         public async Task<IActionResult> DeleteIdea(int ideaId)
         {
