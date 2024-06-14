@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "backend.api.test", "tests\b
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "backend.servicios.test", "tests\backend.servicios.test\backend.servicios.test.csproj", "{8DC559A5-AE94-4D6C-A0C7-39D2EA0CF6FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClasificacionImagen.MLModels", "ClasificacionImagen.MLModels\ClasificacionImagen.MLModels.csproj", "{E3C96BA9-9DFC-46EA-8CE9-34C438063F6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClasificacionImagen.MLModels", "ClasificacionImagen.MLModels\ClasificacionImagen.MLModels.csproj", "{E3C96BA9-9DFC-46EA-8CE9-34C438063F6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "backend.repositories", "backend.repositories\backend.repositories.csproj", "{9EBC5C4D-D10F-4121-93E6-4C73978D0977}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{E3C96BA9-9DFC-46EA-8CE9-34C438063F6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3C96BA9-9DFC-46EA-8CE9-34C438063F6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3C96BA9-9DFC-46EA-8CE9-34C438063F6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EBC5C4D-D10F-4121-93E6-4C73978D0977}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EBC5C4D-D10F-4121-93E6-4C73978D0977}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EBC5C4D-D10F-4121-93E6-4C73978D0977}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EBC5C4D-D10F-4121-93E6-4C73978D0977}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
