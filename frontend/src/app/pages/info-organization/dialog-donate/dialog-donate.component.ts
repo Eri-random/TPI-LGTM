@@ -124,7 +124,6 @@ export class DialogDonateComponent implements OnInit {
   
 
   close(): void {
-    this.headquarterService.clearDataDirection();
     this.dialogRef.close();
   }
 }
