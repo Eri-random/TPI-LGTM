@@ -48,7 +48,7 @@ builder.Services.AddScoped<IDonationService,DonationService>();
 builder.Services.AddHttpClient<IMapsService, MapsService>();
 builder.Services.AddScoped<IOrganizationInfoService, InfoOrganizationService>();
 builder.Services.AddScoped<IIdeaService, IdeaService>();
-builder.Services.AddScoped<IHeadquartersService, headquartersService>();
+builder.Services.AddScoped<IHeadquartersService, HeadquartersService>();
 builder.Services.AddScoped<INeedService, NeedService>();
 //builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UserRequestModel>());
 

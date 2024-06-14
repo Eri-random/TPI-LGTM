@@ -1,5 +1,7 @@
 ﻿using backend.data.DataContext;
 using backend.data.Models;
+using backend.repositories.implementations;
+using backend.repositories.interfaces;
 using backend.servicios.DTOs;
 using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
@@ -16,6 +18,7 @@ namespace backend.servicios.test
         private Mock<ILogger<DonationService>> _loggerMock;
 
         private ApplicationDbContext _context;
+        private IRepository<Donacion> _repository;
         private DonationService _donationService;
 
         [SetUp]
@@ -28,8 +31,8 @@ namespace backend.servicios.test
                 .Options;
 
             _context = new ApplicationDbContext(options);
-
-            _donationService = new DonationService(_context, _loggerMock.Object);
+            _repository = new Repository<Donacion>(_context);
+            _donationService = new DonationService(_repository, _loggerMock.Object);
         }
 
         [Test]
