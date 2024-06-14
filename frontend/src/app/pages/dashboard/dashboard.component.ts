@@ -18,6 +18,7 @@ import { WebsocketService } from 'src/app/services/websocket.service';
 import { NgToastService } from 'ng-angular-popup';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import { Router } from '@angular/router';
 
 export interface UserData {
   id: number;
@@ -72,7 +73,8 @@ export class DashboardComponent implements OnInit {
     private donationsService: DonationsService,
     private webSocketService: WebsocketService,
     private viewContainerRef: ViewContainerRef,
-    private toast: NgToastService
+    private toast: NgToastService,
+    private router: Router
   ) {}
 
   ngOnInit() {
