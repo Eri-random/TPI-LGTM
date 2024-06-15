@@ -48,7 +48,6 @@ namespace backend.api.Controllers
             }
         }
 
-
         [HttpPost]
         public async Task<IActionResult> CreateSede([FromBody] List<HeadquartersRequestModel> headquartersRequestModels)
         {
@@ -56,7 +55,6 @@ namespace backend.api.Controllers
             {
                 return BadRequest("Datos de sede inválidos");
             }
-
 
             var headquarters = headquartersRequestModels.Select(sedeRequestModel => new HeadquartersDto
             {
@@ -69,7 +67,6 @@ namespace backend.api.Controllers
                 Longitud = 0,
                 OrganizacionId = sedeRequestModel.OrganizacionId
             }).ToList();
-
 
             try
             {
@@ -273,7 +270,6 @@ namespace backend.api.Controllers
                     nombreOrganizacion = organization.Nombre
                 });
             }
-
         }
     }
 }

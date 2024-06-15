@@ -22,7 +22,6 @@ namespace backend.servicios.test
         private IRepository<Usuario> _repository;
         private UserService _usuarioService;
 
-
         [SetUp]
         public void SetUp()
         {
@@ -288,6 +287,7 @@ namespace backend.servicios.test
                 Assert.That(updatedUser.Provincia, Is.EqualTo("New State"));
             });
         }
+
         [Test]
         public void DeleteUsuarioAsync_NullOrEmptyEmail_ThrowsArgumentNullException()
         {
@@ -328,7 +328,6 @@ namespace backend.servicios.test
             // Assert
             Assert.IsNull(deletedUser);
         }
-
 
         [TearDown]
         public void TearDown()

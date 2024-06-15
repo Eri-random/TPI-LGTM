@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace backend.data.Models;
+﻿namespace backend.data.Models;
 
 public partial class Subcategorium
 {

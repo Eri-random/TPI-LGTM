@@ -2,7 +2,6 @@
 {
     public class InfoOrganizationRequest
     {
-
         public string Organizacion { get; set; }
 
         public string DescripcionBreve { get; set; }

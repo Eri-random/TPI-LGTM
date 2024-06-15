@@ -1,7 +1,4 @@
-﻿using backend.data.Models;
-using backend.servicios.DTOs;
-
-namespace backend.api.Models
+﻿namespace backend.api.Models
 {
     public class DonationRequestModel
     {

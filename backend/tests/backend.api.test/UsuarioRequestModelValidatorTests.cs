@@ -3,6 +3,7 @@ using backend.api.Validadores;
 
 namespace backend.api.test
 {
+    [TestFixture]
     public class UsuarioRequestModelValidatorTests
     {
         private UsuarioRequestModelValidator _validator;
@@ -108,6 +109,5 @@ namespace backend.api.test
                 Assert.That(result.Errors.Any(e => e.PropertyName == "Provincia" && e.ErrorMessage.Contains("no puede estar vacía")), Is.True);
             });
         }
-
     }
 }

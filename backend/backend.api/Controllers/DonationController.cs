@@ -1,10 +1,7 @@
 ﻿using backend.api.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
-using backend.servicios.Servicios;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
 
 namespace backend.api.Controllers
 {
@@ -89,6 +86,7 @@ namespace backend.api.Controllers
                 return StatusCode(500, $"Error al obtener las donaciones de la organizacion");
             }
         }
+
         [HttpPut("updateState")]
         public async Task<IActionResult> UpdateDonationsState([FromBody] UpdateDonationsStateRequest request)
         {

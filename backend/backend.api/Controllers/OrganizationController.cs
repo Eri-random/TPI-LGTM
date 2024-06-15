@@ -1,13 +1,7 @@
 using backend.api.Models;
-using backend.data.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
-using backend.servicios.Servicios;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace backend.api.Controllers
 {
@@ -24,7 +18,6 @@ namespace backend.api.Controllers
             try
             {
                 var organizations = await _organizationService.GetAllOrganizationAsync();
-
                 var organizationResponse = new List<OrganizationResponseModel>();
 
                 foreach (var org in organizations)
@@ -195,7 +188,7 @@ namespace backend.api.Controllers
             }
 
           return organizationResponse;
-      }
+        }
       
         [HttpPost("{organizationId}/assign-need")]
         public async Task<IActionResult> AssignSubcategoriesAsync(int organizationId, [FromBody] List<SubcategoriesDto> subcategoriesDto)

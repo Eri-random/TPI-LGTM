@@ -9,6 +9,7 @@ using backend.servicios.Servicios;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
+
 namespace backend.servicios.test
 {
     [TestFixture]
@@ -44,8 +45,6 @@ namespace backend.servicios.test
 
             // Act
             async Task Act() => await _headquartersService.CreateHeadquartersAsync(headquartersDtos);
-
-            // Assert
         }
 
         [Test]

@@ -92,7 +92,6 @@ namespace backend.api.Controllers
             }
         }
 
-
         [HttpPost("save")]
         public async Task<IActionResult> SaveIdea([FromBody] IdeaResponseModel idea)
         {
@@ -117,7 +116,6 @@ namespace backend.api.Controllers
                     }).ToList(),
                     ImageUrl = idea.ImageUrl
                 };
-
 
                 await _ideaService.SaveIdeaAsync(ideaDto);
                 return CreatedAtAction(nameof(SaveIdea), new { id = idea.UsuarioId }, idea);

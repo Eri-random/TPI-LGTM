@@ -16,7 +16,6 @@ namespace backend.api.Controllers
         }
 
         [HttpPost]
-
         public ActionResult Post([FromForm] BaseRequest request)
         {
             if (!ModelState.IsValid)
@@ -50,6 +49,5 @@ namespace backend.api.Controllers
                 //confidence = confidence
             });
         }
-    
     }
 }

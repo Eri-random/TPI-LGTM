@@ -6,7 +6,6 @@ using backend.repositories.interfaces;
 using backend.servicios.Config;
 using backend.servicios.Interfaces;
 using backend.servicios.Servicios;
-using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.ML;
 using System.Collections.Concurrent;

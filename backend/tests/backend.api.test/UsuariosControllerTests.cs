@@ -3,12 +3,9 @@ using backend.api.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
-using Castle.Components.DictionaryAdapter.Xml;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using Moq;
-using Newtonsoft.Json.Linq;
 
 namespace backend.api.test
 {
@@ -114,7 +111,6 @@ namespace backend.api.test
             var statusCodeResult = result as ObjectResult;
             Assert.That(statusCodeResult, Is.Not.Null);
             Assert.That(statusCodeResult.StatusCode, Is.EqualTo(500));
-
 
             _loggerMock.Verify(
                     x => x.Log(
@@ -452,7 +448,6 @@ namespace backend.api.test
                     It.IsAny<Exception>(),
                     It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)), Times.Once);
         }
-
 
         private static List<UserDto> GetSampleUsuarios() => [
                     new UserDto { Id = 1, Nombre = "Alice", Apellido = "Johnson", Email = "alice@example.com", Telefono = "1234567890" },

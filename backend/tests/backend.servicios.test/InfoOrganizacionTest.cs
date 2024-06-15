@@ -32,8 +32,6 @@ namespace backend.servicios.test
             _context.SaveChanges();
             _repository = new Repository<InfoOrganizacion>(_context);
             _infoOrganizacionService = new InfoOrganizationService(_repository, _loggerMock.Object);
-
-
         }
 
         [TearDown]
@@ -100,7 +98,6 @@ namespace backend.servicios.test
 
             Assert.That(organizacionUpdate, Is.Not.Null);
             Assert.That(organizacionUpdate.Organizacion, Is.EqualTo(testOrganizacion));
-
         }
 
         [Test]
