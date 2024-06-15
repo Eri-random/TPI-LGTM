@@ -1,4 +1,5 @@
-﻿using backend.api.Models;
+﻿using AutoMapper;
+using backend.api.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
@@ -8,12 +9,18 @@ namespace backend.api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HeadquartersController(IHeadquartersService headquartersService, ILogger<HeadquartersController> logger, IMapsService mapsService, IOrganizationService organizationService) : ControllerBase
+    public class HeadquartersController(
+        IHeadquartersService headquartersService,
+        ILogger<HeadquartersController> logger,
+        IMapsService mapsService,
+        IOrganizationService organizationService,
+        IMapper mapper) : ControllerBase
     {
         private readonly IHeadquartersService _headquartersService = headquartersService ?? throw new ArgumentNullException(nameof(headquartersService));
         private readonly ILogger<HeadquartersController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         private readonly IMapsService _mapsService = mapsService ?? throw new ArgumentNullException(nameof(mapsService));
         private readonly IOrganizationService _organizationService = organizationService ?? throw new ArgumentNullException(nameof(organizationService));
+        private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
         [HttpGet]
         public async Task<IActionResult> GetAllHeadquarters()
@@ -21,23 +28,7 @@ namespace backend.api.Controllers
             try
             {
                 var headquarters = await _headquartersService.GetAllHeadquartersAsync();
-
-                var headquartersResponse = new List<HeadquartersResponseModel>();
-
-                foreach (var h in headquarters)
-                {
-                    headquartersResponse.Add(new HeadquartersResponseModel
-                    {
-                        Direccion = h.Direccion,
-                        Localidad = h.Localidad,
-                        Nombre = h.Nombre,
-                        Provincia = h.Provincia,
-                        Telefono = h.Telefono,
-                        Latitud = h.Latitud,
-                        Longitud = h.Longitud,
-                        OrganizacionId = h.OrganizacionId
-                    });
-                }
+                var headquartersResponse = _mapper.Map<IEnumerable<HeadquartersResponseModel>>(headquarters);
 
                 return Ok(headquartersResponse);
             }
@@ -52,21 +43,9 @@ namespace backend.api.Controllers
         public async Task<IActionResult> CreateSede([FromBody] List<HeadquartersRequestModel> headquartersRequestModels)
         {
             if (headquartersRequestModels == null || !headquartersRequestModels.Any())
-            {
                 return BadRequest("Datos de sede inválidos");
-            }
 
-            var headquarters = headquartersRequestModels.Select(sedeRequestModel => new HeadquartersDto
-            {
-                Nombre = sedeRequestModel.Nombre,
-                Direccion = sedeRequestModel.Direccion,
-                Localidad = sedeRequestModel.Localidad,
-                Provincia = sedeRequestModel.Provincia,
-                Telefono = sedeRequestModel.Telefono,
-                Latitud = 0,
-                Longitud = 0,
-                OrganizacionId = sedeRequestModel.OrganizacionId
-            }).ToList();
+            var headquarters = _mapper.Map<IEnumerable<HeadquartersDto>>(headquartersRequestModels).ToList();
 
             try
             {
@@ -86,24 +65,7 @@ namespace backend.api.Controllers
             try
             {
                 var headquarters = await _headquartersService.GetHeadquartersByOrganizationIdAsync(organizationId);
-
-                var headquartersResponses = new List<HeadquartersResponseModel>();
-
-                foreach (var h in headquarters)
-                {
-                    headquartersResponses.Add(new HeadquartersResponseModel
-                    {
-                        Id = h.Id,
-                        Direccion = h.Direccion,
-                        Localidad = h.Localidad,
-                        Nombre = h.Nombre,
-                        Provincia = h.Provincia,
-                        Telefono = h.Telefono,
-                        Latitud = h.Latitud,
-                        Longitud = h.Longitud,
-                        OrganizacionId = h.OrganizacionId
-                    });
-                }
+                var headquartersResponses = _mapper.Map<IEnumerable<HeadquartersResponseModel>>(headquarters);
 
                 return Ok(headquartersResponses);
             }
@@ -118,25 +80,11 @@ namespace backend.api.Controllers
         public async Task<IActionResult> UpdatehHeadquarters([FromBody] HeadquartersRequestModel headquartersRequestModel)
         {
             if (headquartersRequestModel == null)
-            {
                 return BadRequest("Datos de sede inválidos");
-            }
-
-            var headquarters = new HeadquartersDto
-            {
-                Id = headquartersRequestModel.Id,
-                Nombre = headquartersRequestModel.Nombre,
-                Direccion = headquartersRequestModel.Direccion,
-                Localidad = headquartersRequestModel.Localidad,
-                Provincia = headquartersRequestModel.Provincia,
-                Telefono = headquartersRequestModel.Telefono,
-                Latitud = 0,
-                Longitud = 0,
-                OrganizacionId = headquartersRequestModel.OrganizacionId
-            };
 
             try
             {
+                var headquarters = _mapper.Map<HeadquartersDto>(headquartersRequestModel);
                 await _headquartersService.UpdateHeadquartersAsync(headquarters);
                 return Ok();
             }
@@ -168,17 +116,7 @@ namespace backend.api.Controllers
             try
             {
                 var headquarters = await _headquartersService.GetHeadquarterByIdAsync(headquartersId);
-
-                var headquartersResponse = new HeadquartersResponseModel
-                {
-                    Id = headquarters.Id,
-                    Direccion = headquarters.Direccion,
-                    Localidad = headquarters.Localidad,
-                    Nombre = headquarters.Nombre,
-                    Provincia = headquarters.Provincia,
-                    Telefono = headquarters.Telefono,
-                    OrganizacionId = headquarters.OrganizacionId
-                };
+                var headquartersResponse = _mapper.Map<HeadquartersResponseModel>(headquarters);
 
                 return Ok(headquartersResponse);
             }
@@ -207,18 +145,10 @@ namespace backend.api.Controllers
             if (data.Sedes == null || !data.Sedes.Any())
             {
                 // No hay sedes, devolver información de la organización
-                return Ok(new HeadquartersNearby
-                {
-                    Id = data.Organizacion.Id,
-                    Distancia = distanceOrg,
-                    Nombre = data.Organizacion.Nombre,
-                    Direccion = data.Organizacion.Direccion,
-                    Localidad = data.Organizacion.Localidad,
-                    Provincia = data.Organizacion.Provincia,
-                    Telefono = data.Organizacion.Telefono,
-                    Latitud = data.Organizacion.Latitud,
-                    Longitud = data.Organizacion.Longitud
-                });
+                var headquartersNearBy = _mapper.Map<HeadquartersNearby>(data);
+                headquartersNearBy.Distancia = distanceOrg;
+
+                return Ok(headquartersNearBy);
             }
 
             // Calcular las distancias a las sedes
@@ -235,26 +165,16 @@ namespace backend.api.Controllers
 
             if (distanceOrg < nearestHeadquarters.Distancia)
             {
-                return Ok(new HeadquartersNearby
-                {
-                    Id = data.Organizacion.Id,
-                    Distancia = distanceOrg,
-                    Nombre = data.Organizacion.Nombre,
-                    Direccion = data.Organizacion.Direccion,
-                    Localidad = data.Organizacion.Localidad,
-                    Provincia = data.Organizacion.Provincia,
-                    Telefono = data.Organizacion.Telefono,
-                    Latitud = data.Organizacion.Latitud,
-                    Longitud = data.Organizacion.Longitud
-                });
+                var headquartersNearBy = _mapper.Map<HeadquartersNearby>(data);
+                headquartersNearBy.Distancia = distanceOrg;
+
+                return Ok(headquartersNearBy);
             }
             else
             {
                 var organization = await _organizationService.GetOrganizationByIdAsync(nearestHeadquarters.Sede.OrganizacionId);
                 if (organization == null)
-                {
                     return BadRequest("No se encontró la organización a la que pertenece la sede más cercana.");
-                }
 
                 return Ok(new HeadquartersNearby
                 {

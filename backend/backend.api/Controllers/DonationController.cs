@@ -1,4 +1,5 @@
-﻿using backend.api.Models;
+﻿using AutoMapper;
+using backend.api.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -7,39 +8,25 @@ namespace backend.api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DonationController(ILogger<DonationController> logger, IUserService userService, IDonationService donationService) : ControllerBase
+    public class DonationController(ILogger<DonationController> logger, IUserService userService, IDonationService donationService, IMapper mapper) : ControllerBase
     {
         private readonly ILogger<DonationController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         private readonly IDonationService _donationService = donationService ?? throw new ArgumentNullException(nameof(donationService));
         private readonly IUserService _userService = userService ?? throw new ArgumentNullException(nameof(userService));
+        private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
         [HttpPost]
         public async Task<IActionResult> SaveDonacion([FromBody] DonationRequestModel donationRequest)
         {
             if (donationRequest == null)
-            {
                 return BadRequest("Datos de donacion inválidos");
-            }
-
-            var newDonation = new DonationDto
-            {
-                Id = donationRequest.Id,
-                Producto = donationRequest.Producto,
-                Cantidad = donationRequest.Cantidad,
-                Estado = donationRequest.Estado,
-                UsuarioId = donationRequest.UsuarioId,
-                OrganizacionId = donationRequest.OrganizacionId,
-                Cuit = donationRequest.Cuit
-            };
 
             try
             {
+                var newDonation = _mapper.Map<DonationDto>(donationRequest);
                 await _donationService.SaveDonationAsync(newDonation);
-
                 newDonation.Id = await _donationService.GetDonationIdAsync(newDonation);
-
                 var user = await _userService.GetUserByIdAsync(donationRequest.UsuarioId);
-
                 var response = new
                 {
                     newDonation,

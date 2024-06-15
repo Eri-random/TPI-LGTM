@@ -1,4 +1,5 @@
-﻿using backend.api.Models;
+﻿using AutoMapper;
+using backend.api.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
 using backend.servicios.Models;
@@ -13,12 +14,13 @@ namespace backend.api.Controllers
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
-    public class IdeaController(IGenerateIdeaApiService groqApiService, ILogger<IdeaController> logger, IIdeaService ideaService, IImageService imageService) : ControllerBase
+    public class IdeaController(IGenerateIdeaApiService groqApiService, ILogger<IdeaController> logger, IIdeaService ideaService, IImageService imageService, IMapper mapper) : ControllerBase
     {
         private readonly IGenerateIdeaApiService _groqApiService = groqApiService ?? throw new ArgumentNullException(nameof(groqApiService));
         private readonly ILogger<IdeaController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         private readonly IIdeaService _ideaService = ideaService ?? throw new ArgumentNullException(nameof(ideaService));
         private readonly IImageService _imageService = imageService ?? throw new ArgumentNullException(nameof(imageService));
+        private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
         /// <summary>
         /// Generates an idea based on the user message.
@@ -103,21 +105,9 @@ namespace backend.api.Controllers
 
             try
             {
-                var ideaDto = new IdeaDto
-                {
-                    Titulo = idea.Titulo,
-                    UsuarioId = idea.UsuarioId,
-                    Dificultad = idea.Dificultad,
-                    Pasos = idea.Pasos.Select(paso => new StepDto
-                    {
-                        PasoNum = paso.PasoNum,
-                        Descripcion = paso.Descripcion,
-                        ImagenUrl = paso.ImagenUrl
-                    }).ToList(),
-                    ImageUrl = idea.ImageUrl
-                };
-
+                var ideaDto = _mapper.Map<IdeaDto>(idea);
                 await _ideaService.SaveIdeaAsync(ideaDto);
+
                 return CreatedAtAction(nameof(SaveIdea), new { id = idea.UsuarioId }, idea);
             }
             catch (Exception ex)
@@ -150,9 +140,7 @@ namespace backend.api.Controllers
                 var idea = await _ideaService.GetIdeaByIdAsync(ideaId);
 
                 if (idea == null)
-                {
                     return NotFound("Idea no encontrada");
-                }
 
                 return Ok(idea);
             }

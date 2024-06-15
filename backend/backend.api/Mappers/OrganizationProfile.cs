@@ -22,6 +22,18 @@ namespace backend.api.Mappers
             CreateMap<OrganizationRequestModel, OrganizationDto>();
 
             CreateMap<InfoOrganizationRequest, OrganizationDto>();
+
+            CreateMap<HeadquartersDto, Sede>();
+
+            CreateMap<Sede, HeadquartersDto>();
+
+            CreateMap<HeadquartersResponseModel, HeadquartersDto>();
+
+            CreateMap<HeadquartersDto, HeadquartersRequestModel>();
+
+            CreateMap<HeadquartersDto, HeadquartersResponseModel>();
+
+            CreateMap<DataRequestModel, HeadquartersNearby>();
         }
     }
 }
