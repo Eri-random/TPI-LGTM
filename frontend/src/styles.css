@@ -22,6 +22,10 @@ body {font-family: "Fredoka", sans-serif !important; font-weight: 400 !important
     color: #A42A2A !important;
 }
 
+.font-alternate{
+    font-family: "Montserrat Alternates", sans-serif !important;
+}
+
 a {
     color: #4281A4;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;

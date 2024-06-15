@@ -14,42 +14,50 @@
       <div class="card blur justify-content-center shadow-lg mt-7 mb-5 px-lg-4">
         <div class="row text-center mx-1 mt-4">
           <h2>
-            Idea guardada:
-            <span class="text-gradient text-secondary">{{ idea.titulo }}</span>
+            Mi
+            <span class="text-gradient text-secondary"> idea</span>
           </h2>
         </div>
-        <div class="card-body pb-2">
-          <div class="row">
-            <div class="col text-center">
-              <p
-                *ngIf="idea.dificultad === 'Facil'"
-                class="dificultad lead mb-3"
-              >
-                Nivel de dificultad:
-                <span class="easy">{{ idea.dificultad }}</span>
-              </p>
-              <p
-                *ngIf="idea.dificultad === 'Media'"
-                class="dificultad lead mb-3"
-              >
-                Nivel de dificultad:
-                <span class="medium">{{ idea.dificultad }}</span>
-              </p>
-              <p
-                *ngIf="idea.dificultad === 'Dificil'"
-                class="dificultad lead mb-3"
-              >
-                Nivel de dificultad:
-                <span class="hard">{{ idea.dificultad }}</span>
-              </p>
-            </div>
-          </div>
+        <div class="card-body pb-2">        
           <div class="row justify-content-center">
-            <div class="col-lg-4 justify-content-center imagen-idea">
-              <img  *ngIf="idea.imageUrl != null; else placeholder" [src]="idea.imageUrl" alt="Imagen" class="img-fluid border-radius-lg mb-4">
+            <div class="col-lg-4 justify-content-center imagen-idea mb-4">
+              <div class="card card-profile card-plain">
+                <div class="card-body text-center bg-white shadow border-radius-lg p-3">
+                  <img  *ngIf="idea.imageUrl != null; else placeholder" [src]="idea.imageUrl" alt="Imagen" class="img-fluid border-radius-lg mb-3">
                   <ng-template #placeholder>
-                    <img src="../assets/img/idea-placeholder-2.png" alt="Placeholder" class="img-fluid border-radius-lg mb-4" >
+                    <img src="../assets/img/idea-noimage.png" alt="Placeholder" class="img-fluid border-radius-lg mb-3" >
                   </ng-template>
+                  <h5 class="mt-2 mb-2 text-uppercase">{{ idea.titulo }}</h5>
+                  <hr class="horizontal dark my-3">   
+                    <p
+                      *ngIf="idea.dificultad === 'Fácil'"
+                      class="font-weight-bolder text-uppercase mb-0"
+                    >
+                      Dificultad:
+                      <span class="text-gradient easy">{{ idea.dificultad }}</span>
+                    </p>
+                    <p
+                      *ngIf="idea.dificultad === 'Media'"
+                      class="font-weight-bolder text-uppercase mb-0"
+                    >
+                      Dificultad:
+                      <span class="text-gradient medium">{{ idea.dificultad }}</span>
+                    </p>
+                    <p
+                      *ngIf="idea.dificultad === 'Difícil'"
+                      class="font-weight-bolder text-uppercase mb-0"
+                    >
+                      Dificultad:
+                      <span class="text-gradient hard">{{ idea.dificultad }}</span>
+                    </p>
+                    <button
+                      class="btn btn-round bg-gradient-primary mt-4 mb-0"
+                      (click)="downloadPDF()"
+                    >
+                      <i class="fas fa-file-pdf"></i> Descargar PDF
+                  </button>
+                </div>
+              </div>
             </div>
             <div class="col-lg-8">
               <div class="accordion mb-4" id="accordionSteps">
@@ -79,7 +87,7 @@
                       [attr.aria-labelledby]="'heading_' + i"
                       data-bs-parent="#accordionSteps"
                     >
-                      <div class="accordion-body">
+                      <div class="accordion-body vertical-alignment">
                         <p class="p-description">{{ step.descripcion }}</p>
                         <div class="image-div" *ngIf="step.imagenUrl != null">
                           <img
@@ -91,7 +99,6 @@
                       </div>
                     </div>
                   </div>
-
                   <div *ngIf="i !== 0">
                     <h2 class="accordion-header" [attr.id]="'heading_' + i">
                       <button
@@ -114,7 +121,7 @@
                       [attr.aria-labelledby]="'heading_' + i"
                       data-bs-parent="#accordionSteps"
                     >
-                      <div class="accordion-body">
+                      <div class="accordion-body vertical-alignment">
                         <p class="p-description">{{ step.descripcion }}</p>
                         <div class="image-div" *ngIf="step.imagenUrl != null">
                           <img
@@ -128,24 +135,14 @@
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6 text-md-end text-center">
-              <button
-                class="btn btn-round bg-gradient-secondary mt-2"
-                routerLink="/mis-ideas"
-              >
-                Volvera mis ideas
-              </button>
-            </div>
-            <div class="col-md-6 text-md-start text-center">
-              <button
-                class="btn btn-round bg-gradient-primary mt-2"
-                (click)="downloadPDF()"
-              >
-                <i class="fas fa-file-pdf"></i> Descargar PDF
-              </button>
+              <div class="text-center">
+                <button
+                  class="btn btn-round bg-gradient-secondary mt-2"
+                  routerLink="/mis-ideas"
+                >
+                  Volvera mis ideas
+                </button>
+              </div>
             </div>
           </div>
         </div>
