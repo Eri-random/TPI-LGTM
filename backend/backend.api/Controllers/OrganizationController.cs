@@ -1,3 +1,4 @@
+using AutoMapper;
 using backend.api.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
@@ -7,10 +8,11 @@ namespace backend.api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrganizationController(IOrganizationService organizationService, ILogger<UserController> logger) : ControllerBase
+    public class OrganizationController(IOrganizationService organizationService, ILogger<UserController> logger, IMapper mapper) : ControllerBase
     {
         private readonly IOrganizationService _organizationService = organizationService ?? throw new ArgumentNullException(nameof(organizationService));
         private readonly ILogger<UserController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
         [HttpGet]
         public async Task<IActionResult> GetAllOrganizations()
@@ -22,24 +24,7 @@ namespace backend.api.Controllers
 
                 foreach (var org in organizations)
                 {
-                    organizationResponse.Add(new OrganizationResponseModel
-                    {
-                        Id = org.Id,
-                        Nombre = org.Nombre,
-                        Cuit = org.Cuit,
-                        Direccion = org.Direccion,
-                        Localidad = org.Localidad,
-                        Provincia = org.Provincia,
-                        Telefono = org.Telefono,
-                        InfoOrganizacion = org.InfoOrganizacion != null ? new InfoOrganizationDto
-                        {
-                            Organizacion = org.InfoOrganizacion.Organizacion,
-                            DescripcionBreve = org.InfoOrganizacion.DescripcionBreve,
-                            DescripcionCompleta = org.InfoOrganizacion.DescripcionCompleta,
-                            Img = org.InfoOrganizacion.Img,
-                            OrganizacionId = org.InfoOrganizacion.OrganizacionId
-                        } : null
-                    });
+                    organizationResponse.Add(_mapper.Map<OrganizationResponseModel>(org));
                 }
 
                 return Ok(organizationResponse);
@@ -62,24 +47,7 @@ namespace backend.api.Controllers
                     return NotFound("Organizacion no encontrada");
                 }
 
-                var organizationResponse = new OrganizationResponseModel
-                {
-                    Id = organization.Id,
-                    Nombre = organization.Nombre,
-                    Cuit = organization.Cuit,
-                    Direccion = organization.Direccion,
-                    Localidad = organization.Localidad,
-                    Provincia = organization.Provincia,
-                    Telefono = organization.Telefono,
-                    InfoOrganizacion = organization.InfoOrganizacion != null ? new InfoOrganizationDto
-                    {
-                        Organizacion = organization.InfoOrganizacion.Organizacion,
-                        DescripcionBreve = organization.InfoOrganizacion.DescripcionBreve,
-                        DescripcionCompleta = organization.InfoOrganizacion.DescripcionCompleta,
-                        Img = organization.InfoOrganizacion.Img,
-                        OrganizacionId = organization.InfoOrganizacion.OrganizacionId
-                    } : null
-                };
+                var organizationResponse = _mapper.Map<OrganizationResponseModel>(organization);
 
                 return Ok(organizationResponse);
             }
@@ -101,26 +69,7 @@ namespace backend.api.Controllers
                     return NotFound("Organizacion no encontrada");
                 }
 
-                var organizationResponse = new OrganizationResponseModel
-                {
-                    Id = organization.Id,
-                    Nombre = organization.Nombre,
-                    Cuit = organization.Cuit,
-                    Direccion = organization.Direccion,
-                    Localidad = organization.Localidad,
-                    Provincia = organization.Provincia,
-                    Telefono = organization.Telefono,
-                    Latitud = organization.Latitud,
-                    Longitud = organization.Longitud,
-                    InfoOrganizacion = organization.InfoOrganizacion != null ? new InfoOrganizationDto
-                    {
-                        Organizacion = organization.InfoOrganizacion.Organizacion,
-                        DescripcionBreve = organization.InfoOrganizacion.DescripcionBreve,
-                        DescripcionCompleta = organization.InfoOrganizacion.DescripcionCompleta,
-                        Img = organization.InfoOrganizacion.Img,
-                        OrganizacionId = organization.InfoOrganizacion.OrganizacionId
-                    } : null
-                };
+                var organizationResponse = _mapper.Map<OrganizationResponseModel>(organization);
 
                 return Ok(organizationResponse);
             }
@@ -150,6 +99,7 @@ namespace backend.api.Controllers
 
                 var organizations = await _organizationService.GetPaginatedOrganizationsAsync(page, pageSize, subcategoriaIdList, name);
                 var organizationResponse = MapOrganizations(organizations);
+
                 return Ok(organizationResponse);
             }
             catch (Exception ex)
@@ -157,37 +107,6 @@ namespace backend.api.Controllers
                 _logger.LogError(ex, "Error al obtener las organizaciones paginadas");
                 return StatusCode(500, "Internal server error");
             }
-        }
-
-        private List<OrganizationResponseModel> MapOrganizations(IEnumerable<OrganizationDto> organizations)
-        {
-            var organizationResponse = new List<OrganizationResponseModel>();
-
-            foreach (var org in organizations)
-            {
-                organizationResponse.Add(new OrganizationResponseModel
-                {
-                    Id = org.Id,
-                    Nombre = org.Nombre,
-                    Cuit = org.Cuit,
-                    Direccion = org.Direccion,
-                    Localidad = org.Localidad,
-                    Provincia = org.Provincia,
-                    Telefono = org.Telefono,
-                    Latitud = org.Latitud,
-                    Longitud = org.Longitud,
-                    InfoOrganizacion = org.InfoOrganizacion != null ? new InfoOrganizationDto
-                    {
-                        Organizacion = org.InfoOrganizacion.Organizacion,
-                        DescripcionBreve = org.InfoOrganizacion.DescripcionBreve,
-                        DescripcionCompleta = org.InfoOrganizacion.DescripcionCompleta,
-                        Img = org.InfoOrganizacion.Img,
-                        OrganizacionId = org.InfoOrganizacion.OrganizacionId
-                    } : null
-                });
-            }
-
-          return organizationResponse;
         }
       
         [HttpPost("{organizationId}/assign-need")]
@@ -247,20 +166,9 @@ namespace backend.api.Controllers
 
             try
             {
-                var organization = new OrganizationDto
-                {
-                    Id = organizationRequest.Id,
-                    Nombre = organizationRequest.Nombre,
-                    Cuit = organizationRequest.Cuit,
-                    Direccion = organizationRequest.Direccion,
-                    Localidad = organizationRequest.Localidad,
-                    Provincia = organizationRequest.Provincia,
-                    Telefono = organizationRequest.Telefono,
-                    Latitud = 0,
-                    Longitud = 0,
-                };
-
+                var organization = _mapper.Map<OrganizationDto>(organizationRequest);
                 await _organizationService.UpdateOrganizationAsync(organization);
+
                 return Ok(new { message = $"Organización {organizationRequest.Nombre} actualizada correctamente" });
             }
             catch (Exception ex)
@@ -269,5 +177,16 @@ namespace backend.api.Controllers
             }
         }
 
+        private List<OrganizationResponseModel> MapOrganizations(IEnumerable<OrganizationDto> organizations)
+        {
+            var organizationResponse = new List<OrganizationResponseModel>();
+
+            foreach (var org in organizations)
+            {
+                organizationResponse.Add(_mapper.Map<OrganizationResponseModel>(org));
+            }
+
+            return organizationResponse;
+        }
     }
 }
