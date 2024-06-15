@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
+using backend.api.Models;
 using backend.data.Models;
 using backend.servicios.DTOs;
 
-namespace backend.servicios.Mappers
+namespace backend.api.Mappers
 {
     public class UserProfile : Profile
     {
@@ -10,6 +11,12 @@ namespace backend.servicios.Mappers
         {
             CreateMap<Usuario, UserDto>()
                 .ForMember(dest => dest.RolNombre, opt => opt.MapFrom(src => src.Rol.Nombre));
+
+            CreateMap<UserDto, Usuario>();
+
+            CreateMap<UserDto, UserResponseModel>();
+
+            CreateMap<UserRequestModel, UserDto>();
         }
     }
 }
