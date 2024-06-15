@@ -1,23 +1,14 @@
-﻿using backend.data.DataContext;
-using backend.data.Models;
-using backend.servicios.DTOs;
-using backend.servicios.Helpers;
-using backend.servicios.Interfaces;
-using backend.servicios.Servicios;
-using Microsoft.EntityFrameworkCore;
+﻿using backend.servicios.Servicios;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Moq;
-using Newtonsoft.Json;
-using System.Net;
 using Moq.Protected;
+using System.Net;
 
 namespace backend.servicios.test
 {
     [TestFixture]
     public class MapsServiceTest
     {
-
         [Test]
         public async Task GetCoordinates_Returns_CorrectCoordinates()
         {
@@ -52,7 +43,10 @@ namespace backend.servicios.test
 
             var httpClient = new HttpClient(mockHttpMessageHandler.Object);
 
-            var mapsService = new MapsService(httpClient, configurationMock.Object);
+            var httpClientFactory = new Mock<IHttpClientFactory>();
+            httpClientFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
+
+            var mapsService = new MapsService(httpClientFactory.Object, configurationMock.Object);
 
             // Act
             var (lat, lng) = await mapsService.GetCoordinates("1600 Amphitheatre Parkway", "Mountain View", "CA");
@@ -86,7 +80,10 @@ namespace backend.servicios.test
 
             var httpClient = new HttpClient(mockHttpMessageHandler.Object);
 
-            var mapsService = new MapsService(httpClient, configurationMock.Object);
+            var httpClientFactory = new Mock<IHttpClientFactory>();
+            httpClientFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
+
+            var mapsService = new MapsService(httpClientFactory.Object, configurationMock.Object);
 
             // Act & Assert
 

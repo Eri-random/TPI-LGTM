@@ -1,5 +1,7 @@
 ﻿using backend.data.DataContext;
 using backend.data.Models;
+using backend.repositories.implementations;
+using backend.repositories.interfaces;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
 using backend.servicios.Servicios;
@@ -21,6 +23,8 @@ namespace backend.servicios.test
         private Mock<IMapsService> _mapsMock;
         private ApplicationDbContext _context;
         private OrganizationService _organizationService;
+        private IRepository<Organizacion> _organizacionRepository;
+        private IRepository<Subcategorium> _subcategoriumRepository;
 
         [SetUp]
         public void SetUp()
@@ -33,7 +37,9 @@ namespace backend.servicios.test
                 .Options;
 
             _context = new ApplicationDbContext(options);
-            _organizationService = new OrganizationService(_context, _loggerMock.Object, _mapsMock.Object);
+            _organizacionRepository = new Repository<Organizacion>(_context);
+            _subcategoriumRepository = new Repository<Subcategorium>(_context);
+            _organizationService = new OrganizationService(_organizacionRepository, _subcategoriumRepository, _loggerMock.Object, _mapsMock.Object);
         }
 
         [TearDown]

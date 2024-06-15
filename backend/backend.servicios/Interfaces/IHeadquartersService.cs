@@ -9,18 +9,16 @@ namespace backend.servicios.Interfaces
 {
     public interface IHeadquartersService
     {
-        Task createHeadquartersAsync(List<HeadquartersDto> headquartersDtos);
+        Task CreateHeadquartersAsync(List<HeadquartersDto> headquartersDtos);
 
         Task<IEnumerable<HeadquartersDto>> GetAllHeadquartersAsync();
 
         Task<IEnumerable<HeadquartersDto>> GetHeadquartersByOrganizationIdAsync(int organizationId);
 
-        Task updateHeadquartersAsync(HeadquartersDto headquartersDto);
+        Task UpdateHeadquartersAsync(HeadquartersDto headquartersDto);
 
-        Task deleteHeadquartersAsync(int headquartersId);
+        Task DeleteHeadquartersAsync(int headquartersId);
 
         Task<HeadquartersDto> GetHeadquarterByIdAsync(int headquartersId);
-
-        double CalculateDistance(double lat1, double lon1, double lat2, double lon2);
     }
 }

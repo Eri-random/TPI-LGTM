@@ -1,6 +1,8 @@
 using backend.api;
 using backend.api.Models;
 using backend.data.DataContext;
+using backend.repositories.implementations;
+using backend.repositories.interfaces;
 using backend.servicios.Config;
 using backend.servicios.Interfaces;
 using backend.servicios.Servicios;
@@ -45,12 +47,13 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMapsService, MapsService>();
 builder.Services.AddScoped<IOrganizationService, OrganizationService>();
 builder.Services.AddScoped<IDonationService,DonationService>();
-builder.Services.AddHttpClient<IMapsService, MapsService>();
 builder.Services.AddScoped<IOrganizationInfoService, InfoOrganizationService>();
 builder.Services.AddScoped<IIdeaService, IdeaService>();
-builder.Services.AddScoped<IHeadquartersService, headquartersService>();
+builder.Services.AddScoped<IHeadquartersService, HeadquartersService>();
 builder.Services.AddScoped<INeedService, NeedService>();
 //builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UserRequestModel>());
+
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 var groqApiConfig = builder.Configuration.GetSection("GroqApiConfig").Get<GroqApiConfig>();
 builder.Services.AddSingleton(groqApiConfig);

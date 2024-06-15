@@ -18,6 +18,6 @@ namespace backend.servicios.Interfaces
 
         Task UpdateDonationsStateAsync(List<int> donationIds, string state);
 
-        Task<int> GetIdDonationAsync(DonationDto newDonation);
+        Task<int> GetDonationIdAsync(DonationDto newDonation);
     }
 }

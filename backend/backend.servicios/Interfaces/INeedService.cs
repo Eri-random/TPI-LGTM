@@ -9,6 +9,6 @@ namespace backend.servicios.Interfaces
 {
     public interface INeedService
     {
-        Task<IEnumerable<NeedDto>> GetAllNeedAsync();
+        Task<IEnumerable<NeedDto>> GetAllNeedsAsync();
     }
 }

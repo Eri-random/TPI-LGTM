@@ -26,7 +26,6 @@ namespace backend.servicios.Servicios
             }
             else
             {
-                // Handle error response appropriately
                 var errorContent = await response.Content.ReadAsStringAsync();
                 _logger.LogError("Error when generating image: {error}", errorContent);
                 return null;

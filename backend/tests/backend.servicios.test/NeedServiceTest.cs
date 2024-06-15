@@ -1,5 +1,7 @@
 ﻿using backend.data.DataContext;
 using backend.data.Models;
+using backend.repositories.implementations;
+using backend.repositories.interfaces;
 using backend.servicios.DTOs;
 using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
@@ -15,6 +17,7 @@ namespace backend.servicios.test
     {
         private Mock<ILogger<NeedService>> _loggerMock;
         private ApplicationDbContext _context;
+        private IRepository<Necesidad> _repository;
 
         [SetUp]
         public void SetUp()
@@ -26,16 +29,17 @@ namespace backend.servicios.test
                 .Options;
 
             _context = new ApplicationDbContext(options);
+            _repository = new Repository<Necesidad>(_context);
         }
 
         [Test]
         public async Task GetAllNeedAsync_WhenThereAreNoNeeds_ReturnsEmptyList()
         {
             // Arrange
-            var needService = new NeedService(_context, _loggerMock.Object);
+            var needService = new NeedService(_repository, _loggerMock.Object);
 
             // Act
-            var result = await needService.GetAllNeedAsync();
+            var result = await needService.GetAllNeedsAsync();
 
             // Assert
             Assert.IsEmpty(result);
@@ -63,10 +67,10 @@ namespace backend.servicios.test
             _context.Necesidads.Add(need);
             _context.SaveChanges();
 
-            var needService = new NeedService(_context, _loggerMock.Object);
+            var needService = new NeedService(_repository, _loggerMock.Object);
 
             // Act
-            var result = await needService.GetAllNeedAsync();
+            var result = await needService.GetAllNeedsAsync();
 
             // Assert
             Assert.IsNotEmpty(result);

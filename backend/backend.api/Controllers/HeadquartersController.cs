@@ -73,7 +73,7 @@ namespace backend.api.Controllers
 
             try
             {
-                await _headquartersService.createHeadquartersAsync(headquarters);
+                await _headquartersService.CreateHeadquartersAsync(headquarters);
                 return Ok();
             }
             catch (Exception ex)
@@ -140,7 +140,7 @@ namespace backend.api.Controllers
 
             try
             {
-                await _headquartersService.updateHeadquartersAsync(headquarters);
+                await _headquartersService.UpdateHeadquartersAsync(headquarters);
                 return Ok();
             }
             catch (Exception ex)
@@ -155,7 +155,7 @@ namespace backend.api.Controllers
         {
             try
             {
-                await _headquartersService.deleteHeadquartersAsync(headquartersId);
+                await _headquartersService.DeleteHeadquartersAsync(headquartersId);
                 return Ok();
             }
             catch (Exception ex)
@@ -202,7 +202,7 @@ namespace backend.api.Controllers
 
             var (latitudeUser, lengthUser) = await _mapsService.GetCoordinates(data.Usuario.Direccion, data.Usuario.Localidad, data.Usuario.Provincia);
 
-            var distanceOrg = headquartersService.CalculateDistance(
+            var distanceOrg = DistanceCalculator.CalculateDistance(
                 latitudeUser, lengthUser,
                 data.Organizacion.Latitud, data.Organizacion.Longitud
             );
@@ -228,7 +228,7 @@ namespace backend.api.Controllers
             var headquartersWithDistance = data.Sedes.Select(sede => new
             {
                 Sede = sede,
-                Distancia = headquartersService.CalculateDistance(
+                Distancia = DistanceCalculator.CalculateDistance(
                     latitudeUser, lengthUser,
                     sede.Latitud, sede.Longitud
                 )

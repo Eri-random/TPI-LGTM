@@ -1,8 +1,8 @@
 ﻿using backend.data.DataContext;
 using backend.data.Models;
+using backend.repositories.implementations;
+using backend.repositories.interfaces;
 using backend.servicios.DTOs;
-using backend.servicios.Helpers;
-
 using backend.servicios.Servicios;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -15,6 +15,7 @@ namespace backend.servicios.test
     {
         private Mock<ILogger<OrganizationService>> _loggerMock;
         private ApplicationDbContext _context;
+        private IRepository<InfoOrganizacion> _repository;
         private InfoOrganizationService _infoOrganizacionService;
 
         [SetUp]
@@ -29,8 +30,8 @@ namespace backend.servicios.test
             _context = new ApplicationDbContext(options);
 
             _context.SaveChanges();
-
-            _infoOrganizacionService = new InfoOrganizationService(_context, _loggerMock.Object);
+            _repository = new Repository<InfoOrganizacion>(_context);
+            _infoOrganizacionService = new InfoOrganizationService(_repository, _loggerMock.Object);
 
 
         }
@@ -54,7 +55,7 @@ namespace backend.servicios.test
                 OrganizacionId = 1
             };
 
-            await _infoOrganizacionService.SaveDataInfoOrganization(infoOrganizacionDto);
+            await _infoOrganizacionService.SaveInfoOrganizationDataAsync(infoOrganizacionDto);
 
             var organizacionCreate = await _context.InfoOrganizacions.FirstOrDefaultAsync(u => u.Organizacion == "Organizacion");
 
@@ -67,7 +68,7 @@ namespace backend.servicios.test
         public void SaveDataInfoOrganizacionc_NullInfoOrganizacionDto_ArgumentNullException()
         {
             // Act & Assert
-            var ex = Assert.ThrowsAsync<ArgumentNullException>(() => _infoOrganizacionService.SaveDataInfoOrganization(null));
+            var ex = Assert.ThrowsAsync<ArgumentNullException>(() => _infoOrganizacionService.SaveInfoOrganizationDataAsync(null));
             Assert.Multiple(() =>
             {
                 Assert.That(ex.ParamName, Is.EqualTo("infoOrganizationDto"));

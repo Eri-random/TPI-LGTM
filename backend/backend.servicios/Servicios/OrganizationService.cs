@@ -1,21 +1,16 @@
-using backend.data.DataContext;
 using backend.data.Models;
+using backend.repositories.interfaces;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace backend.servicios.Servicios
 {
-    public class OrganizationService(ApplicationDbContext context, ILogger<OrganizationService> logger, IMapsService mapsService) : IOrganizationService
+    public class OrganizationService(IRepository<Organizacion> orgRepository, IRepository<Subcategorium> subCatRepository, ILogger<OrganizationService> logger, IMapsService mapsService) : IOrganizationService
     {
-        private readonly ApplicationDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
+        private readonly IRepository<Organizacion> _organizacionRepository = orgRepository ?? throw new ArgumentNullException(nameof(orgRepository));
+        private readonly IRepository<Subcategorium> _subCatRepository = subCatRepository ?? throw new ArgumentNullException(nameof(orgRepository));
         private readonly ILogger<OrganizationService> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         private readonly IMapsService _mapsService = mapsService ?? throw new ArgumentNullException(nameof(mapsService));
 
@@ -23,7 +18,8 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var organization = await _context.Organizacions.Include(u => u.InfoOrganizacion)
+                var organizacion = await _organizacionRepository.GetAllAsync(x => x.InfoOrganizacion);
+                return organizacion
                     .Select(u => new OrganizationDto
                     {
                         Id = u.Id,
@@ -43,10 +39,7 @@ namespace backend.servicios.Servicios
                             Img = u.InfoOrganizacion.Img,
                             OrganizacionId = u.InfoOrganizacion.OrganizacionId
                         } : null
-                    }).ToListAsync();
-
-                return organization;
-
+                    });
             }
             catch (Exception ex)
             {
@@ -72,8 +65,7 @@ namespace backend.servicios.Servicios
 
             try
             {
-                _context.Organizacions.Add(organization);
-                await _context.SaveChangesAsync();
+                await _organizacionRepository.AddAsync(organization);
 
             }
             catch (Exception ex)
@@ -87,31 +79,31 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var organization = await _context.Organizacions.Include(x => x.InfoOrganizacion).FirstOrDefaultAsync(u => u.Id == id);
+                var organizacion = await _organizacionRepository.GetByIdAsync(id, x => x.InfoOrganizacion);
 
-                if (organization == null)
+                if (organizacion == null)
                 {
                     return null;
                 }
 
                 return new OrganizationDto
                 {
-                    Id = organization.Id,
-                    Nombre = organization.Nombre,
-                    Cuit = organization.Cuit,
-                    Direccion = organization.Direccion,
-                    Localidad = organization.Localidad,
-                    Provincia = organization.Provincia,
-                    Telefono = organization.Telefono,
-                    Latitud = organization.Latitud,
-                    Longitud = organization.Longitud,
-                    InfoOrganizacion = organization.InfoOrganizacion != null ? new InfoOrganizationDto
+                    Id = organizacion.Id,
+                    Nombre = organizacion.Nombre,
+                    Cuit = organizacion.Cuit,
+                    Direccion = organizacion.Direccion,
+                    Localidad = organizacion.Localidad,
+                    Provincia = organizacion.Provincia,
+                    Telefono = organizacion.Telefono,
+                    Latitud = organizacion.Latitud,
+                    Longitud = organizacion.Longitud,
+                    InfoOrganizacion = organizacion.InfoOrganizacion != null ? new InfoOrganizationDto
                     {
-                        Organizacion = organization.InfoOrganizacion.Organizacion,
-                        DescripcionBreve = organization.InfoOrganizacion.DescripcionBreve,
-                        DescripcionCompleta = organization.InfoOrganizacion.DescripcionCompleta,
-                        Img = organization.InfoOrganizacion.Img,
-                        OrganizacionId = organization.InfoOrganizacion.OrganizacionId
+                        Organizacion = organizacion.InfoOrganizacion.Organizacion,
+                        DescripcionBreve = organizacion.InfoOrganizacion.DescripcionBreve,
+                        DescripcionCompleta = organizacion.InfoOrganizacion.DescripcionCompleta,
+                        Img = organizacion.InfoOrganizacion.Img,
+                        OrganizacionId = organizacion.InfoOrganizacion.OrganizacionId
                     } : null
                 };
             }
@@ -126,12 +118,11 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var organization = await _context.Organizacions.Include(u => u.InfoOrganizacion).FirstOrDefaultAsync(u => u.Cuit == cuit);
+                var organizations = await _organizacionRepository.GetAllAsync(x => x.InfoOrganizacion);
+                var organization = organizations.FirstOrDefault(x => x.Cuit == cuit);
 
                 if (organization == null)
-                {
                     return null;
-                }
 
                 return new OrganizationDto
                 {
@@ -161,27 +152,23 @@ namespace backend.servicios.Servicios
 
         public async Task<IEnumerable<OrganizationDto>> GetPaginatedOrganizationsAsync(int page, int pageSize, List<int> subcategoriaIds,string name)
         {
-            var query = _context.Organizacions
-             .Include(o => o.InfoOrganizacion)
+            var organizations = await _organizacionRepository.GetAllAsync(x => x.InfoOrganizacion);
+            var query = organizations
              .Where(o => o.InfoOrganizacion != null)
              .AsQueryable();
 
             if (subcategoriaIds != null && subcategoriaIds.Any())
-            {
                 query = query.Where(o => o.Subcategoria.Any(s => subcategoriaIds.Contains(s.Id)));
-            }
 
             if (!string.IsNullOrEmpty(name))
-            {
                 query = query.Where(o => o.Nombre.ToLower().Contains(name.ToLower()));
-            }
 
-            var organizations = await query
+            var organizationsPaginated = await query
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
-            var organizationDtos = organizations.Select(o => new OrganizationDto
+            var organizationDtos = organizationsPaginated.Select(o => new OrganizationDto
             {
                 Id = o.Id,
                 Nombre = o.Nombre,
@@ -200,7 +187,7 @@ namespace backend.servicios.Servicios
                     Img = o.InfoOrganizacion.Img,
                     OrganizacionId = o.InfoOrganizacion.OrganizacionId
                 } : null
-            }).ToList();
+            });
 
             return organizationDtos;
         }
@@ -209,55 +196,52 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var organization = await _context.Organizacions
-                    .Include(o => o.Subcategoria)
-                    .FirstOrDefaultAsync(o => o.Id == organizationId);
+                var organization = await _organizacionRepository.GetByIdAsync(organizationId, x => x.Subcategoria);
 
                 if (organization == null)
-                {
                     throw new Exception("Organización no encontrada");
-                }
 
-                // Eliminar las relaciones existentes
                 organization.Subcategoria.Clear();
 
-                // Obtener las nuevas subcategorías desde la base de datos
-                var newSubcategories = await _context.Subcategoria
+                var subCategories = await _subCatRepository.GetAllAsync();
+                var newSubcategories = subCategories
                     .Where(s => subcategoriesDto.Select(dto => dto.Id).Contains(s.Id))
-                    .ToListAsync();
+                    .ToList();
 
-                // Asignar las nuevas subcategorías
                 foreach (var subcategory in newSubcategories)
                 {
                     organization.Subcategoria.Add(subcategory);
                 }
 
-                await _context.SaveChangesAsync();
+                await _organizacionRepository.UpdateAsync(organization);
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al asignar subcategorías: " + ex.Message);
+                _logger.LogError(ex, "Error al asignar subcategorías");
+                throw;
             }
         }
 
         public async Task<List<SubcategoriesDto>> GetAssignedSubcategoriesAsync(int organizationId)
         {
-            var subcategories = await _context.Subcategoria
-       .Where(s => s.Organizacions.Any(o => o.Id == organizationId))
-       .Select(s => new SubcategoriesDto
-       {
-           Id = s.Id,
-           Nombre = s.Nombre,
-           NecesidadId = s.NecesidadId
-       })
-       .ToListAsync();
+            var subCats = await _subCatRepository.GetAllAsync(x => x.Organizacions);
+            var subcategories = subCats
+               .Where(s => s.Organizacions.Any(o => o.Id == organizationId))
+               .Select(s => new SubcategoriesDto
+               {
+                   Id = s.Id,
+                   Nombre = s.Nombre,
+                   NecesidadId = s.NecesidadId
+               })
+               .ToList();
 
             return subcategories;
         }
 
         public async Task<List<NeedDto>> GetAssignedSubcategoriesGroupedAsync(int organizationId)
         {
-            var subcategories = await _context.Subcategoria
+            var subCats = await _subCatRepository.GetAllAsync(x => x.Organizacions);
+            var subcategories = subCats
                 .Where(s => s.Organizacions.Any(o => o.Id == organizationId))
                 .Select(s => new SubcategoriesDto
                 {
@@ -267,7 +251,7 @@ namespace backend.servicios.Servicios
                     NecesidadNombre = s.Necesidad.Nombre,
                     NecesidadIcono = s.Necesidad.Icono
                 })
-                .ToListAsync();
+                .ToList();
 
             var groupedSubcategories = subcategories
                 .GroupBy(s => new { s.NecesidadId, s.NecesidadNombre, s.NecesidadIcono })
@@ -292,8 +276,8 @@ namespace backend.servicios.Servicios
         {
             if (organizationDto == null)
                 throw new ArgumentNullException(nameof(organizationDto), "La organizacion proporcionado no puede ser nula.");
-
-            var organization = await _context.Organizacions.FirstOrDefaultAsync(o => o.Id == organizationDto.Id);
+            
+            var organization = await _organizacionRepository.GetByIdAsync(organizationDto.Id);
 
             if (organization == null)
                 throw new Exception("Organización no encontrada");
@@ -311,7 +295,7 @@ namespace backend.servicios.Servicios
                 organization.Latitud = lat;
                 organization.Longitud = lng;
 
-                await _context.SaveChangesAsync();
+                await _organizacionRepository.UpdateAsync(organization);
             }
             catch (Exception ex)
             {

@@ -1,27 +1,25 @@
-﻿using backend.data.DataContext;
-using backend.data.Models;
+﻿using backend.data.Models;
+using backend.repositories.interfaces;
 using backend.servicios.DTOs;
 using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-
 
 namespace backend.servicios.Servicios
 {
-    public class UserService(ApplicationDbContext context, ILogger<UserService> logger, IMapsService mapsService) : IUserService
+    public class UserService(IRepository<Usuario> repository, ILogger<UserService> logger, IMapsService mapsService) : IUserService
     {
-        private readonly ApplicationDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
+        private readonly IRepository<Usuario> _userRepository = repository ?? throw new ArgumentNullException(nameof(repository));
         private readonly ILogger<UserService> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         private readonly IMapsService _mapsService = mapsService ?? throw new ArgumentNullException(nameof(mapsService));
-
 
         public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
         {
             try
             {
-                var users = await _context.Usuarios.Include(u => u.Rol)
+                var users = await _userRepository.GetAllAsync(x => x.Rol);
+                return users
                     .Select(u => new UserDto
                     {
                         Id = u.Id,
@@ -34,10 +32,7 @@ namespace backend.servicios.Servicios
                         Telefono = u.Telefono,
                         Rol = u.RolId,
                         RolNombre = u.Rol.Nombre,
-                    }).ToListAsync();
-
-                return users;
-
+                    });
             }
             catch (Exception ex)
             {
@@ -53,15 +48,11 @@ namespace backend.servicios.Servicios
 
             try
             {
-                var user =  await _context.Usuarios
-                    .Include(u => u.Rol)
-                    .Include(u => u.Organizacion)
-                    .FirstOrDefaultAsync(u => u.Email == email);
+                var users = await _userRepository.GetAllAsync(x => x.Rol, x => x.Organizacion);
+                var user = users.FirstOrDefault(x => x.Email.Equals(email));
 
                 if (user == null)
-                {
                     return null;
-                }
 
                 return new UserDto
                 {
@@ -142,9 +133,7 @@ namespace backend.servicios.Servicios
 
             try
             {
-                _context.Usuarios.Add(user);
-                await _context.SaveChangesAsync();
-
+                await _userRepository.AddAsync(user);
             }
             catch (Exception ex)
             {
@@ -158,7 +147,9 @@ namespace backend.servicios.Servicios
             if (userDto == null)
                 throw new ArgumentNullException(nameof(userDto), "El usuario proporcionado no puede ser nulo.");
 
-            var existingUser = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == userDto.Email);
+            var users = await _userRepository.GetAllAsync(x => x.Rol);
+            var existingUser = users.FirstOrDefault(x => x.Email.Equals(userDto.Email));
+
             if (existingUser == null)
                 throw new KeyNotFoundException("Usuario no encontrado para actualizar.");
 
@@ -177,8 +168,7 @@ namespace backend.servicios.Servicios
                     existingUser.Contrasena = passwordHasher.HashPassword(existingUser, userDto.Password);
                 }
 
-                _context.Usuarios.Update(existingUser);
-                await _context.SaveChangesAsync();
+                await _userRepository.UpdateAsync(existingUser);
             }
             catch (Exception ex)
             {
@@ -192,14 +182,15 @@ namespace backend.servicios.Servicios
             if (string.IsNullOrEmpty(email))
                 throw new ArgumentNullException(nameof(email), "El email proporcionado no puede ser nulo o estar vacío.");
 
-            var existingUser = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            var users = await _userRepository.GetAllAsync();
+            var existingUser = users.FirstOrDefault(x => x.Email == email);
+
             if (existingUser == null)
                 throw new KeyNotFoundException("Usuario no encontrado para eliminar.");
 
             try
             {
-                _context.Usuarios.Remove(existingUser);
-                await _context.SaveChangesAsync();
+                await _userRepository.DeleteAsync(existingUser.Id);
             }
             catch (Exception ex)
             {
@@ -212,14 +203,10 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var user = await _context.Usuarios.Include(u => u.Rol)
-                    .Include(u => u.Organizacion)
-                    .FirstOrDefaultAsync(u => u.Id == id);
+                var user = await _userRepository.GetByIdAsync(id, x => x.Rol, x => x.Organizacion);
 
                 if (user == null)
-                {
                     return null;
-                }
 
                 return new UserDto
                 {

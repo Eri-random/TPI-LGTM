@@ -1,26 +1,23 @@
-﻿using backend.data.DataContext;
-using backend.data.Models;
+﻿using backend.data.Models;
+using backend.repositories.interfaces;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace backend.servicios.Servicios
 {
-    public class NeedService(ApplicationDbContext context, ILogger<NeedService> logger) : INeedService
+    public class NeedService(IRepository<Necesidad> repository, ILogger<NeedService> logger) : INeedService
     {
-        private readonly ApplicationDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
+        private readonly IRepository<Necesidad> _necesidadRepository = repository ?? throw new ArgumentNullException(nameof(repository));
         private readonly ILogger<NeedService> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        public async Task<IEnumerable<NeedDto>> GetAllNeedAsync()
+
+        public async Task<IEnumerable<NeedDto>> GetAllNeedsAsync()
         {
             try
             {
-                var needs = await _context.Necesidads.Include(u => u.Subcategoria)
+                var necesidades = await _necesidadRepository.GetAllAsync(x => x.Subcategoria);
+
+                return necesidades
                     .Select(u => new NeedDto
                     {
                         Id = u.Id,
@@ -33,10 +30,7 @@ namespace backend.servicios.Servicios
                             NecesidadId = p.NecesidadId
                         }).ToList()
 
-                    }).ToListAsync();
-
-                return needs;
-
+                    });
             }
             catch (Exception ex)
             {

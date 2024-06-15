@@ -19,7 +19,7 @@ namespace backend.api.Controllers
         {
             try
             {
-                var needs = await _neeedService.GetAllNeedAsync();
+                var needs = await _neeedService.GetAllNeedsAsync();
 
                 var needsResponse = new List<NeedsResponseModel>();
 
