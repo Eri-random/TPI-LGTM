@@ -54,6 +54,7 @@ namespace backend.api.Controllers
             string fileUrl = $"http://localhost:5203/images/{infoOrganizationRequest.File.FileName}"; // Cambia esto según sea necesario
 
             var infoOrganization = _mapper.Map<InfoOrganizationDto>(infoOrganizationRequest);
+            infoOrganization.Img = fileUrl;
 
             try
             {
