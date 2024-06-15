@@ -63,6 +63,8 @@ var openAiApiConfig = builder.Configuration.GetSection("OpenAiApiConfig").Get<Op
 builder.Services.AddSingleton(openAiApiConfig);
 builder.Services.AddSingleton<IImageService, OpenAIImageService>();
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 builder.Services.AddPredictionEnginePool<FabricModelInput, FabricModelOutput>()
     .FromFile(modelName: "ClasificacionImagen.MLModels.FabricMLModel", filePath: "MLModel/FabricMLModel.mlnet", watchForChanges: true);
 

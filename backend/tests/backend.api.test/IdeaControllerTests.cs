@@ -1,4 +1,6 @@
-﻿using backend.api.Controllers;
+﻿using AutoMapper;
+using backend.api.Controllers;
+using backend.api.Mappers;
 using backend.api.Models;
 using backend.servicios.Interfaces;
 using backend.servicios.Models;
@@ -16,6 +18,7 @@ namespace backend.api.test
         private Mock<IIdeaService> _ideaServiceMock;
         private Mock<ILogger<IdeaController>> _loggerMock;
         private Mock<IImageService> _imageServiceMock;
+        private IMapper _mapper;
         private IdeaController _controller;
 
         [SetUp]
@@ -25,7 +28,14 @@ namespace backend.api.test
             _ideaServiceMock = new Mock<IIdeaService>();
             _loggerMock = new Mock<ILogger<IdeaController>>();
             _imageServiceMock = new Mock<IImageService>();
-            _controller = new IdeaController(_groqApiServiceMock.Object, _loggerMock.Object, _ideaServiceMock.Object, _imageServiceMock.Object);
+
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new IdeaProfile());
+            });
+
+            _mapper = mappingConfig.CreateMapper();
+            _controller = new IdeaController(_groqApiServiceMock.Object, _loggerMock.Object, _ideaServiceMock.Object, _imageServiceMock.Object, _mapper);
         }
 
         [Test]

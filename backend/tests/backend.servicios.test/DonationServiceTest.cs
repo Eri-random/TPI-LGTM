@@ -1,4 +1,6 @@
-﻿using backend.data.DataContext;
+﻿using AutoMapper;
+using backend.api.Mappers;
+using backend.data.DataContext;
 using backend.data.Models;
 using backend.repositories.implementations;
 using backend.repositories.interfaces;
@@ -28,9 +30,17 @@ namespace backend.servicios.test
                 .UseInMemoryDatabase(databaseName: "DonationServiceTest")
                 .Options;
 
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new DonationProfile());
+                mc.AddProfile(new OrganizationProfile());
+                mc.AddProfile(new UserProfile());
+            });
+            var mapper = mappingConfig.CreateMapper();
+
             _context = new ApplicationDbContext(options);
             _repository = new Repository<Donacion>(_context);
-            _donationService = new DonationService(_repository, _loggerMock.Object);
+            _donationService = new DonationService(_repository, _loggerMock.Object, mapper);
         }
 
         [Test]

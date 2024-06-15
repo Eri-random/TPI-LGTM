@@ -1,4 +1,5 @@
-﻿using backend.data.Models;
+﻿using AutoMapper;
+using backend.data.Models;
 using backend.repositories.interfaces;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
@@ -6,27 +7,20 @@ using Microsoft.Extensions.Logging;
 
 namespace backend.servicios.Servicios
 {
-    public class DonationService(IRepository<Donacion> repository, ILogger<DonationService> logger) : IDonationService
+    public class DonationService(IRepository<Donacion> repository, ILogger<DonationService> logger, IMapper mapper) : IDonationService
     {
         private readonly IRepository<Donacion> _donacionRepository = repository ?? throw new ArgumentNullException(nameof(repository));
         private readonly ILogger<DonationService> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
         public async Task SaveDonationAsync(DonationDto donationDto)
         {
             if (donationDto == null)
                 throw new ArgumentNullException(nameof(donationDto), "La donacion proporcionada no puede ser nula.");
 
-            var donation = new Donacion
-            {
-                Producto = donationDto.Producto,
-                Cantidad = donationDto.Cantidad,
-                Estado = donationDto.Estado,
-                UsuarioId = donationDto.UsuarioId,
-                OrganizacionId = donationDto.OrganizacionId
-            };
-
             try
             {
+                var donation = _mapper.Map<Donacion>(donationDto);
                 await _donacionRepository.AddAsync(donation);
             }
             catch (Exception ex)
@@ -41,22 +35,9 @@ namespace backend.servicios.Servicios
             try
             {
                 var donaciones = await _donacionRepository.GetAllAsync(x => x.Usuario);
+                var donationsFromOrg = donaciones.Where(x => x.OrganizacionId == organizacionId).OrderByDescending(x => x.Id);
 
-                return donaciones.Where(x => x.OrganizacionId == organizacionId)
-                    .OrderByDescending(x => x.Id)
-                    .Select(u => new DonationDto
-                    {
-                        Id = u.Id,
-                        Producto = u.Producto,
-                        Cantidad = u.Cantidad,
-                        Estado = u.Estado,
-                        Usuario = new UserDto()
-                        {
-                            Nombre = u.Usuario.Nombre,
-                            Telefono = u.Usuario.Telefono,
-                            Email = u.Usuario.Email
-                        }
-                    });
+                return _mapper.Map<IEnumerable<DonationDto>>(donationsFromOrg);
             }
             catch (Exception ex)
             {
@@ -70,23 +51,9 @@ namespace backend.servicios.Servicios
             try
             {
                 var donaciones = await _donacionRepository.GetAllAsync(x => x.Usuario);
+                var donationsFromUser = donaciones.Where(u => u.UsuarioId == usuarioId);
 
-                return donaciones.Where(u => u.UsuarioId == usuarioId)
-                    .Select(u => new DonationDto
-                    {
-                        Id = u.Id,
-                        Producto = u.Producto,
-                        Cantidad = u.Cantidad,
-                        Estado = u.Estado,
-                        OrganizacionId = u.OrganizacionId,
-                        Usuario = new UserDto()
-                        {
-                            Nombre = u.Usuario.Nombre,
-                            Telefono = u.Usuario.Telefono,
-                            Email = u.Usuario.Email
-                        }
-
-                    });
+                return _mapper.Map<IEnumerable<DonationDto>>(donationsFromUser);
             }
             catch (Exception ex)
             {

@@ -1,4 +1,6 @@
-﻿using backend.api.Controllers;
+﻿using AutoMapper;
+using backend.api.Controllers;
+using backend.api.Mappers;
 using backend.api.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Helpers;
@@ -14,6 +16,7 @@ namespace backend.api.test
     {
         private Mock<IUserService> _usuarioServiceMock;
         private Mock<ILogger<UserController>> _loggerMock;
+        private IMapper _mapper;
         private UserController _controller;
 
         [SetUp]
@@ -21,7 +24,12 @@ namespace backend.api.test
         {
             _usuarioServiceMock = new Mock<IUserService>();
             _loggerMock = new Mock<ILogger<UserController>>();
-            _controller = new UserController(_usuarioServiceMock.Object, _loggerMock.Object);
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new UserProfile());
+            });
+            _mapper = mappingConfig.CreateMapper();
+            _controller = new UserController(_usuarioServiceMock.Object, _loggerMock.Object, _mapper);
         }
 
         [Test]
@@ -32,7 +40,7 @@ namespace backend.api.test
             var loggerMock = new Mock<ILogger<UserController>>();
 
             // Act & Assert
-            Assert.DoesNotThrow(() => new UserController(usuarioServiceMock.Object, loggerMock.Object));
+            Assert.DoesNotThrow(() => new UserController(usuarioServiceMock.Object, loggerMock.Object, _mapper));
         }
 
         [Test]
@@ -42,7 +50,7 @@ namespace backend.api.test
             var loggerMock = new Mock<ILogger<UserController>>();
 
             // Act & Assert
-            var ex = Assert.Throws<ArgumentNullException>(() => new UserController(null, loggerMock.Object));
+            var ex = Assert.Throws<ArgumentNullException>(() => new UserController(null, loggerMock.Object, _mapper));
             Assert.That(ex.ParamName, Is.EqualTo("userService"));
         }
 
@@ -53,7 +61,7 @@ namespace backend.api.test
             var usuarioServiceMock = new Mock<IUserService>();
 
             // Act & Assert
-            var ex = Assert.Throws<ArgumentNullException>(() => new UserController(usuarioServiceMock.Object, null));
+            var ex = Assert.Throws<ArgumentNullException>(() => new UserController(usuarioServiceMock.Object, null, _mapper));
             Assert.That(ex.ParamName, Is.EqualTo("logger"));
         }
 
@@ -126,7 +134,7 @@ namespace backend.api.test
         {
             // Arrange
             string email = "test@example.com";
-            var mockUsuario = new UserDto { Id = 1, Nombre = "Test", Apellido = "User", Email = email, Telefono = "1234567890", Rol = 1, Provincia = "SomeProvince", Localidad = "SomeCity", Direccion = "123 Test St" };
+            var mockUsuario = new UserDto { Id = 1, Nombre = "Test", Apellido = "User", Email = email, Telefono = "1234567890", RolId = 1, Provincia = "SomeProvince", Localidad = "SomeCity", Direccion = "123 Test St" };
             _usuarioServiceMock.Setup(x => x.GetUserByEmailAsync(email)).ReturnsAsync(mockUsuario);
 
             // Act
@@ -191,7 +199,7 @@ namespace backend.api.test
 
             var hashedPassword = PasswordHasher.HashPassword(usuarioLogIn.Password);
 
-            var mockUsuario = new UserDto { Id = 1, Nombre = "Test", Apellido = "User", Email = usuarioLogIn.Email, Password = hashedPassword, Telefono = "1234567890", Rol = 1,RolNombre = "usuario", Provincia = "SomeProvince", Localidad = "SomeCity", Direccion = "123 Test St" };
+            var mockUsuario = new UserDto { Id = 1, Nombre = "Test", Apellido = "User", Email = usuarioLogIn.Email, Password = hashedPassword, Telefono = "1234567890", RolId = 1,RolNombre = "usuario", Provincia = "SomeProvince", Localidad = "SomeCity", Direccion = "123 Test St" };
             _usuarioServiceMock.Setup(x => x.GetUserByEmailAsync(usuarioLogIn.Email)).ReturnsAsync(mockUsuario);
 
             // Act

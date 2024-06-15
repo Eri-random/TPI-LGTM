@@ -1,3 +1,4 @@
+using AutoMapper;
 using backend.data.Models;
 using backend.repositories.interfaces;
 using backend.servicios.DTOs;
@@ -7,39 +8,25 @@ using Microsoft.Extensions.Logging;
 
 namespace backend.servicios.Servicios
 {
-    public class OrganizationService(IRepository<Organizacion> orgRepository, IRepository<Subcategorium> subCatRepository, ILogger<OrganizationService> logger, IMapsService mapsService) : IOrganizationService
+    public class OrganizationService(
+        IRepository<Organizacion> orgRepository,
+        IRepository<Subcategorium> subCatRepository,
+        ILogger<OrganizationService> logger,
+        IMapsService mapsService,
+        IMapper mapper) : IOrganizationService
     {
         private readonly IRepository<Organizacion> _organizacionRepository = orgRepository ?? throw new ArgumentNullException(nameof(orgRepository));
         private readonly IRepository<Subcategorium> _subCatRepository = subCatRepository ?? throw new ArgumentNullException(nameof(orgRepository));
         private readonly ILogger<OrganizationService> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         private readonly IMapsService _mapsService = mapsService ?? throw new ArgumentNullException(nameof(mapsService));
+        private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
         public async Task<IEnumerable<OrganizationDto>> GetAllOrganizationAsync()
         {
             try
             {
                 var organizacion = await _organizacionRepository.GetAllAsync(x => x.InfoOrganizacion);
-                return organizacion
-                    .Select(u => new OrganizationDto
-                    {
-                        Id = u.Id,
-                        Nombre = u.Nombre,
-                        Cuit = u.Cuit,
-                        Direccion = u.Direccion,
-                        Localidad = u.Localidad,
-                        Provincia = u.Provincia,
-                        Telefono = u.Telefono,
-                        Latitud = u.Latitud,
-                        Longitud = u.Longitud,
-                        InfoOrganizacion = u.InfoOrganizacion != null ? new InfoOrganizationDto
-                        {
-                            Organizacion = u.InfoOrganizacion.Organizacion,
-                            DescripcionBreve = u.InfoOrganizacion.DescripcionBreve,
-                            DescripcionCompleta = u.InfoOrganizacion.DescripcionCompleta,
-                            Img = u.InfoOrganizacion.Img,
-                            OrganizacionId = u.InfoOrganizacion.OrganizacionId
-                        } : null
-                    });
+                return _mapper.Map<IEnumerable<OrganizationDto>>(organizacion);
             }
             catch (Exception ex)
             {
@@ -53,16 +40,7 @@ namespace backend.servicios.Servicios
             if (organizationDto == null)
                 throw new ArgumentNullException(nameof(organizationDto), "La organizacion proporcionado no puede ser nula.");
 
-            var organization = new Organizacion
-            {
-                Nombre = organizationDto.Nombre,
-                Cuit = organizationDto.Cuit,
-                Direccion = organizationDto.Direccion,
-                Localidad = organizationDto.Localidad,
-                Provincia = organizationDto.Provincia,
-                Telefono = organizationDto.Telefono,
-            };
-
+            var organization = _mapper.Map<Organizacion>(organizationDto);
             try
             {
                 await _organizacionRepository.AddAsync(organization);
@@ -86,26 +64,7 @@ namespace backend.servicios.Servicios
                     return null;
                 }
 
-                return new OrganizationDto
-                {
-                    Id = organizacion.Id,
-                    Nombre = organizacion.Nombre,
-                    Cuit = organizacion.Cuit,
-                    Direccion = organizacion.Direccion,
-                    Localidad = organizacion.Localidad,
-                    Provincia = organizacion.Provincia,
-                    Telefono = organizacion.Telefono,
-                    Latitud = organizacion.Latitud,
-                    Longitud = organizacion.Longitud,
-                    InfoOrganizacion = organizacion.InfoOrganizacion != null ? new InfoOrganizationDto
-                    {
-                        Organizacion = organizacion.InfoOrganizacion.Organizacion,
-                        DescripcionBreve = organizacion.InfoOrganizacion.DescripcionBreve,
-                        DescripcionCompleta = organizacion.InfoOrganizacion.DescripcionCompleta,
-                        Img = organizacion.InfoOrganizacion.Img,
-                        OrganizacionId = organizacion.InfoOrganizacion.OrganizacionId
-                    } : null
-                };
+                return _mapper.Map<OrganizationDto>(organizacion);
             }
             catch (Exception ex)
             {
@@ -124,24 +83,7 @@ namespace backend.servicios.Servicios
                 if (organization == null)
                     return null;
 
-                return new OrganizationDto
-                {
-                    Id = organization.Id,
-                    Nombre = organization.Nombre,
-                    Cuit = organization.Cuit,
-                    Direccion = organization.Direccion,
-                    Localidad = organization.Localidad,
-                    Provincia = organization.Provincia,
-                    Telefono = organization.Telefono,
-                    InfoOrganizacion = organization.InfoOrganizacion != null ? new InfoOrganizationDto
-                    {
-                        Organizacion = organization.InfoOrganizacion.Organizacion,
-                        DescripcionBreve = organization.InfoOrganizacion.DescripcionBreve,
-                        DescripcionCompleta = organization.InfoOrganizacion.DescripcionCompleta,
-                        Img = organization.InfoOrganizacion.Img,
-                        OrganizacionId = organization.InfoOrganizacion.OrganizacionId
-                    } : null
-                };
+                return _mapper.Map<OrganizationDto>(organization);
             }
             catch (Exception ex)
             {
@@ -168,26 +110,7 @@ namespace backend.servicios.Servicios
                 .Take(pageSize)
                 .ToListAsync();
 
-            var organizationDtos = organizationsPaginated.Select(o => new OrganizationDto
-            {
-                Id = o.Id,
-                Nombre = o.Nombre,
-                Cuit = o.Cuit,
-                Direccion = o.Direccion,
-                Localidad = o.Localidad,
-                Provincia = o.Provincia,
-                Telefono = o.Telefono,
-                Latitud = o.Latitud,
-                Longitud = o.Longitud,
-                InfoOrganizacion = o.InfoOrganizacion != null ? new InfoOrganizationDto
-                {
-                    Organizacion = o.InfoOrganizacion.Organizacion,
-                    DescripcionBreve = o.InfoOrganizacion.DescripcionBreve,
-                    DescripcionCompleta = o.InfoOrganizacion.DescripcionCompleta,
-                    Img = o.InfoOrganizacion.Img,
-                    OrganizacionId = o.InfoOrganizacion.OrganizacionId
-                } : null
-            });
+            var organizationDtos = _mapper.Map<IEnumerable<OrganizationDto>>(organizationsPaginated);
 
             return organizationDtos;
         }
@@ -241,17 +164,8 @@ namespace backend.servicios.Servicios
         public async Task<List<NeedDto>> GetAssignedSubcategoriesGroupedAsync(int organizationId)
         {
             var subCats = await _subCatRepository.GetAllAsync(x => x.Organizacions);
-            var subcategories = subCats
-                .Where(s => s.Organizacions.Any(o => o.Id == organizationId))
-                .Select(s => new SubcategoriesDto
-                {
-                    Id = s.Id,
-                    Nombre = s.Nombre,
-                    NecesidadId = s.NecesidadId,
-                    NecesidadNombre = s.Necesidad.Nombre,
-                    NecesidadIcono = s.Necesidad.Icono
-                })
-                .ToList();
+            var subcategories = _mapper.Map<IEnumerable<SubcategoriesDto>>(subCats
+                .Where(s => s.Organizacions.Any(o => o.Id == organizationId)));
 
             var groupedSubcategories = subcategories
                 .GroupBy(s => new { s.NecesidadId, s.NecesidadNombre, s.NecesidadIcono })
@@ -302,7 +216,6 @@ namespace backend.servicios.Servicios
                 _logger.LogError(ex, "Error al actualizar la organizacion");
                 throw;
             }
-
         }
     }
 }

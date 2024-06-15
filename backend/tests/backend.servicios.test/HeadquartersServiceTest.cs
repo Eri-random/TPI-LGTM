@@ -1,4 +1,6 @@
-﻿using backend.data.DataContext;
+﻿using AutoMapper;
+using backend.api.Mappers;
+using backend.data.DataContext;
 using backend.data.Models;
 using backend.repositories.implementations;
 using backend.repositories.interfaces;
@@ -32,9 +34,15 @@ namespace backend.servicios.test
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new OrganizationProfile());
+            });
+            var mapper = mappingConfig.CreateMapper();
+
             _context = new ApplicationDbContext(options);
             _repository = new Repository<Sede>(_context);
-            _headquartersService = new HeadquartersService(_repository, _loggerMock.Object, _mapsMock.Object);
+            _headquartersService = new HeadquartersService(_repository, _loggerMock.Object, _mapsMock.Object, mapper);
         }
 
         [Test]

@@ -1,4 +1,6 @@
-﻿using backend.api.Controllers;
+﻿using AutoMapper;
+using backend.api.Controllers;
+using backend.api.Mappers;
 using backend.api.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
@@ -13,6 +15,7 @@ namespace backend.api.test
     {
         private Mock<IOrganizationService> _organizationServiceMock;
         private Mock<ILogger<UserController>> _loggerMock;
+        private IMapper _mapper;
         private OrganizationController _controller;
 
         [SetUp]
@@ -20,7 +23,13 @@ namespace backend.api.test
         {
             _organizationServiceMock = new Mock<IOrganizationService>();
             _loggerMock = new Mock<ILogger<UserController>>();
-            _controller = new OrganizationController(_organizationServiceMock.Object, _loggerMock.Object);
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new OrganizationProfile());
+            });
+
+            _mapper = mappingConfig.CreateMapper();
+            _controller = new OrganizationController(_organizationServiceMock.Object, _loggerMock.Object, _mapper);
         }
 
         [Test]

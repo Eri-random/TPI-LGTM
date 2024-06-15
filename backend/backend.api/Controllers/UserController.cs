@@ -1,3 +1,4 @@
+using AutoMapper;
 using backend.api.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Helpers;
@@ -8,10 +9,11 @@ namespace backend.api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController(IUserService userService, ILogger<UserController> logger) : ControllerBase
+    public class UserController(IUserService userService, ILogger<UserController> logger, IMapper mapper) : ControllerBase
     {
         private readonly IUserService _userService = userService ?? throw new ArgumentNullException(nameof(userService));
         private readonly ILogger<UserController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(_mapper));
 
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
@@ -24,18 +26,7 @@ namespace backend.api.Controllers
 
                 foreach (var user in users)
                 {
-                    usersResponse.Add(new UserResponseModel
-                    {
-                        Id = user.Id,
-                        Apellido = user.Apellido,
-                        Direccion = user.Direccion,
-                        Email = user.Email,
-                        Localidad = user.Localidad,
-                        Nombre = user.Nombre,
-                        Provincia = user.Provincia,
-                        RolId = user.Rol,
-                        Telefono = user.Telefono,
-                    });
+                    usersResponse.Add(_mapper.Map<UserResponseModel>(user));
                 }
 
                 return Ok(usersResponse);
@@ -58,18 +49,7 @@ namespace backend.api.Controllers
                     return NotFound("Usuario no encontrado");
                 }
 
-                var userResponse = new UserResponseModel
-                {
-                    Telefono = user.Telefono,
-                    RolId= user.Rol,
-                    Provincia= user.Provincia,
-                    Nombre= user.Nombre,
-                    Localidad= user.Localidad,
-                    Apellido = user.Apellido,
-                    Direccion = user.Direccion,
-                    Email= user.Email,
-                    Id = user.Id,
-                };
+                var userResponse = _mapper.Map<UserResponseModel>(user);
 
                 return Ok(userResponse);
             }
@@ -88,19 +68,7 @@ namespace backend.api.Controllers
                 return BadRequest("Datos de usuario inválidos");
             }
 
-            var newUser = new UserDto
-            {
-                Nombre = userRequest.Nombre,
-                Apellido = userRequest.Apellido,
-                Email = userRequest.Email,
-                Telefono = userRequest.Telefono,
-                Direccion = userRequest.Direccion,
-                Localidad = userRequest.Localidad,
-                Provincia = userRequest.Provincia,
-                Password = userRequest.Password,
-                Rol = userRequest.RolId,
-                Organizacion = userRequest.Organizacion
-            };
+            var newUser = _mapper.Map<UserDto>(userRequest);
 
             try
             {
@@ -151,18 +119,7 @@ namespace backend.api.Controllers
                 return BadRequest("Datos de usuario inválidos");
             }
 
-            var userToUpdate = new UserDto
-            {
-                Nombre = userRequest.Nombre,
-                Apellido = userRequest.Apellido,
-                Telefono = userRequest.Telefono,
-                Direccion = userRequest.Direccion,
-                Localidad = userRequest.Localidad,
-                Provincia = userRequest.Provincia,
-                Email = userRequest.Email,
-                Password = userRequest?.Password,
-                Rol = userRequest.RolId,
-            };
+            var userToUpdate = _mapper.Map<UserDto>(userRequest);
 
             try
             {

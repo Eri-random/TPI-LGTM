@@ -1,4 +1,5 @@
-﻿using backend.data.Models;
+﻿using AutoMapper;
+using backend.data.Models;
 using backend.repositories.interfaces;
 using backend.servicios.DTOs;
 using backend.servicios.Helpers;
@@ -8,31 +9,19 @@ using Microsoft.Extensions.Logging;
 
 namespace backend.servicios.Servicios
 {
-    public class UserService(IRepository<Usuario> repository, ILogger<UserService> logger, IMapsService mapsService) : IUserService
+    public class UserService(IRepository<Usuario> repository, ILogger<UserService> logger, IMapsService mapsService, IMapper mapper) : IUserService
     {
         private readonly IRepository<Usuario> _userRepository = repository ?? throw new ArgumentNullException(nameof(repository));
         private readonly ILogger<UserService> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         private readonly IMapsService _mapsService = mapsService ?? throw new ArgumentNullException(nameof(mapsService));
+        private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
         public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
         {
             try
             {
                 var users = await _userRepository.GetAllAsync(x => x.Rol);
-                return users
-                    .Select(u => new UserDto
-                    {
-                        Id = u.Id,
-                        Nombre = u.Nombre,
-                        Apellido = u.Apellido,
-                        Direccion = u.Direccion,
-                        Email = u.Email,
-                        Localidad = u.Localidad,
-                        Provincia = u.Provincia,
-                        Telefono = u.Telefono,
-                        Rol = u.RolId,
-                        RolNombre = u.Rol.Nombre,
-                    });
+                return _mapper.Map<IEnumerable<UserDto>>(users);
             }
             catch (Exception ex)
             {
@@ -54,29 +43,7 @@ namespace backend.servicios.Servicios
                 if (user == null)
                     return null;
 
-                return new UserDto
-                {
-                    Id = user.Id,
-                    Nombre = user.Nombre,
-                    Apellido = user.Apellido,
-                    Direccion = user.Direccion,
-                    Email = user.Email,
-                    Password = user.Contrasena,
-                    Localidad = user.Localidad,
-                    Provincia = user.Provincia,
-                    Telefono = user.Telefono,
-                    Rol = user.RolId,
-                    RolNombre = user.Rol.Nombre,
-                    Organizacion = user.Organizacion != null ? new OrganizationDto
-                    {
-                        Nombre = user.Organizacion.Nombre,
-                        Cuit = user.Organizacion.Cuit,
-                        Telefono = user.Organizacion.Telefono,
-                        Direccion = user.Organizacion.Direccion,
-                        Localidad = user.Organizacion.Localidad,
-                        Provincia = user.Organizacion.Provincia
-                    } : null
-                };
+                return _mapper.Map<UserDto>(user);
             }
             catch (Exception ex)
             {
@@ -98,41 +65,18 @@ namespace backend.servicios.Servicios
 
             var hashedPassword = PasswordHasher.HashPassword(userDto.Password);
 
-            var lat=0.0;
-            var lng=0.0;
-
-            if (userDto.Organizacion != null)
-            {
-               (lat, lng) = await _mapsService.GetCoordinates(userDto.Organizacion.Direccion, userDto.Organizacion.Localidad, userDto.Organizacion.Provincia);
-            }
-
-            var user = new Usuario
-            {
-                Nombre = userDto.Nombre,
-                Apellido = userDto.Apellido,
-                Email = userDto.Email,
-                Contrasena = hashedPassword,
-                Telefono = userDto.Telefono,
-                Direccion = userDto.Direccion,
-                Localidad = userDto.Localidad,
-                Provincia = userDto.Provincia,
-                RolId = userDto.Rol,
-                Organizacion = userDto.Organizacion != null ? new Organizacion
-                {
-                    Nombre = userDto.Organizacion.Nombre,
-                    Cuit = userDto.Organizacion.Cuit,
-                    Direccion = userDto.Organizacion.Direccion,
-                    Localidad = userDto.Organizacion.Localidad,
-                    Provincia = userDto.Organizacion.Provincia,
-                    Telefono = userDto.Organizacion.Telefono,
-                    Latitud = lat,
-                    Longitud = lng
-                } : null
-            };
-
-
             try
             {
+                var user = _mapper.Map<Usuario>(userDto);
+                user.Password = hashedPassword;
+
+                if (user.Organizacion != null)
+                {
+                    (double lat, double lng) = await _mapsService.GetCoordinates(userDto.Organizacion.Direccion, userDto.Organizacion.Localidad, userDto.Organizacion.Provincia);
+                    user.Organizacion.Latitud = lat;
+                    user.Organizacion.Longitud = lng;
+                }
+
                 await _userRepository.AddAsync(user);
             }
             catch (Exception ex)
@@ -165,7 +109,7 @@ namespace backend.servicios.Servicios
                 if (!string.IsNullOrEmpty(userDto.Password))
                 {
                     var passwordHasher = new PasswordHasher<Usuario>();
-                    existingUser.Contrasena = passwordHasher.HashPassword(existingUser, userDto.Password);
+                    existingUser.Password = passwordHasher.HashPassword(existingUser, userDto.Password);
                 }
 
                 await _userRepository.UpdateAsync(existingUser);
@@ -208,29 +152,7 @@ namespace backend.servicios.Servicios
                 if (user == null)
                     return null;
 
-                return new UserDto
-                {
-                    Id = user.Id,
-                    Nombre = user.Nombre,
-                    Apellido = user.Apellido,
-                    Direccion = user.Direccion,
-                    Email = user.Email,
-                    Password = user.Contrasena,
-                    Localidad = user.Localidad,
-                    Provincia = user.Provincia,
-                    Telefono = user.Telefono,
-                    Rol = user.RolId,
-                    RolNombre = user.Rol.Nombre,
-                    Organizacion = user.Organizacion != null ? new OrganizationDto
-                    {
-                        Nombre = user.Organizacion.Nombre,
-                        Cuit = user.Organizacion.Cuit,
-                        Telefono = user.Organizacion.Telefono,
-                        Direccion = user.Organizacion.Direccion,
-                        Localidad = user.Organizacion.Localidad,
-                        Provincia = user.Organizacion.Provincia
-                    } : null
-                };
+                return _mapper.Map<UserDto>(user);
             }
             catch (Exception ex)
             {

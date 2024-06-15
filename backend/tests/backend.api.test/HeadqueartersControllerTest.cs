@@ -1,4 +1,6 @@
-﻿using backend.api.Controllers;
+﻿using AutoMapper;
+using backend.api.Controllers;
+using backend.api.Mappers;
 using backend.api.Models;
 using backend.data.Models;
 using backend.servicios.DTOs;
@@ -16,6 +18,7 @@ namespace backend.api.test
         private Mock<ILogger<HeadquartersController>> _loggerMock;
         private Mock<IMapsService> _mapsServiceMock;
         private Mock<IOrganizationService> _organizationServiceMock;
+        private IMapper _mapper;
         private HeadquartersController _controller;
 
         [SetUp]
@@ -25,7 +28,14 @@ namespace backend.api.test
             _loggerMock = new Mock<ILogger<HeadquartersController>>();
             _mapsServiceMock = new Mock<IMapsService>();
             _organizationServiceMock = new Mock<IOrganizationService>();
-            _controller = new HeadquartersController(_headquartersServiceMock.Object, _loggerMock.Object, _mapsServiceMock.Object, _organizationServiceMock.Object);
+
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new OrganizationProfile());
+            });
+
+            _mapper = mappingConfig.CreateMapper();
+            _controller = new HeadquartersController(_headquartersServiceMock.Object, _loggerMock.Object, _mapsServiceMock.Object, _organizationServiceMock.Object, _mapper);
         }
 
         [Test]
@@ -33,10 +43,10 @@ namespace backend.api.test
         {
             // Arrange
             var headquartersList = new List<HeadquartersDto>
-        {
-            new HeadquartersDto { Direccion = "Direccion 1", Localidad = "Localidad 1", Nombre = "Nombre 1", Provincia = "Provincia 1", Telefono = "12345", Latitud = 0, Longitud = 0, OrganizacionId = 1 },
-            new HeadquartersDto { Direccion = "Direccion 2", Localidad = "Localidad 2", Nombre = "Nombre 2", Provincia = "Provincia 2", Telefono = "67890", Latitud = 0, Longitud = 0, OrganizacionId = 2 }
-        };
+            {
+                new HeadquartersDto { Direccion = "Direccion 1", Localidad = "Localidad 1", Nombre = "Nombre 1", Provincia = "Provincia 1", Telefono = "12345", Latitud = 0, Longitud = 0, OrganizacionId = 1 },
+                new HeadquartersDto { Direccion = "Direccion 2", Localidad = "Localidad 2", Nombre = "Nombre 2", Provincia = "Provincia 2", Telefono = "67890", Latitud = 0, Longitud = 0, OrganizacionId = 2 }
+            };
             _headquartersServiceMock.Setup(service => service.GetAllHeadquartersAsync()).ReturnsAsync(headquartersList);
 
             // Act
@@ -56,9 +66,9 @@ namespace backend.api.test
         {
             // Arrange
             var headquartersRequestModels = new List<HeadquartersRequestModel>
-        {
-            new HeadquartersRequestModel { Nombre = "Nombre 1", Direccion = "Direccion 1", Localidad = "Localidad 1", Provincia = "Provincia 1", Telefono = "12345", OrganizacionId = 1 }
-        };
+            {
+                new HeadquartersRequestModel { Nombre = "Nombre 1", Direccion = "Direccion 1", Localidad = "Localidad 1", Provincia = "Provincia 1", Telefono = "12345", OrganizacionId = 1 }
+            };
 
             // Act
             var result = await _controller.CreateSede(headquartersRequestModels);

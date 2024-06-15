@@ -1,4 +1,5 @@
-﻿using backend.data.Models;
+﻿using AutoMapper;
+using backend.data.Models;
 using backend.repositories.interfaces;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
@@ -6,11 +7,12 @@ using Microsoft.Extensions.Logging;
 
 namespace backend.servicios.Servicios
 {
-    public class HeadquartersService(IRepository<Sede> repository, ILogger<HeadquartersService> logger, IMapsService mapsService) : IHeadquartersService
+    public class HeadquartersService(IRepository<Sede> repository, ILogger<HeadquartersService> logger, IMapsService mapsService, IMapper mapper) : IHeadquartersService
     {
         private readonly IRepository<Sede> _headquarterRepository = repository ?? throw new ArgumentNullException(nameof(repository));
         private readonly ILogger<HeadquartersService> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         private readonly IMapsService _mapsService = mapsService ?? throw new ArgumentNullException(nameof(mapsService));
+        private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
         public async Task CreateHeadquartersAsync(List<HeadquartersDto> headquartersDto)
         {
@@ -19,27 +21,17 @@ namespace backend.servicios.Servicios
 
             var headquarters = new List<Sede>();
 
-            foreach (var headquarterDto in headquartersDto)
-            {
-                var (lat, lng) = await _mapsService.GetCoordinates(headquarterDto.Direccion, headquarterDto.Localidad, headquarterDto.Provincia);
-
-                var headquarter = new Sede
-                {
-                    Nombre = headquarterDto.Nombre,
-                    Direccion = headquarterDto.Direccion,
-                    Localidad = headquarterDto.Localidad,
-                    Telefono = headquarterDto.Telefono,
-                    Provincia = headquarterDto.Provincia,
-                    Latitud = lat,
-                    Longitud = lng,
-                    OrganizacionId = headquarterDto.OrganizacionId
-                };
-
-                headquarters.Add(headquarter);
-            }
-
             try
             {
+                foreach (var headquarterDto in headquartersDto)
+                {
+                    var (lat, lng) = await _mapsService.GetCoordinates(headquarterDto.Direccion, headquarterDto.Localidad, headquarterDto.Provincia);
+                    var headquarter = _mapper.Map<Sede>(headquarterDto);
+                    headquarter.Latitud = lat;
+                    headquarter.Longitud = lng;
+                    headquarters.Add(headquarter);
+                }
+
                 await _headquarterRepository.AddRangeAsync(headquarters);
             }
             catch (Exception ex)
@@ -52,15 +44,8 @@ namespace backend.servicios.Servicios
         public async Task<IEnumerable<HeadquartersDto>> GetAllHeadquartersAsync()
         {
             var headquarters = await _headquarterRepository.GetAllAsync();
-            return headquarters.Select(s => new HeadquartersDto
-            {
-                Nombre = s.Nombre,
-                Direccion = s.Direccion,
-                Localidad = s.Localidad,
-                Provincia = s.Provincia,
-                Latitud = s.Latitud,
-                Longitud = s.Longitud
-            });
+
+            return _mapper.Map<IEnumerable<HeadquartersDto>>(headquarters);
         }
 
         public async Task<IEnumerable<HeadquartersDto>> GetHeadquartersByOrganizationIdAsync(int organizationId)
@@ -68,18 +53,7 @@ namespace backend.servicios.Servicios
             var headquarters = await _headquarterRepository.GetAllAsync();
             var organizationHeadquarters = headquarters.Where(x => x.OrganizacionId == organizationId);
 
-            return organizationHeadquarters.Select(s => new HeadquartersDto
-            {
-                Id = s.Id,
-                Nombre = s.Nombre,
-                Direccion = s.Direccion,
-                Localidad = s.Localidad,
-                Provincia = s.Provincia,
-                Telefono = s.Telefono,
-                OrganizacionId = s.OrganizacionId,
-                Latitud = s.Latitud,
-                Longitud = s.Longitud
-            });
+            return _mapper.Map<IEnumerable<HeadquartersDto>>(organizationHeadquarters);
         }
 
         public async Task UpdateHeadquartersAsync(HeadquartersDto headquartersDto)
@@ -140,22 +114,9 @@ namespace backend.servicios.Servicios
             var headquarter = headquarters.FirstOrDefault(x => x.Id == headquartersId);
 
             if (headquarter == null)
-            {
                 throw new ArgumentNullException(nameof(headquartersId), "La sede no puede ser nula o vacía.");
-            }
 
-            return new HeadquartersDto
-            {
-                Id = headquarter.Id,
-                Nombre = headquarter.Nombre,
-                Direccion = headquarter.Direccion,
-                Localidad = headquarter.Localidad,
-                Provincia = headquarter.Provincia,
-                Telefono = headquarter.Telefono,
-                OrganizacionId = headquarter.OrganizacionId,
-                Latitud = headquarter.Latitud,
-                Longitud = headquarter.Longitud
-            };
+            return _mapper.Map<HeadquartersDto>(headquarter);
         }
     }
 }
