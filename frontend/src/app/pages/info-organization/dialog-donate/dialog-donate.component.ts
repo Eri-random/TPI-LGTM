@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { NgToastService } from 'ng-angular-popup';
+import { NavigationStart, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { map, switchMap } from 'rxjs';
 import ValidateForm from 'src/app/helpers/validateForm';
 import { AuthService } from 'src/app/services/auth.service';
@@ -24,6 +24,7 @@ export class DialogDonateComponent implements OnInit {
   headquarters: any;
   isSubmitted: boolean = false;
   cuit !: string;
+  private routerSub!: Subscription;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { organizacionId: number },
@@ -34,6 +35,7 @@ export class DialogDonateComponent implements OnInit {
     private userStore: UserStoreService,
     private headquarterService: HeadquartersService,
     private organizationService: OrganizationService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -53,6 +55,12 @@ export class DialogDonateComponent implements OnInit {
 
     this.organizationService.getOrganizationById(this.data.organizacionId).subscribe((resp) => {
       this.cuit = resp.cuit;
+    });
+
+    this.routerSub = this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.close();
+      }
     });
   }
 
@@ -111,6 +119,9 @@ export class DialogDonateComponent implements OnInit {
         }
       );
   }
+
+
+  
 
   close(): void {
     this.dialogRef.close();
