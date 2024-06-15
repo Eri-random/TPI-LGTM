@@ -1,4 +1,5 @@
-﻿using backend.data.Models;
+﻿using AutoMapper;
+using backend.data.Models;
 using backend.repositories.interfaces;
 using backend.servicios.DTOs;
 using backend.servicios.Helpers;
@@ -8,17 +9,20 @@ using Microsoft.Extensions.Logging;
 
 namespace backend.servicios.Servicios
 {
-    public class UserService(IRepository<Usuario> repository, ILogger<UserService> logger, IMapsService mapsService) : IUserService
+    public class UserService(IRepository<Usuario> repository, ILogger<UserService> logger, IMapsService mapsService, IMapper mapper) : IUserService
     {
         private readonly IRepository<Usuario> _userRepository = repository ?? throw new ArgumentNullException(nameof(repository));
         private readonly ILogger<UserService> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         private readonly IMapsService _mapsService = mapsService ?? throw new ArgumentNullException(nameof(mapsService));
+        private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
         public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
         {
             try
             {
                 var users = await _userRepository.GetAllAsync(x => x.Rol);
+                return _mapper.Map<IEnumerable<UserDto>>(users);
+
                 return users
                     .Select(u => new UserDto
                     {
@@ -30,7 +34,7 @@ namespace backend.servicios.Servicios
                         Localidad = u.Localidad,
                         Provincia = u.Provincia,
                         Telefono = u.Telefono,
-                        Rol = u.RolId,
+                        RolId = u.RolId,
                         RolNombre = u.Rol.Nombre,
                     });
             }
@@ -61,11 +65,11 @@ namespace backend.servicios.Servicios
                     Apellido = user.Apellido,
                     Direccion = user.Direccion,
                     Email = user.Email,
-                    Password = user.Contrasena,
+                    Password = user.Password,
                     Localidad = user.Localidad,
                     Provincia = user.Provincia,
                     Telefono = user.Telefono,
-                    Rol = user.RolId,
+                    RolId = user.RolId,
                     RolNombre = user.Rol.Nombre,
                     Organizacion = user.Organizacion != null ? new OrganizationDto
                     {
@@ -111,12 +115,12 @@ namespace backend.servicios.Servicios
                 Nombre = userDto.Nombre,
                 Apellido = userDto.Apellido,
                 Email = userDto.Email,
-                Contrasena = hashedPassword,
+                Password = hashedPassword,
                 Telefono = userDto.Telefono,
                 Direccion = userDto.Direccion,
                 Localidad = userDto.Localidad,
                 Provincia = userDto.Provincia,
-                RolId = userDto.Rol,
+                RolId = userDto.RolId,
                 Organizacion = userDto.Organizacion != null ? new Organizacion
                 {
                     Nombre = userDto.Organizacion.Nombre,
@@ -165,7 +169,7 @@ namespace backend.servicios.Servicios
                 if (!string.IsNullOrEmpty(userDto.Password))
                 {
                     var passwordHasher = new PasswordHasher<Usuario>();
-                    existingUser.Contrasena = passwordHasher.HashPassword(existingUser, userDto.Password);
+                    existingUser.Password = passwordHasher.HashPassword(existingUser, userDto.Password);
                 }
 
                 await _userRepository.UpdateAsync(existingUser);
@@ -215,11 +219,11 @@ namespace backend.servicios.Servicios
                     Apellido = user.Apellido,
                     Direccion = user.Direccion,
                     Email = user.Email,
-                    Password = user.Contrasena,
+                    Password = user.Password,
                     Localidad = user.Localidad,
                     Provincia = user.Provincia,
                     Telefono = user.Telefono,
-                    Rol = user.RolId,
+                    RolId = user.RolId,
                     RolNombre = user.Rol.Nombre,
                     Organizacion = user.Organizacion != null ? new OrganizationDto
                     {

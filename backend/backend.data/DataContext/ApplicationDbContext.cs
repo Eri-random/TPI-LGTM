@@ -287,7 +287,7 @@ namespace backend.data.DataContext
                 entity.Property(e => e.Apellido)
                     .HasMaxLength(100)
                     .HasColumnName("apellido");
-                entity.Property(e => e.Contrasena)
+                entity.Property(e => e.Password)
                     .HasMaxLength(255)
                     .HasColumnName("contrasena");
                 entity.Property(e => e.Direccion).HasColumnName("direccion");

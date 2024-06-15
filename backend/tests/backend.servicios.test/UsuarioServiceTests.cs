@@ -254,7 +254,7 @@ namespace backend.servicios.test
                 Direccion = "Old Address",
                 Localidad = "Old City",
                 Provincia = "Old State",
-                Contrasena = PasswordHasher.HashPassword("OldPassword"), // Hash the old password
+                Password = PasswordHasher.HashPassword("OldPassword"), // Hash the old password
                 RolId = 1
             });
             await _context.SaveChangesAsync();

@@ -126,7 +126,7 @@ namespace backend.api.test
         {
             // Arrange
             string email = "test@example.com";
-            var mockUsuario = new UserDto { Id = 1, Nombre = "Test", Apellido = "User", Email = email, Telefono = "1234567890", Rol = 1, Provincia = "SomeProvince", Localidad = "SomeCity", Direccion = "123 Test St" };
+            var mockUsuario = new UserDto { Id = 1, Nombre = "Test", Apellido = "User", Email = email, Telefono = "1234567890", RolId = 1, Provincia = "SomeProvince", Localidad = "SomeCity", Direccion = "123 Test St" };
             _usuarioServiceMock.Setup(x => x.GetUserByEmailAsync(email)).ReturnsAsync(mockUsuario);
 
             // Act
@@ -191,7 +191,7 @@ namespace backend.api.test
 
             var hashedPassword = PasswordHasher.HashPassword(usuarioLogIn.Password);
 
-            var mockUsuario = new UserDto { Id = 1, Nombre = "Test", Apellido = "User", Email = usuarioLogIn.Email, Password = hashedPassword, Telefono = "1234567890", Rol = 1,RolNombre = "usuario", Provincia = "SomeProvince", Localidad = "SomeCity", Direccion = "123 Test St" };
+            var mockUsuario = new UserDto { Id = 1, Nombre = "Test", Apellido = "User", Email = usuarioLogIn.Email, Password = hashedPassword, Telefono = "1234567890", RolId = 1,RolNombre = "usuario", Provincia = "SomeProvince", Localidad = "SomeCity", Direccion = "123 Test St" };
             _usuarioServiceMock.Setup(x => x.GetUserByEmailAsync(usuarioLogIn.Email)).ReturnsAsync(mockUsuario);
 
             // Act

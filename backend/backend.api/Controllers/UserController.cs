@@ -33,7 +33,7 @@ namespace backend.api.Controllers
                         Localidad = user.Localidad,
                         Nombre = user.Nombre,
                         Provincia = user.Provincia,
-                        RolId = user.Rol,
+                        RolId = user.RolId,
                         Telefono = user.Telefono,
                     });
                 }
@@ -61,7 +61,7 @@ namespace backend.api.Controllers
                 var userResponse = new UserResponseModel
                 {
                     Telefono = user.Telefono,
-                    RolId= user.Rol,
+                    RolId= user.RolId,
                     Provincia= user.Provincia,
                     Nombre= user.Nombre,
                     Localidad= user.Localidad,
@@ -98,7 +98,7 @@ namespace backend.api.Controllers
                 Localidad = userRequest.Localidad,
                 Provincia = userRequest.Provincia,
                 Password = userRequest.Password,
-                Rol = userRequest.RolId,
+                RolId = userRequest.RolId,
                 Organizacion = userRequest.Organizacion
             };
 
@@ -161,7 +161,7 @@ namespace backend.api.Controllers
                 Provincia = userRequest.Provincia,
                 Email = userRequest.Email,
                 Password = userRequest?.Password,
-                Rol = userRequest.RolId,
+                RolId = userRequest.RolId,
             };
 
             try
