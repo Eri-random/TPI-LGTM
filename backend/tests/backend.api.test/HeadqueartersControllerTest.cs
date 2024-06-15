@@ -3,12 +3,9 @@ using backend.api.Models;
 using backend.data.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
-using backend.servicios.Models;
-using backend.servicios.Servicios;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Newtonsoft.Json;
 
 namespace backend.api.test
 {
@@ -30,7 +27,6 @@ namespace backend.api.test
             _organizationServiceMock = new Mock<IOrganizationService>();
             _controller = new HeadquartersController(_headquartersServiceMock.Object, _loggerMock.Object, _mapsServiceMock.Object, _organizationServiceMock.Object);
         }
-
 
         [Test]
         public async Task GetAllHeadquarters_ReturnsOkResult_WithHeadquarters()
@@ -79,9 +75,9 @@ namespace backend.api.test
             // Arrange
             var organizationId = 1;
             var headquartersList = new List<HeadquartersDto>
-        {
-            new HeadquartersDto { Id = 1, Direccion = "Direccion 1", Localidad = "Localidad 1", Nombre = "Nombre 1", Provincia = "Provincia 1", Telefono = "12345", Latitud = 0, Longitud = 0, OrganizacionId = organizationId }
-        };
+            {
+                new HeadquartersDto { Id = 1, Direccion = "Direccion 1", Localidad = "Localidad 1", Nombre = "Nombre 1", Provincia = "Provincia 1", Telefono = "12345", Latitud = 0, Longitud = 0, OrganizacionId = organizationId }
+            };
             _headquartersServiceMock.Setup(service => service.GetHeadquartersByOrganizationIdAsync(organizationId)).ReturnsAsync(headquartersList);
 
             // Act
@@ -166,10 +162,6 @@ namespace backend.api.test
                 };
 
                 _mapsServiceMock.Setup(service => service.GetCoordinates(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync((0, 0));
-                //_headquartersServiceMock.Setup(service => service.CalculateDistance(0, 0, 0, 0)).Returns(0);
-                //_headquartersServiceMock.Setup(service => service.CalculateDistance(0, 0, 1, 1)).Returns(1);
-                //_headquartersServiceMock.Setup(service => service.CalculateDistance(0, 0, 2, 2)).Returns(2);
-
 
                 // Act
                 var result = await _controller.Evaluar(data);
@@ -182,14 +174,7 @@ namespace backend.api.test
                 Assert.That(returnValue, Is.Not.Null);
 
                 Assert.That(returnValue.Id, Is.EqualTo(1));
-
-                //_headquartersServiceMock.Verify(service => service.CalculateDistance(0, 0, 0, 0), Times.Once);
-                //_headquartersServiceMock.Verify(service => service.CalculateDistance(0, 0, 1, 1), Times.Once);
-                //_headquartersServiceMock.Verify(service => service.CalculateDistance(0, 0, 2, 2), Times.Once);
             }
         }
-
     }
-
-
 }

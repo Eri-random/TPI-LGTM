@@ -1,18 +1,14 @@
-﻿using System;
-using backend.api.Controllers;
+﻿using backend.api.Controllers;
 using backend.api.Models;
-using backend.data.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
-using backend.servicios.Models;
-using backend.servicios.Servicios;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Newtonsoft.Json;
 
 namespace backend.api.test
 {
+    [TestFixture]
     public class OrganizationControllerTest
     {
         private Mock<IOrganizationService> _organizationServiceMock;
@@ -165,6 +161,5 @@ namespace backend.api.test
             var objectResult = result as ObjectResult;
             Assert.That(objectResult.StatusCode, Is.EqualTo(500));
         }
-
     }
 }

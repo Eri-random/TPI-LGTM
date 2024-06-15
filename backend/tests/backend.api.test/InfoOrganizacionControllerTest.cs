@@ -1,21 +1,16 @@
 ﻿using backend.api.Controllers;
 using backend.api.Models;
 using backend.servicios.DTOs;
-using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
-using Castle.Components.DictionaryAdapter.Xml;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using Moq;
-using Newtonsoft.Json.Linq;
 using System.Text;
 
 namespace backend.api.test
 {
     [TestFixture]
-
     public class InfoOrganizacionControllerTest
     {
         private Mock<IOrganizationService> _organizacionService;
@@ -24,7 +19,6 @@ namespace backend.api.test
         private InfoOrganizationController _controller;
 
         [SetUp]
-
         public void SetUp()
         {
             _organizacionService = new Mock<IOrganizationService>();
@@ -36,7 +30,6 @@ namespace backend.api.test
         [Test]
         public async Task Details_WhenCalled_ReturnsBadRequest()
         {
-
             // Act
             var result = await _controller.Details(null);
 
@@ -56,7 +49,6 @@ namespace backend.api.test
             {
                 OrganizacionId = 1
             };
-
 
             _organizacionService.Setup(x => x.GetOrganizationByIdAsync(infoOrganizacionRequest.OrganizacionId))
                 .ReturnsAsync(() => null);
@@ -115,7 +107,6 @@ namespace backend.api.test
             Assert.AreEqual(infoOrganizacionRequest.Organizacion, (createdResult.Value as InfoOrganizationDto).Organizacion);
         }
 
-
         [Test]
         public async Task Update_WhenCalled_ReturnsCreatedAtActionResult()
         {
@@ -142,13 +133,11 @@ namespace backend.api.test
                 }
             };
 
-
             _organizacionService.Setup(x => x.GetOrganizationByIdAsync(infoOrganizacionRequest.OrganizacionId))
                 .ReturnsAsync(organizacion);
 
             _organizacionInfoService.Setup(x => x.UpdateInfoOrganizationAsync(It.IsAny<InfoOrganizationDto>()))
                 .Returns(Task.CompletedTask);
-
 
             // Act
             var result = await _controller.Update(infoOrganizacionRequest);

@@ -151,7 +151,6 @@ namespace backend.api.Controllers
                 return BadRequest("Datos de usuario inválidos");
             }
 
-
             var userToUpdate = new UserDto
             {
                 Nombre = userRequest.Nombre,
@@ -165,7 +164,6 @@ namespace backend.api.Controllers
                 Rol = userRequest.RolId,
             };
 
-            
             try
             {
                 await _userService.UpdateUserAsync(userToUpdate);

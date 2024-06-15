@@ -1,8 +1,6 @@
 ﻿using backend.api.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
-using backend.servicios.Servicios;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.api.Controllers
@@ -20,7 +18,6 @@ namespace backend.api.Controllers
             try
             {
                 var needs = await _neeedService.GetAllNeedsAsync();
-
                 var needsResponse = new List<NeedsResponseModel>();
 
                 foreach (var need in needs)

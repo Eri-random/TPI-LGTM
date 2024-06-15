@@ -1,7 +1,6 @@
-﻿using backend.servicios.Interfaces;
-using Microsoft.AspNetCore.Mvc;
+﻿using backend.api.Models;
 using backend.servicios.Interfaces;
-using backend.api.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace backend.api.Controllers
 {

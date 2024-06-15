@@ -1,6 +1,5 @@
 ﻿using backend.api.Models;
 using backend.servicios.DTOs;
-using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -61,7 +60,6 @@ namespace backend.api.Controllers
                 OrganizacionId = infoOrganizationRequest.OrganizacionId,
             };
 
-
             try
             {
                 await _organizationInfoService.SaveInfoOrganizationDataAsync(infoOrganization);
@@ -100,8 +98,6 @@ namespace backend.api.Controllers
             if (infoOrganizacionRequest.File != null)
             {
                 string folderPath = Path.Combine("wwwroot", "images");
-
-             
                 string newFilePath = Path.Combine(folderPath, infoOrganizacionRequest.File.FileName);
 
                 try
@@ -156,6 +152,5 @@ namespace backend.api.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
-
     }
 }

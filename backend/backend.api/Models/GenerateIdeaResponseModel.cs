@@ -1,5 +1,4 @@
-﻿using backend.data.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace backend.api.Models
 {

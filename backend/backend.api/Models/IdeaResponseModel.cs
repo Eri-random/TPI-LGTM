@@ -1,5 +1,4 @@
-﻿using backend.data.Models;
-using backend.servicios.DTOs;
+﻿using backend.servicios.DTOs;
 
 namespace backend.api.Models
 {
