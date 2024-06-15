@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using backend.api.Models;
+using backend.api.Models.RequestModels;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
 using backend.servicios.Models;
@@ -95,7 +96,7 @@ namespace backend.api.Controllers
         }
 
         [HttpPost("save")]
-        public async Task<IActionResult> SaveIdea([FromBody] IdeaResponseModel idea)
+        public async Task<IActionResult> SaveIdea([FromBody] IdeaRequestModel idea)
         {
             if (idea == null)
             {

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using backend.api.Models;
+using backend.api.Models.RequestModels;
 using backend.data.Models;
 using backend.servicios.DTOs;
 
@@ -18,6 +19,8 @@ namespace backend.api.Mappers
             CreateMap<StepDto, Paso>();
 
             CreateMap<IdeaDto, IdeaResponseModel>();
+
+            CreateMap<IdeaRequestModel, IdeaDto>();
         }
     }
 }
