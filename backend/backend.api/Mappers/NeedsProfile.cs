@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using backend.api.Models;
 using backend.data.Models;
 using backend.servicios.DTOs;
 
@@ -11,6 +12,8 @@ namespace backend.api.Mappers
             CreateMap<Subcategorium, SubcategoriesDto>();
 
             CreateMap<Necesidad, NeedDto>();
+
+            CreateMap<NeedDto, NeedsResponseModel>();
         }
     }
 }
