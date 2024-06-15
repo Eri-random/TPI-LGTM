@@ -1,4 +1,6 @@
-﻿using backend.data.DataContext;
+﻿using AutoMapper;
+using backend.api.Mappers;
+using backend.data.DataContext;
 using backend.data.Models;
 using backend.repositories.implementations;
 using backend.repositories.interfaces;
@@ -15,11 +17,18 @@ namespace backend.servicios.test
         private Mock<ILogger<NeedService>> _loggerMock;
         private ApplicationDbContext _context;
         private IRepository<Necesidad> _repository;
+        private IMapper _mapper;
 
         [SetUp]
         public void SetUp()
         {
             _loggerMock = new Mock<ILogger<NeedService>>();
+
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new NeedsProfile());
+            });
+            _mapper = mappingConfig.CreateMapper();
 
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
@@ -33,7 +42,7 @@ namespace backend.servicios.test
         public async Task GetAllNeedAsync_WhenThereAreNoNeeds_ReturnsEmptyList()
         {
             // Arrange
-            var needService = new NeedService(_repository, _loggerMock.Object);
+            var needService = new NeedService(_repository, _loggerMock.Object, _mapper);
 
             // Act
             var result = await needService.GetAllNeedsAsync();
@@ -64,7 +73,7 @@ namespace backend.servicios.test
             _context.Necesidads.Add(need);
             _context.SaveChanges();
 
-            var needService = new NeedService(_repository, _loggerMock.Object);
+            var needService = new NeedService(_repository, _loggerMock.Object, _mapper);
 
             // Act
             var result = await needService.GetAllNeedsAsync();

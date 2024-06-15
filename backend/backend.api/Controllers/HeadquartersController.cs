@@ -165,7 +165,7 @@ namespace backend.api.Controllers
 
             if (distanceOrg < nearestHeadquarters.Distancia)
             {
-                var headquartersNearBy = _mapper.Map<HeadquartersNearby>(data);
+                var headquartersNearBy = _mapper.Map<HeadquartersNearby>(data.Organizacion);
                 headquartersNearBy.Distancia = distanceOrg;
 
                 return Ok(headquartersNearBy);

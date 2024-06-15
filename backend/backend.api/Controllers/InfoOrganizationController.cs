@@ -123,6 +123,7 @@ namespace backend.api.Controllers
             }
 
             var infoOrganization = _mapper.Map<InfoOrganizationDto>(infoOrganizacionRequest);
+            infoOrganization.Img = fileUrl;
 
             try
             {

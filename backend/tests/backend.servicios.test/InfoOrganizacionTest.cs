@@ -1,4 +1,6 @@
-﻿using backend.data.DataContext;
+﻿using AutoMapper;
+using backend.api.Mappers;
+using backend.data.DataContext;
 using backend.data.Models;
 using backend.repositories.implementations;
 using backend.repositories.interfaces;
@@ -23,15 +25,20 @@ namespace backend.servicios.test
         {
             _loggerMock = new Mock<ILogger<OrganizationService>>();
 
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new OrganizationProfile());
+            });
+            var mapper = mappingConfig.CreateMapper();
+
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(databaseName: "Test")
                 .Options;
 
             _context = new ApplicationDbContext(options);
-
             _context.SaveChanges();
             _repository = new Repository<InfoOrganizacion>(_context);
-            _infoOrganizacionService = new InfoOrganizationService(_repository, _loggerMock.Object);
+            _infoOrganizacionService = new InfoOrganizationService(_repository, _loggerMock.Object, mapper);
         }
 
         [TearDown]

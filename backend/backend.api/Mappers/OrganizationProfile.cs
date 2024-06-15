@@ -23,6 +23,8 @@ namespace backend.api.Mappers
 
             CreateMap<InfoOrganizationRequest, OrganizationDto>();
 
+            CreateMap<InfoOrganizationRequest, InfoOrganizationDto>();
+
             CreateMap<HeadquartersDto, Sede>();
 
             CreateMap<Sede, HeadquartersDto>();
@@ -31,7 +33,11 @@ namespace backend.api.Mappers
 
             CreateMap<HeadquartersDto, HeadquartersRequestModel>();
 
+            CreateMap<HeadquartersRequestModel, HeadquartersDto>();
+
             CreateMap<HeadquartersDto, HeadquartersResponseModel>();
+
+            CreateMap<Organizacion, HeadquartersNearby>();
 
             CreateMap<DataRequestModel, HeadquartersNearby>();
         }

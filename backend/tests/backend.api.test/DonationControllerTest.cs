@@ -1,4 +1,6 @@
-﻿using backend.api.Controllers;
+﻿using AutoMapper;
+using backend.api.Controllers;
+using backend.api.Mappers;
 using backend.api.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
@@ -15,6 +17,7 @@ namespace backend.api.test
         private Mock<IDonationService> _donationServiceMock;
         private Mock<IUserService> _userServiceMock;    
         private DonationController _controller;
+        private IMapper _mapper;
 
         [SetUp]
         public void SetUp()
@@ -22,7 +25,14 @@ namespace backend.api.test
             _loggerMock = new Mock<ILogger<DonationController>>();
             _donationServiceMock = new Mock<IDonationService>();
             _userServiceMock = new Mock<IUserService>();
-            _controller = new DonationController(_loggerMock.Object, _userServiceMock.Object, _donationServiceMock.Object);
+
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new DonationProfile());
+            });
+            _mapper = mappingConfig.CreateMapper();
+
+            _controller = new DonationController(_loggerMock.Object, _userServiceMock.Object, _donationServiceMock.Object, _mapper);
         }
 
         [Test]

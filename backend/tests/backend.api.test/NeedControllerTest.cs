@@ -1,4 +1,6 @@
-﻿using backend.api.Controllers;
+﻿using AutoMapper;
+using backend.api.Controllers;
+using backend.api.Mappers;
 using backend.api.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
@@ -12,6 +14,7 @@ namespace backend.api.test
     {
         private Mock<INeedService> _needServiceMock;
         private Mock<ILogger<NeedController>> _loggerMock;
+        private IMapper _mapper;
         private NeedController _controller;
 
         [SetUp]
@@ -19,7 +22,14 @@ namespace backend.api.test
         {
             _needServiceMock = new Mock<INeedService>();
             _loggerMock = new Mock<ILogger<NeedController>>();
-            _controller = new NeedController(_needServiceMock.Object, _loggerMock.Object);
+
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new NeedsProfile());
+            });
+            _mapper = mappingConfig.CreateMapper();
+
+            _controller = new NeedController(_needServiceMock.Object, _loggerMock.Object, _mapper);
         }
 
         [Test]

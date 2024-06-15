@@ -1,4 +1,6 @@
-﻿using backend.data.DataContext;
+﻿using AutoMapper;
+using backend.api.Mappers;
+using backend.data.DataContext;
 using backend.data.Models;
 using backend.repositories.implementations;
 using backend.repositories.interfaces;
@@ -21,12 +23,19 @@ namespace backend.servicios.test
         private ApplicationDbContext _context;
         private IRepository<Usuario> _repository;
         private UserService _usuarioService;
+        private IMapper _mapper;
 
         [SetUp]
         public void SetUp()
         {
             _loggerMock = new Mock<ILogger<UserService>>();
             _mapsMock = new Mock<IMapsService>();
+
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new UserProfile());
+            });
+            _mapper = mappingConfig.CreateMapper();
 
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
@@ -46,21 +55,21 @@ namespace backend.servicios.test
 
             _context.SaveChanges();
             _repository = new Repository<Usuario>(_context);
-            _usuarioService = new UserService(_repository, _loggerMock.Object, _mapsMock.Object);
+            _usuarioService = new UserService(_repository, _loggerMock.Object, _mapsMock.Object, _mapper);
         }
 
         [Test]
         public void Constructor_WithAllDependencies_ShouldNotThrowException()
         {
             // Act & Assert
-            Assert.DoesNotThrow(() => new UserService(_repository, _loggerMock.Object, _mapsMock.Object));
+            Assert.DoesNotThrow(() => new UserService(_repository, _loggerMock.Object, _mapsMock.Object, _mapper));
         }
 
         [Test]
         public void Constructor_WithNullDbContext_ShouldThrowArgumentNullException()
         {
             // Act & Assert
-            var ex = Assert.Throws<ArgumentNullException>(() => new UserService(null, _loggerMock.Object, _mapsMock.Object));
+            var ex = Assert.Throws<ArgumentNullException>(() => new UserService(null, _loggerMock.Object, _mapsMock.Object, _mapper));
             Assert.That(ex.ParamName, Is.EqualTo("repository"));
         }
 
@@ -68,7 +77,7 @@ namespace backend.servicios.test
         public void Constructor_WithNullLogger_ShouldThrowArgumentNullException()
         {
             // Act & Assert
-            var ex = Assert.Throws<ArgumentNullException>(() => new UserService(_repository, null, _mapsMock.Object));
+            var ex = Assert.Throws<ArgumentNullException>(() => new UserService(_repository, null, _mapsMock.Object, _mapper));
             Assert.That(ex.ParamName, Is.EqualTo("logger"));
         }
 
