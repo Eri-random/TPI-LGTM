@@ -1,4 +1,5 @@
-﻿using backend.data.Models;
+﻿using AutoMapper;
+using backend.data.Models;
 using backend.repositories.interfaces;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
@@ -6,24 +7,18 @@ using Microsoft.Extensions.Logging;
 
 namespace backend.servicios.Servicios
 {
-    public class InfoOrganizationService(IRepository<InfoOrganizacion> repository, ILogger<OrganizationService> logger): IOrganizationInfoService
+    public class InfoOrganizationService(IRepository<InfoOrganizacion> repository, ILogger<OrganizationService> logger, IMapper mapper): IOrganizationInfoService
     {
         private readonly IRepository<InfoOrganizacion> _organizacionRepository = repository ?? throw new ArgumentNullException(nameof(repository));
         private readonly ILogger<OrganizationService> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
         public async Task SaveInfoOrganizationDataAsync(InfoOrganizationDto infoOrganizationDto)
         {
             if (infoOrganizationDto == null)
                 throw new ArgumentNullException(nameof(infoOrganizationDto), "La informacion de la organizacion proporcionada no puede ser nula.");
 
-            var infoOrganization = new InfoOrganizacion
-            {
-                Organizacion = infoOrganizationDto.Organizacion,
-                DescripcionBreve = infoOrganizationDto.DescripcionBreve,
-                DescripcionCompleta = infoOrganizationDto.DescripcionCompleta,
-                Img = infoOrganizationDto.Img,
-                OrganizacionId = infoOrganizationDto.OrganizacionId,
-            };
+            var infoOrganization = _mapper.Map<InfoOrganizacion>(infoOrganizationDto);
 
             try
             {

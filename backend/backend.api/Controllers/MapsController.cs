@@ -1,4 +1,5 @@
-﻿using backend.api.Models;
+﻿using AutoMapper;
+using backend.api.Models;
 using backend.servicios.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,11 +7,12 @@ namespace backend.api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class MapsController(IOrganizationService organizationService, IMapsService mapsService, IHeadquartersService headquartersService) : ControllerBase
+    public class MapsController(IOrganizationService organizationService, IMapsService mapsService, IHeadquartersService headquartersService, IMapper mapper) : ControllerBase
     {
         private readonly IOrganizationService _organizationService = organizationService ?? throw new ArgumentNullException(nameof(organizationService));
         private readonly IMapsService _mapsService = mapsService ?? throw new ArgumentNullException(nameof(mapsService));
         private readonly IHeadquartersService _headquartersService = headquartersService ?? throw new ArgumentNullException(nameof(headquartersService));
+        private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
         [HttpGet]
         public async Task<IActionResult> GetOrganizationCoordinates()
@@ -21,17 +23,7 @@ namespace backend.api.Controllers
 
             foreach (var org in organizations)
             {
-                organizationsResponse.Add(new OrganizationResponseModel
-                {
-                    Id = org.Id,
-                    Nombre = org.Nombre,
-                    Direccion = org.Direccion,
-                    Localidad = org.Localidad,
-                    Provincia = org.Provincia,
-                    Telefono = org.Telefono,
-                    Latitud = org.Latitud,
-                    Longitud = org.Longitud
-                });
+                organizationsResponse.Add(_mapper.Map<OrganizationResponseModel>(org));
             }
 
             return Ok(organizationsResponse);

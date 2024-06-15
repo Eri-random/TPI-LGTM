@@ -13,11 +13,15 @@ namespace backend.api.Mappers
 
             CreateMap<InfoOrganizacion, InfoOrganizationDto>();
 
+            CreateMap<InfoOrganizationDto, InfoOrganizacion>();
+
             CreateMap<OrganizationDto, Organizacion>();
 
             CreateMap<OrganizationDto, OrganizationResponseModel>();
 
             CreateMap<OrganizationRequestModel, OrganizationDto>();
+
+            CreateMap<InfoOrganizationRequest, OrganizationDto>();
         }
     }
 }

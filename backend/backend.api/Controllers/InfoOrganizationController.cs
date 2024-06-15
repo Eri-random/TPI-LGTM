@@ -1,4 +1,5 @@
-﻿using backend.api.Models;
+﻿using AutoMapper;
+using backend.api.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -7,11 +8,12 @@ namespace backend.api.Controllers
 {
     [Route("api/Information")]
     [ApiController]
-    public class InfoOrganizationController(IOrganizationService organizationService, IOrganizationInfoService organizationInfoService, ILogger<UserController> logger) : ControllerBase
+    public class InfoOrganizationController(IOrganizationService organizationService, IOrganizationInfoService organizationInfoService, ILogger<UserController> logger, IMapper mapper) : ControllerBase
     {
         private readonly IOrganizationService _organizationService = organizationService ?? throw new ArgumentNullException(nameof(organizationService));
         private readonly ILogger<UserController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         private readonly IOrganizationInfoService _organizationInfoService = organizationInfoService ?? throw new ArgumentNullException(nameof(organizationInfoService));
+        private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
         [HttpPost("Details")]
         public async Task<IActionResult> Details([FromForm] InfoOrganizationRequest infoOrganizationRequest)
@@ -51,14 +53,7 @@ namespace backend.api.Controllers
 
             string fileUrl = $"http://localhost:5203/images/{infoOrganizationRequest.File.FileName}"; // Cambia esto según sea necesario
 
-            var infoOrganization = new InfoOrganizationDto
-            {
-                Organizacion = infoOrganizationRequest.Organizacion,
-                DescripcionBreve = infoOrganizationRequest.DescripcionBreve,
-                DescripcionCompleta = infoOrganizationRequest.DescripcionCompleta,
-                Img = fileUrl,
-                OrganizacionId = infoOrganizationRequest.OrganizacionId,
-            };
+            var infoOrganization = _mapper.Map<InfoOrganizationDto>(infoOrganizationRequest);
 
             try
             {
@@ -127,14 +122,7 @@ namespace backend.api.Controllers
                 }
             }
 
-            var infoOrganization = new InfoOrganizationDto
-            {
-                Organizacion = infoOrganizacionRequest.Organizacion,
-                DescripcionBreve = infoOrganizacionRequest.DescripcionBreve,
-                DescripcionCompleta = infoOrganizacionRequest.DescripcionCompleta,
-                Img = fileUrl,
-                OrganizacionId = infoOrganizacionRequest.OrganizacionId,
-            };
+            var infoOrganization = _mapper.Map<InfoOrganizationDto>(infoOrganizacionRequest);
 
             try
             {
