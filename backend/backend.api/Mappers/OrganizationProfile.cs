@@ -11,9 +11,11 @@ namespace backend.api.Mappers
         {
             CreateMap<Organizacion, OrganizationDto>();
 
-            CreateMap<InfoOrganizacion, InfoOrganizationDto>();
+            CreateMap<InfoOrganizacion, InfoOrganizationDto>()
+                .ForMember(dest => dest.OrganizacionId, opt => opt.MapFrom(src => src.Id));
 
-            CreateMap<InfoOrganizationDto, InfoOrganizacion>();
+            CreateMap<InfoOrganizationDto, InfoOrganizacion>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.OrganizacionId));
 
             CreateMap<OrganizationDto, Organizacion>();
 
