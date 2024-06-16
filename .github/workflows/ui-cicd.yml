@@ -5,10 +5,7 @@ on:
     branches: ["main", "develop"]
     paths: 
       - 'frontend/**'
-  pull_request:
-    branches: [ "main", "develop" ]
-    paths: 
-      - 'frontend/**'
+
 jobs:
   build:
     runs-on: ubuntu-latest
