@@ -70,8 +70,6 @@ builder.Services.AddPredictionEnginePool<FabricModelInput, FabricModelOutput>()
 
 var app = builder.Build();
 
-var googleMapsApiKey = app.Configuration["GoogleMapsApiKey"];
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
