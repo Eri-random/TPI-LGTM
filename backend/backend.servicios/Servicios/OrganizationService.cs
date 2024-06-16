@@ -96,8 +96,8 @@ namespace backend.servicios.Servicios
         {
             var organizations = await _organizacionRepository.GetAllAsync(x => x.InfoOrganizacion);
             var query = organizations
-             .Where(o => o.InfoOrganizacion != null)
-             .AsQueryable();
+                .Where(o => o.InfoOrganizacion != null)
+                .AsQueryable();
 
             if (subcategoriaIds != null && subcategoriaIds.Any())
                 query = query.Where(o => o.Subcategoria.Any(s => subcategoriaIds.Contains(s.Id)));
@@ -105,10 +105,13 @@ namespace backend.servicios.Servicios
             if (!string.IsNullOrEmpty(name))
                 query = query.Where(o => o.Nombre.ToLower().Contains(name.ToLower()));
 
-            var organizationsPaginated = await query
+            var totalCount = query.Count();
+
+            // Apply pagination
+            var organizationsPaginated = query
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
-                .ToListAsync();
+                .ToList();
 
             var organizationDtos = _mapper.Map<IEnumerable<OrganizationDto>>(organizationsPaginated);
 
