@@ -16,7 +16,7 @@ namespace backend.api.Controllers
         private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
         [HttpPost("Details")]
-        public async Task<IActionResult> Details([FromForm] InfoOrganizationRequest infoOrganizationRequest)
+        public async Task<IActionResult> Details([FromBody] InfoOrganizationRequest infoOrganizationRequest)
         {
             if (infoOrganizationRequest == null)
             {

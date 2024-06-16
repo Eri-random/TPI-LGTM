@@ -94,7 +94,7 @@ namespace backend.servicios.Servicios
 
         public async Task<IEnumerable<OrganizationDto>> GetPaginatedOrganizationsAsync(int page, int pageSize, List<int> subcategoriaIds,string name)
         {
-            var organizations = await _organizacionRepository.GetAllAsync(x => x.InfoOrganizacion);
+            var organizations = await _organizacionRepository.GetAllAsync(x => x.InfoOrganizacion, x => x.Subcategoria);
             var query = organizations
                 .Where(o => o.InfoOrganizacion != null)
                 .AsQueryable();
