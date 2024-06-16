@@ -2,7 +2,7 @@ name: API CI/CD
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "develop"]
     paths: 
       - 'backend/**'
 
