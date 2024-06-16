@@ -71,20 +71,20 @@ namespace backend.api.Controllers
                 }
 
                 var mainImage = await mainImageTask;
-                var stepImages = await Task.WhenAll(stepImageTasks);
+                //var stepImages = await Task.WhenAll(stepImageTasks);
 
                 if (mainImage != null && mainImage.Data != null && mainImage.Data.Count > 0)
                 {
                     ideaResponse.ImageUrl = mainImage.Data[0].Url;
                 }
 
-                for (int i = 0; i < ideaResponse.Steps.Length; i++)
-                {
-                    if (stepImages[i] != null && stepImages[i].Data != null && stepImages[i].Data.Count > 0)
-                    {
-                        ideaResponse.Steps[i] += $"ImageURL: {stepImages[i].Data[0].Url}";
-                    }
-                }
+                //for (int i = 0; i < ideaResponse.Steps.Length; i++)
+                //{
+                //    if (stepImages[i] != null && stepImages[i].Data != null && stepImages[i].Data.Count > 0)
+                //    {
+                //        ideaResponse.Steps[i] += $"ImageURL: {stepImages[i].Data[0].Url}";
+                //    }
+                //}
 
                 return Ok(ideaResponse);
             }
