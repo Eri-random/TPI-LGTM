@@ -4,11 +4,9 @@ using backend.api.Mappers;
 using backend.api.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System.Text;
 
 namespace backend.api.test
 {
@@ -126,6 +124,7 @@ namespace backend.api.test
                 Organizacion = "Organizacion",
                 DescripcionBreve = "DescripcionBreve",
                 DescripcionCompleta = "DescripcionCompleta",
+                ImageUrl = "http://localhost:5203/images/test.jpg"
             };
 
             var organizacion = new OrganizationDto
