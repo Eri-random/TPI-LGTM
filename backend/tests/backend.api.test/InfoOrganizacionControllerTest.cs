@@ -84,7 +84,6 @@ namespace backend.api.test
                 Organizacion = "Organizacion",
                 DescripcionBreve = "DescripcionBreve",
                 DescripcionCompleta = "DescripcionCompleta",
-                File = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("file content")), 0, "file content".Length, "file", "test.jpg")
             };
 
             var organizacion = new OrganizationDto
@@ -127,7 +126,6 @@ namespace backend.api.test
                 Organizacion = "Organizacion",
                 DescripcionBreve = "DescripcionBreve",
                 DescripcionCompleta = "DescripcionCompleta",
-                File = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("file content")), 0, "file content".Length, "file", "test.jpg")
             };
 
             var organizacion = new OrganizationDto
@@ -179,7 +177,6 @@ namespace backend.api.test
                 Organizacion = "Organizacion",
                 DescripcionBreve = "DescripcionBreve",
                 DescripcionCompleta = "DescripcionCompleta",
-                File = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("file content")), 0, "file content".Length, "file", "test.jpg")
             };
 
             var organizacion = new OrganizationDto
@@ -199,7 +196,7 @@ namespace backend.api.test
                 Organizacion = infoOrganizacionRequest.Organizacion,
                 DescripcionBreve = infoOrganizacionRequest.DescripcionBreve,
                 DescripcionCompleta = infoOrganizacionRequest.DescripcionCompleta,
-                Img = infoOrganizacionRequest.File.FileName,
+                Img = infoOrganizacionRequest.ImageUrl,
                 OrganizacionId = infoOrganizacionRequest.OrganizacionId
             };
 
