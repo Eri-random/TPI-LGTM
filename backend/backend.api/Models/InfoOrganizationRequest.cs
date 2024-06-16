@@ -8,7 +8,7 @@
 
         public string DescripcionCompleta { get; set; }
 
-        public IFormFile File { get; set; }
+        public string ImageUrl { get; set; }
 
         public int OrganizacionId { get; set; }
     }

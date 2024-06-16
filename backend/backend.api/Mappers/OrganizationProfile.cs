@@ -25,7 +25,8 @@ namespace backend.api.Mappers
 
             CreateMap<InfoOrganizationRequest, OrganizationDto>();
 
-            CreateMap<InfoOrganizationRequest, InfoOrganizationDto>();
+            CreateMap<InfoOrganizationRequest, InfoOrganizationDto>()
+                .ForMember(dest => dest.Img, opt => opt.MapFrom(src => src.ImageUrl));
 
             CreateMap<HeadquartersDto, Sede>();
 

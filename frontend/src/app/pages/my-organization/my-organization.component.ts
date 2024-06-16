@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
@@ -13,26 +13,25 @@ import { OrganizationService } from 'src/app/services/organization.service';
   templateUrl: './my-organization.component.html',
   styleUrls: ['./my-organization.component.css']
 })
-export class MyOrganizationComponent {
+export class MyOrganizationComponent implements OnInit {
   organizationForm: FormGroup;
   cuit!: string;
-  imageSrc: string | ArrayBuffer | null =
-    '/assets/img/logo-placeholder.png';
-  selectedFile: File | null = null;
+  imageSrc: string = '/assets/img/logo-placeholder.png';
   isEditMode: boolean = false;
+  placeholderImage: string = '/assets/img/logo-placeholder.png';
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private organizacionService: OrganizationService,
     private toast: NgToastService,
-    private router:Router
+    private router: Router
   ) {
     this.organizationForm = this.fb.group({
       organizacion: ['', [Validators.required, Validators.maxLength(30)]],
       descripcionBreve: ['', [Validators.required, Validators.maxLength(150)]],
       descripcionCompleta: ['', [Validators.required, Validators.maxLength(4000)]],
-      file: [null, Validators.required],
+      imageUrl: ['', Validators.required],
       organizacionId: [null],
     });
   }
@@ -43,40 +42,31 @@ export class MyOrganizationComponent {
       this.cuit = val || cuitFromToken;
     });
 
-    this.organizacionService
-      .getOrganizationByCuit(this.cuit)
-      .subscribe((resp) => {
-        this.organizationForm.get('organizacion')?.setValue(resp.nombre);
-        this.organizationForm.get('organizacionId')?.setValue(resp.id);
+    this.organizacionService.getOrganizationByCuit(this.cuit).subscribe((resp) => {
+      this.organizationForm.get('organizacion')?.setValue(resp.nombre);
+      this.organizationForm.get('organizacionId')?.setValue(resp.id);
 
-        if (resp.infoOrganizacion != null) {
-          this.isEditMode = true;
-          this.organizationForm.get('file')?.clearValidators();
-          this.organizationForm.get('file')?.updateValueAndValidity();
-          this.organizationForm.get('descripcionBreve')?.setValue(resp.infoOrganizacion.descripcionBreve);
-          this.organizationForm.get('descripcionCompleta')?.setValue(resp.infoOrganizacion.descripcionCompleta);
-          if (resp.infoOrganizacion.img) {
-            this.imageSrc = resp.infoOrganizacion.img;
-          }
+      if (resp.infoOrganizacion != null) {
+        this.isEditMode = true;
+        this.organizationForm.get('descripcionBreve')?.setValue(resp.infoOrganizacion.descripcionBreve);
+        this.organizationForm.get('descripcionCompleta')?.setValue(resp.infoOrganizacion.descripcionCompleta);
+        if (resp.infoOrganizacion.img) {
+          this.imageSrc = resp.infoOrganizacion.img;
+          this.organizationForm.get('imageUrl')?.setValue(resp.infoOrganizacion.img);
+        } else {
+          this.imageSrc = this.placeholderImage;
         }
-      });
+      }
+    });
   }
 
-  onFileSelected(event: any) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
+  onImageUrlInput(): void {
+    const imageUrl = this.organizationForm.get('imageUrl')?.value;
+    this.imageSrc = imageUrl ? imageUrl : this.placeholderImage;
+  }
 
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.imageSrc = e.target!.result;
-        this.organizationForm.patchValue({
-          file: file,
-        });
-      }
-      reader.readAsDataURL(file);
-    }else{
-      this.imageSrc = '/assets/img/placeholder.png'
-    }
+  onError(): void {
+    this.imageSrc = this.placeholderImage;
   }
 
   getCharacterCount(fieldName: string, maxLength: number): string {
@@ -90,57 +80,33 @@ export class MyOrganizationComponent {
       return;
     }
 
-    if( this.imageSrc == '/assets/img/placeholder.png'){
-      return;
-    }
-
-    const formData: FormData = new FormData();
-    formData.append(
-      'Organizacion',
-      this.organizationForm.get('organizacion')?.value || ''
-    );
-    formData.append(
-      'DescripcionBreve',
-      this.organizationForm.get('descripcionBreve')?.value || ''
-    );
-    formData.append(
-      'DescripcionCompleta',
-      this.organizationForm.get('descripcionCompleta')?.value || ''
-    );
-    const file = this.organizationForm.get('file')?.value;
-    if (file instanceof File) {
-      formData.append('file', file);
-    }
-    formData.append(
-      'OrganizacionId',
-      this.organizationForm.get('organizacionId')?.value || ''
-    );
+    const formData: any = {
+      organizacion: this.organizationForm.get('organizacion')?.value || '',
+      descripcionBreve: this.organizationForm.get('descripcionBreve')?.value || '',
+      descripcionCompleta: this.organizationForm.get('descripcionCompleta')?.value || '',
+      imageUrl: this.organizationForm.get('imageUrl')?.value || '',
+      organizacionId: this.organizationForm.get('organizacionId')?.value || ''
+    };
 
     if (this.isEditMode) {
-      this.organizacionService
-        .putInfoOrganization(formData)
-        .pipe(
-          catchError((error: HttpErrorResponse) => {
-            this.handleError(error);
-            return throwError(error);
-          })
-        )
-        .subscribe((resp) => {
-          this.handleSuccess();
-        });
+      this.organizacionService.putInfoOrganization(formData).pipe(
+        catchError((error: HttpErrorResponse) => {
+          this.handleError(error);
+          return throwError(error);
+        })
+      ).subscribe((resp) => {
+        this.handleSuccess();
+      });
     } else {
-      this.organizacionService
-        .postInfoOrganization(formData)
-        .pipe(
-          catchError((error: HttpErrorResponse) => {
-            this.handleError(error);
-            return throwError(error);
-          })
-        )
-        .subscribe((resp) => {
-          this.handleSuccess();
-          this.router.navigate(['/dashboard']);
-        });
+      this.organizacionService.postInfoOrganization(formData).pipe(
+        catchError((error: HttpErrorResponse) => {
+          this.handleError(error);
+          return throwError(error);
+        })
+      ).subscribe((resp) => {
+        this.handleSuccess();
+        this.router.navigate(['/dashboard']);
+      });
     }
   }
 
@@ -148,16 +114,14 @@ export class MyOrganizationComponent {
     if (error.status === 404) {
       console.error('Error 404: Recurso no encontrado');
       this.toast.error({
-        detail:
-          'Ocurrió un error al intentar guardar la información. Intente nuevamente.',
+        detail: 'Ocurrió un error al intentar guardar la información. Intente nuevamente.',
         duration: 5000,
         position: 'topRight',
       });
     } else {
       console.error('Error:', error.message);
       this.toast.error({
-        detail:
-          'Ocurrió un error al intentar guardar la información. Intente nuevamente.',
+        detail: 'Ocurrió un error al intentar guardar la información. Intente nuevamente.',
         duration: 5000,
         position: 'topRight',
       });

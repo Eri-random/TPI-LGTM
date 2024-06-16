@@ -16,32 +16,24 @@
             </div>
           </div>
 
-          <form
-          [formGroup]="organizationForm"
-          class="form-organizacion"
-          enctype="multipart/form-data"
-          >
+          <form [formGroup]="organizationForm" class="form-organizacion" (ngSubmit)="onSubmit()">
             <div class="row section-organization">
               <div class="col-lg-4">
-
                 <div class="mb-3">
-                  <label for="imagen" class="form-label">Imagen</label>
+                  <label for="imagenUrl" class="form-label">Imagen URL</label>
                   <div *ngIf="imageSrc" class="imgUp text-center">
-                    <img class="object-fit-cover imagePreview shadow border-radius-md backgroundImage" [src]="imageSrc"/>
+                    <img class="object-fit-cover imagePreview shadow border-radius-md backgroundImage" [src]="imageSrc" (error)="onError()"/>
                   </div>
                   <p class="info small pt-1 px-1">
-                    Cargá el logo de tu organización para darte a conocer en reCrea.
+                    Proporciona la URL del logo de tu organización para darte a conocer en reCrea.
                   </p>
                   <div class="d-flex justify-content-center text-center">
-                    <label class="btn btn-round bg-gradient-secondary mt-1"><i class="fas fa-file-upload"></i> Subir imagen <input type="file" class="uploadFile img" (change)="onFileSelected($event)" accept="image/*" formControlName="file"></label>
+                    <input type="text" class="form-control" id="imagenUrl" formControlName="imageUrl" (input)="onImageUrlInput()">
                   </div>
-                  <small *ngIf="organizationForm.controls['file']?.dirty && organizationForm.hasError('required', 'file') ||  imageSrc == '/assets/img/logo-placeholder.png'" class="text-danger">Imagen requerida</small>
+                  <small *ngIf="organizationForm.controls['imageUrl']?.dirty && organizationForm.hasError('required', 'imageUrl')" class="text-danger">URL de imagen requerida</small>
                 </div>
-
               </div>
-
               <div class="col-lg-6">
-
                 <div class="mb-3">
                   <label for="organizacion" class="form-label required">Organización</label>
                   <input id="organizacion" type="text" class="form-control opacity-class" formControlName="organizacion" maxlength="30" readonly />
@@ -55,16 +47,9 @@
                     </p>
                   </div>
                 </div>
-
                 <div class="mb-3">
                   <label for="descripcionBreve" class="form-label required">Descripción breve</label>
-                  <textarea
-                    id="descripcionBreve"
-                    class="form-control"
-                    formControlName="descripcionBreve"
-                    rows="5"
-                    maxlength="150"
-                  ></textarea>
+                  <textarea id="descripcionBreve" class="form-control" formControlName="descripcionBreve" rows="5" maxlength="150"></textarea>
                   <small *ngIf="organizationForm.controls['descripcionBreve']?.dirty && organizationForm.hasError('required', 'descripcionBreve')" class="text-danger">Descripción breve requerida</small>
                   <div class="d-flex justify-content-between px-1">
                     <p class="info small pe-1">
@@ -75,61 +60,39 @@
                     </p>
                   </div>
                 </div>
-
               </div>
-
               <div class="col-lg-10">
-
                 <div class="mb-3">
                   <label for="descripcionCompleta" class="form-label required">Descripción completa</label>
-                  <editor
-                    apiKey="ntlo9tszxpfohc7ddllnmtk84am6cbkm3sg6j37b7ow1dc1l"
-                    [init]="{
-                      height: 280,
-                      menubar: false,
-                      plugins: [
-                        'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                        'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                        'insertdatetime', 'media', 'table', 'help', 'wordcount'
-                      ],
-                      toolbar: 'undo redo | fontsize |' +
+                  <editor apiKey="ntlo9tszxpfohc7ddllnmtk84am6cbkm3sg6j37b7ow1dc1l" [init]="{
+                    height: 280,
+                    menubar: false,
+                    plugins: ['advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                      'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                      'insertdatetime', 'media', 'table', 'help', 'wordcount'],
+                    toolbar: 'undo redo | fontsize |' +
                       'bold italic forecolor | alignleft aligncenter ' +
                       'alignright alignjustify | bullist numlist outdent indent | ' +
                       'removeformat | help',
-                    }"
-                    id="descripcionCompleta"
-                    formControlName="descripcionCompleta"
-                    rows="5"
-                    maxlength="4000"
-                  ></editor>
-                  <small
-                    *ngIf="
-                      organizationForm.controls['descripcionCompleta']?.dirty &&
-                      organizationForm.hasError('required', 'descripcionCompleta')
-                    "
-                    class="text-danger"
-                    >Descripción completa requerida</small
-                  >
-            
+                  }" id="descripcionCompleta" formControlName="descripcionCompleta" rows="5" maxlength="4000"></editor>
+                  <small *ngIf="organizationForm.controls['descripcionCompleta']?.dirty && organizationForm.hasError('required', 'descripcionCompleta')" class="text-danger">Descripción completa requerida</small>
                   <div class="d-flex justify-content-between px-1">
                     <p class="info small pe-1">
                       Los usuarios pueden ver esta descripción al hacer click en tu organización.
                     </p>
                     <p class="info small">
-                      {{ organizationForm.get('descripcionCompleta')?.value.length }}/40000
+                      {{ organizationForm.get('descripcionCompleta')?.value.length }}/4000
                     </p>
                   </div>
                 </div>
-
               </div>
             </div>
-
             <div class="row">
-                <div class="d-flex justify-content-center pt-3">
-                  <button (click)="onSubmit()" type="button" class="btn btn-round bg-gradient-primary">
-                    {{ isEditMode ? 'Actualizar información' : 'Publicar organización' }}
-                  </button>
-                </div>
+              <div class="d-flex justify-content-center pt-3">
+                <button type="submit" class="btn btn-round bg-gradient-primary">
+                  {{ isEditMode ? 'Actualizar información' : 'Publicar organización' }}
+                </button>
+              </div>
             </div>
           </form>
         </div>

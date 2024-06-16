@@ -4,11 +4,9 @@ using backend.api.Mappers;
 using backend.api.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System.Text;
 
 namespace backend.api.test
 {
@@ -84,7 +82,6 @@ namespace backend.api.test
                 Organizacion = "Organizacion",
                 DescripcionBreve = "DescripcionBreve",
                 DescripcionCompleta = "DescripcionCompleta",
-                File = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("file content")), 0, "file content".Length, "file", "test.jpg")
             };
 
             var organizacion = new OrganizationDto
@@ -127,7 +124,7 @@ namespace backend.api.test
                 Organizacion = "Organizacion",
                 DescripcionBreve = "DescripcionBreve",
                 DescripcionCompleta = "DescripcionCompleta",
-                File = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("file content")), 0, "file content".Length, "file", "test.jpg")
+                ImageUrl = "http://localhost:5203/images/test.jpg"
             };
 
             var organizacion = new OrganizationDto
@@ -179,7 +176,6 @@ namespace backend.api.test
                 Organizacion = "Organizacion",
                 DescripcionBreve = "DescripcionBreve",
                 DescripcionCompleta = "DescripcionCompleta",
-                File = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("file content")), 0, "file content".Length, "file", "test.jpg")
             };
 
             var organizacion = new OrganizationDto
@@ -199,7 +195,7 @@ namespace backend.api.test
                 Organizacion = infoOrganizacionRequest.Organizacion,
                 DescripcionBreve = infoOrganizacionRequest.DescripcionBreve,
                 DescripcionCompleta = infoOrganizacionRequest.DescripcionCompleta,
-                Img = infoOrganizacionRequest.File.FileName,
+                Img = infoOrganizacionRequest.ImageUrl,
                 OrganizacionId = infoOrganizacionRequest.OrganizacionId
             };
 
