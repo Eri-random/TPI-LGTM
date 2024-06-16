@@ -106,8 +106,6 @@ namespace backend.servicios.Servicios
                 query = query.Where(o => o.Nombre.ToLower().Contains(name.ToLower()));
 
             var totalCount = query.Count();
-
-            // Apply pagination
             var organizationsPaginated = query
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
