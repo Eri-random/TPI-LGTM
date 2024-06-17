@@ -7,6 +7,7 @@ import { catchError, throwError } from 'rxjs';
 import ValidateForm from 'src/app/helpers/validateForm';
 import { AuthService } from 'src/app/services/auth.service';
 import { OrganizationService } from 'src/app/services/organization.service';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-my-organization',
@@ -19,7 +20,8 @@ export class MyOrganizationComponent implements OnInit {
   imageSrc: string = '/assets/img/logo-placeholder.png';
   isEditMode: boolean = false;
   placeholderImage: string = '/assets/img/logo-placeholder.png';
-
+  uniqueId: string = uuidv4();
+  
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,

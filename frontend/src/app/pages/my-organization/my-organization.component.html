@@ -64,7 +64,7 @@
               <div class="col-lg-10">
                 <div class="mb-3">
                   <label for="descripcionCompleta" class="form-label required">Descripción completa</label>
-                  <editor apiKey="ntlo9tszxpfohc7ddllnmtk84am6cbkm3sg6j37b7ow1dc1l" [init]="{
+                  <editor apiKey="mfpqww9xwy4b5gqm93lcdh0j7kmgkiy7yky9c3mna8ucvhj3" [init]="{
                     height: 280,
                     menubar: false,
                     plugins: ['advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
@@ -74,7 +74,7 @@
                       'bold italic forecolor | alignleft aligncenter ' +
                       'alignright alignjustify | bullist numlist outdent indent | ' +
                       'removeformat | help',
-                  }" id="descripcionCompleta" formControlName="descripcionCompleta" rows="5" maxlength="4000"></editor>
+                  }" [id]="uniqueId" formControlName="descripcionCompleta" rows="5" maxlength="4000"></editor>
                   <small *ngIf="organizationForm.controls['descripcionCompleta']?.dirty && organizationForm.hasError('required', 'descripcionCompleta')" class="text-danger">Descripción completa requerida</small>
                   <div class="d-flex justify-content-between px-1">
                     <p class="info small pe-1">
