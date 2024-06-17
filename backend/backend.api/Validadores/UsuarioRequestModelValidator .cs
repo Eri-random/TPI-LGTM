@@ -1,4 +1,4 @@
-﻿using backend.api.Models;
+﻿using backend.api.Models.RequestModels;
 using FluentValidation;
 
 namespace backend.api.Validadores

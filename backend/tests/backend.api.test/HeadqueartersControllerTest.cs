@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using backend.api.Controllers;
 using backend.api.Mappers;
-using backend.api.Models;
+using backend.api.Models.RequestModels;
+using backend.api.Models.ResponseModels;
 using backend.data.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
@@ -179,8 +180,8 @@ namespace backend.api.test
                 Assert.That(result, Is.InstanceOf<OkObjectResult>());
                 var okResult = result as OkObjectResult;
 
-                Assert.That(okResult.Value, Is.InstanceOf<HeadquartersNearby>());
-                var returnValue = okResult.Value as HeadquartersNearby;
+                Assert.That(okResult.Value, Is.InstanceOf<HeadquartersNearbyDto>());
+                var returnValue = okResult.Value as HeadquartersNearbyDto;
                 Assert.That(returnValue, Is.Not.Null);
 
                 Assert.That(returnValue.Id, Is.EqualTo(1));

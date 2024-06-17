@@ -1,8 +1,6 @@
-﻿using backend.servicios.DTOs;
-
-namespace backend.api.Models
+﻿namespace backend.api.Models.RequestModels
 {
-    public class OrganizationResponseModel
+    public class OrganizationRequestModel
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
@@ -13,6 +11,5 @@ namespace backend.api.Models
         public string Provincia { get; set; }
         public double Latitud { get; set; }
         public double Longitud { get; set; }
-        public InfoOrganizationDto InfoOrganizacion { get; set; }
     }
 }

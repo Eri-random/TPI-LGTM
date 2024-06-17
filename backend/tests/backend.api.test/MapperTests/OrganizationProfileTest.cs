@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using backend.api.Mappers;
 using backend.api.Models;
+using backend.api.Models.RequestModels;
+using backend.api.Models.ResponseModels;
 using backend.data.Models;
 using backend.servicios.DTOs;
 
@@ -267,7 +269,7 @@ namespace backend.api.test.MapperTests
             };
 
             // Act
-            var headquartersNearby = _mapper.Map<HeadquartersNearby>(organizacion);
+            var headquartersNearby = _mapper.Map<HeadquartersNearbyDto>(organizacion);
 
             // Assert
             Assert.That(headquartersNearby.Id, Is.EqualTo(organizacion.Id));

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using backend.api.Models;
+using backend.api.Models.RequestModels;
+using backend.api.Models.ResponseModels;
 using backend.servicios.DTOs;
 using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
@@ -145,7 +146,7 @@ namespace backend.api.Controllers
             if (data.Sedes == null || !data.Sedes.Any())
             {
                 // No hay sedes, devolver información de la organización
-                var headquartersNearBy = _mapper.Map<HeadquartersNearby>(data);
+                var headquartersNearBy = _mapper.Map<HeadquartersNearbyDto>(data);
                 headquartersNearBy.Distancia = distanceOrg;
 
                 return Ok(headquartersNearBy);
@@ -165,7 +166,7 @@ namespace backend.api.Controllers
 
             if (distanceOrg < nearestHeadquarters.Distancia)
             {
-                var headquartersNearBy = _mapper.Map<HeadquartersNearby>(data.Organizacion);
+                var headquartersNearBy = _mapper.Map<HeadquartersNearbyDto>(data.Organizacion);
                 headquartersNearBy.Distancia = distanceOrg;
 
                 return Ok(headquartersNearBy);
@@ -176,7 +177,7 @@ namespace backend.api.Controllers
                 if (organization == null)
                     return BadRequest("No se encontró la organización a la que pertenece la sede más cercana.");
 
-                return Ok(new HeadquartersNearby
+                return Ok(new HeadquartersNearbyDto
                 {
                     Id = nearestHeadquarters.Sede.Id,
                     Distancia = nearestHeadquarters.Distancia,

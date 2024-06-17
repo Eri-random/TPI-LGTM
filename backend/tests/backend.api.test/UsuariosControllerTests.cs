@@ -2,6 +2,8 @@
 using backend.api.Controllers;
 using backend.api.Mappers;
 using backend.api.Models;
+using backend.api.Models.RequestModels;
+using backend.api.Models.ResponseModels;
 using backend.servicios.DTOs;
 using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
@@ -191,7 +193,7 @@ namespace backend.api.test
         public async Task Authenticate_ValidCredentials_ReturnsOk()
         {
             // Arrange
-            var usuarioLogIn = new UserLogInModel
+            var usuarioLogIn = new UserLogInRequestModel
             {
                 Email = "john@example.com",
                 Password = "securePassword123"
@@ -216,7 +218,7 @@ namespace backend.api.test
         public async Task Authenticate_InvalidCredentials_ReturnsBadRequest()
         {
             // Arrange
-            var usuarioLogIn = new UserLogInModel
+            var usuarioLogIn = new UserLogInRequestModel
             {
                 Email = "john@example.com",
                 Password = "wrongPassword"

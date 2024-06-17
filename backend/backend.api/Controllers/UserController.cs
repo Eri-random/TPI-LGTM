@@ -1,5 +1,6 @@
 using AutoMapper;
-using backend.api.Models;
+using backend.api.Models.RequestModels;
+using backend.api.Models.ResponseModels;
 using backend.servicios.DTOs;
 using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
@@ -88,7 +89,7 @@ namespace backend.api.Controllers
         }
 
         [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate([FromBody] UserLogInModel userLogIn)
+        public async Task<IActionResult> Authenticate([FromBody] UserLogInRequestModel userLogIn)
         {
             if (userLogIn == null)
             {

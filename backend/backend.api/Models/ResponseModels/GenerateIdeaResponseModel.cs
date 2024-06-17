@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace backend.api.Models
+namespace backend.api.Models.ResponseModels
 {
     /// <summary>
     /// Model representing the response for a generated idea.
@@ -18,7 +18,7 @@ namespace backend.api.Models
         /// Gets or sets the steps associated with the generated idea.
         /// </summary>
         [JsonProperty("pasos")]
-       public string[] Steps { get; set; }
+        public string[] Steps { get; set; }
 
         public string ImageUrl { get; set; }
     }
