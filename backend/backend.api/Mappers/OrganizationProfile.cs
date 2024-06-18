@@ -25,9 +25,9 @@ namespace backend.api.Mappers
 
             CreateMap<OrganizationRequestModel, OrganizationDto>();
 
-            CreateMap<InfoOrganizationRequest, OrganizationDto>();
+            CreateMap<InfoOrganizationRequestModel, OrganizationDto>();
 
-            CreateMap<InfoOrganizationRequest, InfoOrganizationDto>()
+            CreateMap<InfoOrganizationRequestModel, InfoOrganizationDto>()
                 .ForMember(dest => dest.Img, opt => opt.MapFrom(src => src.ImageUrl));
 
             CreateMap<HeadquartersDto, Sede>();
@@ -45,6 +45,8 @@ namespace backend.api.Mappers
             CreateMap<Organizacion, HeadquartersNearbyDto>();
 
             CreateMap<DataRequestModel, HeadquartersNearbyDto>();
+
+            CreateMap<HeadquartersDto, HeadquartersNearbyResponseModel>();
         }
     }
 }

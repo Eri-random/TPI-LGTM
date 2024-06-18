@@ -28,7 +28,7 @@ namespace backend.api.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> Details([FromBody] InfoOrganizationRequest infoOrganizationRequest)
+        public async Task<IActionResult> Details([FromBody] InfoOrganizationRequestModel infoOrganizationRequest)
         {
             if (infoOrganizationRequest == null)
                 return BadRequest("Invalid organization data");
@@ -69,7 +69,7 @@ namespace backend.api.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> Update([FromBody] InfoOrganizationRequest infoOrganizationRequest)
+        public async Task<IActionResult> Update([FromBody] InfoOrganizationRequestModel infoOrganizationRequest)
         {
             if (infoOrganizationRequest == null)
                 return BadRequest("Invalid organization data");

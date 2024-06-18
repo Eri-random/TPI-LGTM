@@ -53,7 +53,7 @@ namespace backend.api.test
         public async Task Details_WhenCalled_ReturnsNotFound()
         {
             // Arrange
-            var infoOrganizacionRequest = new InfoOrganizationRequest
+            var infoOrganizacionRequest = new InfoOrganizationRequestModel
             {
                 OrganizacionId = 1
             };
@@ -76,7 +76,7 @@ namespace backend.api.test
         public async Task Details_WithValidInput_ReturnsCreatedAtActionResult()
         {
             // Arrange
-            var infoOrganizacionRequest = new InfoOrganizationRequest
+            var infoOrganizacionRequest = new InfoOrganizationRequestModel
             {
                 OrganizacionId = 1,
                 Organizacion = "Organizacion",
@@ -118,7 +118,7 @@ namespace backend.api.test
         public async Task Update_WhenCalled_ReturnsCreatedAtActionResult()
         {
             // Arrange
-            var infoOrganizacionRequest = new InfoOrganizationRequest
+            var infoOrganizacionRequest = new InfoOrganizationRequestModel
             {
                 OrganizacionId = 1,
                 Organizacion = "Organizacion",
@@ -170,7 +170,7 @@ namespace backend.api.test
         public async Task Update_WhenCalled_ReturnsBadRequest()
         {
             // Arrange
-            var infoOrganizacionRequest = new InfoOrganizationRequest
+            var infoOrganizacionRequest = new InfoOrganizationRequestModel
             {
                 OrganizacionId = 1,
                 Organizacion = "Organizacion",

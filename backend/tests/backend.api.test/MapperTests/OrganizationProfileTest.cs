@@ -136,7 +136,7 @@ namespace backend.api.test.MapperTests
         public void Map_InfoOrganizationRequestToInfoOrganizationDto_MapsCorrectly()
         {
             // Arrange
-            var infoOrganizationRequest = new InfoOrganizationRequest
+            var infoOrganizationRequest = new InfoOrganizationRequestModel
             {
                 OrganizacionId = 1,
                 DescripcionBreve = "Info1"

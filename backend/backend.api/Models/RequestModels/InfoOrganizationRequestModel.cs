@@ -1,6 +1,6 @@
 ﻿namespace backend.api.Models.RequestModels
 {
-    public class InfoOrganizationRequest
+    public class InfoOrganizationRequestModel
     {
         public string Organizacion { get; set; }
 
