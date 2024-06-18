@@ -87,7 +87,7 @@ namespace backend.api.test
             _organizationServiceMock.Setup(service => service.GetOrganizationByCuitAsync("12345678")).ReturnsAsync(organizationDto);
 
             // Act
-            var result = await _controller.GetOrganizacionByCuit("12345678");
+            var result = await _controller.GetOrganizationByCuit("12345678");
 
             // Assert
             Assert.That(result, Is.InstanceOf<OkObjectResult>());
@@ -105,12 +105,12 @@ namespace backend.api.test
             _organizationServiceMock.Setup(service => service.GetOrganizationByCuitAsync("12345678")).ReturnsAsync((OrganizationDto)null);
 
             // Act
-            var result = await _controller.GetOrganizacionByCuit("12345678");
+            var result = await _controller.GetOrganizationByCuit("12345678");
 
             // Assert
             Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
             var notFoundResult = result as NotFoundObjectResult;
-            Assert.That(notFoundResult.Value, Is.EqualTo("Organizacion no encontrada"));
+            Assert.That(notFoundResult.Value, Is.EqualTo("Organization not found"));
         }
 
         [Test]
@@ -153,7 +153,7 @@ namespace backend.api.test
             // Assert
             Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
             var notFoundResult = result as NotFoundObjectResult;
-            Assert.That(notFoundResult.Value, Is.EqualTo("Organizacion no encontrada"));
+            Assert.That(notFoundResult.Value, Is.EqualTo("Organization not found"));
         }
 
         [Test]
