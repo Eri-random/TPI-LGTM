@@ -142,7 +142,7 @@ namespace backend.api.test
             Assert.Multiple(() =>
             {
                 Assert.That(objectResult.StatusCode, Is.EqualTo(500));
-                Assert.That(objectResult.Value, Is.EqualTo("Error when generating idea"));
+                Assert.That(objectResult.Value, Is.EqualTo("Internal server error"));
             });
         }
     }
