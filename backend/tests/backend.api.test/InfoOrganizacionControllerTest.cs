@@ -46,7 +46,7 @@ namespace backend.api.test
 
             var badRequestResult = result as BadRequestObjectResult;
             Assert.IsNotNull(badRequestResult);
-            Assert.AreEqual("Datos de organización inválidos", badRequestResult.Value);
+            Assert.AreEqual("Invalid organization data", badRequestResult.Value);
         }
 
         [Test]
@@ -69,7 +69,7 @@ namespace backend.api.test
 
             var notFoundResult = result as NotFoundObjectResult;
             Assert.IsNotNull(notFoundResult);
-            Assert.AreEqual("Organización no encontrada", notFoundResult.Value);
+            Assert.AreEqual("Organization not found", notFoundResult.Value);
         }
 
         [Test]
@@ -209,7 +209,7 @@ namespace backend.api.test
 
             var notFoundResult = result as NotFoundObjectResult;
             Assert.IsNotNull(notFoundResult);
-            Assert.AreEqual("Organización no encontrada", notFoundResult.Value);
+            Assert.AreEqual("Organization not found", notFoundResult.Value);
         }
     }
 }
