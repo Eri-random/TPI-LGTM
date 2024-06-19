@@ -2,6 +2,8 @@
 using backend.api.Controllers;
 using backend.api.Mappers;
 using backend.api.Models;
+using backend.api.Models.RequestModels;
+using backend.api.Models.ResponseModels;
 using backend.servicios.DTOs;
 using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
@@ -191,7 +193,7 @@ namespace backend.api.test
         public async Task Authenticate_ValidCredentials_ReturnsOk()
         {
             // Arrange
-            var usuarioLogIn = new UserLogInModel
+            var usuarioLogIn = new UserLogInRequestModel
             {
                 Email = "john@example.com",
                 Password = "securePassword123"
@@ -216,7 +218,7 @@ namespace backend.api.test
         public async Task Authenticate_InvalidCredentials_ReturnsBadRequest()
         {
             // Arrange
-            var usuarioLogIn = new UserLogInModel
+            var usuarioLogIn = new UserLogInRequestModel
             {
                 Email = "john@example.com",
                 Password = "wrongPassword"
@@ -232,7 +234,7 @@ namespace backend.api.test
             Assert.IsInstanceOf<BadRequestObjectResult>(result); // Verifica que el resultado sea un BadRequestObjectResult
             var badRequestResult = result as BadRequestObjectResult;
             Assert.That(badRequestResult.StatusCode, Is.EqualTo(400));
-            Assert.That(badRequestResult.Value, Is.EqualTo("usuario y/o contraseña incorrectos")); // Verifica el mensaje de error
+            Assert.That(badRequestResult.Value, Is.EqualTo("Invalid username or password")); // Verifica el mensaje de error
         }
 
         [Test]
@@ -244,7 +246,7 @@ namespace backend.api.test
             // Assert
             Assert.That(result, Is.InstanceOf<BadRequestObjectResult>());
             var badRequestResult = result as BadRequestObjectResult;
-            Assert.That(badRequestResult?.Value, Is.EqualTo("Datos de usuario inválidos"));
+            Assert.That(badRequestResult?.Value, Is.EqualTo("Invalid user data"));
         }
 
         [Test]
@@ -325,7 +327,7 @@ namespace backend.api.test
             // Assert
             Assert.That(result, Is.InstanceOf<BadRequestObjectResult>());
             var badRequestResult = result as BadRequestObjectResult;
-            Assert.That(badRequestResult?.Value, Is.EqualTo("Datos de usuario inválidos"));
+            Assert.That(badRequestResult?.Value, Is.EqualTo("Invalid user data"));
         }
 
         [Test]
@@ -409,7 +411,7 @@ namespace backend.api.test
             // Assert
             Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
             var notFoundResult = result as NotFoundObjectResult;
-            Assert.That(notFoundResult?.Value, Is.EqualTo("Usuario a eliminar no encontrado"));
+            Assert.That(notFoundResult?.Value, Is.EqualTo("User to delete not found"));
         }
 
         [Test]

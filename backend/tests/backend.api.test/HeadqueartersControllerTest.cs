@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using backend.api.Controllers;
 using backend.api.Mappers;
-using backend.api.Models;
+using backend.api.Models.RequestModels;
+using backend.api.Models.ResponseModels;
 using backend.data.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
@@ -111,7 +112,7 @@ namespace backend.api.test
             var headquartersRequestModel = new HeadquartersRequestModel { Id = 1, Nombre = "Nombre 1", Direccion = "Direccion 1", Localidad = "Localidad 1", Provincia = "Provincia 1", Telefono = "12345", OrganizacionId = 1 };
 
             // Act
-            var result = await _controller.UpdatehHeadquarters(headquartersRequestModel);
+            var result = await _controller.UpdateHeadquarters(headquartersRequestModel);
 
             // Assert
             Assert.That(result, Is.InstanceOf<OkResult>());
@@ -174,13 +175,13 @@ namespace backend.api.test
                 _mapsServiceMock.Setup(service => service.GetCoordinates(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync((0, 0));
 
                 // Act
-                var result = await _controller.Evaluar(data);
+                var result = await _controller.Evaluate(data);
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result, Is.InstanceOf<OkObjectResult>());
                 var okResult = result as OkObjectResult;
 
-                Assert.That(okResult.Value, Is.InstanceOf<HeadquartersNearby>());
-                var returnValue = okResult.Value as HeadquartersNearby;
+                Assert.That(okResult.Value, Is.InstanceOf<HeadquartersNearbyDto>());
+                var returnValue = okResult.Value as HeadquartersNearbyDto;
                 Assert.That(returnValue, Is.Not.Null);
 
                 Assert.That(returnValue.Id, Is.EqualTo(1));

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using backend.api.Models;
+using backend.api.Models.RequestModels;
+using backend.api.Models.ResponseModels;
 using backend.data.Models;
 using backend.servicios.DTOs;
 

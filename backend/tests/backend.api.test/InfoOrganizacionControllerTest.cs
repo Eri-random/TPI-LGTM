@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using backend.api.Controllers;
 using backend.api.Mappers;
-using backend.api.Models;
+using backend.api.Models.RequestModels;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -46,14 +46,14 @@ namespace backend.api.test
 
             var badRequestResult = result as BadRequestObjectResult;
             Assert.IsNotNull(badRequestResult);
-            Assert.AreEqual("Datos de organización inválidos", badRequestResult.Value);
+            Assert.AreEqual("Invalid organization data", badRequestResult.Value);
         }
 
         [Test]
         public async Task Details_WhenCalled_ReturnsNotFound()
         {
             // Arrange
-            var infoOrganizacionRequest = new InfoOrganizationRequest
+            var infoOrganizacionRequest = new InfoOrganizationRequestModel
             {
                 OrganizacionId = 1
             };
@@ -69,14 +69,14 @@ namespace backend.api.test
 
             var notFoundResult = result as NotFoundObjectResult;
             Assert.IsNotNull(notFoundResult);
-            Assert.AreEqual("Organización no encontrada", notFoundResult.Value);
+            Assert.AreEqual("Organization not found", notFoundResult.Value);
         }
 
         [Test]
         public async Task Details_WithValidInput_ReturnsCreatedAtActionResult()
         {
             // Arrange
-            var infoOrganizacionRequest = new InfoOrganizationRequest
+            var infoOrganizacionRequest = new InfoOrganizationRequestModel
             {
                 OrganizacionId = 1,
                 Organizacion = "Organizacion",
@@ -118,7 +118,7 @@ namespace backend.api.test
         public async Task Update_WhenCalled_ReturnsCreatedAtActionResult()
         {
             // Arrange
-            var infoOrganizacionRequest = new InfoOrganizationRequest
+            var infoOrganizacionRequest = new InfoOrganizationRequestModel
             {
                 OrganizacionId = 1,
                 Organizacion = "Organizacion",
@@ -170,7 +170,7 @@ namespace backend.api.test
         public async Task Update_WhenCalled_ReturnsBadRequest()
         {
             // Arrange
-            var infoOrganizacionRequest = new InfoOrganizationRequest
+            var infoOrganizacionRequest = new InfoOrganizationRequestModel
             {
                 OrganizacionId = 1,
                 Organizacion = "Organizacion",
@@ -209,7 +209,7 @@ namespace backend.api.test
 
             var notFoundResult = result as NotFoundObjectResult;
             Assert.IsNotNull(notFoundResult);
-            Assert.AreEqual("Organización no encontrada", notFoundResult.Value);
+            Assert.AreEqual("Organization not found", notFoundResult.Value);
         }
     }
 }

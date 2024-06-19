@@ -1,4 +1,4 @@
-﻿namespace backend.api.Models
+﻿namespace backend.api.Models.ResponseModels
 {
     public class UserResponseModel
     {

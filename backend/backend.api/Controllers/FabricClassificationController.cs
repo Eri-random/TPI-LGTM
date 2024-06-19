@@ -1,4 +1,5 @@
 ﻿using backend.api.Models;
+using backend.api.Models.RequestModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.ML;
 
@@ -16,7 +17,7 @@ namespace backend.api.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post([FromForm] BaseRequest request)
+        public ActionResult Post([FromForm] ImageClassificationRequestModel request)
         {
             if (!ModelState.IsValid)
             {

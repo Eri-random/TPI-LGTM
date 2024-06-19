@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using backend.api.Controllers;
 using backend.api.Mappers;
-using backend.api.Models;
+using backend.api.Models.RequestModels;
+using backend.api.Models.ResponseModels;
 using backend.servicios.Interfaces;
 using backend.servicios.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -141,7 +142,7 @@ namespace backend.api.test
             Assert.Multiple(() =>
             {
                 Assert.That(objectResult.StatusCode, Is.EqualTo(500));
-                Assert.That(objectResult.Value, Is.EqualTo("Error when generating idea"));
+                Assert.That(objectResult.Value, Is.EqualTo("Internal server error"));
             });
         }
     }

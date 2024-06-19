@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using backend.api.Models;
+using backend.api.Models.RequestModels;
+using backend.api.Models.ResponseModels;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +16,21 @@ namespace backend.api.Controllers
         private readonly IUserService _userService = userService ?? throw new ArgumentNullException(nameof(userService));
         private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
+        /// <summary>
+        /// Save a new donation.
+        /// </summary>
+        /// <param name="donationRequest">The donation request model.</param>
+        /// <response code="201">Returns the created donation.</response>
+        /// <response code="400">If the request payload is invalid.</response>
+        /// <response code="500">If there is an internal server error.</response>
         [HttpPost]
+        [ProducesResponseType(typeof(DonationRequestModel), 201)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> SaveDonacion([FromBody] DonationRequestModel donationRequest)
         {
             if (donationRequest == null)
-                return BadRequest("Datos de donacion inválidos");
+                return BadRequest("Invalid donation data");
 
             try
             {
@@ -32,49 +43,78 @@ namespace backend.api.Controllers
                     newDonation,
                     user
                 };
-                // Notificar a los clientes conectados
+
+                // Notify connected clients
                 await WebSocketHandler.NotifyNewDonationAsync(response);
 
                 return CreatedAtAction(nameof(SaveDonacion), new { organizacionId = donationRequest.OrganizacionId }, donationRequest);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al guardar donacion");
+                _logger.LogError(ex, "Error saving donation");
                 return StatusCode(500, "Internal server error");
             }
         }
 
+        /// <summary>
+        /// Get donations by user ID.
+        /// </summary>
+        /// <param name="usuarioId">The ID of the user.</param>
+        /// <response code="200">Returns the list of donations.</response>
+        /// <response code="500">If there is an internal server error.</response>
         [HttpGet("user/{usuarioId}")]
+        [ProducesResponseType(typeof(IEnumerable<DonationResponseModel>), 200)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> GetDonationsByUserId(int usuarioId)
         {
             try
             {
-                var ideas = await _donationService.GetDonationsByUserIdAsync(usuarioId);
-                return Ok(ideas);
+                var donations = await _donationService.GetDonationsByUserIdAsync(usuarioId);
+                var donationResponse = _mapper.Map<IEnumerable<DonationResponseModel>>(donations);
+
+                return Ok(donationResponse);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al obtener las donaciones del user");
-                return StatusCode(500, $"Error al obtener las donaciones del user");
+                _logger.LogError(ex, "Error retrieving user donations");
+                return StatusCode(500, "Internal server error");
             }
         }
 
+        /// <summary>
+        /// Get donations by organization ID.
+        /// </summary>
+        /// <param name="organizacionId">The ID of the organization.</param>
+        /// <response code="200">Returns the list of donations.</response>
+        /// <response code="500">If there is an internal server error.</response>
         [HttpGet("organization/{organizacionId}")]
+        [ProducesResponseType(typeof(IEnumerable<DonationResponseModel>), 200)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> GetDonationsByOrganizationId(int organizacionId)
         {
             try
             {
-                var ideas = await _donationService.GetDonationsByOrganizationIdAsync(organizacionId);
-                return Ok(ideas);
+                var donations = await _donationService.GetDonationsByOrganizationIdAsync(organizacionId);
+                var donationResponse = _mapper.Map<IEnumerable<DonationResponseModel>>(donations);
+
+                return Ok(donationResponse);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al obtener las donaciones de la organizacion");
-                return StatusCode(500, $"Error al obtener las donaciones de la organizacion");
+                _logger.LogError(ex, "Error retrieving organization donations");
+                return StatusCode(500, "Internal server error");
             }
         }
 
+        /// <summary>
+        /// Update the state of donations.
+        /// </summary>
+        /// <param name="request">The request model containing donation IDs and the new state.</param>
+        /// <response code="200">If the donations' state was successfully updated.</response>
+        /// <response code="500">If there is an internal server error.</response>
         [HttpPut("updateState")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> UpdateDonationsState([FromBody] UpdateDonationsStateRequest request)
         {
             try
@@ -84,10 +124,9 @@ namespace backend.api.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al actualizar el estado de las donaciones");
+                _logger.LogError(ex, "Error updating donation state");
                 return StatusCode(500, "Internal server error");
             }
         }
-
     }
 }

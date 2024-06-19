@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using backend.api.Controllers;
 using backend.api.Mappers;
-using backend.api.Models;
+using backend.api.Models.RequestModels;
+using backend.api.Models.ResponseModels;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -135,8 +136,8 @@ namespace backend.api.test
             Assert.That(result, Is.InstanceOf<OkObjectResult>());
             var okResult = result as OkObjectResult;
 
-            Assert.That(okResult.Value, Is.InstanceOf<List<DonationDto>>());
-            var returnValue = okResult.Value as List<DonationDto>;
+            Assert.That(okResult.Value, Is.InstanceOf<List<DonationResponseModel>>());
+            var returnValue = okResult.Value as List<DonationResponseModel>;
             Assert.That(returnValue.Count, Is.EqualTo(1));
             Assert.That(returnValue[0].UsuarioId, Is.EqualTo(userId));
         }
@@ -177,8 +178,8 @@ namespace backend.api.test
             Assert.That(result, Is.InstanceOf<OkObjectResult>());
             var okResult = result as OkObjectResult;
 
-            Assert.That(okResult.Value, Is.InstanceOf<List<DonationDto>>());
-            var returnValue = okResult.Value as List<DonationDto>;
+            Assert.That(okResult.Value, Is.InstanceOf<List<DonationResponseModel>>());
+            var returnValue = okResult.Value as List<DonationResponseModel>;
             Assert.That(returnValue.Count, Is.EqualTo(1));
             Assert.That(returnValue[0].OrganizacionId, Is.EqualTo(organizationId));
         }

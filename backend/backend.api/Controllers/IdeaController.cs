@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using backend.api.Models;
 using backend.api.Models.RequestModels;
+using backend.api.Models.ResponseModels;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
 using backend.servicios.Models;
@@ -27,8 +27,13 @@ namespace backend.api.Controllers
         /// Generates an idea based on the user message.
         /// </summary>
         /// <param name="request">The request model containing the user message.</param>
-        /// <returns>A response containing the generated idea.</returns>
+        /// <response code="200">Returns the generated idea.</response>
+        /// <response code="400">If the request payload is invalid.</response>
+        /// <response code="500">If there is an internal server error.</response>
         [HttpPost("generate")]
+        [ProducesResponseType(typeof(GenerateIdeaResponseModel), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> GenerateIdea([FromBody] GenerateIdeaRequestModel request)
         {
             if (request == null || string.IsNullOrEmpty(request.Message))
@@ -57,32 +62,26 @@ namespace backend.api.Controllers
 
                 var ideaResponse = JsonConvert.DeserializeObject<GenerateIdeaResponseModel>(idea);
 
-                // Generar imagen para la idea principal
+                // Generate image for the main idea
                 var imageGenerationRequest = new OpenAIImageRequest(ideaResponse.Idea);
                 var mainImageTask = _imageService.GenerateImageAsync(imageGenerationRequest);
 
-                // Generar imágenes para cada paso
-                var stepImageTasks = new Task<OpenAIImageResponse>[ideaResponse.Steps.Length];
-
-                for (int i = 0; i < ideaResponse.Steps.Length; i++)
-                {
-                    var stepImageRequest = new OpenAIImageRequest(ideaResponse.Steps[i]);
-                    stepImageTasks[i] = _imageService.GenerateImageAsync(stepImageRequest);
-                }
+                // Generate images for each step
+                var stepImageTasks = ideaResponse.Steps.Select(step => _imageService.GenerateImageAsync(new OpenAIImageRequest(step))).ToArray();
 
                 var mainImage = await mainImageTask;
-                //var stepImages = await Task.WhenAll(stepImageTasks);
+                // var stepImages = await Task.WhenAll(stepImageTasks);
 
-                if (mainImage != null && mainImage.Data != null && mainImage.Data.Count > 0)
+                if (mainImage?.Data != null && mainImage.Data.Count > 0)
                 {
                     ideaResponse.ImageUrl = mainImage.Data[0].Url;
                 }
 
                 //for (int i = 0; i < ideaResponse.Steps.Length; i++)
                 //{
-                //    if (stepImages[i] != null && stepImages[i].Data != null && stepImages[i].Data.Count > 0)
+                //    if (stepImages[i]?.Data != null && stepImages[i].Data.Count > 0)
                 //    {
-                //        ideaResponse.Steps[i] += $"ImageURL: {stepImages[i].Data[0].Url}";
+                //        ideaResponse.Steps[i] += $" ImageURL: {stepImages[i].Data[0].Url}";
                 //    }
                 //}
 
@@ -91,11 +90,21 @@ namespace backend.api.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error when generating idea");
-                return StatusCode(500, $"Error when generating idea");
+                return StatusCode(500, "Internal server error");
             }
         }
 
+        /// <summary>
+        /// Saves an idea.
+        /// </summary>
+        /// <param name="idea">The idea request model.</param>
+        /// <response code="201">Returns the saved idea.</response>
+        /// <response code="400">If the request payload is invalid.</response>
+        /// <response code="500">If there is an internal server error.</response>
         [HttpPost("save")]
+        [ProducesResponseType(typeof(IdeaResponseModel), 201)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> SaveIdea([FromBody] IdeaRequestModel idea)
         {
             if (idea == null)
@@ -113,27 +122,46 @@ namespace backend.api.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al guardar la idea");
-                return StatusCode(500, $"Error al guardar la idea");
+                _logger.LogError(ex, "Error saving the idea");
+                return StatusCode(500, "Internal server error");
             }
         }
 
+        /// <summary>
+        /// Get ideas by user ID.
+        /// </summary>
+        /// <param name="usuarioId">The ID of the user.</param>
+        /// <response code="200">Returns the list of ideas.</response>
+        /// <response code="500">If there is an internal server error.</response>
         [HttpGet("user/{usuarioId}")]
+        [ProducesResponseType(typeof(IEnumerable<IdeaResponseModel>), 200)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> GetIdeasByUsuarioId(int usuarioId)
         {
             try
             {
                 var ideas = await _ideaService.GetIdeasByUserIdAsync(usuarioId);
-                return Ok(ideas);
+                var ideaResponse = _mapper.Map<IEnumerable<IdeaResponseModel>>(ideas);
+                return Ok(ideaResponse);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al obtener las ideas del usuario");
-                return StatusCode(500, $"Error al obtener las ideas del usuario");
+                _logger.LogError(ex, "Error retrieving user ideas");
+                return StatusCode(500, "Internal server error");
             }
         }
 
+        /// <summary>
+        /// Get an idea by ID.
+        /// </summary>
+        /// <param name="ideaId">The ID of the idea.</param>
+        /// <response code="200">Returns the idea.</response>
+        /// <response code="404">If the idea is not found.</response>
+        /// <response code="500">If there is an internal server error.</response>
         [HttpGet("see-detail/{ideaId}")]
+        [ProducesResponseType(typeof(IdeaResponseModel), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> GetIdeaById(int ideaId)
         {
             try
@@ -141,18 +169,28 @@ namespace backend.api.Controllers
                 var idea = await _ideaService.GetIdeaByIdAsync(ideaId);
 
                 if (idea == null)
-                    return NotFound("Idea no encontrada");
+                    return NotFound("Idea not found");
 
-                return Ok(idea);
+                var ideaResponse = _mapper.Map<IdeaResponseModel>(idea);
+
+                return Ok(ideaResponse);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al obtener la idea con id {ideaId}", ideaId);
-                return StatusCode(500, "Error al obtener la idea");
+                _logger.LogError(ex, "Error retrieving idea with ID {ideaId}", ideaId);
+                return StatusCode(500, "Internal server error");
             }
         }
 
+        /// <summary>
+        /// Delete an idea by ID.
+        /// </summary>
+        /// <param name="ideaId">The ID of the idea.</param>
+        /// <response code="200">If the idea was successfully deleted.</response>
+        /// <response code="500">If there is an internal server error.</response>
         [HttpDelete("delete/{ideaId}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> DeleteIdea(int ideaId)
         {
             try
@@ -162,8 +200,8 @@ namespace backend.api.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al eliminar la idea con id {ideaId}", ideaId);
-                return StatusCode(500, "Error al eliminar la idea");
+                _logger.LogError(ex, "Error deleting idea with ID {ideaId}", ideaId);
+                return StatusCode(500, "Internal server error");
             }
         }
     }

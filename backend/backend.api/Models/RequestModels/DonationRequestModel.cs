@@ -1,4 +1,4 @@
-﻿namespace backend.api.Models
+﻿namespace backend.api.Models.RequestModels
 {
     public class DonationRequestModel
     {
@@ -8,7 +8,7 @@
 
         public int Cantidad { get; set; }
 
-        public string Estado { get; set;}
+        public string Estado { get; set; }
 
         public int UsuarioId { get; set; }
 
