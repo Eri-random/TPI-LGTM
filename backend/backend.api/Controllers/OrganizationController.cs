@@ -149,6 +149,7 @@ namespace backend.api.Controllers
             try
             {
                 await _organizationService.AssignSubcategoriesAsync(organizationId, subcategoriesDto);
+
                 return Ok(new { message = "Subcategories successfully assigned" });
             }
             catch (Exception ex)
@@ -172,6 +173,7 @@ namespace backend.api.Controllers
             try
             {
                 var subcategories = await _organizationService.GetAssignedSubcategoriesAsync(organizationId);
+
                 return Ok(subcategories);
             }
             catch (Exception ex)
@@ -197,6 +199,7 @@ namespace backend.api.Controllers
                 var groupedSubcategories = await _organizationService.GetAssignedSubcategoriesGroupedAsync(organizationId);
                 if (groupedSubcategories == null || !groupedSubcategories.Any())
                     return Ok(new List<NeedDto>());
+
                 return Ok(groupedSubcategories);
             }
             catch (Exception ex)

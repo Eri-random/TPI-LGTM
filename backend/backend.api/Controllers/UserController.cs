@@ -87,6 +87,7 @@ namespace backend.api.Controllers
             {
                 var newUser = _mapper.Map<UserDto>(userRequest);
                 await _userService.CreateUserAsync(newUser);
+
                 return CreatedAtAction(nameof(CreateUser), new { email = userRequest.Email }, userRequest);
             }
             catch (InvalidOperationException ex)
@@ -189,6 +190,7 @@ namespace backend.api.Controllers
                     return NotFound("User to delete not found");
 
                 await _userService.DeleteUserAsync(email);
+
                 return NoContent();
             }
             catch (Exception ex)

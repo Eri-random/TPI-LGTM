@@ -58,16 +58,16 @@ namespace backend.api.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> CreateSede([FromBody] List<HeadquartersRequestModel> headquartersRequestModels)
+        public async Task<IActionResult> CreateHeadquarter([FromBody] List<HeadquartersRequestModel> headquartersRequestModels)
         {
             if (headquartersRequestModels == null || !headquartersRequestModels.Any())
                 return BadRequest("Invalid headquarters data");
 
-            var headquarters = _mapper.Map<IEnumerable<HeadquartersDto>>(headquartersRequestModels).ToList();
-
             try
             {
+                var headquarters = _mapper.Map<IEnumerable<HeadquartersDto>>(headquartersRequestModels).ToList();
                 await _headquartersService.CreateHeadquartersAsync(headquarters);
+
                 return Ok();
             }
             catch (Exception ex)
@@ -145,6 +145,7 @@ namespace backend.api.Controllers
             try
             {
                 await _headquartersService.DeleteHeadquartersAsync(headquartersId);
+
                 return Ok();
             }
             catch (Exception ex)
@@ -198,11 +199,7 @@ namespace backend.api.Controllers
             try
             {
                 var (latitudeUser, longitudeUser) = await _mapsService.GetCoordinates(data.Usuario.Direccion, data.Usuario.Localidad, data.Usuario.Provincia);
-
-                var distanceOrg = DistanceCalculator.CalculateDistance(
-                    latitudeUser, longitudeUser,
-                    data.Organizacion.Latitud, data.Organizacion.Longitud
-                );
+                var distanceOrg = DistanceCalculator.CalculateDistance(latitudeUser, longitudeUser, data.Organizacion.Latitud, data.Organizacion.Longitud);
 
                 if (data.Sedes == null || !data.Sedes.Any())
                 {
@@ -217,10 +214,7 @@ namespace backend.api.Controllers
                 var headquartersWithDistance = data.Sedes.Select(sede => new
                 {
                     Sede = sede,
-                    Distancia = DistanceCalculator.CalculateDistance(
-                        latitudeUser, longitudeUser,
-                        sede.Latitud, sede.Longitud
-                    )
+                    Distancia = DistanceCalculator.CalculateDistance(latitudeUser, longitudeUser, sede.Latitud, sede.Longitud)
                 }).ToList();
 
                 var nearestHeadquarters = headquartersWithDistance.OrderBy(sd => sd.Distancia).First();

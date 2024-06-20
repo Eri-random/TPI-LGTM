@@ -72,7 +72,7 @@ namespace backend.api.test
             };
 
             // Act
-            var result = await _controller.CreateSede(headquartersRequestModels);
+            var result = await _controller.CreateHeadquarter(headquartersRequestModels);
 
             // Assert
             Assert.That(result, Is.InstanceOf<OkResult>());
