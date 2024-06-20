@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using backend.api.Models.RequestModels;
 using backend.api.Models.ResponseModels;
+using backend.servicios.Config;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
 using backend.servicios.Models;
@@ -15,13 +16,14 @@ namespace backend.api.Controllers
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
-    public class IdeaController(IGenerateIdeaApiService groqApiService, ILogger<IdeaController> logger, IIdeaService ideaService, IImageService imageService, IMapper mapper) : ControllerBase
+    public class IdeaController(IGenerateIdeaApiService groqApiService, ILogger<IdeaController> logger, IIdeaService ideaService, IImageService imageService, IMapper mapper, OpenAiApiConfig config) : ControllerBase
     {
         private readonly IGenerateIdeaApiService _groqApiService = groqApiService ?? throw new ArgumentNullException(nameof(groqApiService));
         private readonly ILogger<IdeaController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         private readonly IIdeaService _ideaService = ideaService ?? throw new ArgumentNullException(nameof(ideaService));
         private readonly IImageService _imageService = imageService ?? throw new ArgumentNullException(nameof(imageService));
         private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        private readonly OpenAiApiConfig _openAiApiConfig = config ?? throw new ArgumentNullException(nameof(config));
 
         /// <summary>
         /// Generates an idea based on the user message.
@@ -66,7 +68,7 @@ namespace backend.api.Controllers
                 if (!string.IsNullOrEmpty(image))
                     ideaResponse.ImageUrl = image;
 
-                if (true)
+                if (_openAiApiConfig.GenerateStepsImages)
                 {
                     // Generate images for each step
                     var stepImageTasks = GenerateStepsImage(ideaResponse.Steps);
