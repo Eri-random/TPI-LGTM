@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using backend.api.Models.RequestModels;
 using backend.api.Models.ResponseModels;
+using backend.servicios.Config;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
 using backend.servicios.Models;
@@ -15,13 +16,14 @@ namespace backend.api.Controllers
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
-    public class IdeaController(IGenerateIdeaApiService groqApiService, ILogger<IdeaController> logger, IIdeaService ideaService, IImageService imageService, IMapper mapper) : ControllerBase
+    public class IdeaController(IGenerateIdeaApiService groqApiService, ILogger<IdeaController> logger, IIdeaService ideaService, IImageService imageService, IMapper mapper, OpenAiApiConfig config) : ControllerBase
     {
         private readonly IGenerateIdeaApiService _groqApiService = groqApiService ?? throw new ArgumentNullException(nameof(groqApiService));
         private readonly ILogger<IdeaController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         private readonly IIdeaService _ideaService = ideaService ?? throw new ArgumentNullException(nameof(ideaService));
         private readonly IImageService _imageService = imageService ?? throw new ArgumentNullException(nameof(imageService));
         private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        private readonly OpenAiApiConfig _openAiApiConfig = config ?? throw new ArgumentNullException(nameof(config));
 
         /// <summary>
         /// Generates an idea based on the user message.
@@ -61,29 +63,25 @@ namespace backend.api.Controllers
                 _logger.LogInformation("Total time: {totalTime}", chatResponse?.Usage?.TotalTime);
 
                 var ideaResponse = JsonConvert.DeserializeObject<GenerateIdeaResponseModel>(idea);
+                var image = await GenerateMainImage(ideaResponse.Idea);
 
-                // Generate image for the main idea
-                var imageGenerationRequest = new OpenAIImageRequest(ideaResponse.Idea);
-                var mainImageTask = _imageService.GenerateImageAsync(imageGenerationRequest);
+                if (!string.IsNullOrEmpty(image))
+                    ideaResponse.ImageUrl = image;
 
-                // Generate images for each step
-                var stepImageTasks = ideaResponse.Steps.Select(step => _imageService.GenerateImageAsync(new OpenAIImageRequest(step))).ToArray();
-
-                var mainImage = await mainImageTask;
-                // var stepImages = await Task.WhenAll(stepImageTasks);
-
-                if (mainImage?.Data != null && mainImage.Data.Count > 0)
+                if (_openAiApiConfig.GenerateStepsImages)
                 {
-                    ideaResponse.ImageUrl = mainImage.Data[0].Url;
-                }
+                    // Generate images for each step
+                    var stepImageTasks = GenerateStepsImage(ideaResponse.Steps);
+                    var stepImages = await Task.WhenAll(stepImageTasks);
 
-                //for (int i = 0; i < ideaResponse.Steps.Length; i++)
-                //{
-                //    if (stepImages[i]?.Data != null && stepImages[i].Data.Count > 0)
-                //    {
-                //        ideaResponse.Steps[i] += $" ImageURL: {stepImages[i].Data[0].Url}";
-                //    }
-                //}
+                    for (int i = 0; i < ideaResponse.Steps.Length; i++)
+                    {
+                        if (stepImages[i]?.Data != null && stepImages[i].Data.Count > 0)
+                        {
+                            ideaResponse.Steps[i] += $" ImageURL: {stepImages[i].Data[0].Url}";
+                        }
+                    }
+                }
 
                 return Ok(ideaResponse);
             }
@@ -142,6 +140,7 @@ namespace backend.api.Controllers
             {
                 var ideas = await _ideaService.GetIdeasByUserIdAsync(usuarioId);
                 var ideaResponse = _mapper.Map<IEnumerable<IdeaResponseModel>>(ideas);
+
                 return Ok(ideaResponse);
             }
             catch (Exception ex)
@@ -196,6 +195,7 @@ namespace backend.api.Controllers
             try
             {
                 await _ideaService.DeleteIdeaByIdAsync(ideaId);
+
                 return Ok();
             }
             catch (Exception ex)
@@ -203,6 +203,19 @@ namespace backend.api.Controllers
                 _logger.LogError(ex, "Error deleting idea with ID {ideaId}", ideaId);
                 return StatusCode(500, "Internal server error");
             }
+        }
+
+        private async Task<string> GenerateMainImage(string idea)
+        {
+            var imageGenerationRequest = new OpenAIImageRequest(idea);
+            var imageResult = await _imageService.GenerateImageAsync(imageGenerationRequest);
+
+            return imageResult?.Data != null && imageResult.Data.Count > 0 ? imageResult.Data[0].Url : null;
+        }
+
+        private Task<OpenAIImageResponse>[] GenerateStepsImage(string[] steps)
+        {
+            return steps.Select(step => _imageService.GenerateImageAsync(new OpenAIImageRequest(step))).ToArray();
         }
     }
 }

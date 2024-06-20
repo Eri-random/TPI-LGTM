@@ -33,15 +33,15 @@ namespace backend.api.Controllers
             if (infoOrganizationRequest == null)
                 return BadRequest("Invalid organization data");
 
-            var organization = await _organizationService.GetOrganizationByIdAsync(infoOrganizationRequest.OrganizacionId);
-            if (organization == null)
-                return NotFound("Organization not found");
-
-            var infoOrganization = _mapper.Map<InfoOrganizationDto>(infoOrganizationRequest);
-
             try
             {
+                var organization = await _organizationService.GetOrganizationByIdAsync(infoOrganizationRequest.OrganizacionId);
+                if (organization == null)
+                    return NotFound("Organization not found");
+
+                var infoOrganization = _mapper.Map<InfoOrganizationDto>(infoOrganizationRequest);
                 await _organizationInfoService.SaveInfoOrganizationDataAsync(infoOrganization);
+
                 return CreatedAtAction(nameof(Details), new { id = infoOrganizationRequest.OrganizacionId }, infoOrganization);
             }
             catch (InvalidOperationException ex)
@@ -74,15 +74,15 @@ namespace backend.api.Controllers
             if (infoOrganizationRequest == null)
                 return BadRequest("Invalid organization data");
 
-            var organization = await _organizationService.GetOrganizationByIdAsync(infoOrganizationRequest.OrganizacionId);
-            if (organization == null)
-                return NotFound("Organization not found");
-
-            var infoOrganization = _mapper.Map<InfoOrganizationDto>(infoOrganizationRequest);
-
             try
             {
+                var organization = await _organizationService.GetOrganizationByIdAsync(infoOrganizationRequest.OrganizacionId);
+                if (organization == null)
+                    return NotFound("Organization not found");
+
+                var infoOrganization = _mapper.Map<InfoOrganizationDto>(infoOrganizationRequest);
                 await _organizationInfoService.UpdateInfoOrganizationAsync(infoOrganization);
+
                 return CreatedAtAction(nameof(Update), new { id = infoOrganizationRequest.OrganizacionId }, infoOrganization);
             }
             catch (InvalidOperationException ex)

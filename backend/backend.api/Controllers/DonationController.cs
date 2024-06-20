@@ -36,16 +36,7 @@ namespace backend.api.Controllers
             {
                 var newDonation = _mapper.Map<DonationDto>(donationRequest);
                 await _donationService.SaveDonationAsync(newDonation);
-                newDonation.Id = await _donationService.GetDonationIdAsync(newDonation);
-                var user = await _userService.GetUserByIdAsync(donationRequest.UsuarioId);
-                var response = new
-                {
-                    newDonation,
-                    user
-                };
-
-                // Notify connected clients
-                await WebSocketHandler.NotifyNewDonationAsync(response);
+                await GenerateNotification(newDonation, donationRequest.UsuarioId);
 
                 return CreatedAtAction(nameof(SaveDonacion), new { organizacionId = donationRequest.OrganizacionId }, donationRequest);
             }
@@ -127,6 +118,19 @@ namespace backend.api.Controllers
                 _logger.LogError(ex, "Error updating donation state");
                 return StatusCode(500, "Internal server error");
             }
+        }
+
+        private async Task GenerateNotification(DonationDto donation, int userId)
+        {
+            donation.Id = await _donationService.GetDonationIdAsync(donation);
+            var user = await _userService.GetUserByIdAsync(userId);
+            var response = new
+            {
+                donation,
+                user
+            };
+
+            await WebSocketHandler.NotifyNewDonationAsync(response);
         }
     }
 }
