@@ -1,5 +1,6 @@
 ﻿using backend.api.Models;
 using backend.api.Models.RequestModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.ML;
 
@@ -16,6 +17,7 @@ namespace backend.api.Controllers
             _predictionEnginePool = predictionEnginePool;
         }
 
+        [Authorize(Roles = "usuario")]
         [HttpPost]
         public ActionResult Post([FromForm] ImageClassificationRequestModel request)
         {
