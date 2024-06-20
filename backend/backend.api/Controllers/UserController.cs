@@ -144,6 +144,8 @@ namespace backend.api.Controllers
         /// <response code="200">Returns a success message.</response>
         /// <response code="400">If the user data is invalid or the user is not found.</response>
         /// <response code="500">If there is an internal server error.</response>
+        /// 
+        [Authorize]
         [HttpPut]
         [ProducesResponseType(typeof(object), 200)]
         [ProducesResponseType(400)]
