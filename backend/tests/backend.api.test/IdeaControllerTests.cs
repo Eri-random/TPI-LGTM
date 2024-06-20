@@ -36,7 +36,7 @@ namespace backend.api.test
             });
 
             _mapper = mappingConfig.CreateMapper();
-            _controller = new IdeaController(_groqApiServiceMock.Object, _loggerMock.Object, _ideaServiceMock.Object, _imageServiceMock.Object, _mapper);
+            _controller = new IdeaController(_groqApiServiceMock.Object, _loggerMock.Object, _ideaServiceMock.Object, _imageServiceMock.Object, _mapper, new servicios.Config.OpenAiApiConfig());
         }
 
         [Test]
