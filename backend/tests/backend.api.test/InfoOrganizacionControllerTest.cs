@@ -1,42 +1,43 @@
-﻿using backend.api.Controllers;
-using backend.api.Models;
+﻿using AutoMapper;
+using backend.api.Controllers;
+using backend.api.Mappers;
+using backend.api.Models.RequestModels;
 using backend.servicios.DTOs;
-using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
-using Castle.Components.DictionaryAdapter.Xml;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using Moq;
-using Newtonsoft.Json.Linq;
-using System.Text;
 
 namespace backend.api.test
 {
     [TestFixture]
-
     public class InfoOrganizacionControllerTest
     {
         private Mock<IOrganizationService> _organizacionService;
         private Mock<IOrganizationInfoService> _organizacionInfoService;
         private Mock<ILogger<UserController>> _logger;
+        private IMapper _mapper;
         private InfoOrganizationController _controller;
 
         [SetUp]
-
         public void SetUp()
         {
             _organizacionService = new Mock<IOrganizationService>();
             _organizacionInfoService = new Mock<IOrganizationInfoService>();
             _logger = new Mock<ILogger<UserController>>();
-            _controller = new InfoOrganizationController(_organizacionService.Object, _organizacionInfoService.Object, _logger.Object);
+
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new OrganizationProfile());
+            });
+            _mapper = mappingConfig.CreateMapper();
+
+            _controller = new InfoOrganizationController(_organizacionService.Object, _organizacionInfoService.Object, _logger.Object, _mapper);
         }
 
         [Test]
         public async Task Details_WhenCalled_ReturnsBadRequest()
         {
-
             // Act
             var result = await _controller.Details(null);
 
@@ -45,18 +46,17 @@ namespace backend.api.test
 
             var badRequestResult = result as BadRequestObjectResult;
             Assert.IsNotNull(badRequestResult);
-            Assert.AreEqual("Datos de organización inválidos", badRequestResult.Value);
+            Assert.AreEqual("Invalid organization data", badRequestResult.Value);
         }
 
         [Test]
         public async Task Details_WhenCalled_ReturnsNotFound()
         {
             // Arrange
-            var infoOrganizacionRequest = new InfoOrganizationRequest
+            var infoOrganizacionRequest = new InfoOrganizationRequestModel
             {
                 OrganizacionId = 1
             };
-
 
             _organizacionService.Setup(x => x.GetOrganizationByIdAsync(infoOrganizacionRequest.OrganizacionId))
                 .ReturnsAsync(() => null);
@@ -69,20 +69,19 @@ namespace backend.api.test
 
             var notFoundResult = result as NotFoundObjectResult;
             Assert.IsNotNull(notFoundResult);
-            Assert.AreEqual("Organización no encontrada", notFoundResult.Value);
+            Assert.AreEqual("Organization not found", notFoundResult.Value);
         }
 
         [Test]
         public async Task Details_WithValidInput_ReturnsCreatedAtActionResult()
         {
             // Arrange
-            var infoOrganizacionRequest = new InfoOrganizationRequest
+            var infoOrganizacionRequest = new InfoOrganizationRequestModel
             {
                 OrganizacionId = 1,
                 Organizacion = "Organizacion",
                 DescripcionBreve = "DescripcionBreve",
                 DescripcionCompleta = "DescripcionCompleta",
-                File = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("file content")), 0, "file content".Length, "file", "test.jpg")
             };
 
             var organizacion = new OrganizationDto
@@ -97,7 +96,7 @@ namespace backend.api.test
             _organizacionService.Setup(x => x.GetOrganizationByIdAsync(infoOrganizacionRequest.OrganizacionId))
                 .ReturnsAsync(organizacion);
 
-            _organizacionInfoService.Setup(x => x.SaveDataInfoOrganization(It.IsAny<InfoOrganizationDto>()))
+            _organizacionInfoService.Setup(x => x.SaveInfoOrganizationDataAsync(It.IsAny<InfoOrganizationDto>()))
                 .Returns(Task.CompletedTask);
 
             // Act
@@ -115,18 +114,17 @@ namespace backend.api.test
             Assert.AreEqual(infoOrganizacionRequest.Organizacion, (createdResult.Value as InfoOrganizationDto).Organizacion);
         }
 
-
         [Test]
         public async Task Update_WhenCalled_ReturnsCreatedAtActionResult()
         {
             // Arrange
-            var infoOrganizacionRequest = new InfoOrganizationRequest
+            var infoOrganizacionRequest = new InfoOrganizationRequestModel
             {
                 OrganizacionId = 1,
                 Organizacion = "Organizacion",
                 DescripcionBreve = "DescripcionBreve",
                 DescripcionCompleta = "DescripcionCompleta",
-                File = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("file content")), 0, "file content".Length, "file", "test.jpg")
+                ImageUrl = "http://localhost:5203/images/test.jpg"
             };
 
             var organizacion = new OrganizationDto
@@ -142,13 +140,11 @@ namespace backend.api.test
                 }
             };
 
-
             _organizacionService.Setup(x => x.GetOrganizationByIdAsync(infoOrganizacionRequest.OrganizacionId))
                 .ReturnsAsync(organizacion);
 
             _organizacionInfoService.Setup(x => x.UpdateInfoOrganizationAsync(It.IsAny<InfoOrganizationDto>()))
                 .Returns(Task.CompletedTask);
-
 
             // Act
             var result = await _controller.Update(infoOrganizacionRequest);
@@ -174,13 +170,12 @@ namespace backend.api.test
         public async Task Update_WhenCalled_ReturnsBadRequest()
         {
             // Arrange
-            var infoOrganizacionRequest = new InfoOrganizationRequest
+            var infoOrganizacionRequest = new InfoOrganizationRequestModel
             {
                 OrganizacionId = 1,
                 Organizacion = "Organizacion",
                 DescripcionBreve = "DescripcionBreve",
                 DescripcionCompleta = "DescripcionCompleta",
-                File = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("file content")), 0, "file content".Length, "file", "test.jpg")
             };
 
             var organizacion = new OrganizationDto
@@ -200,7 +195,7 @@ namespace backend.api.test
                 Organizacion = infoOrganizacionRequest.Organizacion,
                 DescripcionBreve = infoOrganizacionRequest.DescripcionBreve,
                 DescripcionCompleta = infoOrganizacionRequest.DescripcionCompleta,
-                Img = infoOrganizacionRequest.File.FileName,
+                Img = infoOrganizacionRequest.ImageUrl,
                 OrganizacionId = infoOrganizacionRequest.OrganizacionId
             };
 
@@ -214,7 +209,7 @@ namespace backend.api.test
 
             var notFoundResult = result as NotFoundObjectResult;
             Assert.IsNotNull(notFoundResult);
-            Assert.AreEqual("Organización no encontrada", notFoundResult.Value);
+            Assert.AreEqual("Organization not found", notFoundResult.Value);
         }
     }
 }

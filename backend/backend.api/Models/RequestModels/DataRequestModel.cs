@@ -1,6 +1,6 @@
 ﻿using backend.data.Models;
 
-namespace backend.api.Models
+namespace backend.api.Models.RequestModels
 {
     public class DataRequestModel
     {

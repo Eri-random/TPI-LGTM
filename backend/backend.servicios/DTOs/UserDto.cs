@@ -11,11 +11,8 @@
         public string Direccion { get; set; }
         public string Localidad { get; set; }
         public string Provincia { get; set; }
-        public int Rol { get; set; }
+        public int RolId { get; set; }
         public string RolNombre { get; set; }
         public OrganizationDto Organizacion { get; set; }
-
-        public double Latitud { get; set; }
-        public double Longitud { get; set; }
     }
 }

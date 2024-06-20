@@ -1,14 +1,13 @@
-﻿using backend.api.Controllers;
-using backend.api.Models;
-using backend.data.Models;
+﻿using AutoMapper;
+using backend.api.Controllers;
+using backend.api.Mappers;
+using backend.api.Models.RequestModels;
+using backend.api.Models.ResponseModels;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
-using backend.servicios.Models;
-using backend.servicios.Servicios;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Newtonsoft.Json;
 
 namespace backend.api.test
 {
@@ -19,6 +18,7 @@ namespace backend.api.test
         private Mock<IDonationService> _donationServiceMock;
         private Mock<IUserService> _userServiceMock;    
         private DonationController _controller;
+        private IMapper _mapper;
 
         [SetUp]
         public void SetUp()
@@ -26,7 +26,14 @@ namespace backend.api.test
             _loggerMock = new Mock<ILogger<DonationController>>();
             _donationServiceMock = new Mock<IDonationService>();
             _userServiceMock = new Mock<IUserService>();
-            _controller = new DonationController(_loggerMock.Object, _userServiceMock.Object, _donationServiceMock.Object);
+
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new DonationProfile());
+            });
+            _mapper = mappingConfig.CreateMapper();
+
+            _controller = new DonationController(_loggerMock.Object, _userServiceMock.Object, _donationServiceMock.Object, _mapper);
         }
 
         [Test]
@@ -129,8 +136,8 @@ namespace backend.api.test
             Assert.That(result, Is.InstanceOf<OkObjectResult>());
             var okResult = result as OkObjectResult;
 
-            Assert.That(okResult.Value, Is.InstanceOf<List<DonationDto>>());
-            var returnValue = okResult.Value as List<DonationDto>;
+            Assert.That(okResult.Value, Is.InstanceOf<List<DonationResponseModel>>());
+            var returnValue = okResult.Value as List<DonationResponseModel>;
             Assert.That(returnValue.Count, Is.EqualTo(1));
             Assert.That(returnValue[0].UsuarioId, Is.EqualTo(userId));
         }
@@ -171,8 +178,8 @@ namespace backend.api.test
             Assert.That(result, Is.InstanceOf<OkObjectResult>());
             var okResult = result as OkObjectResult;
 
-            Assert.That(okResult.Value, Is.InstanceOf<List<DonationDto>>());
-            var returnValue = okResult.Value as List<DonationDto>;
+            Assert.That(okResult.Value, Is.InstanceOf<List<DonationResponseModel>>());
+            var returnValue = okResult.Value as List<DonationResponseModel>;
             Assert.That(returnValue.Count, Is.EqualTo(1));
             Assert.That(returnValue[0].OrganizacionId, Is.EqualTo(organizationId));
         }

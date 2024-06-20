@@ -1,11 +1,16 @@
 using backend.api;
 using backend.api.Models;
 using backend.data.DataContext;
+using backend.repositories.implementations;
+using backend.repositories.interfaces;
 using backend.servicios.Config;
 using backend.servicios.Interfaces;
 using backend.servicios.Servicios;
+<<<<<<< HEAD
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+=======
+>>>>>>> d80512c131c255e2cba3db09f32a7ba6192a67cf
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.ML;
 using Microsoft.IdentityModel.Tokens;
@@ -60,12 +65,13 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMapsService, MapsService>();
 builder.Services.AddScoped<IOrganizationService, OrganizationService>();
 builder.Services.AddScoped<IDonationService,DonationService>();
-builder.Services.AddHttpClient<IMapsService, MapsService>();
 builder.Services.AddScoped<IOrganizationInfoService, InfoOrganizationService>();
 builder.Services.AddScoped<IIdeaService, IdeaService>();
-builder.Services.AddScoped<IHeadquartersService, headquartersService>();
+builder.Services.AddScoped<IHeadquartersService, HeadquartersService>();
 builder.Services.AddScoped<INeedService, NeedService>();
 //builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UserRequestModel>());
+
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 var groqApiConfig = builder.Configuration.GetSection("GroqApiConfig").Get<GroqApiConfig>();
 builder.Services.AddSingleton(groqApiConfig);
@@ -75,6 +81,8 @@ builder.Services.AddHttpClient();
 var openAiApiConfig = builder.Configuration.GetSection("OpenAiApiConfig").Get<OpenAiApiConfig>();
 builder.Services.AddSingleton(openAiApiConfig);
 builder.Services.AddSingleton<IImageService, OpenAIImageService>();
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddPredictionEnginePool<FabricModelInput, FabricModelOutput>()
     .FromFile(modelName: "ClasificacionImagen.MLModels.FabricMLModel", filePath: "MLModel/FabricMLModel.mlnet", watchForChanges: true);
@@ -98,8 +106,6 @@ builder.Services.AddAuthentication(x =>
 });
 
 var app = builder.Build();
-
-var googleMapsApiKey = app.Configuration["GoogleMapsApiKey"];
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

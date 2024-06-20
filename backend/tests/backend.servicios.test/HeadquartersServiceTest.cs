@@ -1,5 +1,9 @@
-﻿using backend.data.DataContext;
+﻿using AutoMapper;
+using backend.api.Mappers;
+using backend.data.DataContext;
 using backend.data.Models;
+using backend.repositories.implementations;
+using backend.repositories.interfaces;
 using backend.servicios.DTOs;
 using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
@@ -7,30 +11,38 @@ using backend.servicios.Servicios;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
+
 namespace backend.servicios.test
 {
     [TestFixture]
     public class HeadquartersServiceTest
     {
-        private Mock<ILogger<headquartersService>> _loggerMock;
+        private Mock<ILogger<HeadquartersService>> _loggerMock;
         private Mock<IMapsService> _mapsMock;
 
         private ApplicationDbContext _context;
-        private headquartersService _headquartersService;
+        private IRepository<Sede> _repository;
+        private HeadquartersService _headquartersService;
 
         [SetUp]
         public void SetUp()
         {
-            _loggerMock = new Mock<ILogger<headquartersService>>();
+            _loggerMock = new Mock<ILogger<HeadquartersService>>();
             _mapsMock = new Mock<IMapsService>();
 
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
-            _context = new ApplicationDbContext(options);
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new OrganizationProfile());
+            });
+            var mapper = mappingConfig.CreateMapper();
 
-            _headquartersService = new headquartersService(_context, _loggerMock.Object, _mapsMock.Object);
+            _context = new ApplicationDbContext(options);
+            _repository = new Repository<Sede>(_context);
+            _headquartersService = new HeadquartersService(_repository, _loggerMock.Object, _mapsMock.Object, mapper);
         }
 
         [Test]
@@ -40,9 +52,7 @@ namespace backend.servicios.test
             List<HeadquartersDto> headquartersDtos = null;
 
             // Act
-            async Task Act() => await _headquartersService.createHeadquartersAsync(headquartersDtos);
-
-            // Assert
+            async Task Act() => await _headquartersService.CreateHeadquartersAsync(headquartersDtos);
         }
 
         [Test]
@@ -66,7 +76,7 @@ namespace backend.servicios.test
                      .ReturnsAsync((1.0, 1.0));
 
             // Act
-            await _headquartersService.createHeadquartersAsync(headquartersDtos);
+            await _headquartersService.CreateHeadquartersAsync(headquartersDtos);
 
             // Assert
             var headquarters = await _context.Sedes.ToListAsync();
@@ -120,7 +130,7 @@ namespace backend.servicios.test
                      .ReturnsAsync((2.0, 2.0));
 
             // Act
-            await _headquartersService.updateHeadquartersAsync(headquartersDto);
+            await _headquartersService.UpdateHeadquartersAsync(headquartersDto);
 
             // Assert
             var updatedSede = await _context.Sedes.FirstOrDefaultAsync(s => s.Id == 1);
@@ -138,7 +148,7 @@ namespace backend.servicios.test
             await _context.SaveChangesAsync();
 
             // Act
-            await _headquartersService.deleteHeadquartersAsync(1);
+            await _headquartersService.DeleteHeadquartersAsync(1);
 
             // Assert
             var deletedSede = await _context.Sedes.FirstOrDefaultAsync(s => s.Id == 1);
@@ -171,7 +181,7 @@ namespace backend.servicios.test
             var lon2 = -118.2437;
 
             // Act
-            var distance = _headquartersService.CalculateDistance(lat1, lon1, lat2, lon2);
+            var distance = DistanceCalculator.CalculateDistance(lat1, lon1, lat2, lon2);
 
             // Assert
             Assert.AreEqual(3944000, Math.Round(distance), delta: 10000);

@@ -1,6 +1,6 @@
-﻿namespace backend.api.Models
+﻿namespace backend.api.Models.RequestModels
 {
-    public class UserLogInModel
+    public class UserLogInRequestModel
     {
         public string Email { get; set; }
         public string Password { get; set; }

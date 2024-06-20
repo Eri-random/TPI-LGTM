@@ -1,14 +1,15 @@
-﻿using backend.api.Controllers;
+﻿using AutoMapper;
+using backend.api.Controllers;
+using backend.api.Mappers;
 using backend.api.Models;
+using backend.api.Models.RequestModels;
+using backend.api.Models.ResponseModels;
 using backend.servicios.DTOs;
 using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
-using Castle.Components.DictionaryAdapter.Xml;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using Moq;
-using Newtonsoft.Json.Linq;
 
 namespace backend.api.test
 {
@@ -17,6 +18,7 @@ namespace backend.api.test
     {
         private Mock<IUserService> _usuarioServiceMock;
         private Mock<ILogger<UserController>> _loggerMock;
+        private IMapper _mapper;
         private UserController _controller;
 
         [SetUp]
@@ -24,7 +26,12 @@ namespace backend.api.test
         {
             _usuarioServiceMock = new Mock<IUserService>();
             _loggerMock = new Mock<ILogger<UserController>>();
-            _controller = new UserController(_usuarioServiceMock.Object, _loggerMock.Object);
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new UserProfile());
+            });
+            _mapper = mappingConfig.CreateMapper();
+            _controller = new UserController(_usuarioServiceMock.Object, _loggerMock.Object, _mapper);
         }
 
         [Test]
@@ -35,7 +42,7 @@ namespace backend.api.test
             var loggerMock = new Mock<ILogger<UserController>>();
 
             // Act & Assert
-            Assert.DoesNotThrow(() => new UserController(usuarioServiceMock.Object, loggerMock.Object));
+            Assert.DoesNotThrow(() => new UserController(usuarioServiceMock.Object, loggerMock.Object, _mapper));
         }
 
         [Test]
@@ -45,7 +52,7 @@ namespace backend.api.test
             var loggerMock = new Mock<ILogger<UserController>>();
 
             // Act & Assert
-            var ex = Assert.Throws<ArgumentNullException>(() => new UserController(null, loggerMock.Object));
+            var ex = Assert.Throws<ArgumentNullException>(() => new UserController(null, loggerMock.Object, _mapper));
             Assert.That(ex.ParamName, Is.EqualTo("userService"));
         }
 
@@ -56,7 +63,7 @@ namespace backend.api.test
             var usuarioServiceMock = new Mock<IUserService>();
 
             // Act & Assert
-            var ex = Assert.Throws<ArgumentNullException>(() => new UserController(usuarioServiceMock.Object, null));
+            var ex = Assert.Throws<ArgumentNullException>(() => new UserController(usuarioServiceMock.Object, null, _mapper));
             Assert.That(ex.ParamName, Is.EqualTo("logger"));
         }
 
@@ -115,7 +122,6 @@ namespace backend.api.test
             Assert.That(statusCodeResult, Is.Not.Null);
             Assert.That(statusCodeResult.StatusCode, Is.EqualTo(500));
 
-
             _loggerMock.Verify(
                     x => x.Log(
                         It.Is<LogLevel>(l => l == LogLevel.Error),
@@ -130,7 +136,7 @@ namespace backend.api.test
         {
             // Arrange
             string email = "test@example.com";
-            var mockUsuario = new UserDto { Id = 1, Nombre = "Test", Apellido = "User", Email = email, Telefono = "1234567890", Rol = 1, Provincia = "SomeProvince", Localidad = "SomeCity", Direccion = "123 Test St" };
+            var mockUsuario = new UserDto { Id = 1, Nombre = "Test", Apellido = "User", Email = email, Telefono = "1234567890", RolId = 1, Provincia = "SomeProvince", Localidad = "SomeCity", Direccion = "123 Test St" };
             _usuarioServiceMock.Setup(x => x.GetUserByEmailAsync(email)).ReturnsAsync(mockUsuario);
 
             // Act
@@ -187,7 +193,7 @@ namespace backend.api.test
         public async Task Authenticate_ValidCredentials_ReturnsOk()
         {
             // Arrange
-            var usuarioLogIn = new UserLogInModel
+            var usuarioLogIn = new UserLogInRequestModel
             {
                 Email = "john@example.com",
                 Password = "securePassword123"
@@ -195,7 +201,7 @@ namespace backend.api.test
 
             var hashedPassword = PasswordHasher.HashPassword(usuarioLogIn.Password);
 
-            var mockUsuario = new UserDto { Id = 1, Nombre = "Test", Apellido = "User", Email = usuarioLogIn.Email, Password = hashedPassword, Telefono = "1234567890", Rol = 1,RolNombre = "usuario", Provincia = "SomeProvince", Localidad = "SomeCity", Direccion = "123 Test St" };
+            var mockUsuario = new UserDto { Id = 1, Nombre = "Test", Apellido = "User", Email = usuarioLogIn.Email, Password = hashedPassword, Telefono = "1234567890", RolId = 1,RolNombre = "usuario", Provincia = "SomeProvince", Localidad = "SomeCity", Direccion = "123 Test St" };
             _usuarioServiceMock.Setup(x => x.GetUserByEmailAsync(usuarioLogIn.Email)).ReturnsAsync(mockUsuario);
 
             // Act
@@ -212,7 +218,7 @@ namespace backend.api.test
         public async Task Authenticate_InvalidCredentials_ReturnsBadRequest()
         {
             // Arrange
-            var usuarioLogIn = new UserLogInModel
+            var usuarioLogIn = new UserLogInRequestModel
             {
                 Email = "john@example.com",
                 Password = "wrongPassword"
@@ -228,7 +234,7 @@ namespace backend.api.test
             Assert.IsInstanceOf<BadRequestObjectResult>(result); // Verifica que el resultado sea un BadRequestObjectResult
             var badRequestResult = result as BadRequestObjectResult;
             Assert.That(badRequestResult.StatusCode, Is.EqualTo(400));
-            Assert.That(badRequestResult.Value, Is.EqualTo("usuario y/o contraseña incorrectos")); // Verifica el mensaje de error
+            Assert.That(badRequestResult.Value, Is.EqualTo("Invalid username or password")); // Verifica el mensaje de error
         }
 
         [Test]
@@ -240,7 +246,7 @@ namespace backend.api.test
             // Assert
             Assert.That(result, Is.InstanceOf<BadRequestObjectResult>());
             var badRequestResult = result as BadRequestObjectResult;
-            Assert.That(badRequestResult?.Value, Is.EqualTo("Datos de usuario inválidos"));
+            Assert.That(badRequestResult?.Value, Is.EqualTo("Invalid user data"));
         }
 
         [Test]
@@ -321,7 +327,7 @@ namespace backend.api.test
             // Assert
             Assert.That(result, Is.InstanceOf<BadRequestObjectResult>());
             var badRequestResult = result as BadRequestObjectResult;
-            Assert.That(badRequestResult?.Value, Is.EqualTo("Datos de usuario inválidos"));
+            Assert.That(badRequestResult?.Value, Is.EqualTo("Invalid user data"));
         }
 
         [Test]
@@ -405,7 +411,7 @@ namespace backend.api.test
             // Assert
             Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
             var notFoundResult = result as NotFoundObjectResult;
-            Assert.That(notFoundResult?.Value, Is.EqualTo("Usuario a eliminar no encontrado"));
+            Assert.That(notFoundResult?.Value, Is.EqualTo("User to delete not found"));
         }
 
         [Test]
@@ -452,7 +458,6 @@ namespace backend.api.test
                     It.IsAny<Exception>(),
                     It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)), Times.Once);
         }
-
 
         private static List<UserDto> GetSampleUsuarios() => [
                     new UserDto { Id = 1, Nombre = "Alice", Apellido = "Johnson", Email = "alice@example.com", Telefono = "1234567890" },

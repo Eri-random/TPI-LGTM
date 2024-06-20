@@ -1,41 +1,29 @@
-﻿using backend.data.DataContext;
+﻿using AutoMapper;
 using backend.data.Models;
+using backend.repositories.interfaces;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace backend.servicios.Servicios
 {
-    public class IdeaService(ApplicationDbContext context, ILogger<IdeaService> logger) : IIdeaService
+    public class IdeaService(IRepository<Idea> ideaRepository, IRepository<Paso> pasoRepository, ILogger<IdeaService> logger, IMapper mapper) : IIdeaService
     {
-        private readonly ApplicationDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
+        private readonly IRepository<Idea> _ideaRepository = ideaRepository ?? throw new ArgumentNullException(nameof(ideaRepository));
+        private readonly IRepository<Paso> _pasoRepository = pasoRepository ?? throw new ArgumentNullException(nameof(pasoRepository));
         private readonly ILogger<IdeaService> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
         public async Task SaveIdeaAsync(IdeaDto ideaDto)
         {
             if (ideaDto == null)
                 throw new ArgumentNullException(nameof(ideaDto), "La idea proporcionada no puede ser nula.");
 
-            var idea = new Idea
-            {
-                Titulo = ideaDto.Titulo,
-                UsuarioId = ideaDto.UsuarioId,
-                Dificultad = ideaDto.Dificultad,
-                Pasos = ideaDto.Pasos.Select(paso => new Paso
-                {
-                    PasoNum = paso.PasoNum,
-                    Descripcion = paso.Descripcion,
-                    ImagenUrl = paso.ImagenUrl
-                }).ToList(),
-                ImageUrl = ideaDto.ImageUrl
-            };
-
             try
             {
-                _context.Add(idea);
-                await _context.SaveChangesAsync();
-
+                var idea = _mapper.Map<Idea>(ideaDto);
+                idea.Pasos = _mapper.Map<List<Paso>>(ideaDto.Pasos);
+                await _ideaRepository.AddAsync(idea);
             }
             catch (Exception ex)
             {
@@ -48,28 +36,10 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var ideas = await _context.Ideas
-                    .Include(i => i.Pasos)
-                    .Where(i => i.UsuarioId == userId)
-                    .Select(i => new IdeaDto
-                    {
-                        Id = i.Id,
-                        Titulo = i.Titulo,
-                        UsuarioId = i.UsuarioId,
-                        Dificultad = i.Dificultad,
-                        Pasos = i.Pasos.Select(p => new StepDto
-                        {
-                            Id = p.Id,
-                            PasoNum = p.PasoNum,
-                            Descripcion = p.Descripcion,
-                            IdeaId = p.IdeaId
-                        }).ToList(),
-                       ImageUrl = i.ImageUrl
+                var ideas = await _ideaRepository.GetAllAsync(x => x.Pasos);
+                var ideasFromUser = ideas.Where(x => x.UsuarioId == userId);
 
-                    }).ToListAsync();
-
-                return ideas;
-
+                return _mapper.Map<IEnumerable<IdeaDto>>(ideasFromUser);
             }
             catch (Exception ex)
             {
@@ -82,29 +52,13 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var idea = await _context.Ideas
-                    .Include(i => i.Pasos)
-                    .FirstOrDefaultAsync(i => i.Id == ideaId);
+                var ideas = await _ideaRepository.GetAllAsync(x => x.Pasos);
+                var idea = ideas.FirstOrDefault(x => x.Id == ideaId);
 
                 if (idea == null)
-                {
                     return null;
-                }
 
-                return new IdeaDto
-                {
-                    Titulo = idea.Titulo,
-                    UsuarioId = idea.UsuarioId,
-                    Dificultad = idea.Dificultad,
-                    Pasos = idea.Pasos.Select(p => new StepDto
-                    {
-                        PasoNum = p.PasoNum,
-                        Descripcion = p.Descripcion,
-                        ImagenUrl = p.ImagenUrl
-                    }).ToList(),
-                    ImageUrl = idea.ImageUrl
-                };
-
+                return _mapper.Map<IdeaDto>(idea);
             }
             catch (Exception ex)
             {
@@ -117,17 +71,14 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var idea = await _context.Ideas
-                    .Include(i => i.Pasos)
-                    .FirstOrDefaultAsync(i => i.Id == ideaId);
+                var ideas = await _ideaRepository.GetAllAsync(x => x.Pasos);
+                var idea = ideas.FirstOrDefault(i => i.Id == ideaId);
 
                 if (idea == null)
                     throw new InvalidOperationException("La idea no existe.");
 
-                _context.Pasos.RemoveRange(idea.Pasos);
-                _context.Ideas.Remove(idea);
-
-                await _context.SaveChangesAsync();
+                await _pasoRepository.DeleteRangeAsync(idea.Pasos);
+                await _ideaRepository.DeleteAsync(idea.Id);
             }
             catch (Exception ex)
             {

@@ -1,6 +1,6 @@
-﻿namespace backend.api.Models
+﻿namespace backend.api.Models.ResponseModels
 {
-    public class HeadquartersNearby
+    public class HeadquartersNearbyResponseModel
     {
         public int Id { get; set; }
         public double Distancia { get; set; }

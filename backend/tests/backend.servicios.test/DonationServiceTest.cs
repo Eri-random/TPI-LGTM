@@ -1,8 +1,10 @@
-﻿using backend.data.DataContext;
+﻿using AutoMapper;
+using backend.api.Mappers;
+using backend.data.DataContext;
 using backend.data.Models;
+using backend.repositories.implementations;
+using backend.repositories.interfaces;
 using backend.servicios.DTOs;
-using backend.servicios.Helpers;
-using backend.servicios.Interfaces;
 using backend.servicios.Servicios;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -16,6 +18,7 @@ namespace backend.servicios.test
         private Mock<ILogger<DonationService>> _loggerMock;
 
         private ApplicationDbContext _context;
+        private IRepository<Donacion> _repository;
         private DonationService _donationService;
 
         [SetUp]
@@ -27,9 +30,17 @@ namespace backend.servicios.test
                 .UseInMemoryDatabase(databaseName: "DonationServiceTest")
                 .Options;
 
-            _context = new ApplicationDbContext(options);
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new DonationProfile());
+                mc.AddProfile(new OrganizationProfile());
+                mc.AddProfile(new UserProfile());
+            });
+            var mapper = mappingConfig.CreateMapper();
 
-            _donationService = new DonationService(_context, _loggerMock.Object);
+            _context = new ApplicationDbContext(options);
+            _repository = new Repository<Donacion>(_context);
+            _donationService = new DonationService(_repository, _loggerMock.Object, mapper);
         }
 
         [Test]

@@ -1,44 +1,27 @@
-﻿using backend.data.DataContext;
+﻿using AutoMapper;
 using backend.data.Models;
+using backend.repositories.interfaces;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace backend.servicios.Servicios
 {
-    public class DonationService(ApplicationDbContext context, ILogger<DonationService> logger) : IDonationService
+    public class DonationService(IRepository<Donacion> repository, ILogger<DonationService> logger, IMapper mapper) : IDonationService
     {
-
-        private readonly ApplicationDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
+        private readonly IRepository<Donacion> _donacionRepository = repository ?? throw new ArgumentNullException(nameof(repository));
         private readonly ILogger<DonationService> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
         public async Task SaveDonationAsync(DonationDto donationDto)
         {
             if (donationDto == null)
-                throw new ArgumentNullException(nameof(donationDto), "La donacion proporcionada no puede ser nulo.");
-
-            var donation = new Donacion
-            {
-                Producto = donationDto.Producto,
-                Cantidad = donationDto.Cantidad,
-                Estado = donationDto.Estado,
-                UsuarioId = donationDto.UsuarioId,
-                OrganizacionId = donationDto.OrganizacionId
-            };
-
+                throw new ArgumentNullException(nameof(donationDto), "La donacion proporcionada no puede ser nula.");
 
             try
             {
-                _context.Donacions.Add(donation);
-                await _context.SaveChangesAsync();
-
+                var donation = _mapper.Map<Donacion>(donationDto);
+                await _donacionRepository.AddAsync(donation);
             }
             catch (Exception ex)
             {
@@ -51,25 +34,10 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var donaciones = await _context.Donacions
-                    .Include(u => u.Usuario)
-                    .Where(u => u.OrganizacionId == organizacionId)
-                    .OrderByDescending(u => u.Id) // Ordenar por Id descendente
-                    .Select(u => new DonationDto
-                    {
-                        Id = u.Id,
-                        Producto = u.Producto,
-                        Cantidad = u.Cantidad,
-                        Estado = u.Estado,
-                        Usuario = new UserDto()
-                        {
-                            Nombre = u.Usuario.Nombre,
-                            Telefono = u.Usuario.Telefono,
-                            Email = u.Usuario.Email
-                        }
-                    }).ToListAsync();
+                var donaciones = await _donacionRepository.GetAllAsync(x => x.Usuario);
+                var donationsFromOrg = donaciones.Where(x => x.OrganizacionId == organizacionId).OrderByDescending(x => x.Id);
 
-                return donaciones;
+                return _mapper.Map<IEnumerable<DonationDto>>(donationsFromOrg);
             }
             catch (Exception ex)
             {
@@ -82,27 +50,10 @@ namespace backend.servicios.Servicios
         {
             try
             {
-                var donaciones = await _context.Donacions
-                    .Include(u => u.Usuario)
-                    .Where(u => u.UsuarioId == usuarioId)
-                    .Select(u => new DonationDto
-                    {
-                        Id = u.Id,
-                        Producto = u.Producto,
-                        Cantidad = u.Cantidad,
-                        Estado = u.Estado,
-                        OrganizacionId = u.OrganizacionId,
-                        Usuario = new UserDto()
-                        {
-                            Nombre = u.Usuario.Nombre,
-                            Telefono = u.Usuario.Telefono,
-                            Email = u.Usuario.Email
-                        }
+                var donaciones = await _donacionRepository.GetAllAsync(x => x.Usuario);
+                var donationsFromUser = donaciones.Where(u => u.UsuarioId == usuarioId);
 
-                    }).ToListAsync();
-
-                return donaciones;
-
+                return _mapper.Map<IEnumerable<DonationDto>>(donationsFromUser);
             }
             catch (Exception ex)
             {
@@ -113,9 +64,8 @@ namespace backend.servicios.Servicios
 
         public async Task UpdateDonationsStateAsync(List<int> donationIds, string state)
         {
-            var donations = await _context.Donacions
-                                          .Where(d => donationIds.Contains(d.Id))
-                                          .ToListAsync();
+            var allDonations = await _donacionRepository.GetAllAsync();
+            var donations = allDonations.Where(x => donationIds.Contains(x.Id));
 
             if (donations == null || !donations.Any())
             {
@@ -129,8 +79,7 @@ namespace backend.servicios.Servicios
 
             try
             {
-                _context.UpdateRange(donations);
-                await _context.SaveChangesAsync();
+                await _donacionRepository.UpdateRangeAsync(donations);
             }
             catch (Exception ex)
             {
@@ -139,14 +88,14 @@ namespace backend.servicios.Servicios
             }
         }
 
-        public async Task<int> GetIdDonationAsync(DonationDto newDonation)
+        public async Task<int> GetDonationIdAsync(DonationDto newDonation)
         {
-            var donation = await _context.Donacions
-                .FirstOrDefaultAsync(d => d.Producto == newDonation.Producto
-                               && d.Cantidad == newDonation.Cantidad
-                               && d.UsuarioId == newDonation.UsuarioId
-                               && d.OrganizacionId == newDonation.OrganizacionId
-                               && d.Estado == newDonation.Estado);
+            var donations = await _donacionRepository.GetAllAsync();
+            var donation = donations.FirstOrDefault(d => d.Producto.Equals(newDonation.Producto)
+                && d.Cantidad == newDonation.Cantidad
+                && d.UsuarioId == newDonation.UsuarioId
+                && d.OrganizacionId == newDonation.OrganizacionId
+                && d.Estado.Equals(newDonation.Estado));
 
             return donation?.Id ?? 0;
         }

@@ -24,7 +24,7 @@
           <div class="row">
             <div class="col text-center">
               <p
-                *ngIf="response.dificultad === 'Facil'"
+                *ngIf="response.dificultad === 'Fácil'"
                 class="dificultad lead mb-3"
               >
                 Nivel de dificultad:
@@ -38,7 +38,7 @@
                 <span class="medium">{{ response.dificultad }}</span>
               </p>
               <p
-                *ngIf="response.dificultad === 'Dificil'"
+                *ngIf="response.dificultad === 'Difícil'"
                 class="dificultad lead mb-3"
               >
                 Nivel de dificultad:
@@ -50,7 +50,7 @@
             <div class="col-lg-4 justify-content-center imagen-idea">
               <img *ngIf="response.imageUrl != null; else placeholder" [src]="response.imageUrl" alt="Imagen" class="img-fluid border-radius-lg mb-4">
               <ng-template #placeholder>
-                <img src="../assets/img/idea-placeholder-2.png" alt="Placeholder" class="img-fluid border-radius-lg mb-4">
+                <img src="../assets/img/idea-noimage.png" alt="Placeholder" class="img-fluid border-radius-lg mb-4">
               </ng-template>
             </div>
             <div class="col-lg-8">
@@ -94,7 +94,7 @@
                   class="accordion-item"
                   *ngFor="let step of formattedSteps; let i = index"
                 >
-                  <div *ngIf="i === 0">
+                  
                     <h2 class="accordion-header" [attr.id]="'heading_' + i">
                       <button
                         class="accordion-button border-bottom text-lg font-weight-bold"
@@ -114,9 +114,8 @@
                       [attr.id]="'collapse_' + i"
                       class="accordion-collapse collapse show"
                       [attr.aria-labelledby]="'heading_' + i"
-                      data-bs-parent="#accordionSteps"
                     >
-                      <div class="accordion-body">
+                      <div class="accordion-body vertical-alignment">
                         <p>{{ step.text }}</p>
                         <img
                           *ngIf="step.imageUrl"
@@ -126,41 +125,8 @@
                         />
                       </div>
                     </div>
-                  </div>
+                
 
-                  <div *ngIf="i !== 0">
-                    <h2 class="accordion-header" [attr.id]="'heading_' + i">
-                      <button
-                        class="accordion-button border-bottom text-lg font-weight-bold collapsed"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        [attr.data-parent]="'#accordion_' + i"
-                        [attr.href]="'#collapse_' + i"
-                      >
-                        <i class="fas fa-clipboard-check pe-3"></i>
-                        Paso N°{{ i + 1 }}
-                        <i
-                          class="collapse-close fa fa-plus text-md pt-1 position-absolute end-0 me-3"
-                        ></i>
-                      </button>
-                    </h2>
-                    <div
-                      [attr.id]="'collapse_' + i"
-                      class="accordion-collapse collapse"
-                      [attr.aria-labelledby]="'heading_' + i"
-                      data-bs-parent="#accordionSteps"
-                    >
-                      <div class="accordion-body">
-                        <p>{{ step.text }}</p>
-                        <img
-                          *ngIf="step.imageUrl"
-                          [src]="step.imageUrl"
-                          alt="Step image"
-                          class="img-fluid step-image"
-                        />
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

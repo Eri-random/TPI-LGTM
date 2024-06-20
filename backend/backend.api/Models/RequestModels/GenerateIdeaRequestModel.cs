@@ -1,4 +1,4 @@
-﻿namespace backend.api.Models
+﻿namespace backend.api.Models.RequestModels
 {
     /// <summary>
     /// Model representing the request to generate an idea.

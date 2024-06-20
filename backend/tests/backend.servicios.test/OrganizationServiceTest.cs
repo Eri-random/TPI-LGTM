@@ -1,16 +1,15 @@
-﻿using backend.data.DataContext;
+﻿using AutoMapper;
+using backend.api.Mappers;
+using backend.data.DataContext;
 using backend.data.Models;
+using backend.repositories.implementations;
+using backend.repositories.interfaces;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
 using backend.servicios.Servicios;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace backend.servicios.test
 {
@@ -21,6 +20,8 @@ namespace backend.servicios.test
         private Mock<IMapsService> _mapsMock;
         private ApplicationDbContext _context;
         private OrganizationService _organizationService;
+        private IRepository<Organizacion> _organizacionRepository;
+        private IRepository<Subcategorium> _subcategoriumRepository;
 
         [SetUp]
         public void SetUp()
@@ -28,12 +29,20 @@ namespace backend.servicios.test
             _loggerMock = new Mock<ILogger<OrganizationService>>();
             _mapsMock = new Mock<IMapsService>();
 
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new OrganizationProfile());
+            });
+            var mapper = mappingConfig.CreateMapper();
+
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
             _context = new ApplicationDbContext(options);
-            _organizationService = new OrganizationService(_context, _loggerMock.Object, _mapsMock.Object);
+            _organizacionRepository = new Repository<Organizacion>(_context);
+            _subcategoriumRepository = new Repository<Subcategorium>(_context);
+            _organizationService = new OrganizationService(_organizacionRepository, _subcategoriumRepository, _loggerMock.Object, _mapsMock.Object, mapper);
         }
 
         [TearDown]
@@ -41,7 +50,6 @@ namespace backend.servicios.test
         {
             _context.Dispose();
         }
-
 
         [Test]
         public async Task SaveOrganizationAsync_WhenOrganizationDtoIsValid_SavesSuccessfully()

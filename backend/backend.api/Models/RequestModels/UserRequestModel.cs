@@ -1,6 +1,6 @@
 ﻿using backend.servicios.DTOs;
 
-namespace backend.api.Models
+namespace backend.api.Models.RequestModels
 {
     public class UserRequestModel
     {
@@ -13,6 +13,6 @@ namespace backend.api.Models
         public string Localidad { get; set; }
         public string Provincia { get; set; }
         public int RolId { get; set; }
-        public OrganizationDto Organizacion { get; set;}
+        public OrganizationDto Organizacion { get; set; }
     }
 }

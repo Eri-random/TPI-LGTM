@@ -1,5 +1,4 @@
-﻿using backend.servicios.DTOs;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
@@ -13,7 +12,7 @@ namespace backend.api
         public static async Task HandleWebSocketAsync(HttpContext context, WebSocket webSocket, string socketId)
         {
             var buffer = new byte[1024 * 4];
-            WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+            var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
 
             while (!result.CloseStatus.HasValue)
             {

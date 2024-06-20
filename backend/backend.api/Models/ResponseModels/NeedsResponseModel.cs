@@ -1,6 +1,6 @@
 ﻿using backend.servicios.DTOs;
 
-namespace backend.api.Models
+namespace backend.api.Models.ResponseModels
 {
     public class NeedsResponseModel
     {

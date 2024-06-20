@@ -1,5 +1,9 @@
-﻿using backend.data.DataContext;
+﻿using AutoMapper;
+using backend.api.Mappers;
+using backend.data.DataContext;
 using backend.data.Models;
+using backend.repositories.implementations;
+using backend.repositories.interfaces;
 using backend.servicios.DTOs;
 using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
@@ -17,14 +21,21 @@ namespace backend.servicios.test
         private Mock<IMapsService> _mapsMock;
 
         private ApplicationDbContext _context;
+        private IRepository<Usuario> _repository;
         private UserService _usuarioService;
-
+        private IMapper _mapper;
 
         [SetUp]
         public void SetUp()
         {
             _loggerMock = new Mock<ILogger<UserService>>();
             _mapsMock = new Mock<IMapsService>();
+
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new UserProfile());
+            });
+            _mapper = mappingConfig.CreateMapper();
 
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
@@ -43,29 +54,30 @@ namespace backend.servicios.test
             );
 
             _context.SaveChanges();
-            _usuarioService = new UserService(_context, _loggerMock.Object, _mapsMock.Object);
+            _repository = new Repository<Usuario>(_context);
+            _usuarioService = new UserService(_repository, _loggerMock.Object, _mapsMock.Object, _mapper);
         }
 
         [Test]
         public void Constructor_WithAllDependencies_ShouldNotThrowException()
         {
             // Act & Assert
-            Assert.DoesNotThrow(() => new UserService(_context, _loggerMock.Object, _mapsMock.Object));
+            Assert.DoesNotThrow(() => new UserService(_repository, _loggerMock.Object, _mapsMock.Object, _mapper));
         }
 
         [Test]
         public void Constructor_WithNullDbContext_ShouldThrowArgumentNullException()
         {
             // Act & Assert
-            var ex = Assert.Throws<ArgumentNullException>(() => new UserService(null, _loggerMock.Object, _mapsMock.Object));
-            Assert.That(ex.ParamName, Is.EqualTo("context"));
+            var ex = Assert.Throws<ArgumentNullException>(() => new UserService(null, _loggerMock.Object, _mapsMock.Object, _mapper));
+            Assert.That(ex.ParamName, Is.EqualTo("repository"));
         }
 
         [Test]
         public void Constructor_WithNullLogger_ShouldThrowArgumentNullException()
         {
             // Act & Assert
-            var ex = Assert.Throws<ArgumentNullException>(() => new UserService(_context, null, _mapsMock.Object));
+            var ex = Assert.Throws<ArgumentNullException>(() => new UserService(_repository, null, _mapsMock.Object, _mapper));
             Assert.That(ex.ParamName, Is.EqualTo("logger"));
         }
 
@@ -241,6 +253,7 @@ namespace backend.servicios.test
         {
             // Arrange
             var testEmail = "existing@example.com";
+            
             _context.Usuarios.Add(new Usuario
             {
                 Email = testEmail,
@@ -250,7 +263,8 @@ namespace backend.servicios.test
                 Direccion = "Old Address",
                 Localidad = "Old City",
                 Provincia = "Old State",
-                Contrasena = PasswordHasher.HashPassword("OldPassword") // Hash the old password
+                Password = PasswordHasher.HashPassword("OldPassword"), // Hash the old password
+                RolId = 1
             });
             await _context.SaveChangesAsync();
 
@@ -282,6 +296,7 @@ namespace backend.servicios.test
                 Assert.That(updatedUser.Provincia, Is.EqualTo("New State"));
             });
         }
+
         [Test]
         public void DeleteUsuarioAsync_NullOrEmptyEmail_ThrowsArgumentNullException()
         {
@@ -322,7 +337,6 @@ namespace backend.servicios.test
             // Assert
             Assert.IsNull(deletedUser);
         }
-
 
         [TearDown]
         public void TearDown()

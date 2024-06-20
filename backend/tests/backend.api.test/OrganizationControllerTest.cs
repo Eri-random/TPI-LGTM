@@ -1,22 +1,21 @@
-﻿using System;
+﻿using AutoMapper;
 using backend.api.Controllers;
-using backend.api.Models;
-using backend.data.Models;
+using backend.api.Mappers;
+using backend.api.Models.ResponseModels;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
-using backend.servicios.Models;
-using backend.servicios.Servicios;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Newtonsoft.Json;
 
 namespace backend.api.test
 {
+    [TestFixture]
     public class OrganizationControllerTest
     {
         private Mock<IOrganizationService> _organizationServiceMock;
         private Mock<ILogger<UserController>> _loggerMock;
+        private IMapper _mapper;
         private OrganizationController _controller;
 
         [SetUp]
@@ -24,7 +23,13 @@ namespace backend.api.test
         {
             _organizationServiceMock = new Mock<IOrganizationService>();
             _loggerMock = new Mock<ILogger<UserController>>();
-            _controller = new OrganizationController(_organizationServiceMock.Object, _loggerMock.Object);
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new OrganizationProfile());
+            });
+
+            _mapper = mappingConfig.CreateMapper();
+            _controller = new OrganizationController(_organizationServiceMock.Object, _loggerMock.Object, _mapper);
         }
 
         [Test]
@@ -82,7 +87,7 @@ namespace backend.api.test
             _organizationServiceMock.Setup(service => service.GetOrganizationByCuitAsync("12345678")).ReturnsAsync(organizationDto);
 
             // Act
-            var result = await _controller.GetOrganizacionByCuit("12345678");
+            var result = await _controller.GetOrganizationByCuit("12345678");
 
             // Assert
             Assert.That(result, Is.InstanceOf<OkObjectResult>());
@@ -100,12 +105,12 @@ namespace backend.api.test
             _organizationServiceMock.Setup(service => service.GetOrganizationByCuitAsync("12345678")).ReturnsAsync((OrganizationDto)null);
 
             // Act
-            var result = await _controller.GetOrganizacionByCuit("12345678");
+            var result = await _controller.GetOrganizationByCuit("12345678");
 
             // Assert
             Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
             var notFoundResult = result as NotFoundObjectResult;
-            Assert.That(notFoundResult.Value, Is.EqualTo("Organizacion no encontrada"));
+            Assert.That(notFoundResult.Value, Is.EqualTo("Organization not found"));
         }
 
         [Test]
@@ -148,7 +153,7 @@ namespace backend.api.test
             // Assert
             Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
             var notFoundResult = result as NotFoundObjectResult;
-            Assert.That(notFoundResult.Value, Is.EqualTo("Organizacion no encontrada"));
+            Assert.That(notFoundResult.Value, Is.EqualTo("Organization not found"));
         }
 
         [Test]
@@ -165,6 +170,5 @@ namespace backend.api.test
             var objectResult = result as ObjectResult;
             Assert.That(objectResult.StatusCode, Is.EqualTo(500));
         }
-
     }
 }

@@ -1,15 +1,14 @@
-﻿namespace backend.api.Models
+﻿namespace backend.api.Models.RequestModels
 {
-    public class InfoOrganizationRequest
+    public class InfoOrganizationRequestModel
     {
-
         public string Organizacion { get; set; }
 
         public string DescripcionBreve { get; set; }
 
         public string DescripcionCompleta { get; set; }
 
-        public IFormFile File { get; set; }
+        public string ImageUrl { get; set; }
 
         public int OrganizacionId { get; set; }
     }

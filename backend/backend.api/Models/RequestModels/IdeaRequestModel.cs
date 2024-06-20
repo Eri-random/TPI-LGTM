@@ -1,11 +1,9 @@
-﻿using backend.data.Models;
-using backend.servicios.DTOs;
+﻿using backend.servicios.DTOs;
 
-namespace backend.api.Models
+namespace backend.api.Models.RequestModels
 {
-    public class IdeaResponseModel
+    public class IdeaRequestModel
     {
-        public int Id { get; set; }
         public string Titulo { get; set; }
         public int UsuarioId { get; set; }
         public string Dificultad { get; set; }

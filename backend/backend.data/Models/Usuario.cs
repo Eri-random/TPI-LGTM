@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace backend.data.Models;
+﻿namespace backend.data.Models;
 
 public partial class Usuario
 {
@@ -13,7 +10,7 @@ public partial class Usuario
 
     public string Email { get; set; }
 
-    public string Contrasena { get; set; }
+    public string Password { get; set; }
 
     public string Telefono { get; set; }
 
