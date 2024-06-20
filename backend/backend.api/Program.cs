@@ -6,11 +6,8 @@ using backend.repositories.interfaces;
 using backend.servicios.Config;
 using backend.servicios.Interfaces;
 using backend.servicios.Servicios;
-<<<<<<< HEAD
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-=======
->>>>>>> d80512c131c255e2cba3db09f32a7ba6192a67cf
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.ML;
 using Microsoft.IdentityModel.Tokens;
