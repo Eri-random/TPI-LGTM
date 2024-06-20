@@ -5,6 +5,7 @@ using backend.servicios.Config;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
 using backend.servicios.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -32,6 +33,8 @@ namespace backend.api.Controllers
         /// <response code="200">Returns the generated idea.</response>
         /// <response code="400">If the request payload is invalid.</response>
         /// <response code="500">If there is an internal server error.</response>
+        /// 
+        [Authorize(Roles = "usuario")]
         [HttpPost("generate")]
         [ProducesResponseType(typeof(GenerateIdeaResponseModel), 200)]
         [ProducesResponseType(400)]
@@ -100,6 +103,8 @@ namespace backend.api.Controllers
         /// <response code="201">Returns the saved idea.</response>
         /// <response code="400">If the request payload is invalid.</response>
         /// <response code="500">If there is an internal server error.</response>
+        /// 
+        [Authorize(Roles = "usuario")]
         [HttpPost("save")]
         [ProducesResponseType(typeof(IdeaResponseModel), 201)]
         [ProducesResponseType(400)]
@@ -133,6 +138,8 @@ namespace backend.api.Controllers
         /// <param name="usuarioId">The ID of the user.</param>
         /// <response code="200">Returns the list of ideas.</response>
         /// <response code="500">If there is an internal server error.</response>
+        /// 
+        [Authorize(Roles = "usuario")]
         [HttpGet("user/{usuarioId}")]
         [ProducesResponseType(typeof(IEnumerable<IdeaResponseModel>), 200)]
         [ProducesResponseType(500)]
@@ -160,6 +167,8 @@ namespace backend.api.Controllers
         /// <response code="200">Returns the idea.</response>
         /// <response code="404">If the idea is not found.</response>
         /// <response code="500">If there is an internal server error.</response>
+        /// 
+        [Authorize(Roles = "usuario")]
         [HttpGet("see-detail/{ideaId}")]
         [ProducesResponseType(typeof(IdeaResponseModel), 200)]
         [ProducesResponseType(404)]
@@ -191,6 +200,8 @@ namespace backend.api.Controllers
         /// <param name="ideaId">The ID of the idea.</param>
         /// <response code="200">If the idea was successfully deleted.</response>
         /// <response code="500">If there is an internal server error.</response>
+        /// 
+        [Authorize(Roles = "usuario")]
         [HttpDelete("delete/{ideaId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
