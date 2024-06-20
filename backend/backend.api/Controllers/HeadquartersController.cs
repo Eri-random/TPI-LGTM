@@ -4,6 +4,7 @@ using backend.api.Models.ResponseModels;
 using backend.servicios.DTOs;
 using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
+using backend.servicios.Servicios;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.api.Controllers
@@ -192,6 +193,7 @@ namespace backend.api.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> Evaluate([FromBody] DataRequestModel data)
+
         {
             if (data == null || data.Organizacion == null || data.Usuario == null)
                 return BadRequest("Incomplete data.");
@@ -204,7 +206,7 @@ namespace backend.api.Controllers
                 if (data.Sedes == null || !data.Sedes.Any())
                 {
                     // No headquarters, return organization information
-                    var headquartersNearby = _mapper.Map<HeadquartersNearbyDto>(data);
+                    var headquartersNearby = _mapper.Map<HeadquartersNearbyDto>(data.Organizacion);
                     headquartersNearby.Distancia = distanceOrg;
 
                     return Ok(headquartersNearby);
