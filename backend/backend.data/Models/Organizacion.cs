@@ -31,4 +31,6 @@ public partial class Organizacion
     public virtual Usuario Usuario { get; set; }
 
     public virtual ICollection<Subcategorium> Subcategoria { get; set; } = new List<Subcategorium>();
+
+    public virtual ICollection<Campaign> Campaigns { get; set; } = new List<Campaign>();
 }

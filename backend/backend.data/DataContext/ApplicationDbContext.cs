@@ -121,6 +121,8 @@ namespace backend.data.DataContext
 
                 entity.ToTable("necesidad");
 
+                entity.Property(e => e.CampaignId).HasColumnName("campaign_id");
+
                 entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.Icono)
                     .IsRequired()
@@ -129,6 +131,34 @@ namespace backend.data.DataContext
                     .IsRequired()
                     .HasColumnName("nombre");
             });
+
+            modelBuilder.Entity<Campaign>(entity =>
+            {
+                entity.HasKey(e => e.Id).HasName("campaign_pkey");
+
+                entity.ToTable("campaign");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.EndDate)
+                    .IsRequired()
+                    .HasColumnName("end_date");
+
+                entity.Property(e => e.StartDate)
+                    .IsRequired()
+                    .HasColumnName("start_date");
+
+                entity.Property(e => e.OrganizacionId)
+                    .IsRequired()
+                    .HasColumnName("organizacion_id");
+
+                entity.HasOne(d => d.Organizacion)
+                    .WithMany(p => p.Campaigns)
+                    .HasForeignKey(d => d.OrganizacionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_organizacion");
+            });
+
 
             modelBuilder.Entity<Organizacion>(entity =>
             {

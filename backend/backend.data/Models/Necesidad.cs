@@ -8,5 +8,9 @@ public partial class Necesidad
 
     public string Icono { get; set; }
 
+    public int? CampaignId { get; set; }
+
+    public virtual Campaign Campaign { get; set; }
+
     public virtual ICollection<Subcategorium> Subcategoria { get; set; } = new List<Subcategorium>();
 }
