@@ -15,7 +15,7 @@ namespace backend.api.Controllers
         private readonly ILogger<CampaignController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
-        [HttpGet("campaign/{organizationId}")]
+        [HttpGet("{organizationId}")]
         public async Task<IActionResult> GetCampaignsByOrganizationId(int organizationId)
         {
             try
@@ -71,7 +71,7 @@ namespace backend.api.Controllers
         }
 
 
-        [HttpDelete("organization/{campaignId}")]
+        [HttpDelete("{campaignId}")]
         public async Task<IActionResult> DeleteCampaign(int campaignId)
         {
             try

@@ -144,6 +144,9 @@ namespace backend.data.DataContext
                     .IsRequired()
                     .HasColumnName("end_date");
 
+                entity.Property(e => e.Title)
+                    .IsRequired();
+
                 entity.Property(e => e.StartDate)
                     .IsRequired()
                     .HasColumnName("start_date");
