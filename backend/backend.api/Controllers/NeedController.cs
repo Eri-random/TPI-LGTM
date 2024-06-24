@@ -20,7 +20,6 @@ namespace backend.api.Controllers
         /// <response code="200">Returns the list of needs.</response>
         /// <response code="500">If there is an internal server error.</response>
         /// 
-        [Authorize(Roles = "organizacion")]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<NeedsResponseModel>), 200)]
         [ProducesResponseType(500)]
