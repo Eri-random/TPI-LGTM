@@ -19,6 +19,7 @@ import { MyOrganizationComponent } from './pages/my-organization/my-organization
 import { authGuard } from './guards/auth.guard';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { UpdateAccountComponent } from './pages/update-account/update-account.component';
+import { CampaignsComponent } from './pages/campaign/campaigns.component';
 
 
 const routes: Routes = [
@@ -29,6 +30,8 @@ const routes: Routes = [
   {path: 'mis-datos', component: UpdateAccountComponent, canActivate: [authGuard], data: { expectedRole: 'organizacion'}},
   {path: 'generar-ideas', component:GenerateIdeasComponent, canActivate: [authGuard], data: { expectedRole: 'usuario' }},
   {path: 'ubicaciones', component:MapOrganizationsComponent},
+  {path: 'campañas-activas', component:CampaignsComponent, canActivate: [authGuard], data: { expectedRole: 'usuario'}},
+  {path: 'campañas', component:CampaignsComponent, canActivate: [authGuard], data: { expectedRole: 'organizacion'}},
   {path: 'donar', component:DonationsComponent},
   {path: 'dashboard', component: DashboardComponent, canActivate: [authGuard], data: { expectedRole: 'organizacion' }},
   {path: 'mi-organizacion', component: MyOrganizationComponent, canActivate: [authGuard], data: { expectedRole: 'organizacion' }},
