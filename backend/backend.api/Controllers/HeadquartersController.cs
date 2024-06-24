@@ -4,6 +4,8 @@ using backend.api.Models.ResponseModels;
 using backend.servicios.DTOs;
 using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
+using backend.servicios.Servicios;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.api.Controllers
@@ -54,6 +56,8 @@ namespace backend.api.Controllers
         /// <response code="200">If the headquarters were successfully created.</response>
         /// <response code="400">If the request payload is invalid.</response>
         /// <response code="500">If there is an internal server error.</response>
+        /// 
+        [Authorize(Roles = "organizacion")]
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
@@ -109,6 +113,8 @@ namespace backend.api.Controllers
         /// <response code="200">If the headquarters were successfully updated.</response>
         /// <response code="400">If the request payload is invalid.</response>
         /// <response code="500">If there is an internal server error.</response>
+        /// 
+        [Authorize(Roles = "organizacion")]
         [HttpPut]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
@@ -137,6 +143,8 @@ namespace backend.api.Controllers
         /// <param name="headquartersId">The ID of the headquarters.</param>
         /// <response code="200">If the headquarters were successfully deleted.</response>
         /// <response code="500">If there is an internal server error.</response>
+        /// 
+        [Authorize(Roles = "organizacion")]
         [HttpDelete("{headquartersId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
@@ -192,6 +200,7 @@ namespace backend.api.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> Evaluate([FromBody] DataRequestModel data)
+
         {
             if (data == null || data.Organizacion == null || data.Usuario == null)
                 return BadRequest("Incomplete data.");
@@ -204,7 +213,7 @@ namespace backend.api.Controllers
                 if (data.Sedes == null || !data.Sedes.Any())
                 {
                     // No headquarters, return organization information
-                    var headquartersNearby = _mapper.Map<HeadquartersNearbyDto>(data);
+                    var headquartersNearby = _mapper.Map<HeadquartersNearbyDto>(data.Organizacion);
                     headquartersNearby.Distancia = distanceOrg;
 
                     return Ok(headquartersNearby);
