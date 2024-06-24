@@ -3,6 +3,7 @@ using backend.api.Models.RequestModels;
 using backend.api.Models.ResponseModels;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.api.Controllers
@@ -141,6 +142,8 @@ namespace backend.api.Controllers
         /// <param name="subcategoriesDto">List of subcategories to assign.</param>
         /// <response code="200">Returns a success message.</response>
         /// <response code="500">If there is an internal server error.</response>
+        /// 
+        [Authorize(Roles = "organizacion")]
         [HttpPost("{organizationId}/assign-need")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
@@ -216,6 +219,8 @@ namespace backend.api.Controllers
         /// <response code="200">Returns a success message.</response>
         /// <response code="400">If the organization data is invalid.</response>
         /// <response code="500">If there is an internal server error.</response>
+        /// 
+        [Authorize(Roles = "organizacion")]
         [HttpPut]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
