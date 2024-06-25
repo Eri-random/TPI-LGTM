@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { CampaignService, Campaign } from '././../../services/campaign.service';
 import { NeedService } from 'src/app/services/need.service';
 import { OrganizationService } from 'src/app/services/organization.service';
@@ -81,23 +81,23 @@ export class CampaignsComponent implements OnInit {
   initializeFormGroups(): void {
     this.needs.forEach(need => {
       const formGroup = this.fb.group({});
-      need.subcategoria.forEach(sub => {
+      need.subcategoria.forEach((sub: any) => {
         formGroup.addControl(sub.nombre, this.fb.control(false)); // Initialize as unchecked
       });
-      this.formGroups[need.nombre] = formGroup;
+      this.formGroups[need.nombre] = formGroup; // Assign the FormGroup to the formGroups object
     });
   }
 
   addCampaign(): void {
     if (this.campaignForm.valid) {
-      const selectedNeeds = this.getSelectedNeeds();
+      const selectedSubcategories = this.getSelectedSubcategories();
 
       const newCampaign: Campaign = {
         ...this.campaignForm.value,
         organizacionId: this.organizationId,
         startDate: new Date(this.campaignForm.value.startDate).toISOString(),
         endDate: new Date(this.campaignForm.value.endDate).toISOString(),
-        needs: selectedNeeds
+        needs: selectedSubcategories // Assign selected subcategories as needs
       };
 
       this.campaignService.createCampaign(newCampaign).subscribe(
@@ -108,35 +108,54 @@ export class CampaignsComponent implements OnInit {
         error => console.error(error)
       );
     } else {
-      console.error('Form is invalid');
+      console.error('Form is invalid', this.campaignForm);
     }
   }
 
-  deleteCampaign(campaignId: number): void {
-    this.campaignService.deleteCampaign(campaignId).subscribe(
-      () => this.campaigns = this.campaigns.filter(c => c.id !== campaignId),
-      error => console.error(error)
-    );
-  }
+  getSelectedSubcategories(): any[] {
+    const selectedSubcategories: any[] = [];
 
-  getSelectedNeeds(): any[] {
-    const selectedNeeds = [];
-    for (const need of this.needs) {
-      const selectedSubcategories = [];
-      for (const subcategory of need.subcategoria) {
-        if (this.formGroups[need.nombre].get(subcategory.nombre).value) {
-          selectedSubcategories.push(subcategory);
+    this.needs.forEach((need: any) => {
+      const formGroup = this.formGroups[need.nombre];
+      need.subcategoria.forEach((sub: any) => {
+        if (formGroup.get(sub.nombre)?.value) {
+          selectedSubcategories.push({
+            id: sub.id,
+            nombre: sub.nombre,
+            necesidadId: need.id
+          });
         }
-      }
-      if (selectedSubcategories.length > 0) {
-        selectedNeeds.push({ ...need, subcategoria: selectedSubcategories });
-      }
-    }
-    return selectedNeeds;
+      });
+    });
+
+    return selectedSubcategories;
   }
 
   saveNeeds(): void {
-    console.log('Selected needs:', this.getSelectedNeeds());
+    console.log('Selected subcategories:', this.getSelectedSubcategories());
+  }
+
+  deleteCampaign(id: number): void {
+    this.campaignService.deleteCampaign(id).subscribe(
+      () => {
+        this.campaigns = this.campaigns.filter(campaign => campaign.id !== id);
+        this.toast.success({
+          detail: 'Éxito',
+          summary: 'Campaña eliminada correctamente',
+          duration: 5000,
+          position: 'bottomRight',
+        });
+      },
+      error => {
+        console.error(error);
+        this.toast.error({
+          detail: 'Error',
+          summary: 'Error al eliminar la campaña',
+          duration: 5000,
+          position: 'bottomRight',
+        });
+      }
+    );
   }
 
   get fm() { return this.campaignForm.controls; }
