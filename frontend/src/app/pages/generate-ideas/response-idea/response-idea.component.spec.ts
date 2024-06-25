@@ -7,15 +7,20 @@ import { ResponseIdeaService } from 'src/app/services/response-idea.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserStoreService } from 'src/app/services/user-store.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { GenerateIdeaService } from 'src/app/services/generate-idea.service';
+
 
 describe('ResponseIdeaComponent', () => {
   let component: ResponseIdeaComponent;
   let fixture: ComponentFixture<ResponseIdeaComponent>;
   let responseIdeaServiceMock: any;
+  let generateIdeaServiceMock: any;
   let routerMock: any;
   let toastServiceMock: any;
   let authServiceMock: any;
   let userStoreMock: any;
+  let spinnerServiceMock: any;
 
   beforeEach(async () => {
     responseIdeaServiceMock = {
@@ -24,6 +29,10 @@ describe('ResponseIdeaComponent', () => {
         dificultad: 'Fácil',
         steps: ['Paso 1', 'Paso 2']
       }),
+      getGeneratedIdeaMessage: jasmine.createSpy('getGeneratedIdeaMessage').and.returnValue(
+        {
+          "message": "string"
+        }),
       postSaveIdea: jasmine.createSpy('postSaveIdea').and.returnValue(of({}))
     };
 
@@ -45,6 +54,24 @@ describe('ResponseIdeaComponent', () => {
       navigate: jasmine.createSpy('navigate')
     };
 
+    const dialogSpy = jasmine.createSpyObj('MatDialog', ['open', 'closeAll']);
+
+    spinnerServiceMock = {
+      show: jasmine.createSpy('show'),
+      hide: jasmine.createSpy('hide'),
+      showIdea: jasmine.createSpy('showIdea'),
+      hideIdea: jasmine.createSpy('hideIdea')
+    };
+
+    generateIdeaServiceMock = {
+      postGenerateIdea: jasmine.createSpy('postGenerateIdea').and.returnValue(of({
+        titulo: 'Idea Reciclada',
+        usuarioId: 1,
+        dificultad: 'Fácil',
+        pasos: [{ id: 1, pasoNum: 1, descripcion: 'Paso 1', ideaId: 1 }]
+      }))
+    };
+
     await TestBed.configureTestingModule({
       declarations: [ResponseIdeaComponent],
       providers: [
@@ -52,7 +79,9 @@ describe('ResponseIdeaComponent', () => {
         { provide: AuthService, useValue: authServiceMock },
         { provide: UserStoreService, useValue: userStoreMock },
         { provide: NgToastService, useValue: toastServiceMock },
-        { provide: Router, useValue: routerMock }
+        { provide: Router, useValue: routerMock },
+        { provide: MatDialog, useValue: dialogSpy },
+        { provide: GenerateIdeaService, useValue: generateIdeaServiceMock },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -70,14 +99,14 @@ describe('ResponseIdeaComponent', () => {
 
   it('debería inicializarse correctamente', fakeAsync(() => {
     userStoreMock.getEmailFromStore.and.returnValue(of('test@example.com'));
-  
+
     userStoreMock.getUserByEmail.and.returnValue(of({ id: 1 }));
-  
+
     component.ngOnInit();
-    
+
     // Simulate the passage of time for asynchronous operations
     tick();
-  
+
     expect(responseIdeaServiceMock.getGeneratedIdea).toHaveBeenCalled();
     expect(authServiceMock.getEmailFromToken).toHaveBeenCalled();
     expect(userStoreMock.getUserByEmail).toHaveBeenCalledWith('test@example.com');
