@@ -124,6 +124,7 @@ namespace backend.data.DataContext
                 entity.Property(e => e.CampaignId).HasColumnName("campaign_id");
 
                 entity.Property(e => e.Id).HasColumnName("id");
+
                 entity.Property(e => e.Icono)
                     .IsRequired()
                     .HasColumnName("icono");
@@ -142,14 +143,20 @@ namespace backend.data.DataContext
 
                 entity.Property(e => e.EndDate)
                     .IsRequired()
-                    .HasColumnName("end_date");
+                    .HasColumnName("end_date")
+                    .HasColumnType("timestamp with time zone");
 
                 entity.Property(e => e.Title)
                     .IsRequired();
 
                 entity.Property(e => e.StartDate)
                     .IsRequired()
-                    .HasColumnName("start_date");
+                    .HasColumnName("start_date")
+                    .HasColumnType("timestamp with time zone"); ;
+
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasColumnName("title");
 
                 entity.Property(e => e.OrganizacionId)
                     .IsRequired()

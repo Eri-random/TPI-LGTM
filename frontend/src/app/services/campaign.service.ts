@@ -6,8 +6,8 @@ import { environments } from '../../environments/environments';
 export interface Campaign {
     id?: number;
     title: string;
-    startDate: Date;
-    endDate: Date;
+    startDate: string;
+    endDate: string;
     organizacionId: number;
 }
 

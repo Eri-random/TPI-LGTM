@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CampaignService, Campaign } from '././../../services/campaign.service';
 import { OrganizationService } from 'src/app/services/organization.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -13,15 +14,24 @@ export class CampaignsComponent implements OnInit {
 
   campaigns: Campaign[] = [];
   organizationId!: number;
-  newCampaign: Partial<Campaign> = {};
+  campaignForm!: FormGroup;
+  isLogged: boolean = true; // Adjust based on your auth logic
 
   constructor(
+    private fb: FormBuilder,
     private campaignService: CampaignService,
     private organizationService: OrganizationService,
     private authService: AuthService
-  ) { }
+  ) {
+    this.campaignForm = this.fb.group({
+      title: ['', Validators.required],
+      startDate: ['', Validators.required],
+      endDate: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
+    this.isLogged = this.authService.isLoggedIn(); // Adjust based on your auth logic
     this.organizationService.getCuitFromStore().subscribe((val) => {
       const cuitFromToken = this.authService.getCuitFromToken();
       const cuit = val || cuitFromToken;
@@ -45,36 +55,21 @@ export class CampaignsComponent implements OnInit {
   }
 
   addCampaign(): void {
-    if (this.newCampaign.title && this.newCampaign.startDate && this.newCampaign.endDate) {
-      const campaignToAdd: Campaign = {
-        ...this.newCampaign,
+    if (this.campaignForm.valid) {
+      const newCampaign: Campaign = {
+        ...this.campaignForm.value,
         organizacionId: this.organizationId
-      } as Campaign;
-      
-      this.campaignService.createCampaign(campaignToAdd).subscribe(
+      };
+      this.campaignService.createCampaign(newCampaign).subscribe(
         data => {
           this.campaigns.push(data);
-          this.newCampaign = {}; // Reset the form
+          this.campaignForm.reset(); // Reset the form
         },
         error => console.error(error)
       );
     } else {
-      console.error('All fields are required');
+      console.error('Form is invalid');
     }
-  }
-
-  updateCampaign(campaign: Campaign): void {
-    campaign.startDate = new Date(campaign.startDate);
-    campaign.endDate = new Date(campaign.endDate);
-    this.campaignService.updateCampaign(campaign).subscribe(
-      data => {
-        const index = this.campaigns.findIndex(c => c.id === data.id);
-        if (index !== -1) {
-          this.campaigns[index] = data;
-        }
-      },
-      error => console.error(error)
-    );
   }
 
   deleteCampaign(campaignId: number): void {
@@ -83,4 +78,6 @@ export class CampaignsComponent implements OnInit {
       error => console.error(error)
     );
   }
+
+  get fm() { return this.campaignForm.controls; }
 }

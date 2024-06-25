@@ -50,6 +50,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CustomMatPaginatorIntl } from './components/custom-mat-paginator-intl/custom-mat-paginator-intl.component';
 import { UpdateAccountComponent } from './pages/update-account/update-account.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { CampaignsComponent } from './pages/campaign/campaigns.component';
 register();
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ register();
     OrganizationRequestComponent,
     PageNotFoundComponent,
     UpdateAccountComponent,
+    CampaignsComponent
   ],
   imports: [
     BrowserModule,
