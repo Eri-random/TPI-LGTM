@@ -3,12 +3,25 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environments } from '../../environments/environments';
 
+export interface Need {
+  id: number;
+  nombre: string;
+  icono?: string;
+  subcategoria?: Subcategory[];
+}
+
+export interface Subcategory {
+  id: number;
+  nombre: string;
+}
+
 export interface Campaign {
-    id?: number;
-    title: string;
-    startDate: string;
-    endDate: string;
-    organizacionId: number;
+  id: number;
+  title: string;
+  startDate: string;
+  endDate: string;
+  organizacionId: number;
+  needs: Need[];
 }
 
 @Injectable({

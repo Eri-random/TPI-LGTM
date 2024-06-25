@@ -1,4 +1,52 @@
-
+<div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+  </div>
+  
+  <section *ngIf="!loading">
+    <div class="page-container min-vh-100">
+      <div>
+        <img class="position-absolute fixed-top ms-auto w-60 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/a.png">
+        <img class="position-absolute fixed-top ms-8 w-auto h-100 z-index-0 d-xl-none border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/a-mobile.png">
+      </div>
+      <div class="container">
+        <div class="card blur justify-content-center shadow-lg mt-7 mb-5 px-lg-4 pb-3">
+          <div class="row text-center mx-1 mt-4">
+            <h2>¿Qué <span class="text-gradient text-secondary">necesita mi organización</span>?</h2>
+          </div>
+          <div class="card-body pb-2">
+            <div class="row">
+              <div class="col text-center">
+                <p class="lead">Indicá dentro de las categorías cuáles son las necesidades de tu organización.</p>
+              </div>
+            </div>
+  
+            <div class="row g-3 d-flex justify-content-center pb-4" *ngFor="let need of needs">
+              <div class="col-lg-6">
+                <mat-accordion multi>
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <img [src]="need.icono" alt="{{need.nombre}}" class="pe-3"> {{ need.nombre }}
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <section class="d-flex flex-column" [formGroup]="formGroups[need.nombre]">
+                        <mat-checkbox color="primary" *ngFor="let subcategory of need.subcategoria" formControlName="{{ subcategory.nombre }}">
+                          {{ subcategory.nombre }}
+                        </mat-checkbox>
+                    </section>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </div>
+            </div>
+            <div class="text-center justify-content-center align-items-center">
+              <button (click)="saveNeeds()" type="button" class="btn btn-round bg-gradient-primary">Guardar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
   <section *ngIf="isLogged">
     <div class="page-container">
       <div>
@@ -16,7 +64,7 @@
                 <p class="lead mb-5">Gestione sus campañas aquí.</p>
               </div>
             </div>
-            <form [formGroup]='campaignForm' (ngSubmit)="addCampaign()">
+            <form [formGroup]="campaignForm" (ngSubmit)="addCampaign()">
               <div class="row justify-content-center">
                 <div class="col-lg-8 d-flex justify-content-center align-items-center px-lg-4">
                   <div class="row g-3">
@@ -34,6 +82,24 @@
                       <label for="endDate" class="form-label required">Fecha de fin</label>
                       <input type="date" class="form-control input-field" [class.error]="fm['endDate'].dirty && fm['endDate'].errors" id="endDate" name="endDate" formControlName="endDate">
                       <small *ngIf="fm['endDate'].dirty && fm['endDate'].errors" class="text-danger">La fecha de fin es requerida</small>
+                    </div>
+                    <div class="col-md-12">
+                      <label class="form-label required">Necesidades</label>
+                      <div *ngFor="let need of needs">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" [value]="need.id" (change)="onCheckChange($event)" id="need{{need.id}}">
+                          <label class="form-check-label" for="need{{need.id}}">
+                            {{need.nombre}}
+                          </label>
+                          <ul>
+                            <li *ngFor="let sub of need.subcategoria">
+                              <input class="form-check-input" type="checkbox" [value]="sub.id" [formGroup]="formGroups[need.nombre]" formControlName="{{ sub.nombre }}">
+                              {{ sub.nombre }}
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <small *ngIf="fm['needs'].dirty && fm['needs'].errors" class="text-danger">Seleccione al menos una necesidad</small>
                     </div>
                     <div class="col-12">
                       <div class="row">
@@ -53,9 +119,22 @@
                     <h5>{{ campaign.title }}</h5>
                     <p><strong>Fecha de inicio:</strong> {{ campaign.startDate }}</p>
                     <p><strong>Fecha de fin:</strong> {{ campaign.endDate }}</p>
+                    <div *ngFor="let need of campaign.needs" class="col">
+                      <div class="d-flex align-items-start g-2">
+                        <div class="me-3">
+                          <img [src]="need.icono" alt="{{need.nombre}}">
+                        </div>
+                        <div>
+                          <span>{{need.nombre}}</span>
+                          <ul>
+                            <li *ngFor="let sub of need.subcategoria">{{sub.nombre}}</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   <div>
-                    <button (click)="deleteCampaign(campaign.id!)" class="btn btn-round btn-xs text-xs bg-gradient-danger">Eliminar campaña</button>
+                    <button (click)="deleteCampaign(campaign.id)" class="btn btn-round btn-xs text-xs bg-gradient-danger">Eliminar campaña</button>
                   </div>
                 </div>
               </li>
