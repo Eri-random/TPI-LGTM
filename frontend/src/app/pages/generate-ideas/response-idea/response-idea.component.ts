@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { AuthService } from 'src/app/services/auth.service';
 import { ResponseIdeaService } from 'src/app/services/response-idea.service';
 import { UserStoreService } from 'src/app/services/user-store.service';
+import { SpinnerService } from 'src/app/services/spinner.service';
+import { GenerateIdeaService } from 'src/app/services/generate-idea.service';
+import { PopupIdeaComponent } from './popup-idea/popup-idea.component';
 
 interface Step {
   text: string;
@@ -20,6 +24,7 @@ export class ResponseIdeaComponent {
   response: any;
   img!: string;
   formattedSteps: Step[] = [];
+  message!:string;
 
   constructor(
     private responseIdeaService: ResponseIdeaService,
@@ -27,6 +32,9 @@ export class ResponseIdeaComponent {
     private toast: NgToastService,
     private authService: AuthService,
     private userStore: UserStoreService,
+    public dialog: MatDialog,
+    public spinnerService:SpinnerService,
+    public generateIdeaService:GenerateIdeaService
   ) {}
 
   ngOnInit(): void {
@@ -66,8 +74,34 @@ export class ResponseIdeaComponent {
   }
 
   generateNewIdea() {
-    localStorage.removeItem('idea');
-    this.router.navigate(['/generar-ideas']);
+    const dialogRef = this.dialog.open(PopupIdeaComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if (result === 'generateWithCurrentData') {
+        this.spinnerService.show();
+    
+        this.message = this.responseIdeaService.getGeneratedIdeaMessage();
+    
+        this.generateIdeaService.postGenerateIdea(this.message).subscribe(
+          (response) => {
+            this.spinnerService.hide();
+            this.response = response;
+            this.responseIdeaService.setGeneratedIdea(response);
+            this.formatSteps();
+          },
+          (error) => {
+            this.spinnerService.hide();
+            console.log(error);
+          }
+        );
+        
+      } else if (result === 'loadNewData') {
+        localStorage.removeItem('message');
+        localStorage.removeItem('idea');
+        this.router.navigate(['/generar-ideas']);
+      }
+    });
   }
 
   saveIdea() {

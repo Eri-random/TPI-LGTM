@@ -1,0 +1,13 @@
+<div mat-dialog-title>
+    <h3>¿Qué quieres hacer?</h3>
+    <button mat-icon-button class="close-btn" (click)="onNoClick()">
+        <mat-icon>x</mat-icon>
+    </button>
+</div>
+<div mat-dialog-content>
+    <p>Seleccione una opción:</p>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onGenerateWithCurrentData()">Generar con los datos actuales</button>
+    <button mat-button (click)="onLoadNewData()">Cargar otros datos</button>
+</div>
