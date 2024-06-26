@@ -39,12 +39,9 @@
                                       <small *ngIf="fm['endDate'].dirty && fm['endDate'].errors" class="text-danger">La fecha de fin es requerida</small>
                                   </div>
                                   <div class="col-md-12">
-                                      <label for="imageUrl" class="form-label required">URL de la imagen</label>
-                                      <input type="text" class="form-control input-field" [class.error]="fm['imageUrl'].dirty && fm['imageUrl'].errors" id="imageUrl" name="imageUrl" placeholder="URL de la imagen" formControlName="imageUrl">
+                                      <label for="imageUrl" class="form-label required">URL de la Imagen</label>
+                                      <input type="text" class="form-control input-field" [class.error]="fm['imageUrl'].dirty && fm['imageUrl'].errors" id="imageUrl" name="imageUrl" placeholder="URL de la Imagen" formControlName="imageUrl">
                                       <small *ngIf="fm['imageUrl'].dirty && fm['imageUrl'].errors" class="text-danger">La URL de la imagen es requerida</small>
-                                  </div>
-                                  <div class="col-md-12" *ngIf="campaignForm.get('imageUrl')?.value">
-                                      <img [src]="campaignForm.get('imageUrl')?.value" alt="Imagen de la campaña" class="img-fluid mt-3">
                                   </div>
                                   <div class="col-md-12">
                                       <label class="form-label required">Necesidades</label>
@@ -85,7 +82,7 @@
                                   <h5>{{ campaign.title }}</h5>
                                   <p><strong>Fecha de inicio:</strong> {{ campaign.startDate | date: 'yyyy-MM-dd' }}</p>
                                   <p><strong>Fecha de fin:</strong> {{ campaign.endDate | date: 'yyyy-MM-dd' }}</p>
-                                  <img *ngIf="campaign.imageUrl" [src]="campaign.imageUrl" alt="{{ campaign.title }}" class="img-fluid mt-2 mb-2">
+                                  <img *ngIf="campaign.imageUrl" [src]="campaign.imageUrl" alt="{{ campaign.title }}" class="img-fluid mt-2 mb-2 campaign-image">
                                   <div *ngFor="let need of campaign.needs" class="col">
                                       <div class="d-flex align-items-start g-2">
                                           <div class="me-3">
