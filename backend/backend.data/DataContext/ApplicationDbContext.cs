@@ -160,6 +160,12 @@ namespace backend.data.DataContext
                     .IsRequired()
                     .HasColumnName("title");
 
+                entity.Property(e => e.ImageUrl)
+                    .HasColumnName("image_url");
+
+                entity.Property(e => e.IsActive)
+                    .HasColumnName("is_active");
+
                 entity.Property(e => e.OrganizacionId)
                     .IsRequired()
                     .HasColumnName("organizacion_id");

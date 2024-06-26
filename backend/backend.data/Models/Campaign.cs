@@ -25,5 +25,9 @@
         public virtual Organizacion Organizacion { get; set; }
 
         public string Subcategorias { get; set; }
+
+        public bool IsActive { get; set; }
+
+        public string ImageUrl { get; set; }
     }
 }
