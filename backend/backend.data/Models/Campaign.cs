@@ -24,6 +24,6 @@
 
         public virtual Organizacion Organizacion { get; set; }
 
-        public virtual ICollection<Necesidad> Needs { get; set; } = [];
+        public string Subcategorias { get; set; }
     }
 }

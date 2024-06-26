@@ -22,6 +22,8 @@ export class CampaignsComponent implements OnInit {
   campaignForm: FormGroup;
   isLogged: boolean = true;
   loading: boolean = true;
+  id!: number;
+  cuit!: string;
 
   constructor(
     private fb: FormBuilder,
@@ -43,10 +45,33 @@ export class CampaignsComponent implements OnInit {
     this.isLogged = this.authService.isLoggedIn();
     this.organizationService.getCuitFromStore().subscribe((val) => {
       const cuitFromToken = this.authService.getCuitFromToken();
-      const cuit = val || cuitFromToken;
-      this.loadCampaignsAndNeeds(cuit);
+      this.cuit = val || cuitFromToken;
     });
-    this.loadAllNeeds();
+
+    this.organizationService.getOrganizationByCuit(this.cuit).subscribe((rep) => {
+      this.organizationId = rep.id;
+      this.loadForm();
+    });
+    this.loadCampaignsAndNeeds(this.cuit);
+    // this.loadAllNeeds();
+  }
+
+  loadForm() {
+    this.needService.getAllNeeds().subscribe((resp) => {
+      this.needs = resp;
+  
+      // Crear los grupos de formularios dinámicamente
+      this.needs.forEach((need: any) => {
+        const formGroup = this.fb.group({});
+        need.subcategoria.forEach((sub: any) => {
+          formGroup.addControl(sub.nombre, this.fb.control(false)); // Inicializar como no marcado
+        });
+        this.formGroups[need.nombre] = formGroup; // Asigna el FormGroup a una propiedad del componente
+      });
+
+      this.loading = false; 
+      
+    });
   }
 
   loadCampaignsAndNeeds(cuit: string): void {
@@ -79,7 +104,7 @@ export class CampaignsComponent implements OnInit {
   }
 
   initializeFormGroups(): void {
-    this.needs.forEach(need => {
+    this.needs.forEach((need: any) => {
       const formGroup = this.fb.group({});
       need.subcategoria.forEach((sub: any) => {
         formGroup.addControl(sub.nombre, this.fb.control(false)); // Initialize as unchecked
@@ -89,27 +114,22 @@ export class CampaignsComponent implements OnInit {
   }
 
   addCampaign(): void {
-    if (this.campaignForm.valid) {
-      const selectedSubcategories = this.getSelectedSubcategories();
+    const selectedSubcategories = this.getSelectedSubcategories();
+    const newCampaign: Campaign = {
+      ...this.campaignForm.value,
+      organizacionId: this.organizationId,
+      startDate: new Date(this.campaignForm.value.startDate).toISOString(),
+      endDate: new Date(this.campaignForm.value.endDate).toISOString(),
+      subcategoria: selectedSubcategories, // Assign selected subcategories as needs
+    };
 
-      const newCampaign: Campaign = {
-        ...this.campaignForm.value,
-        organizacionId: this.organizationId,
-        startDate: new Date(this.campaignForm.value.startDate).toISOString(),
-        endDate: new Date(this.campaignForm.value.endDate).toISOString(),
-        needs: selectedSubcategories // Assign selected subcategories as needs
-      };
-
-      this.campaignService.createCampaign(newCampaign).subscribe(
-        data => {
-          this.campaigns.push(data);
-          this.campaignForm.reset(); // Reset the form
-        },
-        error => console.error(error)
-      );
-    } else {
-      console.error('Form is invalid', this.campaignForm);
-    }
+    this.campaignService.createCampaign(newCampaign).subscribe(
+      data => {
+        this.campaigns.push(data);
+        this.campaignForm.reset(); // Reset the form
+      },
+      error => console.error(error)
+    );
   }
 
   getSelectedSubcategories(): any[] {

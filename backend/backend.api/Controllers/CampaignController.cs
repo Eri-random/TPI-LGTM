@@ -40,7 +40,18 @@ namespace backend.api.Controllers
 
             try
             {
-                await _campaignService.CreateCampaign(_mapper.Map<CampaignDto>(campaign));
+                var dto = _mapper.Map<CampaignDto>(campaign);
+
+                var ids = string.Empty;
+
+                foreach (var subcategory in campaign.Subcategoria)
+                {
+                    ids += subcategory.Id + ",";
+                }
+
+                dto.Subcategorias = ids;
+
+                await _campaignService.CreateCampaign(dto);
                 return CreatedAtAction(nameof(GetCampaignsByOrganizationId), new { organizationId = campaign.OrganizacionId }, campaign);
             }
             catch (Exception ex)
@@ -76,7 +87,7 @@ namespace backend.api.Controllers
         {
             try
             {
-                var campaigns = await _campaignService.GetCampaigns(campaignId);
+                await _campaignService.DeleteCampaign(campaignId);
                 return NoContent();
             }
             catch (Exception ex)

@@ -121,8 +121,6 @@ namespace backend.data.DataContext
 
                 entity.ToTable("necesidad");
 
-                entity.Property(e => e.CampaignId).HasColumnName("campaign_id");
-
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Icono)
@@ -148,6 +146,10 @@ namespace backend.data.DataContext
 
                 entity.Property(e => e.Title)
                     .IsRequired();
+
+                entity.Property(e => e.Subcategorias)
+                    .IsRequired()
+                    .HasColumnName("subcategoria_id");
 
                 entity.Property(e => e.StartDate)
                     .IsRequired()

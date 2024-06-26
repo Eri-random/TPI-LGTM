@@ -12,7 +12,6 @@
 
         public int OrganizacionId { get; set; }
 
-        public ICollection<NeedDto> Needs { get; set; } = new List<NeedDto>();
+        public string Subcategorias { get; set; }
     }
-
 }

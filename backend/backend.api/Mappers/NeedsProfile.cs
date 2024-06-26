@@ -14,6 +14,8 @@ namespace backend.api.Mappers
 
             CreateMap<Necesidad, NeedDto>();
 
+            CreateMap<NeedDto, Necesidad>();
+
             CreateMap<NeedDto, NeedsResponseModel>();
 
             CreateMap<CampaignDto, Campaign>();
