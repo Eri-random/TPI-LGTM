@@ -65,14 +65,13 @@ describe('SignupComponent', () => {
     fixture.detectChanges(); // initial binding
   });
 
-  it('should create', () => {
+  it('debería crear el componente', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize the form with empty values', () => {
+  it('debería inicializar el formulario con valores vacíos', () => {
     expect(component.registerForm).toBeDefined();
     expect(component.registerFormOrganizaction).toBeDefined();
-    // Enable localidad control temporarily to include it in the form value
     component.registerForm.get('localidad')?.enable();
     component.registerFormOrganizaction.get('localidad')?.enable();
 
@@ -81,7 +80,7 @@ describe('SignupComponent', () => {
       apellido: null,
       telefono: null,
       direccion: '',
-      localidad: '', // Expect the correct structure here
+      localidad: '',
       provincia: '',
       email: '',
       password: '',
@@ -93,19 +92,17 @@ describe('SignupComponent', () => {
       password: '',
       telefono: null,
       direccion: '',
-      localidad: '', // Expect the correct structure here
+      localidad: '',
       provincia: '',
       nombreOrg: '',
       cuit: '',
     });
 
-    // Disable localidad control again
     component.registerForm.get('localidad')?.disable();
     component.registerFormOrganizaction.get('localidad')?.disable();
   });
 
-
-  it('should toggle password visibility', () => {
+  it('debería alternar la visibilidad de la contraseña', () => {
     component.hideShowPass();
     expect(component.isText).toBeTrue();
     expect(component.type).toBe('text');
@@ -117,19 +114,19 @@ describe('SignupComponent', () => {
     expect(component.eyeIcon).toBe('fa-eye-slash');
   });
 
-  it('should validate required fields in user form', () => {
+  it('debería validar los campos requeridos en el formulario de usuario', () => {
     component.selectedRole = 'usuario';
     component.onSubmit();
     expect(component.registerForm.invalid).toBeTrue();
   });
 
-  it('should validate required fields in organization form', () => {
+  it('debería validar los campos requeridos en el formulario de organización', () => {
     component.selectedRole = 'organización';
     component.onSubmit();
     expect(component.registerFormOrganizaction.invalid).toBeTrue();
   });
 
-  it('should submit valid user form', () => {
+  it('debería enviar el formulario de usuario válido', () => {
     component.selectedRole = 'usuario';
     component.registerForm.setValue({
       nombre: 'John',
@@ -162,7 +159,7 @@ describe('SignupComponent', () => {
     expect(router.navigate).toHaveBeenCalledWith(['/login']);
   });
 
-  it('should handle user form submission error', () => {
+  it('debería manejar el error al enviar el formulario de usuario', () => {
     component.selectedRole = 'usuario';
     component.registerForm.setValue({
       nombre: 'John',
@@ -186,7 +183,7 @@ describe('SignupComponent', () => {
     }));
   });
 
-  it('should submit valid organization form', () => {
+  it('debería enviar el formulario de organización válido', () => {
     component.selectedRole = 'organización';
     component.registerFormOrganizaction.setValue({
       nombre: 'Org Name',
@@ -221,7 +218,7 @@ describe('SignupComponent', () => {
     expect(router.navigate).toHaveBeenCalledWith(['/login']);
   });
 
-  it('should handle organization form submission error', () => {
+  it('debería manejar el error al enviar el formulario de organización', () => {
     component.selectedRole = 'organización';
     component.registerFormOrganizaction.setValue({
       nombre: 'Org Name',
@@ -247,12 +244,12 @@ describe('SignupComponent', () => {
     }));
   });
 
-  it('should load provinces on init', () => {
+  it('debería cargar las provincias al inicializar', () => {
     expect(mapService.getProvinces).toHaveBeenCalled();
     expect(component.provinces).toEqual([{ nombre: 'Buenos Aires' } as Province]);
   });
 
-  it('should load localidades on province change for user', () => {
+  it('debería cargar las localidades al cambiar de provincia para usuario', () => {
     component.selectedRole = 'usuario';
     component.registerForm.get('provincia')?.setValue(1);
     component.onProvinceChange();
@@ -262,7 +259,7 @@ describe('SignupComponent', () => {
     expect(component.localidades).toEqual([{ id: 1, nombre: 'La Plata' }]);
   });
 
-  it('should load localidades on province change for organization', () => {
+  it('debería cargar las localidades al cambiar de provincia para organización', () => {
     component.selectedRole = 'organización';
     component.registerFormOrganizaction.get('provincia')?.setValue(1);
     component.onProvinceChange();
