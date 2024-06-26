@@ -37,7 +37,8 @@ export class CampaignsComponent implements OnInit {
       title: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      needs: this.fb.array([], Validators.required)
+      needs: this.fb.array([], Validators.required),
+      imageUrl: ['', Validators.required]
     });
   }
 
@@ -120,7 +121,9 @@ export class CampaignsComponent implements OnInit {
       organizacionId: this.organizationId,
       startDate: new Date(this.campaignForm.value.startDate).toISOString(),
       endDate: new Date(this.campaignForm.value.endDate).toISOString(),
-      subcategoria: selectedSubcategories, // Assign selected subcategories as needs
+      subcategoria: selectedSubcategories,
+      isActive: true,
+      imageUrl: this.campaignForm.value.imageUrl
     };
 
     this.campaignService.createCampaign(newCampaign).subscribe(

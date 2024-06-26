@@ -22,6 +22,8 @@ export interface Campaign {
   endDate: string;
   organizacionId: number;
   needs: Need[];
+  isActive: boolean;
+  imageUrl?: string;
 }
 
 @Injectable({

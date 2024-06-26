@@ -1,5 +1,4 @@
 ﻿using backend.data.Models;
-using backend.servicios.DTOs;
 
 namespace backend.api.Models.RequestModels
 {
@@ -15,5 +14,7 @@ namespace backend.api.Models.RequestModels
         public int OrganizacionId { get; set; }
 
         public ICollection<Subcategorium> Subcategoria { get; set; } = new List<Subcategorium>();
+
+        public string ImageUrl { get; set; }
     }
 }

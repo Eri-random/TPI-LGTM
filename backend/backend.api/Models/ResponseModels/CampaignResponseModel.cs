@@ -14,8 +14,10 @@ namespace backend.api.Models.ResponseModels
 
         public int OrganizacionId { get; set; }
 
-        public IEnumerable<SubcategoriesDto> Subs { get; set; } = new List<SubcategoriesDto>();
-
         public IEnumerable<NeedDto> Needs { get; set; } = new List<NeedDto>();
+
+        public bool IsActive { get; set; }
+
+        public string ImageUrl { get; set; }
     }
 }

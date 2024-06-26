@@ -13,5 +13,9 @@
         public int OrganizacionId { get; set; }
 
         public string Subcategorias { get; set; }
+
+        public bool IsActive { get; set; }
+
+        public string ImageUrl { get; set; }
     }
 }
