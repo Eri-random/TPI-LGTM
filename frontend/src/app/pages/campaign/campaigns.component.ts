@@ -155,6 +155,20 @@ export class CampaignsComponent implements OnInit {
     console.log('Selected subcategories:', this.getSelectedSubcategories());
   }
 
+  getUniqueNeeds(subs: any[]): any[] {
+    const uniqueNeeds = new Map<number, any>();
+    subs.forEach(sub => {
+      if (!uniqueNeeds.has(sub.NecesidadId)) {
+        uniqueNeeds.set(sub.NecesidadId, {
+          NecesidadId: sub.NecesidadId,
+          NecesidadNombre: sub.NecesidadNombre,
+          NecesidadIcono: sub.NecesidadIcono
+        });
+      }
+    });
+    return Array.from(uniqueNeeds.values());
+  }  
+
   deleteCampaign(id: number): void {
     this.campaignService.deleteCampaign(id).subscribe(
       () => {

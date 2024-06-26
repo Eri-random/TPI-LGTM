@@ -4,16 +4,18 @@ using backend.api.Models.ResponseModels;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace backend.api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CampaignController(ICampaignService campaignService, ILogger<CampaignController> logger, IMapper mapper) : ControllerBase
+    public class CampaignController(ICampaignService campaignService, ILogger<CampaignController> logger, IMapper mapper, INeedService needService) : ControllerBase
     {
         private readonly ICampaignService _campaignService = campaignService ?? throw new ArgumentNullException(nameof(campaignService));
         private readonly ILogger<CampaignController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        private readonly INeedService _needService = needService ?? throw new ArgumentNullException(nameof(needService));
 
         [HttpGet("{organizationId}")]
         public async Task<IActionResult> GetCampaignsByOrganizationId(int organizationId)
@@ -21,7 +23,19 @@ namespace backend.api.Controllers
             try
             {
                 var campaigns = await _campaignService.GetCampaigns(organizationId);
-                return Ok(_mapper.Map<IEnumerable<CampaignResponseModel>>(campaigns));
+                var responseCampaign = new List<CampaignResponseModel>();
+                var needs = await _needService.GetAllNeedsAsync();
+
+                foreach (var campaign in campaigns)
+                {
+                    var ids = campaign.Subcategorias.Split(',');
+                    var response = _mapper.Map<CampaignResponseModel>(campaign);
+                    response.Subs = needs.SelectMany(x => x.Subcategoria.Where(y => ids.Contains(y.Id.ToString())));
+
+                    responseCampaign.Add(response);
+                }
+
+                return Ok(responseCampaign);
             }
             catch (Exception ex)
             {
