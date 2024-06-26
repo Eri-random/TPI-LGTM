@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using backend.api.Models.RequestModels;
 using backend.api.Models.ResponseModels;
+using backend.data.Models;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -29,9 +30,24 @@ namespace backend.api.Controllers
                 foreach (var campaign in campaigns)
                 {
                     var ids = campaign.Subcategorias.Split(',');
-                    var response = _mapper.Map<CampaignResponseModel>(campaign);
-                    response.Subs = needs.SelectMany(x => x.Subcategoria.Where(y => ids.Contains(y.Id.ToString())));
+                    var idsSet = new HashSet<string>(ids);
 
+                    var filteredNeeds = needs.Select(need => new NeedDto
+                    {
+                        Id = need.Id,
+                        Nombre = need.Nombre,
+                        Icono = need.Icono,
+                        Subcategoria = need.Subcategoria
+                            .Where(sub => idsSet.Contains(sub.Id.ToString()))
+                            .ToList()
+                    })
+                    .Where(need => need.Subcategoria.Any())
+                    .ToList();
+                    
+
+                    var response = _mapper.Map<CampaignResponseModel>(campaign);
+                    //response.Subs = needs.SelectMany(x => x.Subcategoria.Where(y => ids.Contains(y.Id.ToString())));
+                    response.Needs = filteredNeeds;
                     responseCampaign.Add(response);
                 }
 
