@@ -29,8 +29,9 @@ namespace backend.servicios.Servicios
         public async Task<IEnumerable<CampaignDto>> GetCampaigns(int organizationId)
         {
             var campaigns = await _campaignRepository.GetAllAsync();
+            var orgCampaings = campaigns.Where(x => x.OrganizacionId == organizationId);
 
-            return _mapper.Map<IEnumerable<CampaignDto>>(campaigns);
+            return _mapper.Map<IEnumerable<CampaignDto>>(orgCampaings);
         }
 
         public async Task UpdateCampaign(CampaignDto campaign)

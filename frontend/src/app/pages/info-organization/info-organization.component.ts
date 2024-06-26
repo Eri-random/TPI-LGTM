@@ -5,6 +5,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { OrganizationService } from 'src/app/services/organization.service';
 import { DialogDonateComponent } from './dialog-donate/dialog-donate.component';
+import { CampaignService, Campaign } from 'src/app/services/campaign.service';
 
 @Component({
   selector: 'app-info-organization',
@@ -13,17 +14,17 @@ import { DialogDonateComponent } from './dialog-donate/dialog-donate.component';
 })
 export class InfoOrganizationComponent implements OnInit {
   donateForm!: FormGroup;
-  organization:any;
-  needs:any;
+  organization: any;
+  campaigns: Campaign[] = [];
   safeContent!: SafeHtml;
 
   constructor(
-    private organizationService:OrganizationService,
+    private organizationService: OrganizationService,
+    private campaignService: CampaignService,
     private sanitizer: DomSanitizer,
     public dialog: MatDialog,
     private route: ActivatedRoute,
-  ) {
-  }
+  ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -37,13 +38,19 @@ export class InfoOrganizationComponent implements OnInit {
           console.error(error);
         }
       );
-      this.organizationService.getGroupedSubcategories(organizacionId)
-      .subscribe(resp=>{
-        this.needs = resp;
-      },error =>{
-        console.log(error);
-      })
+      this.loadCampaigns(organizacionId);
     });
+  }
+
+  loadCampaigns(organizacionId: string): void {
+    this.campaignService.getAllCampaigns(organizacionId).subscribe(
+      (resp) => {
+        this.campaigns = resp;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   sanitizeContent(content: string): SafeHtml {
@@ -54,7 +61,7 @@ export class InfoOrganizationComponent implements OnInit {
     this.dialog.open(DialogDonateComponent, {
       width: 'auto',
       height: '75%',
-      data:{organizacionId:this.organization.id}
+      data: { organizacionId: this.organization.id }
     });
   }
 }
