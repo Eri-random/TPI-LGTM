@@ -33,6 +33,14 @@ export class ResponseIdeaService {
     return this.http.delete<any>(url);
   }
 
+  setGeneratedIdeaMessage(message:any){
+    localStorage.setItem('message',JSON.stringify(message));
+  }
+
+  getGeneratedIdeaMessage(){
+    return JSON.parse(localStorage.getItem('message') || '{}');
+  }
+
   setGeneratedIdea(idea: any){
     localStorage.setItem('idea', JSON.stringify(idea));
   }

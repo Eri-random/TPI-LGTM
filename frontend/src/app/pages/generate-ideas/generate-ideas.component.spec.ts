@@ -49,7 +49,8 @@ describe('GenerateIdeasComponent', () => {
     };
 
     responseIdeaServiceMock = {
-      setGeneratedIdea: jasmine.createSpy('setGeneratedIdea')
+      setGeneratedIdea: jasmine.createSpy('setGeneratedIdea'),
+      setGeneratedIdeaMessage: jasmine.createSpy('setGeneratedIdeaMessage')
     };
 
     toastServiceMock = {
@@ -110,7 +111,7 @@ describe('GenerateIdeasComponent', () => {
     const readerSpy = spyOn(window as any, 'FileReader').and.callThrough();
 
     component.onFileChange(event, 0);
-    
+
     expect(readerSpy).toHaveBeenCalled();
     expect(recognitionTelaServiceMock.classifyImage).toHaveBeenCalledWith(file);
     expect(spinnerServiceMock.showIdea).toHaveBeenCalled();
@@ -125,8 +126,9 @@ describe('GenerateIdeasComponent', () => {
     });
 
     component.submitForm();
-    
+
     expect(spinnerServiceMock.show).toHaveBeenCalled();
+    expect(responseIdeaServiceMock.setGeneratedIdeaMessage).toHaveBeenCalled();
     expect(generateIdeaServiceMock.postGenerateIdea).toHaveBeenCalled();
     expect(spinnerServiceMock.hide).toHaveBeenCalled();
     expect(responseIdeaServiceMock.setGeneratedIdea).toHaveBeenCalled();
@@ -139,7 +141,7 @@ describe('GenerateIdeasComponent', () => {
     const file = new File([''], 'test.png', { type: 'image/png' });
     const event = { target: { files: [file] } };
     component.onFileChange(event, 0);
-    
+
     expect(spinnerServiceMock.hideIdea).toHaveBeenCalled();
     expect(component.errorImage).toBe('Error en el reconocimiento de la imagen');
   }));
