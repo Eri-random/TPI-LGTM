@@ -75,7 +75,7 @@ namespace backend.api.Controllers
         /// <response code="200">Returns the organization.</response>
         /// <response code="404">If the organization is not found.</response>
         /// <response code="500">If there is an internal server error.</response>
-        [HttpGet("Id/{id}")]
+        [HttpGet("see-organization/{id}")]
         [ProducesResponseType(typeof(OrganizationResponseModel), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
