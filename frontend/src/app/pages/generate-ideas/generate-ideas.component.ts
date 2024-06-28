@@ -102,6 +102,8 @@ export class GenerateIdeasComponent implements OnInit {
     `Utilizando estos detalles, generaremos una idea de producto reciclado adecuada y única. Que la respuesta tambien me de la dificultad si es Fácil, Media o Dificil.`;
     this.spinnerService.show();
     
+    this.responseIdeaService.setGeneratedIdeaMessage(this.message);
+
     this.generateIdeaService.postGenerateIdea(this.message).subscribe(
       (response) => {
         this.spinnerService.hide();
