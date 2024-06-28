@@ -128,7 +128,7 @@ namespace backend.api.Controllers
             }
         }
 
-        [HttpGet("idCampaign/{campaignId}")]
+        [HttpGet("see-campaign/{campaignId}")]
         public async Task<IActionResult> GetCampaignById(int campaignId)
         {
             try

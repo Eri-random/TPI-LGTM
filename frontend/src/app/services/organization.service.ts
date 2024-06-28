@@ -21,7 +21,7 @@ export class OrganizationService {
   }
 
   getOrganizationById(id: number) {
-    const url = `${this.baseUrl}/Organization/id/${id}`;
+    const url = `${this.baseUrl}/Organization/see-organization/${id}`;
     return this.http.get<any>(url);
   }
 

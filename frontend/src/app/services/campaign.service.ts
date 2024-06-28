@@ -56,7 +56,7 @@ export class CampaignService {
   }
 
   getIdCampaign(campaignId: number): Observable<Campaign>{
-    const url = `${this.baseUrl}/Campaign/idCampaign/${campaignId}`;
+    const url = `${this.baseUrl}/Campaign/see-campaign/${campaignId}`;
     return this.http.get<Campaign>(url);
   }
 }
