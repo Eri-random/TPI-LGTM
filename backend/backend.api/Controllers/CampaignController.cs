@@ -127,5 +127,42 @@ namespace backend.api.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
+        [HttpGet("idCampaign/{campaignId}")]
+        public async Task<IActionResult> GetCampaignById(int campaignId)
+        {
+            try
+            {
+                var campaign = await _campaignService.GetCampaignById(campaignId);
+                if (campaign == null)
+                    return NotFound("Campaign not found");
+
+                var needs = await _needService.GetAllNeedsAsync();
+                var ids = campaign.Subcategorias.Split(',');
+                var idsSet = new HashSet<string>(ids);
+
+                var filteredNeeds = needs.Select(need => new NeedDto
+                {
+                    Id = need.Id,
+                    Nombre = need.Nombre,
+                    Icono = need.Icono,
+                    Subcategoria = need.Subcategoria
+                        .Where(sub => idsSet.Contains(sub.Id.ToString()))
+                        .ToList()
+                })
+                .Where(need => need.Subcategoria.Any())
+                .ToList();
+
+                var response = _mapper.Map<CampaignResponseModel>(campaign);
+                response.Needs = filteredNeeds;
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving campaign with ID {CampaignId}", campaignId);
+                return StatusCode(500, "Internal server error");
+            }
+        }
     }
 }

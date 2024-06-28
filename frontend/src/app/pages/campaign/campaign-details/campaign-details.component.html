@@ -1,0 +1,69 @@
+<section>
+  <div class="page-container min-vh-100">
+    <div>
+      <img
+        class="position-absolute fixed-top ms-auto w-60 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0"
+        src="../assets/img/a.png"
+      />
+      <img
+        class="position-absolute fixed-top ms-8 w-auto h-100 z-index-0 d-xl-none border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0"
+        src="../assets/img/a-mobile.png"
+      />
+    </div>
+    <div class="container">
+      <div
+        class="card blur justify-content-center shadow-lg mt-7 mb-5 px-lg-4 pb-3"
+      >
+        <div class="card-body pt-4">
+          <div class="d-flex row">
+            <div class="col-md-12 mt-4">
+              <div class="card m-md-0">
+                <h1 class="text-center">{{ campaign.title }}</h1>
+                <img [src]="campaign.imageUrl" class="card-img-top" alt="..." />
+                <div
+                  class="section-date d-flex justify-content-center align-items-center gap-4"
+                >
+                  <p>
+                    <strong>Inicio:</strong>
+                    {{ campaign.startDate | date : "dd/MM/yyyy" }}
+                  </p>
+                  <p>
+                    <strong>Fin:</strong>
+                    {{ campaign.endDate | date : "dd/MM/yyyy" }}
+                  </p>
+                </div>
+                <div class="description ps-3">
+                  <h3 class="text-gradient text-secondary mb-4">Nuestras necesidades</h3>
+                  <div *ngFor="let need of campaign.needs" class="col">
+                    <div class="d-flex align-items-start g-2">
+                      <div class="me-3">
+                        <img [src]="need.icono" alt="{{need.nombre}}">
+                      </div>
+                      <div>
+                        <span>{{need.nombre}}</span>
+                        <ul>
+                          <li *ngFor="let sub of need.subcategoria">{{sub.nombre}}</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+
+                <p class="card-text">
+                  Some quick example text to build on the card title and make up
+                  the bulk of the card's content.
+                </p>
+              </div>
+
+              <div class="d-flex justify-content-center pt-4 gap-6">
+                <button (click)="openDialog()" class="btn btn-round bg-gradient-primary">¡Hacé la diferencia!</button>
+                <button class="btn btn-round bg-gradient-primary" (click)="goBack()">Volver atrás</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

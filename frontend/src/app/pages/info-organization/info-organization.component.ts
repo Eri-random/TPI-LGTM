@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OrganizationService } from 'src/app/services/organization.service';
 import { DialogDonateComponent } from './dialog-donate/dialog-donate.component';
 import { CampaignService, Campaign } from 'src/app/services/campaign.service';
@@ -17,6 +17,7 @@ export class InfoOrganizationComponent implements OnInit {
   organization: any;
   campaigns: Campaign[] = [];
   safeContent!: SafeHtml;
+  loading: boolean = true;
 
   constructor(
     private organizationService: OrganizationService,
@@ -24,6 +25,7 @@ export class InfoOrganizationComponent implements OnInit {
     private sanitizer: DomSanitizer,
     public dialog: MatDialog,
     private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   @ViewChild('swiperEl', { static: false }) swiperEl!: ElementRef;
@@ -78,6 +80,7 @@ export class InfoOrganizationComponent implements OnInit {
     this.campaignService.getAllCampaigns(organizacionId).subscribe(
       (resp) => {
         this.campaigns = resp;
+       
       },
       (error) => {
         console.log(error);
@@ -89,11 +92,15 @@ export class InfoOrganizationComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustHtml(content);
   }
 
-  openDialog(): void {
-    this.dialog.open(DialogDonateComponent, {
-      width: 'auto',
-      height: '75%',
-      data: { organizacionId: this.organization.id }
-    });
+  // openDialog(): void {
+  //   this.dialog.open(DialogDonateComponent, {
+  //     width: 'auto',
+  //     height: '75%',
+  //     data: { organizacionId: this.organization.id }
+  //   });
+  // }
+
+  readMore(campaignId: number) {
+    this.router.navigate(['/campañas-details', campaignId]);
   }
 }

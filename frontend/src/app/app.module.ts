@@ -52,6 +52,7 @@ import { UpdateAccountComponent } from './pages/update-account/update-account.co
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { PopupIdeaComponent } from './pages/generate-ideas/response-idea/popup-idea/popup-idea.component';
 import { CampaignsComponent } from './pages/campaign/campaigns.component';
+import { CampaignDetailsComponent } from './pages/campaign/campaign-details/campaign-details.component';
 register();
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ register();
     PageNotFoundComponent,
     UpdateAccountComponent,
     PopupIdeaComponent,
-    CampaignsComponent
+    CampaignsComponent,
+    CampaignDetailsComponent
   ],
   imports: [
     BrowserModule,

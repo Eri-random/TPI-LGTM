@@ -20,6 +20,7 @@ import { authGuard } from './guards/auth.guard';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { UpdateAccountComponent } from './pages/update-account/update-account.component';
 import { CampaignsComponent } from './pages/campaign/campaigns.component';
+import { CampaignDetailsComponent } from './pages/campaign/campaign-details/campaign-details.component';
 
 
 const routes: Routes = [
@@ -32,6 +33,7 @@ const routes: Routes = [
   {path: 'ubicaciones', component:MapOrganizationsComponent},
   {path: 'campañas-activas', component:CampaignsComponent, canActivate: [authGuard], data: { expectedRole: 'usuario'}},
   {path: 'campañas', component:CampaignsComponent, canActivate: [authGuard], data: { expectedRole: 'organizacion'}},
+  {path: 'campañas-details/:id', component: CampaignDetailsComponent },
   {path: 'donar', component:DonationsComponent},
   {path: 'dashboard', component: DashboardComponent, canActivate: [authGuard], data: { expectedRole: 'organizacion' }},
   {path: 'mi-organizacion', component: MyOrganizationComponent, canActivate: [authGuard], data: { expectedRole: 'organizacion' }},

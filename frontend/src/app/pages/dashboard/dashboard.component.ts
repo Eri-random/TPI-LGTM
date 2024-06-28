@@ -91,9 +91,10 @@ export class DashboardComponent implements OnInit {
     this.loadDonations();
 
     this.webSocketService.messages.subscribe((message) => {
+      console.log(message)
       if (
         message.type === 'actualizarDonaciones' &&
-        message.data.newDonation.Cuit === this.cuit
+        message.data.donation.Cuit === this.cuit
       ) {
         this.handleNewDonation(message.data);
       }
@@ -220,19 +221,19 @@ export class DashboardComponent implements OnInit {
 
   handleNewDonation(data: any) {
     console.log(data);
-    if (data && data.newDonation && data.user) {
-      this.totalDonations += data.newDonation.Cantidad;
+    if (data && data.donation && data.user) {
+      this.totalDonations += data.donation.Cantidad;
       this.totalDonationsCount += 1;
       this.averageDonations = this.totalDonations / this.totalDonationsCount;
 
       let newDonation: UserData = {
-        id: data.newDonation.Id,
+        id: data.donation.Id,
         name: data.user.Nombre,
         telefono: data.user.Telefono,
         email: data.user.Email,
-        producto: data.newDonation.Producto,
-        cantidad: data.newDonation.Cantidad,
-        estado: data.newDonation.Estado,
+        producto: data.donation.Producto,
+        cantidad: data.donation.Cantidad,
+        estado: data.donation.Estado,
         highlight: true,
       };
 

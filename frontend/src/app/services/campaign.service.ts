@@ -54,4 +54,9 @@ export class CampaignService {
     const url = `${this.baseUrl}/Campaign/${campaignId}`;
     return this.http.delete<void>(url);
   }
+
+  getIdCampaign(campaignId: number): Observable<Campaign>{
+    const url = `${this.baseUrl}/Campaign/idCampaign/${campaignId}`;
+    return this.http.get<Campaign>(url);
+  }
 }
