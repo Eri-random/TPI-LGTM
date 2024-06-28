@@ -11,5 +11,7 @@ namespace backend.servicios.Interfaces
         Task DeleteCampaign(int campaignId);
 
         Task UpdateCampaign(CampaignDto campaign);
+
+        Task<CampaignDto> GetCampaignById(int campaignId);
     }
 }

@@ -26,9 +26,18 @@ namespace backend.servicios.Servicios
             await _campaignRepository.DeleteAsync(campaignId);
         }
 
+        public async Task<CampaignDto> GetCampaignById(int campaignId)
+        {
+            var campaign = await _campaignRepository.GetByIdAsync(campaignId);
+            return _mapper.Map<CampaignDto>(campaign);
+        }
+
         public async Task<IEnumerable<CampaignDto>> GetCampaigns(int organizationId)
         {
             var campaigns = await _campaignRepository.GetAllAsync();
+
+            await ValidateCampaigns(campaigns);
+
             var orgCampaings = campaigns.Where(x => x.OrganizacionId == organizationId);
 
             return _mapper.Map<IEnumerable<CampaignDto>>(orgCampaings);
@@ -36,7 +45,26 @@ namespace backend.servicios.Servicios
 
         public async Task UpdateCampaign(CampaignDto campaign)
         {
-            await _campaignRepository.UpdateAsync(_mapper.Map<Campaign>(campaign));
+            var campaignToUpdate = await _campaignRepository.GetByIdAsync(campaign.Id);
+            campaignToUpdate.IsActive = campaign.IsActive;
+            campaignToUpdate.StartDate = campaign.StartDate;
+            campaignToUpdate.EndDate = campaign.EndDate;
+            await _campaignRepository.UpdateAsync(campaignToUpdate);
+        }
+
+        private async Task ValidateCampaigns(IEnumerable<Campaign> campaigns)
+        {
+            var campaignsToUpdate = campaigns.Where(x => x.IsActive && (DateTime.Now > x.EndDate));
+
+            if (campaignsToUpdate.Any())
+            {
+                foreach (var campaign in campaignsToUpdate)
+                {
+                    campaign.IsActive = false;
+                }
+
+                await _campaignRepository.UpdateRangeAsync(campaignsToUpdate);
+            }
         }
     }
 }

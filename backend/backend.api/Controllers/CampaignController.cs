@@ -68,9 +68,15 @@ namespace backend.api.Controllers
                 return BadRequest("Campaign object is null");
             }
 
+            if (campaign.StartDate >= campaign.EndDate)
+            {
+                return BadRequest("The start date must be earlier than the end date.");
+            }
+
             try
             {
                 var dto = _mapper.Map<CampaignDto>(campaign);
+                dto.IsActive = true;
 
                 var ids = string.Empty;
 
@@ -91,27 +97,6 @@ namespace backend.api.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdaeteCampaign([FromBody] CampaignRequestModel campaign)
-        {
-            if (campaign == null)
-            {
-                return BadRequest("Campaign object is null");
-            }
-
-            try
-            {
-                await _campaignService.UpdateCampaign(_mapper.Map<CampaignDto>(campaign));
-                return CreatedAtAction(nameof(GetCampaignsByOrganizationId), new { organizationId = campaign.OrganizacionId }, campaign);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error occurred while creating the campaign");
-                return StatusCode(500, "Internal server error");
-            }
-        }
-
-
         [HttpDelete("{campaignId}")]
         public async Task<IActionResult> DeleteCampaign(int campaignId)
         {
@@ -123,6 +108,22 @@ namespace backend.api.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while deleting campaign {campaignId}", campaignId);
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateCampaignStatus([FromBody] CampaignRequestModel campaignRequest)
+        {
+            try
+            {
+                await _campaignService.UpdateCampaign(_mapper.Map<CampaignDto>(campaignRequest));
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while deleting campaign {campaignId}", campaignRequest.Id);
                 return StatusCode(500, "Internal server error");
             }
         }

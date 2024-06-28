@@ -195,5 +195,48 @@ export class CampaignsComponent implements OnInit {
     );
   }
 
+  sortedCampaigns(): Campaign[] {
+    return this.campaigns.sort((a, b) => {
+      if (a.isActive && !b.isActive) {
+        return -1;
+      }
+      if (!a.isActive && b.isActive) {
+        return 1;
+      }
+      return 0;
+    });
+  }  
+
+  updateCampaignStatus(id: number, status: boolean): void {
+    const campaign = this.campaigns.find(c => c.id === id);
+    if (campaign) {
+      campaign.isActive = status;
+      this.campaignService.updateCampaign(campaign).subscribe(
+        () => {
+          this.toast.success({
+            detail: 'Éxito',
+            summary: `Campaña ${status ? 'activada' : 'desactivada'} correctamente`,
+            duration: 5000,
+            position: 'bottomRight',
+          });
+        },
+        error => {
+          console.error(error);
+          this.toast.error({
+            detail: 'Error',
+            summary: `Error al ${status ? 'activar' : 'desactivar'} la campaña`,
+            duration: 5000,
+            position: 'bottomRight',
+          });
+        }
+      );
+    }
+  }
+
+  toggleCampaignStatus(campaign: Campaign): void {
+    const newStatus = !campaign.isActive;
+    campaign.isActive = newStatus;
+  }
+
   get fm() { return this.campaignForm.controls; }
 }

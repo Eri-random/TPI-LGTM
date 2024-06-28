@@ -16,5 +16,7 @@ namespace backend.api.Models.RequestModels
         public ICollection<Subcategorium> Subcategoria { get; set; } = new List<Subcategorium>();
 
         public string ImageUrl { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }
