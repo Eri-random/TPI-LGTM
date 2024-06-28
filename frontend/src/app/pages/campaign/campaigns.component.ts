@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { CampaignService, Campaign } from '././../../services/campaign.service';
@@ -7,6 +7,7 @@ import { OrganizationService } from 'src/app/services/organization.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { NgToastService } from 'ng-angular-popup';
 import { switchMap } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-campaigns',
@@ -31,7 +32,9 @@ export class CampaignsComponent implements OnInit {
     private organizationService: OrganizationService,
     private needService: NeedService,
     private authService: AuthService,
-    private toast: NgToastService
+    private toast: NgToastService,
+    private router:Router,
+    private cdr: ChangeDetectorRef
   ) {
     this.campaignForm = this.fb.group({
       title: ['', Validators.required],
@@ -128,7 +131,7 @@ export class CampaignsComponent implements OnInit {
 
     this.campaignService.createCampaign(newCampaign).subscribe(
       data => {
-        this.campaigns.push(data);
+        this.loadCampaignsAndNeeds(this.cuit);
         this.campaignForm.reset(); // Reset the form
       },
       error => console.error(error)
