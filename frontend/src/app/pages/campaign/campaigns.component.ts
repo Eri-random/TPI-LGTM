@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
-import { CampaignService, Campaign } from '././../../services/campaign.service';
+import { CampaignService, Campaign } from './../../services/campaign.service';
 import { NeedService } from 'src/app/services/need.service';
 import { OrganizationService } from 'src/app/services/organization.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -33,7 +33,7 @@ export class CampaignsComponent implements OnInit {
     private needService: NeedService,
     private authService: AuthService,
     private toast: NgToastService,
-    private router:Router,
+    private router: Router,
     private cdr: ChangeDetectorRef
   ) {
     this.campaignForm = this.fb.group({
@@ -41,7 +41,9 @@ export class CampaignsComponent implements OnInit {
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
       needs: this.fb.array([], Validators.required),
-      imageUrl: ['', Validators.required]
+      imageUrl: ['', Validators.required],
+      descripcionBreve: ['', [Validators.required, Validators.maxLength(150)]],
+      descripcionCompleta: ['', [Validators.required, Validators.maxLength(4000)]]
     });
   }
 
@@ -57,24 +59,19 @@ export class CampaignsComponent implements OnInit {
       this.loadForm();
     });
     this.loadCampaignsAndNeeds(this.cuit);
-    // this.loadAllNeeds();
   }
 
   loadForm() {
     this.needService.getAllNeeds().subscribe((resp) => {
       this.needs = resp;
-  
-      // Crear los grupos de formularios dinámicamente
       this.needs.forEach((need: any) => {
         const formGroup = this.fb.group({});
         need.subcategoria.forEach((sub: any) => {
-          formGroup.addControl(sub.nombre, this.fb.control(false)); // Inicializar como no marcado
+          formGroup.addControl(sub.nombre, this.fb.control(false));
         });
-        this.formGroups[need.nombre] = formGroup; // Asigna el FormGroup a una propiedad del componente
+        this.formGroups[need.nombre] = formGroup;
       });
-
-      this.loading = false; 
-      
+      this.loading = false;
     });
   }
 
@@ -96,27 +93,6 @@ export class CampaignsComponent implements OnInit {
       );
   }
 
-  loadAllNeeds(): void {
-    this.needService.getAllNeeds().subscribe(
-      data => {
-        this.needs = data;
-        this.initializeFormGroups();
-        this.loading = false;
-      },
-      error => console.error(error)
-    );
-  }
-
-  initializeFormGroups(): void {
-    this.needs.forEach((need: any) => {
-      const formGroup = this.fb.group({});
-      need.subcategoria.forEach((sub: any) => {
-        formGroup.addControl(sub.nombre, this.fb.control(false)); // Initialize as unchecked
-      });
-      this.formGroups[need.nombre] = formGroup; // Assign the FormGroup to the formGroups object
-    });
-  }
-
   addCampaign(): void {
     const selectedSubcategories = this.getSelectedSubcategories();
     const newCampaign: Campaign = {
@@ -132,7 +108,7 @@ export class CampaignsComponent implements OnInit {
     this.campaignService.createCampaign(newCampaign).subscribe(
       data => {
         this.loadCampaignsAndNeeds(this.cuit);
-        this.campaignForm.reset(); // Reset the form
+        this.campaignForm.reset();
       },
       error => console.error(error)
     );
@@ -173,7 +149,7 @@ export class CampaignsComponent implements OnInit {
       }
     });
     return Array.from(uniqueNeeds.values());
-  }  
+  }
 
   deleteCampaign(id: number): void {
     this.campaignService.deleteCampaign(id).subscribe(
@@ -208,7 +184,7 @@ export class CampaignsComponent implements OnInit {
       }
       return 0;
     });
-  }  
+  }
 
   updateCampaignStatus(id: number, status: boolean): void {
     const campaign = this.campaigns.find(c => c.id === id);

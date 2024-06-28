@@ -24,6 +24,8 @@ export interface Campaign {
   needs: Need[];
   isActive: boolean;
   imageUrl?: string;
+  descripcionBreve: string;
+  descripcionCompleta: string;
 }
 
 @Injectable({
