@@ -44,44 +44,58 @@
                 </div>
               </div>
 
-              <div *ngIf="campaigns && campaigns.length > 0; else noCampaigns" class="p-lg-3 info-horizontal">
-                <div class="icon icon-shape rounded-circle bg-gradient-secondary shadow text-center">
-                  <i class="fas fa-bullhorn opacity-10"></i>
-                </div>
-                <div class="description ps-3">
-                  <h3 class="text-gradient text-secondary mb-4">Campañas de {{organization?.nombre}}</h3>
-                  <div *ngFor="let campaign of campaigns" class="col">
-                    <div class="d-flex align-items-start g-2">
-                      <div>
-                        <h4 class="campaign-title">{{campaign.title}}</h4>
-                        <p><strong>Fecha de inicio:</strong> {{ campaign.startDate | date: 'yyyy-MM-dd' }}</p>
-                        <p><strong>Fecha de fin:</strong> {{ campaign.endDate | date: 'yyyy-MM-dd' }}</p>
-                        <ul>
-                          <li *ngFor="let sub of campaign.needs">{{sub.nombre}}</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
-              <ng-template #noCampaigns>
-                <div class="p-lg-3 info-horizontal">
-                  <div class="icon icon-shape rounded-circle bg-gradient-secondary shadow text-center">
-                    <i class="fas fa-exclamation-circle opacity-10"></i>
-                  </div>
-                  <div class="description ps-3">
-                    <h3 class="text-gradient text-secondary mb-4">No hay campañas disponibles</h3>
-                    <p>Actualmente no hay campañas activas para esta organización.</p>
-                    <p>Igualmente podes donar a la organización</p>
-                  </div>
-                </div>
-              </ng-template>
-
-              <div class="d-flex justify-content-center pt-4">
+              <!-- <div class="d-flex justify-content-center pt-4">
                 <button (click)="openDialog()" class="btn btn-round bg-gradient-primary">¡Hacé la diferencia!</button>
+              </div> -->
+            </div>
+
+            <div *ngIf="campaigns && campaigns.length > 0; else noCampaigns" class="p-lg-3 info-horizontal">
+              <div class="icon icon-shape rounded-circle bg-gradient-secondary shadow text-center">
+                <i class="fas fa-bullhorn opacity-10"></i>
+              </div>
+              <div class="description ps-3">
+                <h3 class="text-gradient text-secondary mb-4">Campañas de {{organization?.nombre}}</h3>
               </div>
             </div>
+
+            <swiper-container class="mySwiper" init="false" #swiperEl>
+              <swiper-slide *ngFor="let campaign of campaigns" class="card" >
+                <!-- <div class="d-flex align-items-start g-2">
+                  <div>
+                    <h4 class="campaign-title">{{campaign.title}}</h4>
+                    <img [src]="campaign.imageUrl">
+                    <p><strong>Fecha de inicio:</strong> {{ campaign.startDate | date: 'yyyy-MM-dd' }}</p>
+                    <p><strong>Fecha de fin:</strong> {{ campaign.endDate | date: 'yyyy-MM-dd' }}</p>
+                  </div>
+                </div> -->
+
+                  <img [src]="campaign.imageUrl" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">{{campaign.title}}</h5>
+                    <div class="section-date d-flex justify-content-center align-items-center gap-4">
+                      <p><strong>Inicio:</strong> {{ campaign.startDate | date: 'yyyy-MM-dd' }}</p>
+                      <p><strong>Fin:</strong> {{ campaign.endDate | date: 'yyyy-MM-dd' }}</p>
+                    </div>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn bg-gradient-primary">Leer más</a>
+                  </div>
+              </swiper-slide>
+            </swiper-container>
+
+            <ng-template #noCampaigns>
+              <div class="p-lg-3 info-horizontal">
+                <div class="icon icon-shape rounded-circle bg-gradient-secondary shadow text-center">
+                  <i class="fas fa-exclamation-circle opacity-10"></i>
+                </div>
+                <div class="description ps-3">
+                  <h3 class="text-gradient text-secondary mb-4">No hay campañas disponibles</h3>
+                  <p>Actualmente no hay campañas activas para esta organización.</p>
+                  <p>Igualmente podes donar a la organización</p>
+                </div>
+              </div>
+            </ng-template>
+
           </div>
         </div>
       </div>

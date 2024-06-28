@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -25,6 +25,38 @@ export class InfoOrganizationComponent implements OnInit {
     public dialog: MatDialog,
     private route: ActivatedRoute,
   ) { }
+
+  @ViewChild('swiperEl', { static: false }) swiperEl!: ElementRef;
+
+  ngAfterViewInit() {
+    if (this.swiperEl) {
+      const swiperElement = this.swiperEl.nativeElement;
+
+      Object.assign(swiperElement, {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        pagination: {
+          clickable: true,
+        },
+        breakpoints: {
+          640: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 40,
+          },
+          1024: {
+            slidesPerView: 3,
+            spaceBetween: 50,
+          },
+        },
+      });
+
+      swiperElement.initialize();
+    }
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
