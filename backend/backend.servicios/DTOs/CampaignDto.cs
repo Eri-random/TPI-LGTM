@@ -17,5 +17,9 @@
         public bool IsActive { get; set; }
 
         public string ImageUrl { get; set; }
+
+        public string DescripcionBreve { get; set; }
+
+        public string DescripcionCompleta { get; set; }
     }
 }

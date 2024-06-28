@@ -175,6 +175,14 @@ namespace backend.data.DataContext
                     .IsRequired()
                     .HasColumnName("organizacion_id");
 
+                entity.Property(e => e.DescripcionBreve)
+                    .HasMaxLength(150)
+                    .HasColumnName("descripcion_breve");
+
+                entity.Property(e => e.DescripcionCompleta)
+                    .HasMaxLength(4000)
+                    .HasColumnName("descripcion_completa");
+
                 entity.HasOne(d => d.Organizacion)
                     .WithMany(p => p.Campaigns)
                     .HasForeignKey(d => d.OrganizacionId)

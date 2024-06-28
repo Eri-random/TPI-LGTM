@@ -18,5 +18,9 @@ namespace backend.api.Models.RequestModels
         public string ImageUrl { get; set; }
 
         public bool IsActive { get; set; }
+
+        public string DescripcionBreve { get; set; }
+
+        public string DescripcionCompleta { get; set; }
     }
 }
