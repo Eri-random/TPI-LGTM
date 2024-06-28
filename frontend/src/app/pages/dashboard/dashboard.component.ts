@@ -30,6 +30,7 @@ export interface UserData {
   estado: string;
   highlight?: boolean; // Add an optional highlight property
   selected?: boolean;
+  fecha?: string
 }
 
 @Component({
@@ -54,7 +55,8 @@ export class DashboardComponent implements OnInit {
     'email',
     'producto',
     'cantidad',
-    'estado',
+    'fecha',
+    'estado'
   ];
 
   dataSource: MatTableDataSource<UserData> = new MatTableDataSource();
@@ -111,7 +113,6 @@ export class DashboardComponent implements OnInit {
       )
       .subscribe(
         (donations) => {
-          console.log(donations);
           if (donations.length != 0) {
             const formattedDonations = donations.map((donation: any) => ({
               id: donation.id,
@@ -121,6 +122,7 @@ export class DashboardComponent implements OnInit {
               producto: donation.producto,
               cantidad: donation.cantidad,
               estado: donation.estado,
+              fecha: donation.fecha
             }));
 
             this.existDonations = formattedDonations.length > 0; // Actualiza existDonations aquí
@@ -235,6 +237,7 @@ export class DashboardComponent implements OnInit {
         cantidad: data.donation.Cantidad,
         estado: data.donation.Estado,
         highlight: true,
+        fecha: data.donation.Fecha
       };
 
       let newData = [newDonation, ...this.dataSource.data];
@@ -356,6 +359,7 @@ export class DashboardComponent implements OnInit {
       Producto: donation.producto,
       Cantidad: donation.cantidad,
       Estado: donation.estado,
+      Fecha: this.formatDate(donation.fecha)
     }));
 
     dataToExport.push({
@@ -364,6 +368,7 @@ export class DashboardComponent implements OnInit {
       Email: '',
       Producto: '',
       Estado: '',
+      Fecha: ''
     } as any);
 
     dataToExport.push({
@@ -373,6 +378,7 @@ export class DashboardComponent implements OnInit {
       Producto: '',
       Cantidad: this.totalDonations,
       Estado: '',
+      Fecha: ''
     });
 
     let amountFixed = parseFloat(this.averageDonations.toFixed(2));
@@ -384,6 +390,7 @@ export class DashboardComponent implements OnInit {
       Producto: '',
       Cantidad: amountFixed,
       Estado: '',
+      Fecha: ''
     });
 
     if (this.productMostDonate) {
@@ -394,6 +401,7 @@ export class DashboardComponent implements OnInit {
         Producto: this.productMostDonate.product,
         Cantidad: this.productMostDonate.amount,
         Estado: '',
+        Fecha: ''
       });
     }
 
@@ -434,6 +442,19 @@ export class DashboardComponent implements OnInit {
       type: 'array',
     });
     this.saveAsExcelFile(excelBuffer, 'donaciones');
+  }
+
+  formatDate(date?: string): string {
+    if (!date) return '';
+    const d = new Date(date);
+    let day = '' + d.getDate();
+    let month = '' + (d.getMonth() + 1);
+    const year = d.getFullYear();
+  
+    if (day.length < 2) day = '0' + day;
+    if (month.length < 2) month = '0' + month;
+  
+    return [day, month, year].join('/');
   }
 
   private saveAsExcelFile(buffer: any, fileName: string): void {
