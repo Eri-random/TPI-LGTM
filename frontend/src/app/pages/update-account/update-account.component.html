@@ -416,13 +416,13 @@
                     </div>
                     <div class="col-md-6">
                       <div class="p-3 text-center">
-                        <h1><i class="fas fa-hand-holding-heart text-gradient text-secondary"></i></h1>
+                        <h1><i class="fas fa-bullhorn text-gradient text-secondary"></i></h1>
                         <h5 class="mt-3">Mis campañas</h5>
                         <div class="text-md">
                           <div *ngIf="campaign.length === 0">
-                            <p>Todavía no cargaste ninguna necesidad.</p>
+                            <p>Todavía no creaste ninguna campaña.</p>
                             <button type="button" class="btn btn-sm btn-round bg-gradient-primary w-100 mt-2"
-                              routerLink="/necesidades">Cargar<br />necesidades</button>
+                              routerLink="/campañas">Crear<br />campañas</button>
                           </div>
 
                           <div *ngIf="campaign.length > 0">
@@ -432,23 +432,18 @@
                                   <button class="accordion-button border-bottom font-weight-bold collapsed"
                                     type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
                                     aria-expanded="false" aria-controls="collapseTwo">
-                                    <p *ngIf="campaign.length === 1">{{ campaign.length }} camapaña</p>
-                                    <p *ngIf="campaign.length > 1">{{ campaign.length }} camapañas</p>
+                                    <p *ngIf="campaign.length === 1">{{ campaign.length }} campaña</p>
+                                    <p *ngIf="campaign.length > 1">{{ campaign.length }} campañas</p>
                                     <i class="fas fa-info text-sm mt-n2 position-absolute end-0 me-3"></i>
                                   </button>
                                 </h5>
                                 <div id="collapseTwo" class="accordion-collapse collapse">
                                   <div class="accordion-body p-0 text-sm opacity-8">
-                                    <ul *ngFor="let need of needs" class="list-group">
-                                      <li class="list-group-item my-1 font-weight-bold text-center pb-4">{{ need.nombre
-                                        }}
-                                        <ul *ngFor="let subcategory of need.subcategoria">
-                                          <li class="font-weight-light pt-2 mb-n2">{{ subcategory.nombre }}</li>
-                                        </ul>
-                                      </li>
+                                    <ul *ngFor="let c of campaign" class="list-group">
+                                      <li class="list-group-item my-1 font-weight-bold text-center">{{ c.title }}</li>
                                     </ul>
                                     <button type="button" class="btn btn-sm btn-round bg-gradient-primary w-100 mt-2"
-                                      routerLink="/necesidades">Editar<br />necesidades</button>
+                                      routerLink="/campañas">Editar<br />campañas</button>
                                   </div>
                                 </div>
                               </div>
