@@ -102,8 +102,8 @@ describe('DashboardComponent', () => {
   it('debería manejar nuevas donaciones a través de WebSocket', () => {
     component.dataSource = new MatTableDataSource<UserData>([]);
     const newDonation = {
-      newDonation: { Producto: 'Producto B', Cantidad: 5 },
-      user: { Nombre: 'Maria', Telefono: '87654321', Email: 'maria@ejemplo.com' }, // Proporciona datos válidos para el usuario
+      donation: { Id: 2, Producto: 'Producto B', Cantidad: 5, Estado: 'Pendiente', Fecha: '2024-06-29' },
+      user: { Nombre: 'Maria', Telefono: '87654321', Email: 'maria@ejemplo.com' }
     };
     
 
@@ -113,7 +113,7 @@ describe('DashboardComponent', () => {
     expect(component.totalDonationsCount).toBe(1);
     expect(component.averageDonations).toBe(5);
     expect(component.dataSource.data.length).toBe(1);
-    expect(component.dataSource.data[0].name).toBe('Maria'); // Verifica que el nombre sea 'Maria' correctamente
+    expect(component.dataSource.data[0].name).toBe('Maria');
     expect(component.dataSource.data[0].producto).toBe('Producto B');
     expect(toastServiceMock.success).toHaveBeenCalledWith({
       detail: 'EXITO',
@@ -137,7 +137,7 @@ describe('DashboardComponent', () => {
     expect(component.dataSource.filteredData[0].name).toBe('Juan');
   });
 
-  it('should handle error while loading donations', () => {
+  it('debería manejar errores al cargar donaciones', () => {
     const error = 'Error loading donations';
     
     organizationServiceMock.getOrganizationByCuit.and.returnValue(of({ id: 1 }));
