@@ -64,28 +64,7 @@ describe('SeeIdeaComponent', () => {
     expect(mockResponseIdeaService.getIdea).toHaveBeenCalledWith(1);
     expect(console.error).toHaveBeenCalledWith('Error al cargar la idea:', mockError);
   });
-
-  // it('debería generar un PDF con la idea', () => {
-  //   const mockIdea = {
-  //     titulo: 'Idea de Prueba',
-  //     usuarioId: 1,
-  //     pasos: [{ descripcion: 'Paso 1' }, { descripcion: 'Paso 2' }],
-  //     dificultad: 'Media'
-  //   };
-
-  //   component.idea = mockIdea;
-  //   component.logoBase64 = 'data:image/jpeg;base64,...';
-
-  //   const doc = new jsPDF.default();
-  //   const docSaveSpy = spyOn(doc, 'save');
-  //   const autoTableSpy = spyOn<any>(autoTable, 'apply');
-
-  //   component.downloadPDF();
-
-  //   expect(docSaveSpy).toHaveBeenCalledWith('idea-Idea de Prueba.pdf');
-  //   expect(autoTableSpy).toHaveBeenCalled();
-  // });
-
+  
   it('debería mostrar un error si el logo no está cargado al intentar generar un PDF', () => {
     spyOn(console, 'error');
 

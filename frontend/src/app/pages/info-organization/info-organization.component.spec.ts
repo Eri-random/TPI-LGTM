@@ -1,43 +1,46 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialog } from '@angular/material/dialog';
-import { DomSanitizer } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
-import { of, throwError } from 'rxjs';
-import { InfoOrganizationComponent } from './info-organization.component';
-import { OrganizationService } from 'src/app/services/organization.service';
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
-import { DialogDonateComponent } from './dialog-donate/dialog-donate.component';
+// import { ComponentFixture, TestBed } from '@angular/core/testing';
+// import { InfoOrganizationComponent } from './info-organization.component';
+// import { OrganizationService } from 'src/app/services/organization.service';
+// import { CampaignService, Campaign } from 'src/app/services/campaign.service';
+// import { MatDialogModule } from '@angular/material/dialog';
+// import { RouterTestingModule } from '@angular/router/testing';
+// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+// import { of, throwError } from 'rxjs';
+// import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
+// import { ActivatedRoute, Router } from '@angular/router';
+// import { CUSTOM_ELEMENTS_SCHEMA, ElementRef } from '@angular/core';
 
 // describe('InfoOrganizationComponent', () => {
 //   let component: InfoOrganizationComponent;
 //   let fixture: ComponentFixture<InfoOrganizationComponent>;
 //   let organizationServiceMock: any;
-
-//   let mockSanitizer: any;
-//   let mockDialog: any;
-//   let mockActivatedRoute: any;
+//   let campaignServiceMock: any;
+//   let sanitizerMock: any;
+//   let routeMock: any;
+//   let routerMock: any;
 
 //   beforeEach(async () => {
-//     organizationServiceMock = {
-//       getOrganizationById: jasmine.createSpy('getOrganizationById').and.returnValue(of({ id: 1 })),
-//       getGroupedSubcategories: jasmine.createSpy('getGroupedSubcategories').and.returnValue(of([])),
-//     };
-//     mockSanitizer = jasmine.createSpyObj('DomSanitizer', ['bypassSecurityTrustHtml']);
-//     mockDialog = jasmine.createSpyObj('MatDialog', ['open']);
-//     mockActivatedRoute = {
-//       params: of({ id: 1 })
-//     };
+//     organizationServiceMock = jasmine.createSpyObj('OrganizationService', ['getOrganizationById']);
+//     campaignServiceMock = jasmine.createSpyObj('CampaignService', ['getAllCampaigns']);
+//     sanitizerMock = jasmine.createSpyObj('DomSanitizer', ['bypassSecurityTrustHtml']);
+//     routeMock = { params: of({ id: '123' }) };
+//     routerMock = jasmine.createSpyObj('Router', ['navigate']);
 
 //     await TestBed.configureTestingModule({
 //       declarations: [InfoOrganizationComponent],
+//       imports: [
+//         MatDialogModule,
+//         RouterTestingModule,
+//         BrowserAnimationsModule
+//       ],
 //       providers: [
 //         { provide: OrganizationService, useValue: organizationServiceMock },
-//         { provide: DomSanitizer, useValue: mockSanitizer },
-//         { provide: MatDialog, useValue: mockDialog },
-//         { provide: ActivatedRoute, useValue: mockActivatedRoute },
+//         { provide: CampaignService, useValue: campaignServiceMock },
+//         { provide: DomSanitizer, useValue: sanitizerMock },
+//         { provide: ActivatedRoute, useValue: routeMock },
+//         { provide: Router, useValue: routerMock }
 //       ],
-//       schemas: [ CUSTOM_ELEMENTS_SCHEMA,
-//         NO_ERRORS_SCHEMA]
+//       schemas: [CUSTOM_ELEMENTS_SCHEMA]
 //     }).compileComponents();
 //   });
 
@@ -47,62 +50,68 @@ import { DialogDonateComponent } from './dialog-donate/dialog-donate.component';
 //     fixture.detectChanges();
 //   });
 
-  // it('debería crear el componente', () => {
-  //   expect(component).toBeTruthy();
-  // });
+//   it('debería crear el componente', () => {
+//     expect(component).toBeTruthy();
+//   });
 
-  // it('debería inicializar los datos de la organización en ngOnInit', () => {
-  //   const mockData = {
-  //     id: 1,
-  //     infoOrganizacion: {
-  //       descripcionCompleta: '<p>Descripción completa</p>'
-  //     }
-  //   };
+//   it('debería cargar la organización y campañas en ngOnInit', () => {
+//     const organizationData = { id: '123', infoOrganizacion: { descripcionCompleta: '<p>Descripción</p>' } };
+//     const campaignsData: Campaign[] = [
+//       {
+//         id: 1, title: 'Campaign 1', startDate: '2023-01-01', endDate: '2023-12-31', isActive: true, descripcionCompleta: 'Description 1',
+//         organizacionId: 0,
+//         needs: [],
+//         descripcionBreve: ''
+//       },
+//       {
+//         id: 2, title: 'Campaign 2', startDate: '2023-01-01', endDate: '2023-12-31', isActive: false, descripcionCompleta: 'Description 2',
+//         organizacionId: 0,
+//         needs: [],
+//         descripcionBreve: ''
+//       }
+//     ];
 
-  //   organizationServiceMock.getOrganizationById.and.returnValue(of(mockData));
-  //   mockSanitizer.bypassSecurityTrustHtml.and.returnValue('safeHtmlContent');
+//     organizationServiceMock.getOrganizationById.and.returnValue(of(organizationData));
+//     campaignServiceMock.getAllCampaigns.and.returnValue(of(campaignsData));
+//     sanitizerMock.bypassSecurityTrustHtml.and.returnValue('<p>Descripción</p>' as SafeHtml);
 
-  //   component.ngOnInit();
+//     component.ngOnInit();
+//     fixture.detectChanges();
 
-  //   expect(mockActivatedRoute.params.subscribe).toBeTruthy();
-  //   expect(organizationServiceMock.getOrganizationById).toHaveBeenCalledWith(1);
-  //   expect(component.safeContent).toBe('safeHtmlContent');
-  //   expect(component.organization).toEqual(mockData);
-  // });
+//     expect(component.organization).toEqual(organizationData);
+//     expect(component.safeContent).toEqual('<p>Descripción</p>' as SafeHtml);
+//     expect(component.campaigns).toEqual([campaignsData[0]]);
+//     expect(sanitizerMock.bypassSecurityTrustHtml).toHaveBeenCalledWith('<p>Descripción</p>');
+//   });
 
-  // it('debería manejar errores al cargar datos de la organización', () => {
-  //   const errorResponse = new Error('Error al cargar la organización');
+//   it('debería manejar errores al cargar la organización', () => {
+//     spyOn(console, 'error');
+//     organizationServiceMock.getOrganizationById.and.returnValue(throwError('error'));
 
-  //   organizationServiceMock.getOrganizationById.and.returnValue(throwError(() => errorResponse));
-  //   spyOn(console, 'error');
+//     component.ngOnInit();
+//     fixture.detectChanges();
 
-  //   component.ngOnInit();
+//     expect(console.error).toHaveBeenCalledWith('error');
+//   });
 
-  //   expect(organizationServiceMock.getOrganizationById).toHaveBeenCalledWith(1);
-  //   expect(console.error).toHaveBeenCalledWith(errorResponse);
-  // });
+//   it('debería inicializar el swiper después de la vista', () => {
+//     const swiperMock = {
+//       nativeElement: {
+//         initialize: jasmine.createSpy('initialize'),
+//         slidesPerView: 1,
+//         spaceBetween: 10,
+//         pagination: { clickable: true },
+//         breakpoints: {
+//           640: { slidesPerView: 2, spaceBetween: 20 },
+//           768: { slidesPerView: 3, spaceBetween: 40 },
+//           1024: { slidesPerView: 3, spaceBetween: 50 },
+//         }
+//       }
+//     };
 
-  // it('debería sanitizar el contenido correctamente', () => {
-  //   const unsafeContent = '<p>Descripción completa</p>';
-  //   const safeContent = 'safeHtmlContent';
+//     component.swiperEl = swiperMock as any;
+//     component.ngAfterViewInit();
 
-  //   mockSanitizer.bypassSecurityTrustHtml.and.returnValue(safeContent);
-
-  //   const result = component.sanitizeContent(unsafeContent);
-
-  //   expect(mockSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith(unsafeContent);
-  //   expect(result).toBe(safeContent);
-  // });
-
-  // it('debería abrir el diálogo de donación con los datos correctos', () => {
-  //   component.organization = { id: 1 };
-
-  //   component.openDialog();
-
-  //   expect(mockDialog.open).toHaveBeenCalledWith(DialogDonateComponent, {
-  //     width: 'auto',
-  //     height: '75%',
-  //     data: { organizacionId: 1 }
-  //   });
-  // });
-//});
+//     expect(swiperMock.nativeElement.initialize).toHaveBeenCalled();
+//   });
+// });

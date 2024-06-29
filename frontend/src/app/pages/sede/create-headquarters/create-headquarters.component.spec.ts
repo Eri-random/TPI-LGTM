@@ -120,7 +120,7 @@ describe('CreateHeadquartersComponent', () => {
           direccion: 'Direccion 1',
           provincia: 'Provincia 1',
           telefono: '123456789',
-          localidad: 'Localidad 1' // Adding the required localidad field
+          localidad: 'Localidad 1' 
         }
       ]
     };
@@ -128,7 +128,6 @@ describe('CreateHeadquartersComponent', () => {
   
     component.organization = mockOrganization;
   
-    // Enable the localidad field before setting the value
     const sedesFormArray = component.HeadquartersForm.get('sedes') as FormArray;
     const sedeFormGroup = sedesFormArray.at(0) as FormGroup;
     sedeFormGroup.get('localidad')?.enable();
