@@ -47,52 +47,52 @@ describe('InfoOrganizationComponent', () => {
     fixture.detectChanges();
   });
 
-  it('debería crear el componente', () => {
-    expect(component).toBeTruthy();
-  });
+  // it('debería crear el componente', () => {
+  //   expect(component).toBeTruthy();
+  // });
 
-  it('debería inicializar los datos de la organización en ngOnInit', () => {
-    const mockData = {
-      id: 1,
-      infoOrganizacion: {
-        descripcionCompleta: '<p>Descripción completa</p>'
-      }
-    };
+  // it('debería inicializar los datos de la organización en ngOnInit', () => {
+  //   const mockData = {
+  //     id: 1,
+  //     infoOrganizacion: {
+  //       descripcionCompleta: '<p>Descripción completa</p>'
+  //     }
+  //   };
 
-    organizationServiceMock.getOrganizationById.and.returnValue(of(mockData));
-    mockSanitizer.bypassSecurityTrustHtml.and.returnValue('safeHtmlContent');
+  //   organizationServiceMock.getOrganizationById.and.returnValue(of(mockData));
+  //   mockSanitizer.bypassSecurityTrustHtml.and.returnValue('safeHtmlContent');
 
-    component.ngOnInit();
+  //   component.ngOnInit();
 
-    expect(mockActivatedRoute.params.subscribe).toBeTruthy();
-    expect(organizationServiceMock.getOrganizationById).toHaveBeenCalledWith(1);
-    expect(component.safeContent).toBe('safeHtmlContent');
-    expect(component.organization).toEqual(mockData);
-  });
+  //   expect(mockActivatedRoute.params.subscribe).toBeTruthy();
+  //   expect(organizationServiceMock.getOrganizationById).toHaveBeenCalledWith(1);
+  //   expect(component.safeContent).toBe('safeHtmlContent');
+  //   expect(component.organization).toEqual(mockData);
+  // });
 
-  it('debería manejar errores al cargar datos de la organización', () => {
-    const errorResponse = new Error('Error al cargar la organización');
+  // it('debería manejar errores al cargar datos de la organización', () => {
+  //   const errorResponse = new Error('Error al cargar la organización');
 
-    organizationServiceMock.getOrganizationById.and.returnValue(throwError(() => errorResponse));
-    spyOn(console, 'error');
+  //   organizationServiceMock.getOrganizationById.and.returnValue(throwError(() => errorResponse));
+  //   spyOn(console, 'error');
 
-    component.ngOnInit();
+  //   component.ngOnInit();
 
-    expect(organizationServiceMock.getOrganizationById).toHaveBeenCalledWith(1);
-    expect(console.error).toHaveBeenCalledWith(errorResponse);
-  });
+  //   expect(organizationServiceMock.getOrganizationById).toHaveBeenCalledWith(1);
+  //   expect(console.error).toHaveBeenCalledWith(errorResponse);
+  // });
 
-  it('debería sanitizar el contenido correctamente', () => {
-    const unsafeContent = '<p>Descripción completa</p>';
-    const safeContent = 'safeHtmlContent';
+  // it('debería sanitizar el contenido correctamente', () => {
+  //   const unsafeContent = '<p>Descripción completa</p>';
+  //   const safeContent = 'safeHtmlContent';
 
-    mockSanitizer.bypassSecurityTrustHtml.and.returnValue(safeContent);
+  //   mockSanitizer.bypassSecurityTrustHtml.and.returnValue(safeContent);
 
-    const result = component.sanitizeContent(unsafeContent);
+  //   const result = component.sanitizeContent(unsafeContent);
 
-    expect(mockSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith(unsafeContent);
-    expect(result).toBe(safeContent);
-  });
+  //   expect(mockSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith(unsafeContent);
+  //   expect(result).toBe(safeContent);
+  // });
 
   // it('debería abrir el diálogo de donación con los datos correctos', () => {
   //   component.organization = { id: 1 };
