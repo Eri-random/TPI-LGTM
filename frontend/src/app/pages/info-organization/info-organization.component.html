@@ -1,90 +1,35 @@
 <section>
   <div class="page-container min-vh-100">
     <div>
-      <img
-        class="position-absolute fixed-top ms-auto w-60 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0"
-        src="../assets/img/a.png"
-      />
-      <img
-        class="position-absolute fixed-top ms-8 w-auto h-100 z-index-0 d-xl-none border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0"
-        src="../assets/img/a-mobile.png"
-      />
+      <img class="position-absolute fixed-top ms-auto w-60 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/a.png" />
+      <img class="position-absolute fixed-top ms-8 w-auto h-100 z-index-0 d-xl-none border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/a-mobile.png" />
     </div>
     <div class="container">
-      <div
-        class="card blur justify-content-center shadow-lg mt-7 mb-5 px-lg-4 pb-3"
-      >
+      <div class="card blur justify-content-center shadow-lg mt-7 mb-5 px-lg-4 pb-3">
         <div class="card-body pt-4">
           <div class="d-flex row">
             <div class="col-md-4 mt-4">
               <div class="card m-md-0">
-                <img
-                  class="card-img-top"
-                  ngClass="organizacion_img"
-                  src="{{ organization?.infoOrganizacion.img }}"
-                />
-                <div
-                  class="position-relative"
-                  style="
+                <img class="card-img-top" ngClass="organizacion_img" src="{{ organization?.infoOrganizacion.img }}" />
+                <div class="position-relative" style="
                     height: 50px;
                     overflow: hidden;
                     margin-top: -50px;
                     z-index: 2;
                     position: relative;
-                  "
-                >
+                  ">
                   <div class="position-absolute w-100 top-0" style="z-index: 1">
-                    <svg
-                      class="waves waves-sm"
-                      xmlns="http://www.w3.org/2000/svg"
-                      xmlns:xlink="http://www.w3.org/1999/xlink"
-                      viewBox="0 24 150 40"
-                      preserveAspectRatio="none"
-                      shape-rendering="auto"
-                    >
+                    <svg class="waves waves-sm" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 40" preserveAspectRatio="none" shape-rendering="auto">
                       <defs>
-                        <path
-                          id="card-wave"
-                          d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
-                        ></path>
+                        <path id="card-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"></path>
                       </defs>
                       <g class="moving-waves">
-                        <use
-                          xlink:href="#card-wave"
-                          x="48"
-                          y="-1"
-                          fill="rgba(255,255,255,0.30"
-                        ></use>
-                        <use
-                          xlink:href="#card-wave"
-                          x="48"
-                          y="3"
-                          fill="rgba(255,255,255,0.35)"
-                        ></use>
-                        <use
-                          xlink:href="#card-wave"
-                          x="48"
-                          y="5"
-                          fill="rgba(255,255,255,0.25)"
-                        ></use>
-                        <use
-                          xlink:href="#card-wave"
-                          x="48"
-                          y="8"
-                          fill="rgba(255,255,255,0.20)"
-                        ></use>
-                        <use
-                          xlink:href="#card-wave"
-                          x="48"
-                          y="13"
-                          fill="rgba(255,255,255,0.15)"
-                        ></use>
-                        <use
-                          xlink:href="#card-wave"
-                          x="48"
-                          y="16"
-                          fill="rgba(255,255,255,0.99)"
-                        ></use>
+                        <use xlink:href="#card-wave" x="48" y="-1" fill="rgba(255,255,255,0.30"></use>
+                        <use xlink:href="#card-wave" x="48" y="3" fill="rgba(255,255,255,0.35)"></use>
+                        <use xlink:href="#card-wave" x="48" y="5" fill="rgba(255,255,255,0.25)"></use>
+                        <use xlink:href="#card-wave" x="48" y="8" fill="rgba(255,255,255,0.20)"></use>
+                        <use xlink:href="#card-wave" x="48" y="13" fill="rgba(255,255,255,0.15)"></use>
+                        <use xlink:href="#card-wave" x="48" y="16" fill="rgba(255,255,255,0.99)"></use>
                       </g>
                     </svg>
                   </div>
@@ -96,92 +41,54 @@
             </div>
             <div class="col-md-8 organizacion_contenido pt-4 px-4">
               <div class="p-lg-3 info-horizontal">
-                <div
-                  class="icon icon-shape rounded-circle bg-gradient-secondary shadow text-center"
-                >
+                <div class="icon icon-shape rounded-circle bg-gradient-secondary shadow text-center">
                   <i class="fas fa-info opacity-10"></i>
                 </div>
                 <div class="description ps-3">
-                  <h3 class="text-gradient text-secondary">
-                    Acerca de {{ organization?.nombre }}
+                  <h3 class="text-gradient text-secondary"> Acerca de {{ organization?.nombre }}
                   </h3>
                   <p [innerHTML]="safeContent"></p>
                 </div>
               </div>
-
-              <!-- <div class="d-flex justify-content-center pt-4">
-                <button (click)="openDialog()" class="btn btn-round bg-gradient-primary">¡Hacé la diferencia!</button>
-              </div> -->
+              <!-- <div class="d-flex justify-content-center pt-4"><button (click)="openDialog()" class="btn btn-round bg-gradient-primary">¡Hacé la diferencia!</button></div> -->
             </div>
-
-            <div
-              *ngIf="campaigns && campaigns.length > 0; else noCampaigns"
-              class="p-lg-3 info-horizontal"
-            >
-              <div
-                class="icon icon-shape rounded-circle bg-gradient-secondary shadow text-center"
-              >
+            <div *ngIf="campaigns && campaigns.length > 0; else noCampaigns" class="p-lg-3 info-horizontal">
+              <div class="icon icon-shape rounded-circle bg-gradient-secondary shadow text-center">
                 <i class="fas fa-bullhorn opacity-10"></i>
               </div>
               <div class="description ps-3">
-                <h3 class="text-gradient text-secondary mb-4">
-                  Campañas de {{ organization?.nombre }}
+                <h3 class="text-gradient text-secondary mb-4"> Campañas de {{ organization?.nombre }}
                 </h3>
               </div>
             </div>
-
-            <swiper-container class="mySwiper" init="false" #swiperEl navigation="true">
-              <swiper-slide *ngFor="let campaign of campaigns" class="card">
-                <!-- <div class="d-flex align-items-start g-2">
-                  <div>
-                    <h4 class="campaign-title">{{campaign.title}}</h4>
-                    <img [src]="campaign.imageUrl">
-                    <p><strong>Fecha de inicio:</strong> {{ campaign.startDate | date: 'yyyy-MM-dd' }}</p>
-                    <p><strong>Fecha de fin:</strong> {{ campaign.endDate | date: 'yyyy-MM-dd' }}</p>
-                  </div>
-                </div> -->
-
-                <img [src]="campaign.imageUrl" class="card-img-top" alt="..." />
-                <div class="card-body">
-                  <h5 class="card-title">{{ campaign.title }}</h5>
-                  <div
-                    class="section-date d-flex justify-content-center align-items-center gap-4"
-                  >
-                    <p>
-                      <strong>Inicio:</strong>
-                      {{ campaign.startDate | date : "dd/MM/yyyy" }}
-                    </p>
-                    <p>
-                      <strong>Fin:</strong>
-                      {{ campaign.endDate | date : "dd/MM/yyyy" }}
-                    </p>
-                  </div>
-                  <p class="card-text"> {{ campaign.descripcionBreve }} </p>
-                  <button
-                    class="btn bg-gradient-primary"
-                    (click)="readMore(campaign.id)"
-                  >
-                    Leer más
-                  </button>
+            <swiper-container class="mySwiper pb-4 pt-2" init="false" #swiperEl navigation="true">
+              <swiper-slide *ngFor="let campaign of campaigns" class="shadow border-radius-xl">
+                <div class="card-body ">
+                  <div class="imagePreview shadow border-radius-lg" [style.backgroundImage]="'url(' + campaign.imageUrl + ')'"></div>
+                  <h5 class="mt-4 mb-2 text-uppercase">{{ campaign.title }}</h5>
+                  <hr class="horizontal dark my-3">
+                  <p>
+                    <strong>Inicio:</strong>
+                    {{ campaign.startDate | date : "dd/MM/yyyy" }}
+                  </p>
+                  <p>
+                    <strong>Fin:</strong>
+                    {{ campaign.endDate | date : "dd/MM/yyyy" }}
+                  </p>
+                  <hr class="horizontal dark my-3">
+                  <p> {{ campaign.descripcionBreve }} </p>
+                  <button class="btn btn-round bg-gradient-primary mt-2 mb-0" (click)="readMore(campaign.id)">Leer más</button>
                 </div>
               </swiper-slide>
             </swiper-container>
-
             <ng-template #noCampaigns>
               <div class="p-lg-3 info-horizontal">
-                <div
-                  class="icon icon-shape rounded-circle bg-gradient-secondary shadow text-center"
-                >
+                <div class="icon icon-shape rounded-circle bg-gradient-secondary shadow text-center">
                   <i class="fas fa-exclamation-circle opacity-10"></i>
                 </div>
                 <div class="description ps-3">
-                  <h3 class="text-gradient text-secondary mb-4">
-                    No hay campañas disponibles
-                  </h3>
-                  <p>
-                    Actualmente no hay campañas activas para esta organización.
-                  </p>
-                  <p>Igualmente podes donar a la organización</p>
+                  <h3 class="text-gradient text-secondary mb-4"> No hay campañas disponibles </h3>
+                  <p> Actualmente no hay campañas activas para esta organización. </p>
                 </div>
               </div>
             </ng-template>
