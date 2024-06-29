@@ -50,7 +50,7 @@
                   </a>
                   <ul class="dropdown-menu" style="overflow: hidden;">
                     <li *ngIf="role == 'usuario'">
-                      <a class="dropdown-item" href="/mi-cuenta" routerLinkActive="active-link">Mi cuenta</a>
+                      <a class="dropdown-item" routerLink="/mi-cuenta" routerLinkActive="active-link">Mi cuenta</a>
                     </li>
                     <li *ngIf="role == 'organizacion'">
                       <a class="dropdown-item" routerLink="/mis-datos" routerLinkActive="active-link">Mis datos</a>
