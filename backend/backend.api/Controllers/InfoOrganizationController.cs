@@ -9,10 +9,10 @@ namespace backend.api.Controllers
 {
     [Route("api/Information")]
     [ApiController]
-    public class InfoOrganizationController(IOrganizationService organizationService, IOrganizationInfoService organizationInfoService, ILogger<UserController> logger, IMapper mapper) : ControllerBase
+    public class InfoOrganizationController(IOrganizationService organizationService, IOrganizationInfoService organizationInfoService, ILogger<InfoOrganizationController> logger, IMapper mapper) : ControllerBase
     {
         private readonly IOrganizationService _organizationService = organizationService ?? throw new ArgumentNullException(nameof(organizationService));
-        private readonly ILogger<UserController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        private readonly ILogger<InfoOrganizationController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         private readonly IOrganizationInfoService _organizationInfoService = organizationInfoService ?? throw new ArgumentNullException(nameof(organizationInfoService));
         private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 

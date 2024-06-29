@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using backend.api.Mappers;
-using backend.api.Models;
 using backend.api.Models.RequestModels;
 using backend.api.Models.ResponseModels;
 using backend.data.Models;
@@ -274,6 +273,43 @@ namespace backend.api.test.MapperTests
             // Assert
             Assert.That(headquartersNearby.Id, Is.EqualTo(organizacion.Id));
             Assert.That(headquartersNearby.Nombre, Is.EqualTo(organizacion.Nombre));
+        }
+
+        [Test]
+        public void Map_DataRequestModelToHeadquartersNearby_MapsCorrectly()
+        {
+            // Arrange
+            var dataRequestModel = new DataRequestModel
+            {
+                Organizacion = new Organizacion
+                {
+                    Nombre = "Organization1"
+                }
+            };
+
+            // Act
+            var headquartersNearby = _mapper.Map<HeadquartersNearbyDto>(dataRequestModel.Organizacion);
+
+            // Assert
+            Assert.That(headquartersNearby.Nombre, Is.EqualTo(dataRequestModel.Organizacion.Nombre));
+        }
+
+        [Test]
+        public void Map_HeadquartersDtoToHeadquartersNearbyResponseModel_MapsCorrectly()
+        {
+            // Arrange
+            var headquartersDto = new HeadquartersDto
+            {
+                Id = 1,
+                Nombre = "Headquarters1"
+            };
+
+            // Act
+            var headquartersNearbyResponseModel = _mapper.Map<HeadquartersNearbyResponseModel>(headquartersDto);
+
+            // Assert
+            Assert.That(headquartersNearbyResponseModel.Id, Is.EqualTo(headquartersDto.Id));
+            Assert.That(headquartersNearbyResponseModel.Nombre, Is.EqualTo(headquartersDto.Nombre));
         }
     }
 }
