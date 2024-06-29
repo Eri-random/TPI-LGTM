@@ -24,7 +24,7 @@ namespace backend.api.Controllers
         /// <response code="200">Returns the list of campaigns</response>
         /// <response code="404">If no campaigns are found for the organization</response>
         /// <response code="500">If there is an internal server error</response>
-        [HttpGet("{organizationId}")]
+        [HttpGet("organization/{organizationId}")]
         [ProducesResponseType(typeof(List<CampaignResponseModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -171,7 +171,7 @@ namespace backend.api.Controllers
         /// <response code="200">Returns the campaign with the specified ID</response>
         /// <response code="404">If the campaign is not found</response>
         /// <response code="500">If there is an internal server error</response>
-        [HttpGet("see-campaign/{campaignId}")]
+        [HttpGet("{campaignId}")]
         [ProducesResponseType(typeof(CampaignResponseModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

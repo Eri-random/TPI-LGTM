@@ -38,7 +38,7 @@ export class CampaignService {
   constructor(private http: HttpClient) { }
 
   getAllCampaigns(organizationId: string): Observable<Campaign[]> {
-    const url = `${this.baseUrl}/Campaign/${organizationId}`;
+    const url = `${this.baseUrl}/Campaign/organization/${organizationId}`;
     return this.http.get<Campaign[]>(url);
   }
 
@@ -58,7 +58,7 @@ export class CampaignService {
   }
 
   getIdCampaign(campaignId: number): Observable<Campaign>{
-    const url = `${this.baseUrl}/Campaign/see-campaign/${campaignId}`;
+    const url = `${this.baseUrl}/Campaign/${campaignId}`;
     return this.http.get<Campaign>(url);
   }
 }
