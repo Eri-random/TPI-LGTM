@@ -8,44 +8,44 @@ import { OrganizationService } from 'src/app/services/organization.service';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { DialogDonateComponent } from './dialog-donate/dialog-donate.component';
 
-describe('InfoOrganizationComponent', () => {
-  let component: InfoOrganizationComponent;
-  let fixture: ComponentFixture<InfoOrganizationComponent>;
-  let organizationServiceMock: any;
+// describe('InfoOrganizationComponent', () => {
+//   let component: InfoOrganizationComponent;
+//   let fixture: ComponentFixture<InfoOrganizationComponent>;
+//   let organizationServiceMock: any;
 
-  let mockSanitizer: any;
-  let mockDialog: any;
-  let mockActivatedRoute: any;
+//   let mockSanitizer: any;
+//   let mockDialog: any;
+//   let mockActivatedRoute: any;
 
-  beforeEach(async () => {
-    organizationServiceMock = {
-      getOrganizationById: jasmine.createSpy('getOrganizationById').and.returnValue(of({ id: 1 })),
-      getGroupedSubcategories: jasmine.createSpy('getGroupedSubcategories').and.returnValue(of([])),
-    };
-    mockSanitizer = jasmine.createSpyObj('DomSanitizer', ['bypassSecurityTrustHtml']);
-    mockDialog = jasmine.createSpyObj('MatDialog', ['open']);
-    mockActivatedRoute = {
-      params: of({ id: 1 })
-    };
+//   beforeEach(async () => {
+//     organizationServiceMock = {
+//       getOrganizationById: jasmine.createSpy('getOrganizationById').and.returnValue(of({ id: 1 })),
+//       getGroupedSubcategories: jasmine.createSpy('getGroupedSubcategories').and.returnValue(of([])),
+//     };
+//     mockSanitizer = jasmine.createSpyObj('DomSanitizer', ['bypassSecurityTrustHtml']);
+//     mockDialog = jasmine.createSpyObj('MatDialog', ['open']);
+//     mockActivatedRoute = {
+//       params: of({ id: 1 })
+//     };
 
-    await TestBed.configureTestingModule({
-      declarations: [InfoOrganizationComponent],
-      providers: [
-        { provide: OrganizationService, useValue: organizationServiceMock },
-        { provide: DomSanitizer, useValue: mockSanitizer },
-        { provide: MatDialog, useValue: mockDialog },
-        { provide: ActivatedRoute, useValue: mockActivatedRoute },
-      ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA,
-        NO_ERRORS_SCHEMA]
-    }).compileComponents();
-  });
+//     await TestBed.configureTestingModule({
+//       declarations: [InfoOrganizationComponent],
+//       providers: [
+//         { provide: OrganizationService, useValue: organizationServiceMock },
+//         { provide: DomSanitizer, useValue: mockSanitizer },
+//         { provide: MatDialog, useValue: mockDialog },
+//         { provide: ActivatedRoute, useValue: mockActivatedRoute },
+//       ],
+//       schemas: [ CUSTOM_ELEMENTS_SCHEMA,
+//         NO_ERRORS_SCHEMA]
+//     }).compileComponents();
+//   });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(InfoOrganizationComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//   beforeEach(() => {
+//     fixture = TestBed.createComponent(InfoOrganizationComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
   // it('debería crear el componente', () => {
   //   expect(component).toBeTruthy();
@@ -105,4 +105,4 @@ describe('InfoOrganizationComponent', () => {
   //     data: { organizacionId: 1 }
   //   });
   // });
-});
+//});
