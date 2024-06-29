@@ -52,7 +52,7 @@
                     <div class="d-flex justify-content-between px-1">
                       <p class="info small pe-1"> Los usuarios pueden ver esta descripción en el directorio (Nuestra red). </p>
                       <p class="info small">
-                        {{ campaignForm.get('descripcionBreve')?.value.length }}/150
+                        {{ campaignForm.get('descripcionBreve')?.value?.length || 0 }}/150
                       </p>
                     </div>
                   </div>
@@ -95,7 +95,7 @@
                   <div class="d-flex justify-content-between px-1">
                     <p class="info small pe-1"> Los usuarios pueden ver esta descripción al hacer click en tu campaña. </p>
                     <p class="info small">
-                      {{ campaignForm.get('descripcionCompleta')?.value.length }}/4000
+                      {{ campaignForm.get('descripcionCompleta')?.value?.length || 0 }}/4000
                     </p>
                   </div>
                 </div>
