@@ -6,30 +6,9 @@
   flex-direction: row;
 }
 
-.easy {
-  background-image: linear-gradient(310deg, #CBE5A8 0%, #8BC53F 100%);
-  color: white;
-  border-radius: 1rem;
-  padding-inline: 10px;
-}
-
-.medium {
-  background-image: linear-gradient(310deg, #A4C2DB 0%, #4281A4 100%);
-  color: white;
-  border-radius: 1rem;
-  padding-inline: 10px;
-}
-
-.hard {
-  background-image: linear-gradient(310deg, #DD7A7A 0%, #A42A2A 100%);
-  color: white;
-  border-radius: 1rem;
-  padding-inline: 10px;
-}
-
 .imagen-idea {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .accordion-body{
@@ -52,4 +31,21 @@
   .step-image {
     width: 100%;
   }
+}
+
+.accordion-header {
+  background-color: #F8F8F8 !important;
+  border-radius: 1rem !important;
+}
+
+.text-gradient.easy {
+  background-image: linear-gradient(310deg, #CBE5A8 0%, #8BC53F 100%);
+}
+
+.text-gradient.medium {
+  background-image: linear-gradient(310deg, #A4C2DB 0%, #4281A4 100%);
+}
+
+.text-gradient.hard {
+  background-image: linear-gradient(310deg, #DD7A7A 0%, #A42A2A 100%);
 }

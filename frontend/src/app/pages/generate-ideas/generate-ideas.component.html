@@ -7,28 +7,22 @@
     <div class="container">
       <div class="card blur justify-content-center shadow-lg mt-7 mb-5">
         <div class="row text-center mx-1 mt-4">
-          <h2>¡Reciclar telas nunca fue <span class="text-gradient text-secondary">tan fácil</span>!</h2>
+          <h2>¡Reciclar telas nunca fue <span class="text-gradient text-secondary">tan fácil</span>! </h2>
         </div>
         <div class="card-body pb-2">
           <div class="row">
             <div class="col text-center mb-3">
-            <p class="lead">
-              Para poder acceder a la herramienta de generación de ideas, tenés que iniciar sesión primero.
-            </p>
+              <p class="lead"> Para poder acceder a la herramienta de generación de ideas, tenés que iniciar sesión primero. </p>
             </div>
             <div class="d-flex justify-content-center">
               <button routerLink="/login" class="btn btn-lg btn-round bg-gradient-primary">Ingresar</button>
             </div>
           </div>
-          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
-
-
-<!-- <section *ngIf="isLogged"> -->
-
 <section *ngIf="isLogged">
   <div class="page-container">
     <div>
@@ -38,7 +32,7 @@
     <div class="container">
       <div class="card blur justify-content-center shadow-lg mt-7 mb-5">
         <div class="row text-center mx-1 mt-4">
-          <h2>Transformá retazos de tela ¡con <span class="text-gradient text-secondary">IA</span>!</h2>
+          <h2>Transformá retazos de tela ¡con <span class="text-gradient text-secondary">IA</span>! </h2>
         </div>
         <div class="card-body">
           <div class="row">
@@ -52,18 +46,16 @@
                 <div class="imagePreview shadow border-radius-md" [style.backgroundImage]="'url(' + preview + ')'"></div>
                 <small *ngIf="errorImage" class="text-danger d-flex justify-content-center mt-2">{{errorImage}}</small>
                 <div class="text-center justify-content-center align-items-center">
-                  <label class="btn btn-round bg-gradient-secondary mt-4" id="selectFile"><i class="fas fa-file-upload"></i> Subir imagen <input type="file" class="uploadFile img" (change)="onFileChange($event, i)"></label>
-
-                <ng-container *ngIf="i > 0">
-                  <button class="btn btn-round bg-gradient-danger" (click)="removeImage(i)"><i class="fas fa-trash"></i> Eliminar imagen</button>
-                </ng-container>
+                  <label class="btn btn-round bg-gradient-secondary mt-4" id="selectFile">
+                    <i class="fas fa-file-upload"></i> Subir imagen <input type="file" class="uploadFile img" (change)="onFileChange($event, i)">
+                  </label>
+                  <ng-container *ngIf="i > 0">
+                    <button class="btn btn-round bg-gradient-danger" (click)="removeImage(i)">
+                      <i class="fas fa-trash"></i> Eliminar imagen </button>
+                  </ng-container>
                 </div>
               </div>
-              <!-- <ng-container *ngIf="imagePreviews.length < 4">
-                <button class="btn btn-round bg-gradient-primary w-25 h-25" (click)="addImage()"><i class="fas fa-plus"></i> Agregar imagen</button>
-              </ng-container> -->
-              
-
+              <!-- <ng-container *ngIf="imagePreviews.length < 4"><button class="btn btn-round bg-gradient-primary w-25 h-25" (click)="addImage()"><i class="fas fa-plus"></i> Agregar imagen</button></ng-container> -->
               <div class="col-lg-8 d-flex justify-content-center align-items-center px-lg-4">
                 <div class="row g-3">
                   <div class="col-md-6">
@@ -73,7 +65,20 @@
                   </div>
                   <div class="col-md-6">
                     <label for="color" class="form-label required">Color</label>
-                    <input type="text" class="form-control input-field" [class.error]="fm['color'].dirty && fm['color'].errors" id="color" name="color" placeholder="Ej: Negro" required formControlName="color">
+                    <select class="form-control form-select required" [class.error]="fm['color'].dirty && fm['color'].errors" id="color" name="color" required formControlName="color" name="color" onchange="if($(this).val()=='customOption'){$(this).hide().prop('disabled',true);$('input[name=color]').show().prop('disabled', false).focus();$(this).val(null);}">
+                      <option value="" selected disabled>Seleccionar color</option>
+                      <option value="amarillo">🟡 Amarillo</option>
+                      <option value="azul">🔵 Azul</option>
+                      <option value="blanco">⚪ Blanco</option>
+                      <option value="marron">🟤 Marrón</option>
+                      <option value="naranja">🟠 Naranja</option>
+                      <option value="negro">⚫ Negro</option>
+                      <option value="rojo">🔴 Rojo</option>
+                      <option value="verde">🟢 Verde</option>
+                      <option value="violeta">🟣 Violeta</option>
+                      <option value="customOption">Otro color</option>
+                    </select>
+                    <input type="text" class="form-control input-field" [class.error]="fm['color'].dirty && fm['color'].errors" id="color" name="color" placeholder="Ej: Rosa" required formControlName="color" name="color" style="display:none;" onblur="if($(this).val()==''){$(this).hide().prop('disabled',true);$('select[name=color]').show().prop('disabled', false).focus();}">
                     <small *ngIf="fm['color'].dirty && fm['color'].errors" class="text-danger">El color es requerido</small>
                   </div>
                   <div class="col-md-6">
@@ -92,7 +97,6 @@
                         <button class="btn btn-round bg-gradient-primary">Generar idea</button>
                       </div>
                     </div>
-                    
                   </div>
                 </div>
               </div>

@@ -16,6 +16,6 @@ export class RecognitionTelaService {
     const formData = new FormData();
     formData.append("image", image, image.name);
 
-    return this.http.post(`${this.baseUrl}/FabricClassification`, formData);
+    return this.http.post(`${this.baseUrl}/ImageClassification`, formData);
   }
 }

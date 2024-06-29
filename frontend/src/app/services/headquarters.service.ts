@@ -14,7 +14,7 @@ export class HeadquartersService {
   constructor(private http: HttpClient) { }
 
   getHeadquartersByOrganization(organizationId: number){
-    const url = `${this.baseUrl}/Headquarters/${organizationId}`;
+    const url = `${this.baseUrl}/Headquarters/organization/${organizationId}`;
     return this.http.get<any>(url);
   }
 
@@ -34,7 +34,7 @@ export class HeadquartersService {
   }
 
   getHeadquarterById(headquartersId: number): Observable<any> {
-    const url = `${this.baseUrl}/Headquarters/Details/${headquartersId}`;
+    const url = `${this.baseUrl}/Headquarters/${headquartersId}`;
     return this.http.get<any>(url);
   }
 

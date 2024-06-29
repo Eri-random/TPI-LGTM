@@ -4,6 +4,7 @@ using backend.api.Models.ResponseModels;
 using backend.servicios.DTOs;
 using backend.servicios.Helpers;
 using backend.servicios.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.api.Controllers
@@ -45,6 +46,7 @@ namespace backend.api.Controllers
         /// <response code="200">Returns the user.</response>
         /// <response code="404">If the user is not found.</response>
         /// <response code="500">If there is an internal server error.</response>
+        [Authorize]
         [HttpGet("{email}")]
         [ProducesResponseType(typeof(UserResponseModel), 200)]
         [ProducesResponseType(404)]
@@ -142,6 +144,8 @@ namespace backend.api.Controllers
         /// <response code="200">Returns a success message.</response>
         /// <response code="400">If the user data is invalid or the user is not found.</response>
         /// <response code="500">If there is an internal server error.</response>
+        /// 
+        [Authorize]
         [HttpPut]
         [ProducesResponseType(typeof(object), 200)]
         [ProducesResponseType(400)]

@@ -3,6 +3,7 @@ using backend.api.Models.RequestModels;
 using backend.api.Models.ResponseModels;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.api.Controllers
@@ -46,7 +47,7 @@ namespace backend.api.Controllers
         /// <response code="200">Returns the organization.</response>
         /// <response code="404">If the organization is not found.</response>
         /// <response code="500">If there is an internal server error.</response>
-        [HttpGet("{cuit}")]
+        [HttpGet("cuit/{cuit}")]
         [ProducesResponseType(typeof(OrganizationResponseModel), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
@@ -74,7 +75,7 @@ namespace backend.api.Controllers
         /// <response code="200">Returns the organization.</response>
         /// <response code="404">If the organization is not found.</response>
         /// <response code="500">If there is an internal server error.</response>
-        [HttpGet("Id/{id}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(OrganizationResponseModel), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
@@ -141,7 +142,9 @@ namespace backend.api.Controllers
         /// <param name="subcategoriesDto">List of subcategories to assign.</param>
         /// <response code="200">Returns a success message.</response>
         /// <response code="500">If there is an internal server error.</response>
-        [HttpPost("{organizationId}/assign-need")]
+        /// 
+        [Authorize(Roles = "organizacion")]
+        [HttpPost("{organizationId}/need")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> AssignSubcategoriesAsync(int organizationId, [FromBody] List<SubcategoriesDto> subcategoriesDto)
@@ -216,6 +219,8 @@ namespace backend.api.Controllers
         /// <response code="200">Returns a success message.</response>
         /// <response code="400">If the organization data is invalid.</response>
         /// <response code="500">If there is an internal server error.</response>
+        /// 
+        [Authorize(Roles = "organizacion")]
         [HttpPut]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]

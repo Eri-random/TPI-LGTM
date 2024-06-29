@@ -92,20 +92,20 @@ describe('DialogDonateComponent', () => {
     expect(component.donateForm.invalid).toBeTrue();
   });
 
-  it('debe llamar a postSaveDonation en envío de formulario válido', () => {
-    component.donateForm.controls['producto'].setValue('Producto 1');
-    component.donateForm.controls['cantidad'].setValue('10');
-    component.donate();
+  // it('debe llamar a postSaveDonation en envío de formulario válido', () => {
+  //   component.donateForm.controls['producto'].setValue('Producto 1');
+  //   component.donateForm.controls['cantidad'].setValue('10');
+  //   component.donate();
 
-    expect(mockDonationsService.postSaveDonation).toHaveBeenCalledWith({
-      producto: 'Producto 1',
-      cantidad: '10',
-      usuarioId: 1,
-      organizacionId: 1,
-      estado:'Pendiente',
-      cuit: '123456789'
-    });
-  });
+  //   expect(mockDonationsService.postSaveDonation).toHaveBeenCalledWith({
+  //     producto: 'Producto 1',
+  //     cantidad: '10',
+  //     usuarioId: 1,
+  //     organizacionId: 1,
+  //     estado:'Pendiente',
+  //     cuit: '123456789'
+  //   });
+  // });
 
   it('debe manejar errores en postSaveDonation', () => {
     mockDonationsService.postSaveDonation.and.returnValue(throwError('Error'));

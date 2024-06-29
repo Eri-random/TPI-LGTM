@@ -1,0 +1,12 @@
+<div class="p-4">
+    <div mat-dialog-title>
+      <h3>Seleccioná una opción</h3>
+      <button mat-icon-button class="close-btn" (click)="onNoClick()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div mat-dialog-actions class="row">
+      <button class="btn btn-round bg-gradient-secondary mt-2" (click)="onGenerateWithCurrentData()"> Generar con datos actuales </button>
+      <button class="btn btn-round bg-gradient-primary mt-2" (click)="onLoadNewData()"> Generar con nuevos datos </button>
+    </div>
+</div>

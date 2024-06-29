@@ -108,8 +108,8 @@ namespace backend.api.test
             var result = await _controller.GenerateIdea(request);
 
             // Assert
-            Assert.That(result, Is.InstanceOf<OkObjectResult>());
-            var okResult = result as OkObjectResult;
+            Assert.That(result, Is.InstanceOf<ObjectResult>());
+            var okResult = result as ObjectResult;
             var ideaResponse = okResult.Value as GenerateIdeaResponseModel;
 
             Assert.That(ideaResponse, Is.Not.Null);

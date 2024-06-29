@@ -12,6 +12,13 @@ public partial class Donacion
 
     public int OrganizacionId { get; set; }
 
+    private DateTime _fecha;
+    public DateTime Fecha
+    {
+        get => _fecha;
+        set => _fecha = DateTime.SpecifyKind(value, DateTimeKind.Utc);
+    }
+
     public string Estado { get; set; }
 
     public virtual Organizacion Organizacion { get; set; }

@@ -46,6 +46,11 @@ namespace backend.data.DataContext
                 entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.Cantidad).HasColumnName("cantidad");
                 entity.Property(e => e.Estado).HasColumnName("estado");
+                entity.Property(e => e.Fecha)
+                    .IsRequired()
+                    .HasColumnName("fecha")
+                    .HasColumnType("timestamp with time zone");
+
                 entity.Property(e => e.OrganizacionId).HasColumnName("organizacion_id");
                 entity.Property(e => e.Producto)
                     .IsRequired()
@@ -122,6 +127,7 @@ namespace backend.data.DataContext
                 entity.ToTable("necesidad");
 
                 entity.Property(e => e.Id).HasColumnName("id");
+
                 entity.Property(e => e.Icono)
                     .IsRequired()
                     .HasColumnName("icono");
@@ -129,6 +135,61 @@ namespace backend.data.DataContext
                     .IsRequired()
                     .HasColumnName("nombre");
             });
+
+            modelBuilder.Entity<Campaign>(entity =>
+            {
+                entity.HasKey(e => e.Id).HasName("campaign_pkey");
+
+                entity.ToTable("campaign");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.EndDate)
+                    .IsRequired()
+                    .HasColumnName("end_date")
+                    .HasColumnType("timestamp with time zone");
+
+                entity.Property(e => e.Title)
+                    .IsRequired();
+
+                entity.Property(e => e.Subcategorias)
+                    .IsRequired()
+                    .HasColumnName("subcategoria_id");
+
+                entity.Property(e => e.StartDate)
+                    .IsRequired()
+                    .HasColumnName("start_date")
+                    .HasColumnType("timestamp with time zone"); ;
+
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasColumnName("title");
+
+                entity.Property(e => e.ImageUrl)
+                    .HasColumnName("image_url");
+
+                entity.Property(e => e.IsActive)
+                    .HasColumnName("is_active");
+
+                entity.Property(e => e.OrganizacionId)
+                    .IsRequired()
+                    .HasColumnName("organizacion_id");
+
+                entity.Property(e => e.DescripcionBreve)
+                    .HasMaxLength(150)
+                    .HasColumnName("descripcion_breve");
+
+                entity.Property(e => e.DescripcionCompleta)
+                    .HasMaxLength(4000)
+                    .HasColumnName("descripcion_completa");
+
+                entity.HasOne(d => d.Organizacion)
+                    .WithMany(p => p.Campaigns)
+                    .HasForeignKey(d => d.OrganizacionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_organizacion");
+            });
+
 
             modelBuilder.Entity<Organizacion>(entity =>
             {
