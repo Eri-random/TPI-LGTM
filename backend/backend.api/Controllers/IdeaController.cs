@@ -105,7 +105,7 @@ namespace backend.api.Controllers
         /// <response code="500">If there is an internal server error.</response>
         /// 
         [Authorize(Roles = "usuario")]
-        [HttpPost("save")]
+        [HttpPost]
         [ProducesResponseType(typeof(IdeaResponseModel), 201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
@@ -169,7 +169,7 @@ namespace backend.api.Controllers
         /// <response code="500">If there is an internal server error.</response>
         /// 
         [Authorize(Roles = "usuario")]
-        [HttpGet("see-detail/{ideaId}")]
+        [HttpGet("{ideaId}")]
         [ProducesResponseType(typeof(IdeaResponseModel), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
@@ -202,7 +202,7 @@ namespace backend.api.Controllers
         /// <response code="500">If there is an internal server error.</response>
         /// 
         [Authorize(Roles = "usuario")]
-        [HttpDelete("delete/{ideaId}")]
+        [HttpDelete("{ideaId}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> DeleteIdea(int ideaId)

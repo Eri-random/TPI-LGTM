@@ -113,7 +113,7 @@ namespace backend.api.Controllers
         /// 
 
         [Authorize(Roles = "organizacion")]
-        [HttpPut("updateState")]
+        [HttpPut()]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> UpdateDonationsState([FromBody] UpdateDonationsStateRequest request)

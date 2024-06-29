@@ -87,7 +87,7 @@ namespace backend.api.Controllers
         /// <param name="organizationId">The ID of the organization.</param>
         /// <response code="200">Returns the list of headquarters.</response>
         /// <response code="500">If there is an internal server error.</response>
-        [HttpGet("{organizationId}")]
+        [HttpGet("organization/{organizationId}")]
         [ProducesResponseType(typeof(IEnumerable<HeadquartersResponseModel>), 200)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> GetHeadquartersByOrganizationId(int organizationId)
@@ -169,7 +169,7 @@ namespace backend.api.Controllers
         /// <param name="headquartersId">The ID of the headquarters.</param>
         /// <response code="200">Returns the headquarters details.</response>
         /// <response code="500">If there is an internal server error.</response>
-        [HttpGet("Details/{headquartersId}")]
+        [HttpGet("{headquartersId}")]
         [ProducesResponseType(typeof(HeadquartersResponseModel), 200)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> GetHeadquartersById(int headquartersId)
