@@ -417,23 +417,23 @@
                     <div class="col-md-6">
                       <div class="p-3 text-center">
                         <h1><i class="fas fa-hand-holding-heart text-gradient text-secondary"></i></h1>
-                        <h5 class="mt-3">Mis necesidades</h5>
+                        <h5 class="mt-3">Mis campañas</h5>
                         <div class="text-md">
-                          <div *ngIf="needs.length === 0">
+                          <div *ngIf="campaign.length === 0">
                             <p>Todavía no cargaste ninguna necesidad.</p>
                             <button type="button" class="btn btn-sm btn-round bg-gradient-primary w-100 mt-2"
                               routerLink="/necesidades">Cargar<br />necesidades</button>
                           </div>
 
-                          <div *ngIf="needs.length > 0">
+                          <div *ngIf="campaign.length > 0">
                             <div class="accordion">
                               <div class="accordion-item">
                                 <h5 class="accordion-header">
                                   <button class="accordion-button border-bottom font-weight-bold collapsed"
                                     type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
                                     aria-expanded="false" aria-controls="collapseTwo">
-                                    <p *ngIf="needs.length === 1">{{ needs.length }} necesidad</p>
-                                    <p *ngIf="needs.length > 1">{{ needs.length }} necesidades</p>
+                                    <p *ngIf="campaign.length === 1">{{ campaign.length }} camapaña</p>
+                                    <p *ngIf="campaign.length > 1">{{ campaign.length }} camapañas</p>
                                     <i class="fas fa-info text-sm mt-n2 position-absolute end-0 me-3"></i>
                                   </button>
                                 </h5>

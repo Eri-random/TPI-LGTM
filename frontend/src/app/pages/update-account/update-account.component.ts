@@ -9,6 +9,7 @@ import { DonationsService } from 'src/app/services/donations.service';
 import { HeadquartersService } from 'src/app/services/headquarters.service';
 import { MapService } from 'src/app/services/map.service';
 import { OrganizationService } from 'src/app/services/organization.service';
+import { CampaignService } from 'src/app/services/campaign.service';
 import { UserStoreService } from 'src/app/services/user-store.service';
 
 @Component({
@@ -39,6 +40,7 @@ export class UpdateAccountComponent implements OnInit {
   organization: any;
   headquarters: any[] = [];
   needs: any;
+  campaign: any;
   totalNeeds: any;
   localidades: any[] = [];
 
@@ -50,6 +52,7 @@ export class UpdateAccountComponent implements OnInit {
     private mapService: MapService,
     private toast: NgToastService,
     private organizationService: OrganizationService,
+    private campaignService: CampaignService,
     private headquartersService: HeadquartersService,
     private donationService: DonationsService
   ) {
@@ -202,6 +205,13 @@ export class UpdateAccountComponent implements OnInit {
 
 
   loadNeeds(){
+    this.campaignService.getAllCampaigns(`${this.idOrg}`)
+      .subscribe((res) => {
+        this.campaign = res;
+      }, error =>{
+        console.log(error);
+      });
+
     this.organizationService.getGroupedSubcategories(this.idOrg)
     .subscribe(resp=>{
       this.needs = resp;
