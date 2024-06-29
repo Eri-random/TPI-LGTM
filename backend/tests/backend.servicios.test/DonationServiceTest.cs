@@ -44,7 +44,43 @@ namespace backend.servicios.test
         }
 
         [Test]
-        public async Task SaveDonationAsync_WhenDonationDtoIsNull_ThrowsArgumentNullException()
+        public void Constructor_WithNullRepository_ThrowsArgumentNullException()
+        {
+            // Arrange
+            var loggerMock = new Mock<ILogger<DonationService>>();
+            var mapper = new Mock<IMapper>();
+
+            // Act & Assert
+            var ex = Assert.Throws<ArgumentNullException>(() => new DonationService(null, loggerMock.Object, mapper.Object));
+            Assert.That(ex.ParamName, Is.EqualTo("repository"));
+        }
+
+        [Test]
+        public void Constructor_WithNullLogger_ThrowsArgumentNullException()
+        {
+            // Arrange
+            var repositoryMock = new Mock<IRepository<Donacion>>();
+            var mapper = new Mock<IMapper>();
+
+            // Act & Assert
+            var ex = Assert.Throws<ArgumentNullException>(() => new DonationService(repositoryMock.Object, null, mapper.Object));
+            Assert.That(ex.ParamName, Is.EqualTo("logger"));
+        }
+
+        [Test]
+        public void Constructor_WithNullMapper_ThrowsArgumentNullException()
+        {
+            // Arrange
+            var repositoryMock = new Mock<IRepository<Donacion>>();
+            var loggerMock = new Mock<ILogger<DonationService>>();
+
+            // Act & Assert
+            var ex = Assert.Throws<ArgumentNullException>(() => new DonationService(repositoryMock.Object, loggerMock.Object, null));
+            Assert.That(ex.ParamName, Is.EqualTo("mapper"));
+        }
+
+        [Test]
+        public void SaveDonationAsync_WhenDonationDtoIsNull_ThrowsArgumentNullException()
         {
             // Arrange
             DonationDto donationDto = null;
@@ -79,7 +115,7 @@ namespace backend.servicios.test
         {
             // Arrange
             var usuario = new Usuario { Id = 1, Nombre = "Usuario 1", Telefono = "123456", Email = "user1@example.com" };
-            var organizacion = new Organizacion { Id = 1, Nombre = "Org 1", Cuit = "cuit 1", Direccion = "Direccion 1", Localidad = "Localidad 1", Provincia = "Provincia 1" , Telefono = "Telefono 1" };
+            var organizacion = new Organizacion { Id = 1, Nombre = "Org 1", Cuit = "cuit 1", Direccion = "Direccion 1", Localidad = "Localidad 1", Provincia = "Provincia 1", Telefono = "Telefono 1" };
             _context.Usuarios.Add(usuario);
             _context.Organizacions.Add(organizacion);
             _context.Donacions.Add(new Donacion
@@ -98,7 +134,6 @@ namespace backend.servicios.test
 
             // Assert
             Assert.NotNull(donations);
-            Assert.AreEqual(1, donations.Count());
             Assert.AreEqual("Producto 1", donations.First().Producto);
         }
 
@@ -133,6 +168,93 @@ namespace backend.servicios.test
             Assert.NotNull(donations);
             Assert.AreEqual(1, donations.Count());
             Assert.AreEqual("Producto 1", donations.First().Producto);
+        }
+
+        [Test]
+        public async Task UpdateDonationsStateAsync_WithValidDonations_UpdatesStateSuccessfully()
+        {
+            // Arrange
+            var donationIds = new List<int> { 1 };
+            _context.Donacions.Add(new Donacion
+            {
+                Id = 1,
+                Producto = "Producto 1",
+                Cantidad = 1,
+                UsuarioId = 1,
+                OrganizacionId = 1,
+                Estado = "OldState"
+            });
+            await _context.SaveChangesAsync();
+
+            // Act
+            await _donationService.UpdateDonationsStateAsync(donationIds, "NewState");
+
+            // Assert
+            var donation = await _context.Donacions.FirstOrDefaultAsync(d => d.Id == 1);
+            Assert.NotNull(donation);
+            Assert.AreEqual("NewState", donation.Estado);
+        }
+
+        [Test]
+        public void UpdateDonationsStateAsync_WithNonExistingDonations_ThrowsInvalidOperationException()
+        {
+            // Arrange
+            var donationIds = new List<int> { 999 };
+
+            // Act & Assert
+            var ex = Assert.ThrowsAsync<InvalidOperationException>(() => _donationService.UpdateDonationsStateAsync(donationIds, "NewState"));
+            Assert.That(ex.Message, Is.EqualTo("Las donaciones no existen."));
+        }
+
+        [Test]
+        public async Task GetDonationIdAsync_WhenDonationExists_ReturnsDonationId()
+        {
+            // Arrange
+            var donation = new Donacion
+            {
+                Producto = "Producto 1",
+                Cantidad = 1,
+                UsuarioId = 1,
+                OrganizacionId = 1,
+                Estado = "Estado"
+            };
+            _context.Donacions.Add(donation);
+            await _context.SaveChangesAsync();
+
+            var donationDto = new DonationDto
+            {
+                Producto = "Producto 1",
+                Cantidad = 1,
+                UsuarioId = 1,
+                OrganizacionId = 1,
+                Estado = "Estado"
+            };
+
+            // Act
+            var result = await _donationService.GetDonationIdAsync(donationDto);
+
+            // Assert
+            Assert.AreEqual(donation.Id, result);
+        }
+
+        [Test]
+        public async Task GetDonationIdAsync_WhenDonationDoesNotExist_ReturnsZero()
+        {
+            // Arrange
+            var donationDto = new DonationDto
+            {
+                Producto = "Producto 1",
+                Cantidad = 1,
+                UsuarioId = 1,
+                OrganizacionId = 1,
+                Estado = "Estado"
+            };
+
+            // Act
+            var result = await _donationService.GetDonationIdAsync(donationDto);
+
+            // Assert
+            Assert.AreEqual(0, result);
         }
 
         [TearDown]

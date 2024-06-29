@@ -13,12 +13,13 @@ using Moq;
 namespace backend.servicios.test
 {
     [TestFixture]
-    public class InfoOrganizacionTest
+    public class InfoOrganizationServiceTest
     {
         private Mock<ILogger<OrganizationService>> _loggerMock;
         private ApplicationDbContext _context;
         private IRepository<InfoOrganizacion> _repository;
-        private InfoOrganizationService _infoOrganizacionService;
+        private InfoOrganizationService _infoOrganizationService;
+        private IMapper _mapper;
 
         [SetUp]
         public void SetUp()
@@ -29,7 +30,7 @@ namespace backend.servicios.test
             {
                 mc.AddProfile(new OrganizationProfile());
             });
-            var mapper = mappingConfig.CreateMapper();
+            _mapper = mappingConfig.CreateMapper();
 
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(databaseName: "Test")
@@ -38,7 +39,7 @@ namespace backend.servicios.test
             _context = new ApplicationDbContext(options);
             _context.SaveChanges();
             _repository = new Repository<InfoOrganizacion>(_context);
-            _infoOrganizacionService = new InfoOrganizationService(_repository, _loggerMock.Object, mapper);
+            _infoOrganizationService = new InfoOrganizationService(_repository, _loggerMock.Object, _mapper);
         }
 
         [TearDown]
@@ -48,10 +49,10 @@ namespace backend.servicios.test
         }
 
         [Test]
-        public async Task SaveDataInfoOrganizacion_Returns_CorrectInfoOrganizacion()
+        public async Task SaveInfoOrganizationDataAsync_ValidInfoOrganizationDto_SavesSuccessfully()
         {
             // Arrange
-            var infoOrganizacionDto = new InfoOrganizationDto
+            var infoOrganizationDto = new InfoOrganizationDto
             {
                 Organizacion = "Organizacion",
                 DescripcionBreve = "DescripcionBreve",
@@ -60,20 +61,20 @@ namespace backend.servicios.test
                 OrganizacionId = 1
             };
 
-            await _infoOrganizacionService.SaveInfoOrganizationDataAsync(infoOrganizacionDto);
+            await _infoOrganizationService.SaveInfoOrganizationDataAsync(infoOrganizationDto);
 
-            var organizacionCreate = await _context.InfoOrganizacions.FirstOrDefaultAsync(u => u.Organizacion == "Organizacion");
+            var organizacionCreated = await _context.InfoOrganizacions.FirstOrDefaultAsync(u => u.Organizacion == "Organizacion");
 
             // Assert
-            Assert.That(organizacionCreate, Is.Not.Null);
-            Assert.That(organizacionCreate.Organizacion, Is.EqualTo("Organizacion"));
+            Assert.That(organizacionCreated, Is.Not.Null);
+            Assert.That(organizacionCreated.Organizacion, Is.EqualTo("Organizacion"));
         }
 
         [Test]
-        public void SaveDataInfoOrganizacionc_NullInfoOrganizacionDto_ArgumentNullException()
+        public void SaveInfoOrganizationDataAsync_NullInfoOrganizationDto_ThrowsArgumentNullException()
         {
             // Act & Assert
-            var ex = Assert.ThrowsAsync<ArgumentNullException>(() => _infoOrganizacionService.SaveInfoOrganizationDataAsync(null));
+            var ex = Assert.ThrowsAsync<ArgumentNullException>(() => _infoOrganizationService.SaveInfoOrganizationDataAsync(null));
             Assert.Multiple(() =>
             {
                 Assert.That(ex.ParamName, Is.EqualTo("infoOrganizationDto"));
@@ -82,42 +83,75 @@ namespace backend.servicios.test
         }
 
         [Test]
-        public async Task UpdateInfoOrganizacionAsync_Returns_CorrectInfoOrganizacion()
+        public async Task UpdateInfoOrganizationAsync_ValidInfoOrganizationDto_UpdatesSuccessfully()
         {
-            var testOrganizacion = "Amigos";
-
-            var infoOrganizacionDto = new InfoOrganizationDto
+            var initialInfoOrganization = new InfoOrganizacion
             {
-                Organizacion = "organizacion",
-                DescripcionBreve = "DescripcionBreve",
-                DescripcionCompleta = "DescripcionCompleta",
-                Img = "Img",
-                OrganizacionId = 1
+                Organizacion = "Initial Organization",
+                DescripcionBreve = "Initial Description",
+                DescripcionCompleta = "Initial Complete Description",
+                Img = "Initial Image",
+                Id = 4
             };
-
+            _context.InfoOrganizacions.Add(initialInfoOrganization);
             await _context.SaveChangesAsync();
 
-            infoOrganizacionDto.Organizacion = testOrganizacion;
+            var infoOrganizationDto = new InfoOrganizationDto
+            {
+                Organizacion = "Updated Organization",
+                DescripcionBreve = "Updated Description",
+                DescripcionCompleta = "Updated Complete Description",
+                Img = "Updated Image",
+                OrganizacionId = 4
+            };
 
-            await _infoOrganizacionService.UpdateInfoOrganizationAsync(infoOrganizacionDto);
+            await _infoOrganizationService.UpdateInfoOrganizationAsync(infoOrganizationDto);
 
-            var organizacionUpdate = await _context.InfoOrganizacions.FirstOrDefaultAsync(u => u.Organizacion == testOrganizacion);
+            var organizacionUpdated = await _context.InfoOrganizacions.FirstOrDefaultAsync(u => u.Organizacion == "Updated Organization");
 
-            Assert.That(organizacionUpdate, Is.Not.Null);
-            Assert.That(organizacionUpdate.Organizacion, Is.EqualTo(testOrganizacion));
+            Assert.That(organizacionUpdated, Is.Not.Null);
+            Assert.That(organizacionUpdated.Organizacion, Is.EqualTo("Updated Organization"));
         }
 
         [Test]
-        public async Task UpdateInfoOrganizacionAsync_InfoDoesNotExist_InvalidOperationException()
+        public async Task UpdateInfoOrganizationAsync_InfoDoesNotExist_ThrowsInvalidOperationException()
         {
-            var infoOrganizacionDto = new InfoOrganizationDto
+            var infoOrganizationDto = new InfoOrganizationDto
             {
-                Organizacion = "organizacion"
+                Organizacion = "Non-existent Organization",
+                DescripcionBreve = "Description",
+                DescripcionCompleta = "Complete Description",
+                Img = "Image",
+                OrganizacionId = 999 // Non-existent ID
             };
 
             // Act & Assert
-            var ex = Assert.ThrowsAsync<InvalidOperationException>(() => _infoOrganizacionService.UpdateInfoOrganizationAsync(infoOrganizacionDto));
+            var ex = Assert.ThrowsAsync<InvalidOperationException>(() => _infoOrganizationService.UpdateInfoOrganizationAsync(infoOrganizationDto));
             Assert.That(ex.Message, Is.EqualTo("La informacion de la organizacion no existe."));
+        }
+
+        [Test]
+        public void Constructor_NullRepository_ThrowsArgumentNullException()
+        {
+            // Act & Assert
+            var ex = Assert.Throws<ArgumentNullException>(() => new InfoOrganizationService(null, _loggerMock.Object, _mapper));
+            Assert.That(ex.ParamName, Is.EqualTo("repository"));
+        }
+
+        [Test]
+        public void Constructor_NullLogger_ThrowsArgumentNullException()
+        {
+            // Act & Assert
+            var ex = Assert.Throws<ArgumentNullException>(() => new InfoOrganizationService(_repository, null, _mapper));
+            Assert.That(ex.ParamName, Is.EqualTo("logger"));
+        }
+
+        [Test]
+        public void Constructor_NullMapper_ThrowsArgumentNullException()
+        {
+            // Act & Assert
+            var ex = Assert.Throws<ArgumentNullException>(() => new InfoOrganizationService(_repository, _loggerMock.Object, null));
+            Assert.That(ex.ParamName, Is.EqualTo("mapper"));
         }
     }
 }

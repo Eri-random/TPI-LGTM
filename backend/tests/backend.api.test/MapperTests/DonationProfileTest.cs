@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using backend.api.Mappers;
 using backend.api.Models.RequestModels;
+using backend.api.Models.ResponseModels;
 using backend.data.Models;
 using backend.servicios.DTOs;
 
@@ -94,6 +95,43 @@ namespace backend.api.test.MapperTests
             // Assert
             Assert.That(donationRequestModel.Id, Is.EqualTo(donationDto.Id));
             Assert.That(donationRequestModel.Cantidad, Is.EqualTo(donationDto.Cantidad));
+        }
+
+        [Test]
+        public void Map_DonationDtoToDonationResponseModel_MapsCorrectly()
+        {
+            // Arrange
+            var donationDto = new DonationDto
+            {
+                Id = 1,
+                Cantidad = 1
+            };
+
+            // Act
+            var donationResponseModel = _mapper.Map<DonationResponseModel>(donationDto);
+
+            // Assert
+            Assert.That(donationResponseModel.Id, Is.EqualTo(donationDto.Id));
+            Assert.That(donationResponseModel.Cantidad, Is.EqualTo(donationDto.Cantidad));
+        }
+
+        [Test]
+        public void Map_DonationRequestModelToDonationResponseModel_MapsCorrectly()
+        {
+            // Arrange
+            var donationRequestModel = new DonationRequestModel
+            {
+                Id = 1,
+                Cantidad = 1
+            };
+
+            // Act
+            var donationDto = _mapper.Map<DonationDto>(donationRequestModel);
+            var donationResponseModel = _mapper.Map<DonationResponseModel>(donationDto);
+
+            // Assert
+            Assert.That(donationResponseModel.Id, Is.EqualTo(donationRequestModel.Id));
+            Assert.That(donationResponseModel.Cantidad, Is.EqualTo(donationRequestModel.Cantidad));
         }
     }
 }
