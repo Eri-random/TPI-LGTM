@@ -53,7 +53,7 @@ namespace backend.servicios.test
 
             // Act & Assert
             var ex = Assert.Throws<ArgumentNullException>(() => new CampaignService(repositoryMock.Object, null, mapper.Object));
-            Assert.That(ex.ParamName, Is.EqualTo("logger"));
+            Assert.That(ex.ParamName, Is.EqualTo("fail"));
         }
 
         [Test]
