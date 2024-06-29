@@ -106,13 +106,6 @@ namespace backend.servicios.Servicios
             }
         }
 
-        private void UpdateCampaignEntity(CampaignDto source, Campaign target)
-        {
-            target.IsActive = source.IsActive;
-            target.StartDate = source.StartDate;
-            target.EndDate = source.EndDate;
-        }
-
         private async Task ValidateCampaigns(IEnumerable<Campaign> campaigns)
         {
             var campaignsToUpdate = campaigns.Where(x => x.IsActive && (DateTime.Now > x.EndDate));
@@ -135,6 +128,13 @@ namespace backend.servicios.Servicios
                     throw;
                 }
             }
+        }
+
+        private static void UpdateCampaignEntity(CampaignDto source, Campaign target)
+        {
+            target.IsActive = source.IsActive;
+            target.StartDate = source.StartDate;
+            target.EndDate = source.EndDate;
         }
     }
 }
