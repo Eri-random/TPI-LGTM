@@ -1,7 +1,6 @@
 <div *ngIf="loading" class="loading-container">
   <div class="spinner"></div>
 </div>
-
 <section *ngIf="!loading">
   <div class="page-container min-vh-100">
     <div>
@@ -11,144 +10,154 @@
     <div class="container">
       <div class="card blur justify-content-center shadow-lg mt-7 mb-5 px-lg-4 pb-3">
         <div class="row text-center mx-1 mt-4">
-          <h2>¿Qué <span class="text-gradient text-secondary">necesita mi organización</span>?</h2>
+          <h2>Mis <span class="text-gradient text-secondary">campañas</span>
+          </h2>
         </div>
         <div class="card-body pb-2">
           <div class="row">
             <div class="col text-center">
-              <p class="lead">Indicá dentro de las categorías cuáles son las necesidades de tu organización.</p>
+              <p class="lead">Completá los datos necesarios para crear una nueva campaña.</p>
             </div>
           </div>
           <form [formGroup]="campaignForm" (ngSubmit)="addCampaign()">
-            <div class="row justify-content-center">
-              <div class="col-lg-8 d-flex justify-content-center align-items-center px-lg-4">
-                <div class="row g-3">
-                  <div class="col-md-12">
-                    <label for="title" class="form-label required">Título</label>
-                    <input type="text" class="form-control input-field" [class.error]="fm['title'].dirty && fm['title'].errors" id="title" name="title" placeholder="Título" formControlName="title">
-                    <small *ngIf="fm['title'].dirty && fm['title'].errors" class="text-danger">El título es requerido</small>
-                  </div>
-                  <div class="col-md-6">
+            <div class="row justify-content-center px-lg-4">
+              <div class="col-lg-6 ">
+                <div class="col-md-12 pb-3">
+                  <label for="title" class="form-label required">Título</label>
+                  <input type="text" class="form-control input-field" [class.error]="fm['title'].dirty && fm['title'].errors" id="title" name="title" placeholder="Título" formControlName="title">
+                  <small *ngIf="fm['title'].dirty && fm['title'].errors" class="text-danger">El título es requerido</small>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 pb-3">
                     <label for="startDate" class="form-label required">Fecha de inicio</label>
                     <input type="date" class="form-control input-field" [class.error]="fm['startDate'].dirty && fm['startDate'].errors" id="startDate" name="startDate" formControlName="startDate">
                     <small *ngIf="fm['startDate'].dirty && fm['startDate'].errors" class="text-danger">La fecha de inicio es requerida</small>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-6 pb-3">
                     <label for="endDate" class="form-label required">Fecha de fin</label>
                     <input type="date" class="form-control input-field" [class.error]="fm['endDate'].dirty && fm['endDate'].errors" id="endDate" name="endDate" formControlName="endDate">
                     <small *ngIf="fm['endDate'].dirty && fm['endDate'].errors" class="text-danger">La fecha de fin es requerida</small>
                   </div>
-                  <div class="col-md-12">
-                    <label for="imageUrl" class="form-label required">URL de la Imagen</label>
-                    <input type="text" class="form-control input-field" [class.error]="fm['imageUrl'].dirty && fm['imageUrl'].errors" id="imageUrl" name="imageUrl" placeholder="URL de la Imagen" formControlName="imageUrl">
-                    <small *ngIf="fm['imageUrl'].dirty && fm['imageUrl'].errors" class="text-danger">La URL de la imagen es requerida</small>
-                  </div>
-                  <div class="col-lg-10">
-                    <div class="mb-3">
-                      <label for="descripcionBreve" class="form-label required">Descripción breve</label>
-                      <textarea id="descripcionBreve" class="form-control" formControlName="descripcionBreve" rows="5" maxlength="150"></textarea>
-                      <small *ngIf="campaignForm.controls['descripcionBreve']?.dirty && campaignForm.hasError('required', 'descripcionBreve')" class="text-danger">Descripción breve requerida</small>
-                      <div class="d-flex justify-content-between px-1">
-                        <p class="info small pe-1">
-                          Los usuarios pueden ver esta descripción en el directorio (Nuestra red).
-                        </p>
-                        <p class="info small">
-                          {{ campaignForm.get('descripcionBreve')?.value.length }}/150
-                        </p>
-                      </div>
-                    </div>
-                    <div class="mb-3">
-                      <label for="descripcionCompleta" class="form-label required">Descripción completa</label>
-                      <editor apiKey="mfpqww9xwy4b5gqm93lcdh0j7kmgkiy7yky9c3mna8ucvhj3" [init]="{
-                        height: 280,
-                        menubar: false,
-                        plugins: ['advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                          'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                          'insertdatetime', 'media', 'table', 'help', 'wordcount'],
-                        toolbar: 'undo redo | fontsize |' +
-                          'bold italic forecolor | alignleft aligncenter ' +
-                          'alignright alignjustify | bullist numlist outdent indent | ' +
-                          'removeformat | help',
-                      }" formControlName="descripcionCompleta" rows="5" maxlength="4000"></editor>
-                      <small *ngIf="campaignForm.controls['descripcionCompleta']?.dirty && campaignForm.hasError('required', 'descripcionCompleta')" class="text-danger">Descripción completa requerida</small>
-                      <div class="d-flex justify-content-between px-1">
-                        <p class="info small pe-1">
-                          Los usuarios pueden ver esta descripción al hacer click en tu organización.
-                        </p>
-                        <p class="info small">
-                          {{ campaignForm.get('descripcionCompleta')?.value.length }}/4000
-                        </p>
-                      </div>
+                </div>
+                <div class="col-md-12 pb-3">
+                  <label for="imageUrl" class="form-label required">URL de la Imagen</label>
+                  <input type="text" class="form-control input-field" [class.error]="fm['imageUrl'].dirty && fm['imageUrl'].errors" id="imageUrl" name="imageUrl" placeholder="URL de la Imagen" formControlName="imageUrl">
+                  <small *ngIf="fm['imageUrl'].dirty && fm['imageUrl'].errors" class="text-danger">La URL de la imagen es requerida</small>
+                </div>
+                <div class="col-lg-12">
+                  <div class="mb-3">
+                    <label for="descripcionBreve" class="form-label required">Descripción breve</label>
+                    <textarea id="descripcionBreve" class="form-control" formControlName="descripcionBreve" rows="5" maxlength="150"></textarea>
+                    <small *ngIf="campaignForm.controls['descripcionBreve']?.dirty && campaignForm.hasError('required', 'descripcionBreve')" class="text-danger">Descripción breve requerida</small>
+                    <div class="d-flex justify-content-between px-1">
+                      <p class="info small pe-1"> Los usuarios pueden ver esta descripción en el directorio (Nuestra red). </p>
+                      <p class="info small">
+                        {{ campaignForm.get('descripcionBreve')?.value.length }}/150
+                      </p>
                     </div>
                   </div>
-                  <div class="col-md-12">
-                    <label class="form-label required">Necesidades</label>
-                    <div class="row g-3 d-flex justify-content-center pb-4" *ngFor="let need of needs">
-                      <div class="col-lg-6">
-                        <mat-accordion multi>
-                          <mat-expansion-panel>
-                            <mat-expansion-panel-header>
-                              <mat-panel-title>
-                                <img [src]="need.icono" alt="{{need.nombre}}" class="pe-3"> {{ need.nombre }}
-                              </mat-panel-title>
-                            </mat-expansion-panel-header>
-                            <section class="d-flex flex-column" [formGroup]="formGroups[need.nombre]">
-                              <mat-checkbox color="primary" *ngFor="let subcategory of need.subcategoria" formControlName="{{ subcategory.nombre }}">
-                                {{ subcategory.nombre }}
-                              </mat-checkbox>
-                            </section>
-                          </mat-expansion-panel>
-                        </mat-accordion>
-                      </div>
-                    </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <label class="form-label required">Necesidades</label>
+                <div class="row g-3 d-flex justify-content-center pb-4" *ngFor="let need of needs">
+                  <mat-accordion multi>
+                    <mat-expansion-panel>
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          <img [src]="need.icono" alt="{{need.nombre}}" class="pe-3"> {{ need.nombre }}
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <section class="d-flex flex-column" [formGroup]="formGroups[need.nombre]">
+                        <mat-checkbox color="primary" *ngFor="let subcategory of need.subcategoria" formControlName="{{ subcategory.nombre }}">
+                          {{ subcategory.nombre }}
+                        </mat-checkbox>
+                      </section>
+                    </mat-expansion-panel>
+                  </mat-accordion>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-12">
+                  <label for="descripcionCompleta" class="form-label required">Descripción completa</label>
+                  <editor apiKey="mfpqww9xwy4b5gqm93lcdh0j7kmgkiy7yky9c3mna8ucvhj3" [init]="{
+                    height: 280,
+                    menubar: false,
+                    plugins: ['advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                      'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                      'insertdatetime', 'media', 'table', 'help', 'wordcount'],
+                    toolbar: 'undo redo | fontsize |' +
+                      'bold italic forecolor | alignleft aligncenter ' +
+                      'alignright alignjustify | bullist numlist outdent indent | ' +
+                      'removeformat | help',
+                  }" formControlName="descripcionCompleta" rows="5" maxlength="4000"></editor>
+                  <small *ngIf="campaignForm.controls['descripcionCompleta']?.dirty && campaignForm.hasError('required', 'descripcionCompleta')" class="text-danger">Descripción completa requerida</small>
+                  <div class="d-flex justify-content-between px-1">
+                    <p class="info small pe-1"> Los usuarios pueden ver esta descripción al hacer click en tu campaña. </p>
+                    <p class="info small">
+                      {{ campaignForm.get('descripcionCompleta')?.value.length }}/4000
+                    </p>
                   </div>
-                  <div class="col-12">
-                    <div class="row">
-                      <div class="d-flex justify-content-center pt-3">
-                        <button type="submit" class="btn btn-round bg-gradient-primary">Agregar campaña</button>
-                      </div>
-                    </div>
-                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="d-flex justify-content-center pt-3">
+                  <button type="submit" class="btn btn-round bg-gradient-primary">Agregar campaña</button>
                 </div>
               </div>
             </div>
           </form>
-          <ul class="list-group list-group-flush mt-5">
-            <li class="list-group-item" *ngFor="let campaign of sortedCampaigns()">
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <h5>{{ campaign.title }}</h5>
-                  <p><strong>Fecha de inicio:</strong> {{ campaign.startDate | date: 'yyyy-MM-dd' }}</p>
-                  <p><strong>Fecha de fin:</strong> {{ campaign.endDate | date: 'yyyy-MM-dd' }}</p>
-                  <p><strong>Descripción breve:</strong> {{ campaign.descripcionBreve }}</p>
-                  <p><strong>Descripción completa:</strong> <span [innerHTML]="campaign.descripcionCompleta"></span></p>
-                  <img *ngIf="campaign.imageUrl" [src]="campaign.imageUrl" alt="{{ campaign.title }}" class="img-fluid mt-2 mb-2 campaign-image">
-                  <div *ngFor="let need of campaign.needs" class="col">
-                    <div class="d-flex align-items-start g-2">
-                      <div class="me-3">
-                        <img [src]="need.icono" alt="{{need.nombre}}">
-                      </div>
-                      <div>
-                        <span>{{need.nombre}}</span>
-                        <ul>
-                          <li *ngFor="let sub of need.subcategoria">{{sub.nombre}}</li>
-                        </ul>
+          <hr class="horizontal dark">
+          <div class="col-8 text-center mx-auto pt-3 px-lg-4">
+            <h3>Campañas creadas</h3>
+          </div>
+          <div class="container" *ngFor="let campaign of sortedCampaigns()">
+            <div class="card card-profile card-plain my-3">
+              <div class="card-body bg-white shadow border-radius-lg">
+                <div class="row align-items-center">
+                  <div class="col-lg-3">
+                    <img *ngIf="campaign.imageUrl != null; else placeholder" [src]="campaign.imageUrl" alt="Imagen" class="img-fluid border-radius-lg mb-3">
+                    <ng-template #placeholder>
+                      <img src="../assets/img/idea-noimage.png" alt="Placeholder" class="img-fluid border-radius-lg mb-3">
+                    </ng-template>
+                  </div>
+                  <div class="col-lg-3 text-center">
+                    <h5 class="mt-2 mb-2 text-uppercase">{{ campaign.title }}</h5>
+                    <span [ngClass]="{'badge-active': campaign.isActive, 'badge-inactive': !campaign.isActive}">
+                      {{ campaign.isActive ? 'Activa' : 'Inactiva' }}
+                    </span>
+                    <hr class="horizontal dark my-3">
+                    <p>
+                      <strong>Fecha de inicio:</strong> {{ campaign.startDate | date: 'dd-MM-yyyy' }}
+                      <br />
+                      <strong>Fecha de fin:</strong> {{ campaign.endDate | date: 'dd-MM-yyyy' }}
+                    </p>
+                  </div>
+                  <div class="col-lg-3">
+                    <div *ngFor="let need of campaign.needs" class="col">
+                      <div class="d-flex align-items-start g-2">
+                        <div class="me-3">
+                          <img [src]="need.icono" alt="{{need.nombre}}">
+                        </div>
+                        <div>
+                          <strong>{{need.nombre}}</strong>
+                          <ul>
+                            <li *ngFor="let sub of need.subcategoria">{{sub.nombre}}</li>
+                          </ul>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="text-center action-container">
-                  <span [ngClass]="{'badge-active': campaign.isActive, 'badge-inactive': !campaign.isActive}">
-                    {{ campaign.isActive ? 'Activa' : 'Inactiva' }}
-                  </span>
-                  <button (click)="updateCampaignStatus(campaign.id, !campaign.isActive)" class="btn btn-round btn-xs text-xs bg-gradient-secondary mt-2">
-                    {{ campaign.isActive ? 'Desactivar' : 'Activar' }}
-                  </button>
-                  <button (click)="deleteCampaign(campaign.id)" class="btn btn-round btn-xs text-xs bg-gradient-danger mt-2">Eliminar campaña</button>
+                  <div class="col-lg-3 text-center">
+                    <button (click)="updateCampaignStatus(campaign.id, !campaign.isActive)" class="btn btn-round bg-gradient-secondary w-75">
+                      {{ campaign.isActive ? 'Desactivar' : 'Activar' }}
+                    </button>
+                    <button (click)="deleteCampaign(campaign.id)" class="btn btn-round bg-gradient-danger w-75">Eliminar</button>
+                  </div>
                 </div>
               </div>
-            </li>
-          </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
