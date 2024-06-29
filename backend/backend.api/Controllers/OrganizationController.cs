@@ -10,10 +10,10 @@ namespace backend.api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrganizationController(IOrganizationService organizationService, ILogger<UserController> logger, IMapper mapper) : ControllerBase
+    public class OrganizationController(IOrganizationService organizationService, ILogger<OrganizationController> logger, IMapper mapper) : ControllerBase
     {
         private readonly IOrganizationService _organizationService = organizationService ?? throw new ArgumentNullException(nameof(organizationService));
-        private readonly ILogger<UserController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        private readonly ILogger<OrganizationController> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         private readonly IMapper _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
         /// <summary>
@@ -195,7 +195,7 @@ namespace backend.api.Controllers
         [HttpGet("{organizationId}/grouped-subcategories")]
         [ProducesResponseType(typeof(List<NeedDto>), 200)]
         [ProducesResponseType(500)]
-        public async Task<ActionResult<List<NeedDto>>> GetGroupedSubcategories(int organizationId)
+        public async Task<IActionResult> GetGroupedSubcategories(int organizationId)
         {
             try
             {

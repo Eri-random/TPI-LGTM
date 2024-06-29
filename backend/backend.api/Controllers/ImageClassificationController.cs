@@ -14,7 +14,7 @@ namespace backend.api.Controllers
         private const double ConfidenceThreshold = 75.0;
         public ImageClassificationController(PredictionEnginePool<FabricModelInput, FabricModelOutput> predictionEnginePool)
         {
-            _predictionEnginePool = predictionEnginePool;
+            _predictionEnginePool = predictionEnginePool ?? throw new ArgumentNullException(nameof(predictionEnginePool));
         }
 
         /// <summary>

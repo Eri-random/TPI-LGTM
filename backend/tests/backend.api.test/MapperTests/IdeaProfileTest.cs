@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using backend.api.Mappers;
+using backend.api.Models.RequestModels;
 using backend.api.Models.ResponseModels;
 using backend.data.Models;
 using backend.servicios.DTOs;
@@ -84,7 +85,6 @@ namespace backend.api.test.MapperTests
             {
                 Id = 1,
                 Descripcion = "Step1"
-                // Initialize other properties as needed
             };
 
             // Act
@@ -111,6 +111,22 @@ namespace backend.api.test.MapperTests
             // Assert
             Assert.That(ideaResponseModel.Id, Is.EqualTo(ideaDto.Id));
             Assert.That(ideaResponseModel.Titulo, Is.EqualTo(ideaDto.Titulo));
+        }
+
+        [Test]
+        public void Map_IdeaRequestModelToIdeaDto_MapsCorrectly()
+        {
+            // Arrange
+            var ideaRequestModel = new IdeaRequestModel
+            {
+                Titulo = "Idea1"
+            };
+
+            // Act
+            var ideaDto = _mapper.Map<IdeaDto>(ideaRequestModel);
+
+            // Assert
+            Assert.That(ideaDto.Titulo, Is.EqualTo(ideaRequestModel.Titulo));
         }
     }
 }
