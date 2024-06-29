@@ -79,13 +79,13 @@ export class InfoOrganizationComponent implements OnInit {
   loadCampaigns(organizacionId: string): void {
     this.campaignService.getAllCampaigns(organizacionId).subscribe(
       (resp) => {
-        this.campaigns = resp;
-       
+        this.campaigns = resp.filter(campaign => campaign.isActive);
       },
       (error) => {
         console.log(error);
       }
     );
+
   }
 
   sanitizeContent(content: string): SafeHtml {
