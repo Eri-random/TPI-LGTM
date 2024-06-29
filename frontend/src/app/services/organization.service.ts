@@ -16,12 +16,12 @@ export class OrganizationService {
   constructor(private http: HttpClient) { }
 
   getOrganizationByCuit(cuit: string) {
-    const url = `${this.baseUrl}/Organization/${cuit}`;
+    const url = `${this.baseUrl}/Organization/cuit/${cuit}`;
     return this.http.get<any>(url);
   }
 
   getOrganizationById(id: number) {
-    const url = `${this.baseUrl}/Organization/id/${id}`;
+    const url = `${this.baseUrl}/Organization/${id}`;
     return this.http.get<any>(url);
   }
 
@@ -36,7 +36,7 @@ export class OrganizationService {
   }
   
   postInfoOrganization(formData: FormData): Observable<any> {
-    const url = `${this.baseUrl}/Information/Details`;
+    const url = `${this.baseUrl}/Information`;
     return this.http.post<any>(url, formData);
   }
 
@@ -56,7 +56,7 @@ export class OrganizationService {
   }
 
   assignSubcategories(organizationId: number, subcategories: any[]) {
-    const url = `${this.baseUrl}/Organization/${organizationId}/assign-need`
+    const url = `${this.baseUrl}/Organization/${organizationId}/need`
     return this.http.post(url, subcategories);
   }
 

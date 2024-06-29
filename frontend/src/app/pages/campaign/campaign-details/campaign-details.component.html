@@ -1,0 +1,76 @@
+<section>
+  <div class="page-container min-vh-100">
+    <div>
+      <img class="position-absolute fixed-top ms-auto w-60 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/a.png" />
+      <img class="position-absolute fixed-top ms-8 w-auto h-100 z-index-0 d-xl-none border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0" src="../assets/img/a-mobile.png" />
+    </div>
+    <div class="container">
+      <div class="card blur justify-content-center shadow-lg mt-7 mb-5 px-lg-4">
+        <div class="row text-center mx-1 mt-4">
+          <h2> Campaña <span class="text-gradient text-secondary"> {{ campaign.title }} </span>
+          </h2>
+        </div>
+        <div class="card-body pb-2">
+          <div class="row justify-content-center">
+            <div class="col-lg-5 justify-content-center mb-4 order-lg-2">
+              <div class="card card-profile card-plain">
+                <div class="card-body text-center bg-white shadow border-radius-lg p-3">
+                  <img *ngIf="campaign.imageUrl != null; else placeholder" [src]="campaign.imageUrl" alt="Imagen" class="img-fluid border-radius-lg mb-3">
+                  <ng-template #placeholder>
+                    <img src="../assets/img/idea-noimage.png" alt="Placeholder" class="img-fluid border-radius-lg mb-3">
+                  </ng-template>
+                  <p>
+                    <strong>Inicio:</strong>
+                    {{ campaign.startDate | date : "dd/MM/yyyy" }}
+                  </p>
+                  <p>
+                    <strong>Fin:</strong>
+                    {{ campaign.endDate | date : "dd/MM/yyyy" }}
+                  </p>
+                  <button class="btn btn-round bg-gradient-primary mb-0" (click)="openDialog()"> ¡Hacé la diferencia! </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-7 order-lg-1">
+              <div class="card mb-4 p-4">
+                <div class="p-lg-3 info-horizontal">
+                  <div class="icon icon-shape rounded-circle bg-gradient-secondary shadow text-center">
+                    <i class="fas fa-info opacity-10"></i>
+                  </div>
+                  <div class="description ps-3">
+                    <h3 class="text-gradient text-secondary"> Acerca de la campaña </h3>
+                    <p [innerHTML]="campaign.descripcionCompleta"></p>
+                  </div>
+                </div>
+                <div class="p-lg-3 info-horizontal">
+                  <div class="icon icon-shape rounded-circle bg-gradient-secondary shadow text-center">
+                    <i class="fas fa-hand-holding-heart opacity-10"></i>
+                  </div>
+                  <div class="description ps-3">
+                    <h3 class="text-gradient text-secondary"> Nuestras necesidades </h3>
+                    <div *ngFor="let need of campaign.needs" class="col">
+                      <div class="d-flex align-items-start g-2">
+                        <div class="me-3">
+                          <img [src]="need.icono" alt="{{need.nombre}}">
+                        </div>
+                        <div>
+                          <strong>{{need.nombre}}</strong>
+                          <ul>
+                            <li *ngFor="let sub of need.subcategoria">{{sub.nombre}}</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center order-lg-3">
+                <button class="btn btn-round bg-gradient-secondary mt-2" (click)="goBack()"> Volver a la organización </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

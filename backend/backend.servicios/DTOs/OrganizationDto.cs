@@ -12,5 +12,6 @@
         public double Latitud { get; set; }
         public double Longitud { get; set; }
         public InfoOrganizationDto InfoOrganizacion { get; set; }
+        public ICollection<CampaignDto> Campaigns { get; set; } = new List<CampaignDto>();
     }
 }

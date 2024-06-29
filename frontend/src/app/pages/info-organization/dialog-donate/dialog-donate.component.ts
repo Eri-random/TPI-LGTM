@@ -23,7 +23,7 @@ export class DialogDonateComponent implements OnInit {
   dataDirection: any;
   headquarters: any;
   isSubmitted: boolean = false;
-  cuit !: string;
+  cuit!: string;
   private routerSub!: Subscription;
 
   constructor(
@@ -53,11 +53,13 @@ export class DialogDonateComponent implements OnInit {
       this.user = resp;
     });
 
-    this.organizationService.getOrganizationById(this.data.organizacionId).subscribe((resp) => {
-      this.cuit = resp.cuit;
-    });
+    this.organizationService
+      .getOrganizationById(this.data.organizacionId)
+      .subscribe((resp) => {
+        this.cuit = resp.cuit;
+      });
 
-    this.routerSub = this.router.events.subscribe(event => {
+    this.routerSub = this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
         this.close();
       }
@@ -74,6 +76,9 @@ export class DialogDonateComponent implements OnInit {
       return;
     }
 
+    const currentDate = new Date();
+    const formattedDate = currentDate.toISOString().split('T')[0];
+
     this.donateService
       .postSaveDonation({
         producto: this.donateForm.value.producto,
@@ -82,6 +87,7 @@ export class DialogDonateComponent implements OnInit {
         organizacionId: this.data.organizacionId,
         estado: 'Pendiente',
         cuit: this.cuit,
+        fecha: formattedDate
       })
       .subscribe(
         (resp) => {
@@ -119,9 +125,6 @@ export class DialogDonateComponent implements OnInit {
         }
       );
   }
-
-
-  
 
   close(): void {
     this.dialogRef.close();
