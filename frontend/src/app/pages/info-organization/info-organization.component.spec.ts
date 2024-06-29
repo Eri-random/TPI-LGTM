@@ -1,5 +1,3 @@
-// info-organization.component.spec.ts
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { InfoOrganizationComponent } from './info-organization.component';
 import { OrganizationService } from 'src/app/services/organization.service';
@@ -9,8 +7,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of, throwError } from 'rxjs';
 import { SafeHtml, DomSanitizer } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CUSTOM_ELEMENTS_SCHEMA, ElementRef } from '@angular/core';
 
 describe('InfoOrganizationComponent', () => {
   let component: InfoOrganizationComponent;
@@ -19,14 +17,14 @@ describe('InfoOrganizationComponent', () => {
   let campaignServiceMock: any;
   let sanitizerMock: any;
   let routeMock: any;
+  let routerMock: any;
 
   beforeEach(async () => {
     organizationServiceMock = jasmine.createSpyObj('OrganizationService', ['getOrganizationById']);
     campaignServiceMock = jasmine.createSpyObj('CampaignService', ['getAllCampaigns']);
     sanitizerMock = jasmine.createSpyObj('DomSanitizer', ['bypassSecurityTrustHtml']);
-    routeMock = {
-      params: of({ id: '123' })
-    };
+    routeMock = { params: of({ id: '123' }) };
+    routerMock = jasmine.createSpyObj('Router', ['navigate']);
 
     await TestBed.configureTestingModule({
       declarations: [InfoOrganizationComponent],
@@ -39,7 +37,8 @@ describe('InfoOrganizationComponent', () => {
         { provide: OrganizationService, useValue: organizationServiceMock },
         { provide: CampaignService, useValue: campaignServiceMock },
         { provide: DomSanitizer, useValue: sanitizerMock },
-        { provide: ActivatedRoute, useValue: routeMock }
+        { provide: ActivatedRoute, useValue: routeMock },
+        { provide: Router, useValue: routerMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -51,7 +50,7 @@ describe('InfoOrganizationComponent', () => {
     fixture.detectChanges();
   });
 
-  it('debería crearse', () => {
+  it('debería crear el componente', () => {
     expect(component).toBeTruthy();
   });
 
@@ -95,19 +94,19 @@ describe('InfoOrganizationComponent', () => {
     expect(console.error).toHaveBeenCalledWith('error');
   });
 
-  // it('debería navegar al leer más sobre una campaña', () => {
-  //   const routerSpy = spyOn(component.router, 'navigate');
-
-  //   component.readMore(1);
-
-  //   expect(routerSpy).toHaveBeenCalledWith(['/campañas-details', 1]);
-  // });
-
   it('debería inicializar el swiper después de la vista', () => {
     const swiperMock = {
       nativeElement: {
-        initialize: jasmine.createSpy('initialize').and.callFake(() => {}),
-      },
+        initialize: jasmine.createSpy('initialize'),
+        slidesPerView: 1,
+        spaceBetween: 10,
+        pagination: { clickable: true },
+        breakpoints: {
+          640: { slidesPerView: 2, spaceBetween: 20 },
+          768: { slidesPerView: 3, spaceBetween: 40 },
+          1024: { slidesPerView: 3, spaceBetween: 50 },
+        }
+      }
     };
 
     component.swiperEl = swiperMock as any;
