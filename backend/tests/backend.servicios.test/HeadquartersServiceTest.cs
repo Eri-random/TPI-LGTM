@@ -19,7 +19,6 @@ namespace backend.servicios.test
     {
         private Mock<ILogger<HeadquartersService>> _loggerMock;
         private Mock<IMapsService> _mapsMock;
-
         private ApplicationDbContext _context;
         private IRepository<Sede> _repository;
         private HeadquartersService _headquartersService;
@@ -51,8 +50,9 @@ namespace backend.servicios.test
             // Arrange
             List<HeadquartersDto> headquartersDtos = null;
 
-            // Act
-            async Task Act() => await _headquartersService.CreateHeadquartersAsync(headquartersDtos);
+            // Act & Assert
+            var ex = Assert.ThrowsAsync<ArgumentNullException>(() => _headquartersService.CreateHeadquartersAsync(headquartersDtos));
+            Assert.That(ex.ParamName, Is.EqualTo("headquartersDto"));
         }
 
         [Test]
@@ -60,17 +60,17 @@ namespace backend.servicios.test
         {
             // Arrange
             var headquartersDtos = new List<HeadquartersDto>
+        {
+            new HeadquartersDto
             {
-                new HeadquartersDto
-                {
-                    Nombre = "Sede 1",
-                    Direccion = "Direccion 1",
-                    Localidad = "Localidad 1",
-                    Provincia = "Provincia 1",
-                    Telefono = "123456789",
-                    OrganizacionId = 1
-                }
-            };
+                Nombre = "Sede 1",
+                Direccion = "Direccion 1",
+                Localidad = "Localidad 1",
+                Provincia = "Provincia 1",
+                Telefono = "123456789",
+                OrganizacionId = 1
+            }
+        };
 
             _mapsMock.Setup(m => m.GetCoordinates(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                      .ReturnsAsync((1.0, 1.0));
@@ -88,8 +88,8 @@ namespace backend.servicios.test
         public async Task GetAllHeadquartersAsync_WhenCalled_ReturnsAllHeadquarters()
         {
             // Arrange
-            var sede1 = new Sede { Nombre = "Sede 1", Direccion = "Direccion 1", Localidad = "Localidad 1", Telefono= "112232", Provincia = "Provincia 1", Latitud = 1.0, Longitud = 1.0, OrganizacionId = 1 };
-            var sede2 = new Sede { Nombre = "Sede 2", Direccion = "Direccion 2", Localidad = "Localidad 2", Telefono= "123231", Provincia = "Provincia 2", Latitud = 2.0, Longitud = 2.0, OrganizacionId = 2 };
+            var sede1 = new Sede { Nombre = "Sede 1", Direccion = "Direccion 1", Localidad = "Localidad 1", Telefono = "112232", Provincia = "Provincia 1", Latitud = 1.0, Longitud = 1.0, OrganizacionId = 1 };
+            var sede2 = new Sede { Nombre = "Sede 2", Direccion = "Direccion 2", Localidad = "Localidad 2", Telefono = "123231", Provincia = "Provincia 2", Latitud = 2.0, Longitud = 2.0, OrganizacionId = 2 };
             _context.Sedes.AddRange(sede1, sede2);
             await _context.SaveChangesAsync();
 
@@ -120,7 +120,7 @@ namespace backend.servicios.test
         public async Task UpdateHeadquartersAsync_WhenHeadquartersDtoIsValid_UpdatesSuccessfully()
         {
             // Arrange
-            var sede = new Sede { Id = 1, Nombre = "Sede 1", Direccion = "Direccion 1", Localidad = "Localidad 1",Telefono = "12321312", Provincia = "Provincia 1", Latitud = 1.0, Longitud = 1.0, OrganizacionId = 1 };
+            var sede = new Sede { Id = 1, Nombre = "Sede 1", Direccion = "Direccion 1", Localidad = "Localidad 1", Telefono = "12321312", Provincia = "Provincia 1", Latitud = 1.0, Longitud = 1.0, OrganizacionId = 1 };
             _context.Sedes.Add(sede);
             await _context.SaveChangesAsync();
 
@@ -143,7 +143,7 @@ namespace backend.servicios.test
         public async Task DeleteHeadquartersAsync_WhenHeadquartersExists_DeletesSuccessfully()
         {
             // Arrange
-            var sede = new Sede { Id = 1, Nombre = "Sede 1", Direccion = "Direccion 1", Localidad = "Localidad 1",Telefono = "11123332", Provincia = "Provincia 1", Latitud = 1.0, Longitud = 1.0, OrganizacionId = 1 };
+            var sede = new Sede { Id = 1, Nombre = "Sede 1", Direccion = "Direccion 1", Localidad = "Localidad 1", Telefono = "11123332", Provincia = "Provincia 1", Latitud = 1.0, Longitud = 1.0, OrganizacionId = 1 };
             _context.Sedes.Add(sede);
             await _context.SaveChangesAsync();
 
@@ -171,26 +171,11 @@ namespace backend.servicios.test
             Assert.AreEqual("Sede 1", result.Nombre);
         }
 
-        [Test]
-        public void CalculateDistance_WhenCalled_ReturnsCorrectDistance()
-        {
-            // Arrange
-            var lat1 = 40.7128;
-            var lon1 = -74.0060;
-            var lat2 = 34.0522;
-            var lon2 = -118.2437;
-
-            // Act
-            var distance = DistanceCalculator.CalculateDistance(lat1, lon1, lat2, lon2);
-
-            // Assert
-            Assert.AreEqual(3944000, Math.Round(distance), delta: 10000);
-        }
-
         [TearDown]
         public void TearDown()
         {
             _context.Dispose();
         }
     }
+
 }

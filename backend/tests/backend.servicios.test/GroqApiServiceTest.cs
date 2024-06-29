@@ -3,6 +3,7 @@ using backend.servicios.Servicios;
 using Moq;
 using Moq.Protected;
 using System.Net;
+using System.Reflection;
 
 namespace backend.servicios.test
 {
@@ -56,7 +57,6 @@ namespace backend.servicios.test
             Assert.That(result, Is.EqualTo(expectedResponse));
         }
 
-
         [Test]
         public void Constructor_NullHttpClientFactory_ThrowsArgumentNullException()
         {
@@ -75,7 +75,9 @@ namespace backend.servicios.test
         public void GetHttpClient_ReturnsConfiguredHttpClient()
         {
             // Act
-            var httpClient = ((GroqApiService)_groqApiService).GetType().GetMethod("GetHttpClient", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).Invoke(_groqApiService, null) as HttpClient;
+            var httpClient = typeof(GroqApiService)
+                .GetMethod("GetHttpClient", BindingFlags.NonPublic | BindingFlags.Instance)
+                .Invoke(_groqApiService, null) as HttpClient;
 
             // Assert
             Assert.That(httpClient, Is.Not.Null);
@@ -89,7 +91,8 @@ namespace backend.servicios.test
             var userMessage = "Test message";
 
             // Act
-            var methodInfo = typeof(GroqApiService).GetMethod("GetHttpMessageContent", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            var methodInfo = typeof(GroqApiService)
+                .GetMethod("GetHttpMessageContent", BindingFlags.NonPublic | BindingFlags.Instance);
             var content = methodInfo.Invoke(_groqApiService, new object[] { userMessage }) as StringContent;
 
             // Assert
@@ -103,7 +106,8 @@ namespace backend.servicios.test
         public void GetSystemMessage_ReturnsCorrectMessage()
         {
             // Act
-            var methodInfo = typeof(GroqApiService).GetMethod("GetSystemMessage", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+            var methodInfo = typeof(GroqApiService)
+                .GetMethod("GetSystemMessage", BindingFlags.NonPublic | BindingFlags.Static);
             var systemMessage = methodInfo.Invoke(null, null) as string;
 
             // Assert

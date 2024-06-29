@@ -18,6 +18,7 @@ namespace backend.servicios.test
         private ApplicationDbContext _context;
         private IRepository<Necesidad> _repository;
         private IMapper _mapper;
+        private NeedService _needService;
 
         [SetUp]
         public void SetUp()
@@ -36,16 +37,14 @@ namespace backend.servicios.test
 
             _context = new ApplicationDbContext(options);
             _repository = new Repository<Necesidad>(_context);
+            _needService = new NeedService(_repository, _loggerMock.Object, _mapper);
         }
 
         [Test]
         public async Task GetAllNeedAsync_WhenThereAreNoNeeds_ReturnsEmptyList()
         {
-            // Arrange
-            var needService = new NeedService(_repository, _loggerMock.Object, _mapper);
-
             // Act
-            var result = await needService.GetAllNeedsAsync();
+            var result = await _needService.GetAllNeedsAsync();
 
             // Assert
             Assert.IsEmpty(result);
@@ -61,22 +60,20 @@ namespace backend.servicios.test
                 Nombre = "Necesidad 1",
                 Icono = "Icono 1",
                 Subcategoria = new List<Subcategorium>
+            {
+                new Subcategorium
                 {
-                    new Subcategorium
-                    {
-                        Id = 1,
-                        Nombre = "Subcategoria 1",
-                        NecesidadId = 1
-                    }
+                    Id = 1,
+                    Nombre = "Subcategoria 1",
+                    NecesidadId = 1
                 }
+            }
             };
             _context.Necesidads.Add(need);
             _context.SaveChanges();
 
-            var needService = new NeedService(_repository, _loggerMock.Object, _mapper);
-
             // Act
-            var result = await needService.GetAllNeedsAsync();
+            var result = await _needService.GetAllNeedsAsync();
 
             // Assert
             Assert.IsNotEmpty(result);
