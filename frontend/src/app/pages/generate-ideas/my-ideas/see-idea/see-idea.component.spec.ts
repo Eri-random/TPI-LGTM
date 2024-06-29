@@ -86,6 +86,7 @@ describe('SeeIdeaComponent', () => {
   //   expect(autoTableSpy).toHaveBeenCalled();
   // });
 
+  
   it('debería mostrar un error si el logo no está cargado al intentar generar un PDF', () => {
     spyOn(console, 'error');
 
