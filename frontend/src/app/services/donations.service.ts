@@ -52,7 +52,7 @@ export class DonationsService {
   }
 
   updateDonationsState(donationIds: number[], state: string) {
-    const url = `${this.baseUrl}/Donation/updateState`;
+    const url = `${this.baseUrl}/Donation`;
     return this.http.put(url, { donationIds, state });
   }
 }

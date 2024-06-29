@@ -17,39 +17,93 @@ namespace backend.servicios.Servicios
         {
             if (campaign == null) throw new ArgumentNullException(nameof(campaign));
 
-            var entity = _mapper.Map<Campaign>(campaign);
-            await _campaignRepository.AddAsync(entity);
+            try
+            {
+                var entity = _mapper.Map<Campaign>(campaign);
+                await _campaignRepository.AddAsync(entity);
+                _logger.LogInformation("Campaign created successfully: {CampaignId}", entity.Id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while creating campaign");
+                throw;
+            }
         }
 
         public async Task DeleteCampaign(int campaignId)
         {
-            await _campaignRepository.DeleteAsync(campaignId);
+            try
+            {
+                await _campaignRepository.DeleteAsync(campaignId);
+                _logger.LogInformation("Campaign deleted successfully: {CampaignId}", campaignId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while deleting campaign {CampaignId}", campaignId);
+                throw;
+            }
         }
 
         public async Task<CampaignDto> GetCampaignById(int campaignId)
         {
-            var campaign = await _campaignRepository.GetByIdAsync(campaignId);
-            return _mapper.Map<CampaignDto>(campaign);
+            try
+            {
+                var campaign = await _campaignRepository.GetByIdAsync(campaignId);
+                if (campaign == null)
+                {
+                    _logger.LogWarning("Campaign not found: {CampaignId}", campaignId);
+                    return null;
+                }
+
+                return _mapper.Map<CampaignDto>(campaign);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving campaign {CampaignId}", campaignId);
+                throw;
+            }
         }
 
         public async Task<IEnumerable<CampaignDto>> GetCampaigns(int organizationId)
         {
-            var campaigns = await _campaignRepository.GetAllAsync();
+            try
+            {
+                var campaigns = await _campaignRepository.GetAllAsync();
+                await ValidateCampaigns(campaigns);
 
-            await ValidateCampaigns(campaigns);
-
-            var orgCampaings = campaigns.Where(x => x.OrganizacionId == organizationId);
-
-            return _mapper.Map<IEnumerable<CampaignDto>>(orgCampaings);
+                var orgCampaigns = campaigns.Where(x => x.OrganizacionId == organizationId);
+                return _mapper.Map<IEnumerable<CampaignDto>>(orgCampaigns);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving campaigns for organization {OrganizationId}", organizationId);
+                throw;
+            }
         }
 
         public async Task UpdateCampaign(CampaignDto campaign)
         {
-            var campaignToUpdate = await _campaignRepository.GetByIdAsync(campaign.Id);
-            campaignToUpdate.IsActive = campaign.IsActive;
-            campaignToUpdate.StartDate = campaign.StartDate;
-            campaignToUpdate.EndDate = campaign.EndDate;
-            await _campaignRepository.UpdateAsync(campaignToUpdate);
+            if (campaign == null) throw new ArgumentNullException(nameof(campaign));
+
+            try
+            {
+                var campaignToUpdate = await _campaignRepository.GetByIdAsync(campaign.Id);
+                if (campaignToUpdate == null)
+                {
+                    _logger.LogWarning("Campaign not found: {CampaignId}", campaign.Id);
+                    return;
+                }
+
+                UpdateCampaignEntity(campaign, campaignToUpdate);
+
+                await _campaignRepository.UpdateAsync(campaignToUpdate);
+                _logger.LogInformation("Campaign updated successfully: {CampaignId}", campaign.Id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while updating campaign {CampaignId}", campaign.Id);
+                throw;
+            }
         }
 
         private async Task ValidateCampaigns(IEnumerable<Campaign> campaigns)
@@ -63,8 +117,24 @@ namespace backend.servicios.Servicios
                     campaign.IsActive = false;
                 }
 
-                await _campaignRepository.UpdateRangeAsync(campaignsToUpdate);
+                try
+                {
+                    await _campaignRepository.UpdateRangeAsync(campaignsToUpdate);
+                    _logger.LogInformation("Validated and updated inactive campaigns");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error occurred while validating campaigns");
+                    throw;
+                }
             }
+        }
+
+        private static void UpdateCampaignEntity(CampaignDto source, Campaign target)
+        {
+            target.IsActive = source.IsActive;
+            target.StartDate = source.StartDate;
+            target.EndDate = source.EndDate;
         }
     }
 }

@@ -26,7 +26,7 @@ namespace backend.api.Controllers
         /// <response code="500">If there is an internal server error.</response>
         /// 
         [Authorize(Roles = "organizacion")]
-        [HttpPost("Details")]
+        [HttpPost]
         [ProducesResponseType(typeof(InfoOrganizationDto), 201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]

@@ -47,7 +47,7 @@ namespace backend.api.Controllers
         /// <response code="200">Returns the organization.</response>
         /// <response code="404">If the organization is not found.</response>
         /// <response code="500">If there is an internal server error.</response>
-        [HttpGet("{cuit}")]
+        [HttpGet("cuit/{cuit}")]
         [ProducesResponseType(typeof(OrganizationResponseModel), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
@@ -75,7 +75,7 @@ namespace backend.api.Controllers
         /// <response code="200">Returns the organization.</response>
         /// <response code="404">If the organization is not found.</response>
         /// <response code="500">If there is an internal server error.</response>
-        [HttpGet("see-organization/{id}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(OrganizationResponseModel), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
@@ -144,7 +144,7 @@ namespace backend.api.Controllers
         /// <response code="500">If there is an internal server error.</response>
         /// 
         [Authorize(Roles = "organizacion")]
-        [HttpPost("{organizationId}/assign-need")]
+        [HttpPost("{organizationId}/need")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> AssignSubcategoriesAsync(int organizationId, [FromBody] List<SubcategoriesDto> subcategoriesDto)

@@ -14,7 +14,7 @@ export class ResponseIdeaService {
   constructor(private http: HttpClient) { }
 
   postSaveIdea(idea: Idea){
-    const url = `${this.baseUrl}/Idea/save`;
+    const url = `${this.baseUrl}/Idea`;
     return this.http.post<any>(url, idea);
   }
 
@@ -24,12 +24,12 @@ export class ResponseIdeaService {
   }
 
   getIdea(ideaId: number): Observable<any> {
-    const url = `${this.baseUrl}/Idea/see-detail/${ideaId}`;
+    const url = `${this.baseUrl}/Idea/${ideaId}`;
     return this.http.get<any>(url);
   }
 
   deleteIdea(ideaId: number){
-    const url = `${this.baseUrl}/Idea/delete/${ideaId}`;
+    const url = `${this.baseUrl}/Idea/${ideaId}`;
     return this.http.delete<any>(url);
   }
 
