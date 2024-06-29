@@ -56,3 +56,8 @@
     width: 100%;
   }
 }
+
+.accordion-header {
+  background-color: #F8F8F8 !important;
+  border-radius: 1rem !important;
+}

@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OrganizationService } from 'src/app/services/organization.service';
 import { DialogDonateComponent } from './dialog-donate/dialog-donate.component';
+import { CampaignService, Campaign } from 'src/app/services/campaign.service';
 
 @Component({
   selector: 'app-info-organization',
@@ -13,16 +14,50 @@ import { DialogDonateComponent } from './dialog-donate/dialog-donate.component';
 })
 export class InfoOrganizationComponent implements OnInit {
   donateForm!: FormGroup;
-  organization:any;
-  needs:any;
+  organization: any;
+  campaigns: Campaign[] = [];
   safeContent!: SafeHtml;
+  loading: boolean = true;
 
   constructor(
-    private organizationService:OrganizationService,
+    private organizationService: OrganizationService,
+    private campaignService: CampaignService,
     private sanitizer: DomSanitizer,
     public dialog: MatDialog,
     private route: ActivatedRoute,
-  ) {
+    private router: Router
+  ) { }
+
+  @ViewChild('swiperEl', { static: false }) swiperEl!: ElementRef;
+
+  ngAfterViewInit() {
+    if (this.swiperEl) {
+      const swiperElement = this.swiperEl.nativeElement;
+
+      Object.assign(swiperElement, {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        pagination: {
+          clickable: true,
+        },
+        breakpoints: {
+          640: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 40,
+          },
+          1024: {
+            slidesPerView: 3,
+            spaceBetween: 50,
+          },
+        },
+      });
+
+      swiperElement.initialize();
+    }
   }
 
   ngOnInit(): void {
@@ -37,24 +72,35 @@ export class InfoOrganizationComponent implements OnInit {
           console.error(error);
         }
       );
-      this.organizationService.getGroupedSubcategories(organizacionId)
-      .subscribe(resp=>{
-        this.needs = resp;
-      },error =>{
-        console.log(error);
-      })
+      this.loadCampaigns(organizacionId);
     });
+  }
+
+  loadCampaigns(organizacionId: string): void {
+    this.campaignService.getAllCampaigns(organizacionId).subscribe(
+      (resp) => {
+        this.campaigns = resp.filter(campaign => campaign.isActive);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
   }
 
   sanitizeContent(content: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(content);
   }
 
-  openDialog(): void {
-    this.dialog.open(DialogDonateComponent, {
-      width: 'auto',
-      height: '75%',
-      data:{organizacionId:this.organization.id}
-    });
+  // openDialog(): void {
+  //   this.dialog.open(DialogDonateComponent, {
+  //     width: 'auto',
+  //     height: '75%',
+  //     data: { organizacionId: this.organization.id }
+  //   });
+  // }
+
+  readMore(campaignId: number) {
+    this.router.navigate(['/campañas-details', campaignId]);
   }
 }

@@ -49,7 +49,7 @@ namespace backend.api.Controllers
         /// <response code="200">Returns the list of headquarters coordinates.</response>
         /// <response code="404">If the organization or headquarters are not found.</response>
         /// <response code="500">If there is an internal server error.</response>
-        [HttpGet("{organizationId}")]
+        [HttpGet("organization/{organizationId}")]
         [ProducesResponseType(typeof(IEnumerable<HeadquartersResponseModel>), 200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]

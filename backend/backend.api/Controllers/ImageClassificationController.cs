@@ -1,5 +1,6 @@
 ﻿using backend.api.Models;
 using backend.api.Models.RequestModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.ML;
 
@@ -7,16 +8,26 @@ namespace backend.api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FabricClassificationController : ControllerBase
+    public class ImageClassificationController : ControllerBase
     {
         private readonly PredictionEnginePool<FabricModelInput, FabricModelOutput> _predictionEnginePool;
         private const double ConfidenceThreshold = 75.0;
-        public FabricClassificationController(PredictionEnginePool<FabricModelInput, FabricModelOutput> predictionEnginePool)
+        public ImageClassificationController(PredictionEnginePool<FabricModelInput, FabricModelOutput> predictionEnginePool)
         {
             _predictionEnginePool = predictionEnginePool;
         }
 
+        /// <summary>
+        /// Classifies an image to predict the fabric type.
+        /// </summary>
+        /// <param name="request">The image classification request model.</param>
+        /// <returns>The prediction result.</returns>
+        /// <response code="200">Returns the predicted fabric type.</response>
+        /// <response code="400">If the image could not be classified.</response>
+        [Authorize(Roles = "usuario")]
         [HttpPost]
+        [ProducesResponseType(typeof(object), 200)]
+        [ProducesResponseType(400)]
         public ActionResult Post([FromForm] ImageClassificationRequestModel request)
         {
             if (!ModelState.IsValid)

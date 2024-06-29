@@ -7,15 +7,20 @@ import { ResponseIdeaService } from 'src/app/services/response-idea.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserStoreService } from 'src/app/services/user-store.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { GenerateIdeaService } from 'src/app/services/generate-idea.service';
 
 describe('ResponseIdeaComponent', () => {
   let component: ResponseIdeaComponent;
   let fixture: ComponentFixture<ResponseIdeaComponent>;
   let responseIdeaServiceMock: any;
+  let generateIdeaServiceMock: any;
   let routerMock: any;
   let toastServiceMock: any;
   let authServiceMock: any;
   let userStoreMock: any;
+  let spinnerServiceMock: any;
+  let dialogMock: any;
 
   beforeEach(async () => {
     responseIdeaServiceMock = {
@@ -24,7 +29,9 @@ describe('ResponseIdeaComponent', () => {
         dificultad: 'Fácil',
         steps: ['Paso 1', 'Paso 2']
       }),
-      postSaveIdea: jasmine.createSpy('postSaveIdea').and.returnValue(of({}))
+      getGeneratedIdeaMessage: jasmine.createSpy('getGeneratedIdeaMessage').and.returnValue('string'),
+      postSaveIdea: jasmine.createSpy('postSaveIdea').and.returnValue(of({})),
+      setGeneratedIdea: jasmine.createSpy('setGeneratedIdea')
     };
 
     authServiceMock = {
@@ -45,6 +52,28 @@ describe('ResponseIdeaComponent', () => {
       navigate: jasmine.createSpy('navigate')
     };
 
+    dialogMock = {
+      open: jasmine.createSpy('open').and.returnValue({
+        afterClosed: jasmine.createSpy('afterClosed').and.returnValue(of('generateWithCurrentData'))
+      })
+    };
+
+    spinnerServiceMock = {
+      show: jasmine.createSpy('show'),
+      hide: jasmine.createSpy('hide'),
+      showIdea: jasmine.createSpy('showIdea'),
+      hideIdea: jasmine.createSpy('hideIdea')
+    };
+
+    generateIdeaServiceMock = {
+      postGenerateIdea: jasmine.createSpy('postGenerateIdea').and.returnValue(of({
+        titulo: 'Idea Reciclada',
+        usuarioId: 1,
+        dificultad: 'Fácil',
+        pasos: [{ id: 1, pasoNum: 1, descripcion: 'Paso 1', ideaId: 1 }]
+      }))
+    };
+
     await TestBed.configureTestingModule({
       declarations: [ResponseIdeaComponent],
       providers: [
@@ -52,7 +81,9 @@ describe('ResponseIdeaComponent', () => {
         { provide: AuthService, useValue: authServiceMock },
         { provide: UserStoreService, useValue: userStoreMock },
         { provide: NgToastService, useValue: toastServiceMock },
-        { provide: Router, useValue: routerMock }
+        { provide: Router, useValue: routerMock },
+        { provide: MatDialog, useValue: dialogMock },
+        { provide: GenerateIdeaService, useValue: generateIdeaServiceMock },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -70,14 +101,13 @@ describe('ResponseIdeaComponent', () => {
 
   it('debería inicializarse correctamente', fakeAsync(() => {
     userStoreMock.getEmailFromStore.and.returnValue(of('test@example.com'));
-  
+
     userStoreMock.getUserByEmail.and.returnValue(of({ id: 1 }));
-  
+
     component.ngOnInit();
-    
-    // Simulate the passage of time for asynchronous operations
+
     tick();
-  
+
     expect(responseIdeaServiceMock.getGeneratedIdea).toHaveBeenCalled();
     expect(authServiceMock.getEmailFromToken).toHaveBeenCalled();
     expect(userStoreMock.getUserByEmail).toHaveBeenCalledWith('test@example.com');
@@ -90,10 +120,16 @@ describe('ResponseIdeaComponent', () => {
     expect(component.userId).toBe(1);
   }));
 
-  it('debería navegar a la página de generar ideas cuando se llama a generateNewIdea', () => {
+  it('debería navegar a la página de generar ideas cuando se llama a generateNewIdea', fakeAsync(() => {
+    dialogMock.open.and.returnValue({
+      afterClosed: jasmine.createSpy('afterClosed').and.returnValue(of('loadNewData'))
+    });
+  
     component.generateNewIdea();
+    tick();
     expect(routerMock.navigate).toHaveBeenCalledWith(['/generar-ideas']);
-  });
+  }));
+  
 
   it('debería guardar la idea y mostrar un mensaje de éxito', fakeAsync(() => {
     component.ngOnInit();

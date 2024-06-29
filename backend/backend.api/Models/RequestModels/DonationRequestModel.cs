@@ -9,6 +9,7 @@
         public int Cantidad { get; set; }
 
         public string Estado { get; set; }
+        public DateTime? Fecha { get; set; }
 
         public int UsuarioId { get; set; }
 

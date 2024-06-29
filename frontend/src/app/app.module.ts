@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -49,6 +49,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CustomMatPaginatorIntl } from './components/custom-mat-paginator-intl/custom-mat-paginator-intl.component';
 import { UpdateAccountComponent } from './pages/update-account/update-account.component';
+import { TokenInterceptor } from './interceptors/token.interceptor';
+import { PopupIdeaComponent } from './pages/generate-ideas/response-idea/popup-idea/popup-idea.component';
+import { CampaignsComponent } from './pages/campaign/campaigns.component';
+import { CampaignDetailsComponent } from './pages/campaign/campaign-details/campaign-details.component';
 register();
 @NgModule({
   declarations: [
@@ -76,6 +80,9 @@ register();
     OrganizationRequestComponent,
     PageNotFoundComponent,
     UpdateAccountComponent,
+    PopupIdeaComponent,
+    CampaignsComponent,
+    CampaignDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -105,7 +112,8 @@ register();
     MatCheckboxModule, JsonPipe
   ],
   providers: [
-      { provide: MatPaginatorIntl, useClass: CustomMatPaginatorIntl }
+      { provide: MatPaginatorIntl, useClass: CustomMatPaginatorIntl },
+      { provide:HTTP_INTERCEPTORS, useClass:TokenInterceptor, multi:true}
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

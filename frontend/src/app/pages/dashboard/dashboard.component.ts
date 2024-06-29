@@ -30,6 +30,7 @@ export interface UserData {
   estado: string;
   highlight?: boolean; // Add an optional highlight property
   selected?: boolean;
+  fecha?: string
 }
 
 @Component({
@@ -54,7 +55,8 @@ export class DashboardComponent implements OnInit {
     'email',
     'producto',
     'cantidad',
-    'estado',
+    'fecha',
+    'estado'
   ];
 
   dataSource: MatTableDataSource<UserData> = new MatTableDataSource();
@@ -91,9 +93,10 @@ export class DashboardComponent implements OnInit {
     this.loadDonations();
 
     this.webSocketService.messages.subscribe((message) => {
+      console.log(message)
       if (
         message.type === 'actualizarDonaciones' &&
-        message.data.newDonation.Cuit === this.cuit
+        message.data.donation.Cuit === this.cuit
       ) {
         this.handleNewDonation(message.data);
       }
@@ -110,7 +113,6 @@ export class DashboardComponent implements OnInit {
       )
       .subscribe(
         (donations) => {
-          console.log(donations);
           if (donations.length != 0) {
             const formattedDonations = donations.map((donation: any) => ({
               id: donation.id,
@@ -120,6 +122,7 @@ export class DashboardComponent implements OnInit {
               producto: donation.producto,
               cantidad: donation.cantidad,
               estado: donation.estado,
+              fecha: donation.fecha
             }));
 
             this.existDonations = formattedDonations.length > 0; // Actualiza existDonations aquí
@@ -220,20 +223,21 @@ export class DashboardComponent implements OnInit {
 
   handleNewDonation(data: any) {
     console.log(data);
-    if (data && data.newDonation && data.user) {
-      this.totalDonations += data.newDonation.Cantidad;
+    if (data && data.donation && data.user) {
+      this.totalDonations += data.donation.Cantidad;
       this.totalDonationsCount += 1;
       this.averageDonations = this.totalDonations / this.totalDonationsCount;
 
       let newDonation: UserData = {
-        id: data.newDonation.Id,
+        id: data.donation.Id,
         name: data.user.Nombre,
         telefono: data.user.Telefono,
         email: data.user.Email,
-        producto: data.newDonation.Producto,
-        cantidad: data.newDonation.Cantidad,
-        estado: data.newDonation.Estado,
+        producto: data.donation.Producto,
+        cantidad: data.donation.Cantidad,
+        estado: data.donation.Estado,
         highlight: true,
+        fecha: data.donation.Fecha
       };
 
       let newData = [newDonation, ...this.dataSource.data];
@@ -355,6 +359,7 @@ export class DashboardComponent implements OnInit {
       Producto: donation.producto,
       Cantidad: donation.cantidad,
       Estado: donation.estado,
+      Fecha: this.formatDate(donation.fecha)
     }));
 
     dataToExport.push({
@@ -363,6 +368,7 @@ export class DashboardComponent implements OnInit {
       Email: '',
       Producto: '',
       Estado: '',
+      Fecha: ''
     } as any);
 
     dataToExport.push({
@@ -372,6 +378,7 @@ export class DashboardComponent implements OnInit {
       Producto: '',
       Cantidad: this.totalDonations,
       Estado: '',
+      Fecha: ''
     });
 
     let amountFixed = parseFloat(this.averageDonations.toFixed(2));
@@ -383,6 +390,7 @@ export class DashboardComponent implements OnInit {
       Producto: '',
       Cantidad: amountFixed,
       Estado: '',
+      Fecha: ''
     });
 
     if (this.productMostDonate) {
@@ -393,6 +401,7 @@ export class DashboardComponent implements OnInit {
         Producto: this.productMostDonate.product,
         Cantidad: this.productMostDonate.amount,
         Estado: '',
+        Fecha: ''
       });
     }
 
@@ -433,6 +442,19 @@ export class DashboardComponent implements OnInit {
       type: 'array',
     });
     this.saveAsExcelFile(excelBuffer, 'donaciones');
+  }
+
+  formatDate(date?: string): string {
+    if (!date) return '';
+    const d = new Date(date);
+    let day = '' + d.getDate();
+    let month = '' + (d.getMonth() + 1);
+    const year = d.getFullYear();
+  
+    if (day.length < 2) day = '0' + day;
+    if (month.length < 2) month = '0' + month;
+  
+    return [day, month, year].join('/');
   }
 
   private saveAsExcelFile(buffer: any, fileName: string): void {

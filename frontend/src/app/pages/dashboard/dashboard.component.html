@@ -163,6 +163,14 @@
                   <h6 class="mb-0">{{ row.cantidad }}</h6>
                 </td>
               </ng-container>
+
+              <ng-container matColumnDef="fecha">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                  class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Fecha</th>
+                <td mat-cell *matCellDef="let row" [ngClass]="{ highlight: row.highlight }" class="text-center">
+                  <h6 class="mb-0">{{ row.fecha | date : "dd/MM/yyyy" }}</h6>
+                </td>
+              </ng-container>
               <!-- Estado Column-->
               <ng-container matColumnDef="estado">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header

@@ -6,10 +6,16 @@ using backend.repositories.interfaces;
 using backend.servicios.Config;
 using backend.servicios.Interfaces;
 using backend.servicios.Servicios;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.ML;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Collections.Concurrent;
 using System.Net.WebSockets;
+using System.Reflection;
+using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,7 +32,17 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen( c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Recrea API", Version = "v1" });
+
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    if (File.Exists(xmlPath))
+    {
+        c.IncludeXmlComments(xmlPath);
+    }
+});
 builder.Services.AddControllersWithViews();
 //Configuracion para error de Cors desde el front
 builder.Services.AddCors(option =>
@@ -50,6 +66,7 @@ builder.Services.AddScoped<IOrganizationInfoService, InfoOrganizationService>();
 builder.Services.AddScoped<IIdeaService, IdeaService>();
 builder.Services.AddScoped<IHeadquartersService, HeadquartersService>();
 builder.Services.AddScoped<INeedService, NeedService>();
+builder.Services.AddScoped<ICampaignService, CampaignService>();
 //builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UserRequestModel>());
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
@@ -68,6 +85,24 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddPredictionEnginePool<FabricModelInput, FabricModelOutput>()
     .FromFile(modelName: "ClasificacionImagen.MLModels.FabricMLModel", filePath: "MLModel/FabricMLModel.mlnet", watchForChanges: true);
 
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(x =>
+{
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("veryverysceret.....")),
+        ValidateAudience = false,
+        ValidateIssuer = false,
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -75,6 +110,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Recrea API V1"));
 }
 
 var webSocketOptions = new WebSocketOptions()

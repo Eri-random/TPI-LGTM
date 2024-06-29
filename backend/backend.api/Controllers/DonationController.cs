@@ -3,6 +3,7 @@ using backend.api.Models.RequestModels;
 using backend.api.Models.ResponseModels;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.api.Controllers
@@ -23,6 +24,8 @@ namespace backend.api.Controllers
         /// <response code="201">Returns the created donation.</response>
         /// <response code="400">If the request payload is invalid.</response>
         /// <response code="500">If there is an internal server error.</response>
+        ///
+        [Authorize(Roles = "usuario")]
         [HttpPost]
         [ProducesResponseType(typeof(DonationRequestModel), 201)]
         [ProducesResponseType(400)]
@@ -53,6 +56,8 @@ namespace backend.api.Controllers
         /// <param name="usuarioId">The ID of the user.</param>
         /// <response code="200">Returns the list of donations.</response>
         /// <response code="500">If there is an internal server error.</response>
+        /// 
+        [Authorize]
         [HttpGet("user/{usuarioId}")]
         [ProducesResponseType(typeof(IEnumerable<DonationResponseModel>), 200)]
         [ProducesResponseType(500)]
@@ -78,6 +83,8 @@ namespace backend.api.Controllers
         /// <param name="organizacionId">The ID of the organization.</param>
         /// <response code="200">Returns the list of donations.</response>
         /// <response code="500">If there is an internal server error.</response>
+        /// 
+        [Authorize]
         [HttpGet("organization/{organizacionId}")]
         [ProducesResponseType(typeof(IEnumerable<DonationResponseModel>), 200)]
         [ProducesResponseType(500)]
@@ -103,7 +110,10 @@ namespace backend.api.Controllers
         /// <param name="request">The request model containing donation IDs and the new state.</param>
         /// <response code="200">If the donations' state was successfully updated.</response>
         /// <response code="500">If there is an internal server error.</response>
-        [HttpPut("updateState")]
+        /// 
+
+        [Authorize(Roles = "organizacion")]
+        [HttpPut()]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
         public async Task<IActionResult> UpdateDonationsState([FromBody] UpdateDonationsStateRequest request)

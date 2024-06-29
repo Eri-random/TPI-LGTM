@@ -16,6 +16,9 @@ namespace backend.api.Models.ResponseModels
 
         public string Estado { get; set; }
 
+        public DateTime? Fecha { get; set; }
+
+
         public string? Cuit { get; set; }
 
         public virtual OrganizationDto Organizacion { get; set; }

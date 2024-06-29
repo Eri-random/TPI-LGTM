@@ -1,0 +1,25 @@
+.badge-active {
+  background-image: linear-gradient(310deg, #CBE5A8 0%, #8BC53F 100%);
+  color: white !important;
+  width: 100%;
+  font-size: 0.75rem !important;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  border-radius: 1rem;
+  border: none;
+  padding: 0.4rem;
+  margin: 0;
+}
+
+.badge-inactive {
+  background-image: linear-gradient(310deg, #DD7A7A 0%, #A42A2A 100%);
+  color: white !important;
+  width: 100%;
+  font-size: 0.75rem !important;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  border-radius: 1rem;
+  border: none;
+  padding: 0.4rem;
+  margin: 0;
+}

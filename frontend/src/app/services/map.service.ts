@@ -17,7 +17,7 @@ export class MapService {
   }
 
   getOrganizationHeadquarters(organizacionId: number) {
-    const url = `${this.baseUrl}/Maps/${organizacionId}`;
+    const url = `${this.baseUrl}/Maps/organization/${organizacionId}`;
     return this.http.get<any[]>(url).toPromise();
   }
 

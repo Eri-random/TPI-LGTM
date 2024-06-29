@@ -2,6 +2,7 @@
 using backend.api.Models.RequestModels;
 using backend.servicios.DTOs;
 using backend.servicios.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.api.Controllers
@@ -23,7 +24,9 @@ namespace backend.api.Controllers
         /// <response code="400">If the organization data is invalid.</response>
         /// <response code="404">If the organization is not found.</response>
         /// <response code="500">If there is an internal server error.</response>
-        [HttpPost("Details")]
+        /// 
+        [Authorize(Roles = "organizacion")]
+        [HttpPost]
         [ProducesResponseType(typeof(InfoOrganizationDto), 201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -64,6 +67,8 @@ namespace backend.api.Controllers
         /// <response code="400">If the organization data is invalid.</response>
         /// <response code="404">If the organization is not found.</response>
         /// <response code="500">If there is an internal server error.</response>
+        /// 
+        [Authorize(Roles = "organizacion")]
         [HttpPut]
         [ProducesResponseType(typeof(InfoOrganizationDto), 201)]
         [ProducesResponseType(400)]

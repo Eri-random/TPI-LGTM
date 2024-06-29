@@ -1,0 +1,12 @@
+.close-btn {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    cursor: pointer;
+  }
+
+h3 {font-family: "Fredoka", sans-serif !important; font-weight: 700 !important; color: #5A5A5A;} 
+
+.fa, .fas {
+  color: #5A5A5A;
+}

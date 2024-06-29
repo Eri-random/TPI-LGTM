@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using backend.api.Models.ResponseModels;
 using backend.servicios.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.api.Controllers
@@ -18,6 +19,7 @@ namespace backend.api.Controllers
         /// </summary>
         /// <response code="200">Returns the list of needs.</response>
         /// <response code="500">If there is an internal server error.</response>
+        /// 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<NeedsResponseModel>), 200)]
         [ProducesResponseType(500)]

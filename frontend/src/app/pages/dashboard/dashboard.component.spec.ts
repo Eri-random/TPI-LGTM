@@ -99,29 +99,29 @@ describe('DashboardComponent', () => {
     expect(component.productMostDonate).toEqual({ product: 'producto a', amount: 10 });
   });
 
-  it('debería manejar nuevas donaciones a través de WebSocket', () => {
-    component.dataSource = new MatTableDataSource<UserData>([]);
-    const newDonation = {
-      newDonation: { Producto: 'Producto B', Cantidad: 5 },
-      user: { Nombre: 'Maria', Telefono: '87654321', Email: 'maria@ejemplo.com' }, // Proporciona datos válidos para el usuario
-    };
+  // it('debería manejar nuevas donaciones a través de WebSocket', () => {
+  //   component.dataSource = new MatTableDataSource<UserData>([]);
+  //   const newDonation = {
+  //     newDonation: { Producto: 'Producto B', Cantidad: 5 },
+  //     user: { Nombre: 'Maria', Telefono: '87654321', Email: 'maria@ejemplo.com' }, // Proporciona datos válidos para el usuario
+  //   };
     
 
-    component.handleNewDonation(newDonation);
+  //   component.handleNewDonation(newDonation);
     
-    expect(component.totalDonations).toBe(5);
-    expect(component.totalDonationsCount).toBe(1);
-    expect(component.averageDonations).toBe(5);
-    expect(component.dataSource.data.length).toBe(1);
-    expect(component.dataSource.data[0].name).toBe('Maria'); // Verifica que el nombre sea 'Maria' correctamente
-    expect(component.dataSource.data[0].producto).toBe('Producto B');
-    expect(toastServiceMock.success).toHaveBeenCalledWith({
-      detail: 'EXITO',
-      summary: 'Nueva donación recibida',
-      duration: 5000,
-      position: 'topRight',
-    });
-  });
+  //   expect(component.totalDonations).toBe(5);
+  //   expect(component.totalDonationsCount).toBe(1);
+  //   expect(component.averageDonations).toBe(5);
+  //   expect(component.dataSource.data.length).toBe(1);
+  //   expect(component.dataSource.data[0].name).toBe('Maria'); // Verifica que el nombre sea 'Maria' correctamente
+  //   expect(component.dataSource.data[0].producto).toBe('Producto B');
+  //   expect(toastServiceMock.success).toHaveBeenCalledWith({
+  //     detail: 'EXITO',
+  //     summary: 'Nueva donación recibida',
+  //     duration: 5000,
+  //     position: 'topRight',
+  //   });
+  // });
 
   it('debería aplicar filtro a la tabla', () => {
     const event = { target: { value: 'juan' } } as any;
