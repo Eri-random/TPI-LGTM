@@ -14,13 +14,13 @@
       <div class="card blur justify-content-center shadow-lg mt-7 mb-5 px-lg-4">
         <div class="row text-center mx-1 mt-4">
           <h2>
-            Mi
-            <span class="text-gradient text-secondary"> idea</span>
+            Idea
+            <span class="text-gradient text-secondary"> guardada </span><i class="far fa-save"></i>
           </h2>
         </div>
         <div class="card-body pb-2">        
           <div class="row justify-content-center">
-            <div class="col-lg-4 justify-content-center imagen-idea mb-4">
+            <div class="col-lg-4 justify-content-center mb-4 order-lg-2">
               <div class="card card-profile card-plain">
                 <div class="card-body text-center bg-white shadow border-radius-lg p-3">
                   <img  *ngIf="idea.imageUrl != null; else placeholder" [src]="idea.imageUrl" alt="Imagen" class="img-fluid border-radius-lg mb-3">
@@ -59,8 +59,9 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-8">
-              <div class="accordion mb-4" id="accordionSteps">
+            <div class="col-lg-8 order-lg-1">
+              <div class="card mb-4 p-4">
+              <div class="accordion" id="accordionSteps">
                 <div
                   class="accordion-item"
                   *ngFor="let step of idea.pasos; index as i"
@@ -68,14 +69,13 @@
                   <div *ngIf="i === 0">
                     <h2 class="accordion-header" [attr.id]="'heading_' + i">
                       <button
-                        class="accordion-button border-bottom text-lg font-weight-bold"
+                        class="accordion-button text-lg font-weight-bold mb-2"
                         type="button"
                         data-bs-toggle="collapse"
                         [attr.data-parent]="'#accordion_' + i"
                         [attr.href]="'#collapse_' + i"
                       >
-                        <i class="fas fa-clipboard-check pe-3"></i>
-                        Paso N°{{ i + 1 }}
+                      <span class="fs-5">Paso <b class="fs-3">{{ i + 1 }}</b></span>
                         <i
                           class="collapse-close fa fa-plus text-md pt-1 position-absolute end-0 me-3"
                         ></i>
@@ -102,14 +102,13 @@
                   <div *ngIf="i !== 0">
                     <h2 class="accordion-header" [attr.id]="'heading_' + i">
                       <button
-                        class="accordion-button border-bottom text-lg font-weight-bold collapsed"
+                        class="accordion-button text-lg font-weight-bold mb-2 collapsed"
                         type="button"
                         data-bs-toggle="collapse"
                         [attr.data-parent]="'#accordion_' + i"
                         [attr.href]="'#collapse_' + i"
                       >
-                        <i class="fas fa-clipboard-check pe-3"></i>
-                        Paso N°{{ i + 1 }}
+                      <span class="fs-5">Paso <b class="fs-3">{{ i + 1 }}</b></span>
                         <i
                           class="collapse-close fa fa-plus text-md pt-1 position-absolute end-0 me-3"
                         ></i>
@@ -135,15 +134,16 @@
                   </div>
                 </div>
               </div>
-              <div class="text-center">
-                <button
-                  class="btn btn-round bg-gradient-secondary mt-2"
-                  routerLink="/mis-ideas"
-                >
-                  Volver a mis ideas
-                </button>
-              </div>
             </div>
+            <div class="text-center order-lg-3">
+              <button
+                class="btn btn-round bg-gradient-secondary mt-2"
+                routerLink="/mis-ideas"
+              >
+                Volver a mis ideas
+              </button>
+            </div> 
+            </div>  
           </div>
         </div>
       </div>
