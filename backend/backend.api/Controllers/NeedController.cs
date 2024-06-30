@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using backend.api.Models.ResponseModels;
 using backend.servicios.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.api.Controllers
