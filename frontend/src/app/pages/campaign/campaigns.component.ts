@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-campaigns',
   templateUrl: './campaigns.component.html',
-  styleUrls: ['./campaigns.component.css']
+  styleUrls: ['./campaigns.component.css'],
 })
 export class CampaignsComponent implements OnInit {
   @ViewChild(MatAccordion) accordion!: MatAccordion;
@@ -43,7 +43,10 @@ export class CampaignsComponent implements OnInit {
       needs: this.fb.array([], Validators.required),
       imageUrl: ['', Validators.required],
       descripcionBreve: ['', [Validators.required, Validators.maxLength(150)]],
-      descripcionCompleta: ['', [Validators.required, Validators.maxLength(4000)]]
+      descripcionCompleta: [
+        '',
+        [Validators.required, Validators.maxLength(4000)],
+      ],
     });
   }
 
@@ -54,11 +57,16 @@ export class CampaignsComponent implements OnInit {
       this.cuit = val || cuitFromToken;
     });
 
-    this.organizationService.getOrganizationByCuit(this.cuit).subscribe((rep) => {
-      this.organizationId = rep.id;
-      this.loadForm();
-    });
+    this.organizationService
+      .getOrganizationByCuit(this.cuit)
+      .subscribe((rep) => {
+        this.organizationId = rep.id;
+        this.loadForm();
+      });
     this.loadCampaignsAndNeeds(this.cuit);
+
+    this.campaignForm.get('descripcionBreve')!.setValue('');
+    this.campaignForm.get('descripcionCompleta')!.setValue('');
   }
 
   loadForm() {
@@ -85,11 +93,11 @@ export class CampaignsComponent implements OnInit {
         })
       )
       .subscribe(
-        data => {
+        (data) => {
           this.campaigns = data;
           this.loading = false;
         },
-        error => console.error(error)
+        (error) => console.error(error)
       );
   }
 
@@ -102,15 +110,21 @@ export class CampaignsComponent implements OnInit {
       endDate: new Date(this.campaignForm.value.endDate).toISOString(),
       subcategoria: selectedSubcategories,
       isActive: true,
-      imageUrl: this.campaignForm.value.imageUrl
+      imageUrl: this.campaignForm.value.imageUrl,
     };
 
     this.campaignService.createCampaign(newCampaign).subscribe(
-      data => {
+      (data) => {
         this.loadCampaignsAndNeeds(this.cuit);
         this.campaignForm.reset();
+        this.toast.success({
+          detail: 'Éxito',
+          summary: 'Campaña agregada correctamente',
+          duration: 5000,
+          position: 'bottomRight',
+        });
       },
-      error => console.error(error)
+      (error) => console.error(error)
     );
   }
 
@@ -124,7 +138,7 @@ export class CampaignsComponent implements OnInit {
           selectedSubcategories.push({
             id: sub.id,
             nombre: sub.nombre,
-            necesidadId: need.id
+            necesidadId: need.id,
           });
         }
       });
@@ -139,12 +153,12 @@ export class CampaignsComponent implements OnInit {
 
   getUniqueNeeds(subs: any[]): any[] {
     const uniqueNeeds = new Map<number, any>();
-    subs.forEach(sub => {
+    subs.forEach((sub) => {
       if (!uniqueNeeds.has(sub.NecesidadId)) {
         uniqueNeeds.set(sub.NecesidadId, {
           NecesidadId: sub.NecesidadId,
           NecesidadNombre: sub.NecesidadNombre,
-          NecesidadIcono: sub.NecesidadIcono
+          NecesidadIcono: sub.NecesidadIcono,
         });
       }
     });
@@ -154,7 +168,9 @@ export class CampaignsComponent implements OnInit {
   deleteCampaign(id: number): void {
     this.campaignService.deleteCampaign(id).subscribe(
       () => {
-        this.campaigns = this.campaigns.filter(campaign => campaign.id !== id);
+        this.campaigns = this.campaigns.filter(
+          (campaign) => campaign.id !== id
+        );
         this.toast.success({
           detail: 'Éxito',
           summary: 'Campaña eliminada correctamente',
@@ -162,7 +178,7 @@ export class CampaignsComponent implements OnInit {
           position: 'bottomRight',
         });
       },
-      error => {
+      (error) => {
         console.error(error);
         this.toast.error({
           detail: 'Error',
@@ -187,19 +203,21 @@ export class CampaignsComponent implements OnInit {
   }
 
   updateCampaignStatus(id: number, status: boolean): void {
-    const campaign = this.campaigns.find(c => c.id === id);
+    const campaign = this.campaigns.find((c) => c.id === id);
     if (campaign) {
       campaign.isActive = status;
       this.campaignService.updateCampaign(campaign).subscribe(
         () => {
           this.toast.success({
             detail: 'Éxito',
-            summary: `Campaña ${status ? 'activada' : 'desactivada'} correctamente`,
+            summary: `Campaña ${
+              status ? 'activada' : 'desactivada'
+            } correctamente`,
             duration: 5000,
             position: 'bottomRight',
           });
         },
-        error => {
+        (error) => {
           console.error(error);
           this.toast.error({
             detail: 'Error',
@@ -217,5 +235,7 @@ export class CampaignsComponent implements OnInit {
     campaign.isActive = newStatus;
   }
 
-  get fm() { return this.campaignForm.controls; }
+  get fm() {
+    return this.campaignForm.controls;
+  }
 }
