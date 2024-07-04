@@ -76,8 +76,9 @@ export class LoginComponent implements OnInit {
         })() 
         : this.router.navigate(['/']);
       },
-      error: ({ error }) => {
-        this.error = error;
+      error: ( error ) => {
+        this.error = 'Usuario y/o contraseña erróneo';
+        console.log(error)
       },
     });
   }
