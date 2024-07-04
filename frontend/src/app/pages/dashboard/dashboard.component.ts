@@ -135,8 +135,7 @@ export class DashboardComponent implements OnInit {
               );
 
               this.totalDonationsCount = donations.length;
-              this.averageDonations =
-                this.totalDonations / this.totalDonationsCount;
+              this.averageDonations = Math.round(this.totalDonations / this.totalDonationsCount);
               this.calculateProductMostDonated(donations);
               this.calculateTopDonor(donations);
             }
@@ -226,7 +225,7 @@ export class DashboardComponent implements OnInit {
     if (data && data.donation && data.user) {
       this.totalDonations += data.donation.Cantidad;
       this.totalDonationsCount += 1;
-      this.averageDonations = this.totalDonations / this.totalDonationsCount;
+      this.averageDonations = Math.round(this.totalDonations / this.totalDonationsCount);
 
       let newDonation: UserData = {
         id: data.donation.Id,
