@@ -51,7 +51,7 @@
                   <div class="title">Total de donaciones</div>
                   <div *ngIf="totalDonations > 0; else noData">
                     <div class="number">
-                      {{ totalDonations | number : "1.0-0" }}
+                      {{ totalDonations | number : "1.0-0" }} u.
                     </div>
                   </div>
                   <ng-template #noData>
@@ -71,7 +71,7 @@
                   <div class="title">Promedio de donaciones</div>
                   <div *ngIf="averageDonations > 0; else noDataAvg">
                     <div class="number">
-                      {{ averageDonations | number : "1.0-2" }} u.
+                      {{ averageDonations | number : "1.0-0" }} u.
                     </div>
                   </div>
                   <ng-template #noDataAvg>
@@ -95,7 +95,7 @@
                               else noDataProduct
                             ">
                     <div class="number">
-                      <span class="text-capitalize">{{ productMostDonate.product }}</span>: {{ productMostDonate.amount }} u.
+                      <span class="text-capitalize">{{ productMostDonate.product }}</span> ({{ productMostDonate.amount }} u.)
                     </div>
                   </div>
                   <ng-template #noDataProduct>
