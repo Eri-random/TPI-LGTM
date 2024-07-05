@@ -212,6 +212,10 @@ svg.text-secondary .color-background {
   border-radius: .75rem;
 }
 
+.icon-shape i {
+  top: 20%;
+}
+
 .info-window {
   padding-inline: 15px;
   padding-bottom: 10px;

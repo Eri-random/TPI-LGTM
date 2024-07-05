@@ -83,12 +83,18 @@
                   </div>
                   <div class="col-md-6">
                     <label for="largo" class="form-label d-flex align-items-center required">Largo (cm.)</label>
-                    <input type="number" class="form-control input-field" [class.error]="fm['largo'].dirty && fm['largo'].errors" id="largo" name="largo" placeholder="Ej: 80" required formControlName="largo">
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="fas fa-ruler-vertical"></i></span>
+                      <input type="number" class="form-control input-field" [class.error]="fm['largo'].dirty && fm['largo'].errors" id="largo" name="largo" placeholder="Ej: 80" required formControlName="largo">
+                    </div>
                     <small *ngIf="fm['largo'].dirty && fm['largo'].errors" class="text-danger">El largo es requerido</small>
                   </div>
                   <div class="col-md-6">
                     <label for="ancho" class="form-label d-flex align-items-center required">Ancho (cm.)</label>
-                    <input type="number" class="form-control input-field" [class.error]="fm['ancho'].dirty && fm['ancho'].errors" id="ancho" name="ancho" placeholder="Ej: 50" required formControlName="ancho">
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="fas fa-ruler-horizontal"></i></span>
+                      <input type="number" class="form-control input-field" [class.error]="fm['ancho'].dirty && fm['ancho'].errors" id="ancho" name="ancho" placeholder="Ej: 50" required formControlName="ancho">
+                    </div>
                     <small *ngIf="fm['ancho'].dirty && fm['ancho'].errors" class="text-danger">El ancho es requerido</small>
                   </div>
                   <div class="col-12">

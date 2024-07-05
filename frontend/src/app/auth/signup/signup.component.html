@@ -238,8 +238,8 @@
                     </div>
                   </div>
 
-                  <div>
-                    <p>Datos de la Organizacion</p>
+                  <div class="mt-3">
+                    <p>Ingresá los datos de la organización</p>
                   </div>
 
                   <div class="row">
@@ -260,6 +260,16 @@
                   </div>
 
                   <div class="row">
+                    <div class="col mb-3">
+                      <label for="direccion" class="form-label required">Dirección</label>
+                      <div class="input-field" [class.error]="registerFormOrganizaction.controls['direccion'].dirty && registerFormOrganizaction.hasError('required','direccion')">
+                        <input id="direccion" formControlName="direccion" type="text" placeholder="Dirección 123" class="form-control form-control-lg">
+                      </div>
+                      <small *ngIf="registerFormOrganizaction.controls['direccion'].dirty && registerFormOrganizaction.hasError('required','direccion')" class="text-danger">La dirección es requerida</small>
+                    </div>
+                  </div>
+
+                  <div class="row">
                     <div class="col-md-6 mb-3">
                       <label for="provincia" class="form-label required">Provincia</label>
                       <select (change)="onProvinceChange()" class="form-control form-select input-field" [class.error]="registerFormOrganizaction.get('provincia')?.dirty && registerFormOrganizaction.get('provincia')?.errors" id="provincia" formControlName="provincia">
@@ -275,15 +285,6 @@
                         <option *ngFor="let local of localidades" [value]="local.nombre">{{ local.nombre }}</option>
                       </select>
                       <small *ngIf="registerFormOrganizaction.get('localidad')?.touched && registerFormOrganizaction.get('localidad')?.errors" class="text-danger">La localidad es requerida</small>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6 mb-3">
-                      <label for="direccion" class="form-label required">Dirección</label>
-                      <div class="input-field" [class.error]="registerFormOrganizaction.controls['direccion'].dirty && registerFormOrganizaction.hasError('required','direccion')">
-                        <input id="direccion" formControlName="direccion" type="text" placeholder="Dirección 123" class="form-control form-control-lg">
-                      </div>
-                      <small *ngIf="registerFormOrganizaction.controls['direccion'].dirty && registerFormOrganizaction.hasError('required','direccion')" class="text-danger">La dirección es requerida</small>
                     </div>
                   </div>
                   <div class="text-center">
