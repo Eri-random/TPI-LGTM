@@ -27,13 +27,16 @@ export class TokenInterceptor implements HttpInterceptor {
       })
     }
     return next.handle(request).pipe(
-      catchError((err:any)=>{
-        if(err instanceof HttpErrorResponse){
-          if(err.status === 401){
-            this.router.navigate(['login'])
+      catchError((err: any) => {
+        if (err instanceof HttpErrorResponse) {
+          if (err.status === 401) {
+            this.router.navigate(['login']);
           }
+          // Return the actual error from the API
+          return throwError(() => err);
         }
-        return throwError(()=> new Error("Algo salio mal"));
+        // Return other errors
+        return throwError(() => new Error("Algo salió mal"));
       })
     );
   }
