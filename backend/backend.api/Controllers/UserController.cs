@@ -124,7 +124,7 @@ namespace backend.api.Controllers
             {
                 var user = await _userService.GetUserByEmailAsync(userLogIn.Email);
                 if (user == null || !PasswordHasher.VerifyPassword(userLogIn.Password, user.Password))
-                    return BadRequest("Invalid username or password");
+                    return BadRequest("usuario y/o contraseña invalido");
 
                 var token = Token.CreateJwtToken(user.RolNombre, user.Nombre, user.Email, user.Organizacion?.Cuit, user.Organizacion?.Nombre);
 
