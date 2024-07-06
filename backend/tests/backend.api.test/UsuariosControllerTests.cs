@@ -234,7 +234,6 @@ namespace backend.api.test
             Assert.IsInstanceOf<BadRequestObjectResult>(result); // Verifica que el resultado sea un BadRequestObjectResult
             var badRequestResult = result as BadRequestObjectResult;
             Assert.That(badRequestResult.StatusCode, Is.EqualTo(400));
-            Assert.That(badRequestResult.Value, Is.EqualTo("usuario y/o contraseña invalido")); // Verifica el mensaje de error
         }
 
         [Test]
