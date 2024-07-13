@@ -17,7 +17,7 @@ export class GenerateIdeaService {
     // return this.http.post<any>(url, {message});
 
     const response = {
-      "idea": "MANTA PARA MASCOTAS DE ALGODÓN RECICLADA",
+      "idea": "Manta para mascotas de Algodón reciclada",
       "dificultad": "Media",
       "steps": [
           "Corta el trozo de algodón en rectángulos de aproximadamente 50x50 cm. Asegúrate de tener suficientes piezas para cubrir el tamaño deseado de la manta. ImageURL: https://i.ibb.co/PghnwXH/paso-1-manta-2.png",
